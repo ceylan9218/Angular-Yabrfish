@@ -1,36 +1,25 @@
-[
-  {
-    "text": "Menu Heading",
-    "heading": "true",
-    "translate": "sidebar.heading.HEADER"
-  },
-  {
-     "text": "Dashboard",
-     "sref": "app.dashboard",
-     "icon": "icon-speedometer",
-     "label": "label label-info"
-  },
+[  
    {
         "text": "Feeds",
         "sref": "app.widgets",
-        "icon": "icon-grid",
+        "icon": "",
         "label": "label label-info"
     },
     {
     "text": "New Feed",
     "sref": "app.grid-masonry-deck",
-    "icon": "icon-grid",
+    "icon": "",
     "label": "label label-info"
-},
+  },
   {
     "text": "Single View",
-    "sref": "app.grid-masonry-deck",
-    "icon": "icon-chemistry"
+    "sref": "#",
+    "icon": ""
   },
   {
     "text": "Menu",
     "sref": "#",
-    "icon": "icon-folder",
+    "icon": "",
     "submenu": [
       { "text": "Sub Menu", 
         "sref": "app.submenu", 
