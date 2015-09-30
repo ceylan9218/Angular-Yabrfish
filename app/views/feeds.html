@@ -1,0 +1,22 @@
+<!--ROW-->
+<div class="row col-sm-11 slider-wrap">
+   <img src="app/img/slider2.png" alt="Image" class="" />
+</div>
+<!-- START row-->
+<div class="row col-sm-11 yabrTile-wrap">
+   <!-- START widget-->
+   <div class="searchbar navbar">
+      <form role="search" class="navbar-form">
+         <div class="form-group has-feedback">
+            <input type="text" ng-model="filter.feeds" ng-change="filterFeeds()" placeholder="{{ 'topbar.search.PLACEHOLDER' | translate }}" class="form-control ng-pristine ng-valid" />         
+            <div search-dismiss="search-dismiss" class="fa fa-times form-control-feedback"></div>
+         </div>
+         <button type="submit" class="hidden btn btn-default">Submit</button>
+      </form>   
+   </div>
+   <div class="container-fluid">
+      <div deckgrid="" source="tiles" cardtemplate="{{basepath('feed-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
+   </div>
+   <!-- END widget-->      
+</div>
+

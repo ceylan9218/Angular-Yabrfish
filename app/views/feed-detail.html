@@ -1,0 +1,124 @@
+<div ng-controller="feedsController" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer'" class="yabrTile-body">
+   <div class="ribbon" ng-if="card.isRecommended == true"><span>Recommended</span></div>
+   <div class="img-video-wrap" ng-click="swapImgVideo(card.ExternalRef)">
+      <div class="tileImg" ng-hide="hideImg">
+         <img src="{{card.creatives[0].url}}" alt="tile" class="" />
+         <div ng-if="card.ExternalRef[0].linkType == 'youTube'" class="play-icon"><i class="fa fa-youtube-play fa-3x"></i></div>
+      </div>
+      <div class="tileVideo" ng-show="showVideo" ng-if="card.ExternalRef[0].linkType == 'youTube'">
+         <videogular vg-theme="card.config.theme.url">
+            <vg-media vg-src="card.config.sources" vg-youtube="rel=1;showinfo=1">
+            </vg-media>
+            <vg-controls vg-autohide="card.config.plugins.controls.autoHide" vg-autohide-time="card.config.plugins.controls.autoHideTime">
+               <vg-play-pause-button></vg-play-pause-button>
+               <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+               <vg-scrub-bar>
+                  <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+               </vg-scrub-bar>
+               <vg-volume>
+                  <vg-mute-button></vg-mute-button>
+                  <vg-volume-bar></vg-volume-bar>
+               </vg-volume>
+               <vg-fullscreen-button></vg-fullscreen-button>
+            </vg-controls>
+         </videogular>
+      </div>      
+   </div>   
+   <div class="tile-infos">
+      <h4 class="title">{{card.title}}<i class="fa fa-angle-right fg-lg"></i></h4>
+      <p class="date"><span>{{card.createdDate}}</span></p>
+      <div class="extend-wrap">
+         <div class="attend animate-show tile-extras" ng-if="showAttend">
+            <a class="pull-right" ng-click="close('attend');"><i class="fa fa-close"></i></a>
+            <p>Here is Attend.</p>
+         </div>
+         <div class="location animate-show tile-extras" ng-if="showLocation">
+            <a class="pull-right" ng-click="close('location');"><i class="fa fa-close"></i></a>
+            <map zoom="8" center="{{card.location[0].lat}}, {{card.location[0].lon}}" on-center-changed="centerChanged()"> <marker position="{{card.location[0].lat}}, {{card.location[0].lon}}" on-click="click()" title="Click to zoom"></marker> </map>
+         </div>
+         <div class="participant animate-show tile-extras" ng-if="showParticipant">
+            <a class="pull-right" ng-click="close('participant');"><i class="fa fa-close"></i></a>
+            <h4>Participants</h4>
+            <ul>
+               <li ng-repeat="participant in card.participants">
+                  <img src="{{participant.avatar}}"></img>
+                  <span class="name">{{participant.name}}</span>
+                  <div class="follow_btn_wrap"><a class="follow_btn">Follow</a></div>
+               </li>
+            </ul>
+         </div>
+      </div>
+      <div class="icons">
+         <a><i class="fa fa-check"></i></a>
+         <a><i class="fa fa-star"></i></a>
+         <a><i class="fa fa-repeat"></i></a>
+         <a><i class="fa fa-comment"></i></a>
+         <span>{{card.commentCount}} Comments</span>
+         <script type="text/ng-template" id="close">
+            <div class="triangle"></div>
+            <div class="ns-popover-tooltip">
+               <ul>
+                  <li ng-repeat="item in items"><a ng-click="expandTiles(item.name)"><img src="{{item.icon}}"></img>{{item.name}}</a></li>
+               </ul>
+            </div>
+         </script>
+         <a class="right" ns-popover ns-popover-template="close" ns-popover-trigger="click" ns-popover-theme="ns-popover-tooltip-theme" ns-popover-timeout="100" ns-popover-hide-on-inside-click="true" ns-popover-hide-on-outside-click="true" ns-popover-hide-on-button-click="true" ns-popover-placement="top"><i class="fa fa-ellipsis-h"></i></a>
+      </div>
+   </div>
+</div>
+<div ng-controller="feedsController" ng-if="card.tileType == 'poll'" class="yabrTile-body">
+   <div class="ribbon" ng-if="card.isRecommended == true"><span>Recommended</span></div>
+   <div class="poll-header">
+      <h4>Poll</h4>
+      <small>{{card.title}}</small>
+   </div>
+   <div class="poll-content">
+      <h4>{{card.poll[0].question}}</h4>
+      <div ng-repeat="choice in card.poll[0].choices" class="choices">
+         <label>
+            <input type="radio" value="{{choice.answer}}">
+            {{choice.answer}}
+         </label>
+         <span>{{choice.rate}}</span>
+         <br/>
+      </div>
+   </div>
+   <div class="extend-wrap">
+      <div class="attend animate-show tile-extras" ng-if="showAttend">
+         <a class="pull-right" ng-click="close('attend');"><i class="fa fa-close"></i></a>
+         <p>Here is Attend.</p>
+      </div>
+      <div class="location animate-show tile-extras" ng-if="showLocation">
+         <a class="pull-right" ng-click="close('location');"><i class="fa fa-close"></i></a>
+         <map zoom="8" center="{{card.location[0].lat}}, {{card.location[0].lon}}" on-center-changed="centerChanged()"> <marker position="{{card.location[0].lat}}, {{card.location[0].lon}}" on-click="click()" title="Click to zoom"></marker></map>
+      </div>
+      <div class="participant animate-show tile-extras" ng-if="showParticipant">
+         <a class="pull-right" ng-click="close('participant');"><i class="fa fa-close"></i></a>
+         <h4>Participants</h4>
+         <ul>
+            <li ng-repeat="participant in card.participants">
+               <img src="{{participant.avatar}}"></img>
+               <span class="name">{{participant.name}}</span>
+               <div class="follow_btn_wrap"><a class="follow_btn">Follow</a></div>
+            </li>
+         </ul>
+      </div>
+   </div>
+   <div class="tile-infos">
+      <div class="icons">
+         <a><i class="fa fa-check"></i></a>
+         <a><i class="fa fa-star"></i></a>
+         <a><i class="fa fa-repeat"></i></a>
+         <a><i class="fa fa-comment"></i></a>
+         <script type="text/ng-template" id="close">
+            <div class="triangle"></div>
+            <div class="ns-popover-tooltip">
+               <ul>
+                  <li ng-repeat="item in items"><a ng-click="expandTiles(item.name)"><img src="{{item.icon}}"></img>{{item.name}}</a></li>
+               </ul>
+            </div>
+         </script>
+         <a class="right" ns-popover ns-popover-template="close" ns-popover-trigger="click" ns-popover-theme="ns-popover-tooltip-theme" ns-popover-timeout="100" ns-popover-hide-on-inside-click="true" ns-popover-hide-on-outside-click="true" ns-popover-hide-on-button-click="true" ns-popover-placement="top"><i class="fa fa-ellipsis-h"></i></a>
+      </div>
+   </div>
+</div> 
