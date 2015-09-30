@@ -27,7 +27,9 @@
             'app.settings',
             'app.charts',
             'app.utils',
-            'app.elements'
+            'app.elements',
+            'app.topnavbar',
+            'app.feeds'
         ]);
 })();
 
@@ -216,7 +218,7 @@
               {id: 'photo-2', name: 'Great photo', src: 'http://lorempixel.com/450/400/city', desc:'BBBBB'},
               {id: 'photo-3', name: 'Strange photo', src: 'http://lorempixel.com/400/300/people', desc:'CCCCCCCCCC'},
               {id: 'photo-4', name: 'A photo?', src: 'http://lorempixel.com/400/300/transport', desc:'DDDDDDDDDDDDDD'},
-          ];
+          ];                    
         }
     }
     MasonryDeckController.$inject = ["RouteHelpers"];
@@ -544,6 +546,7 @@
         var navbarFormSelector = 'form.navbar-form';
 
         function toggle() {
+          
           var navbarForm = $(navbarFormSelector);
 
           navbarForm.toggleClass('open');
@@ -551,14 +554,17 @@
           var isOpen = navbarForm.hasClass('open');
           
           navbarForm.find('input')[isOpen ? 'focus' : 'blur']();
+
+          angular.element('.main-content').css('z-index', '999');
         }
 
-        function dismiss() {
+        function dismiss() {          
           $(navbarFormSelector)
             .removeClass('open') // Close control
             .find('input[type="text"]').blur() // remove focus
             .val('') // Empty input
             ;
+          angular.element('.main-content').css('z-index', '0');
         }        
     }
 })();
@@ -760,23 +766,25 @@
         // You may have to set <base> tag in index and a routing configuration in your server
         $locationProvider.html5Mode(false);
 
-        // defaults to widgets
-        $urlRouterProvider.otherwise('/app/widgets');
+        // defaults to feeds
+        $urlRouterProvider.otherwise('/app/feeds');
 
         // 
         // Application Routes
         // -----------------------------------   
         $stateProvider
-          .state('app', {
-              url: '/app',
-              abstract: true,
-              templateUrl: helper.basepath('app.html'),
-              resolve: helper.resolveFor('modernizr', 'icons', 'classyloader', 'sparklines')
-          })
-            .state('app.widgets', {
-                url: '/widgets',
-                title: 'Widgets',
-                templateUrl: helper.basepath('widgets.html')
+            .state('app', {
+                url: '/app',
+                abstract: true,
+                templateUrl: helper.basepath('app.html'),
+                resolve: helper.resolveFor('modernizr', 'icons', 'classyloader', 'sparklines')
+            })
+            .state('app.feeds', {
+                url: '/feeds',
+                title: 'Feeds',
+                templateUrl: helper.basepath('feeds.html'),
+                controller: 'feedsController',
+                resolve: helper.resolveFor('spinkit', 'akoenig.deckgrid')
             })
             .state('app.grid-masonry-deck', {
                 url: '/grid-masonry-deck',
@@ -784,17 +792,22 @@
                 templateUrl: helper.basepath('grid-masonry-deck.html'),
                 resolve: helper.resolveFor('spinkit', 'akoenig.deckgrid')
             })
-
             .state('app.singleview', {
               url: '/singleview',
               title: 'Single View',
               templateUrl: helper.basepath('singleview.html')
-          })
-          .state('app.submenu', {
-              url: '/submenu',
-              title: 'Submenu',
-              templateUrl: helper.basepath('submenu.html')
-          })
+            })
+            .state('app.submenu', {
+                url: '/submenu',
+                title: 'Submenu',
+                templateUrl: helper.basepath('submenu.html')
+            })
+            .state('app.login', {
+                url: '/login',
+                title: 'Login',
+                templateUrl: helper.basepath('login.html')
+            })
+
           // 
           // CUSTOM RESOLVES
           //   Add your own resolves properties
@@ -3658,6 +3671,352 @@
 
         function activate() {
           $log.log('I\'m a line from custom.js');
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: Top nav bar
+ * Author: Ryan - 2015.9.21
+ * Handle topnavbar collapsible elements
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.topnavbar', [])
+        .controller('TopnavbarCtrl', TopnavbarCtrl);
+
+//    TopnavbarCtrl.$inject = ['$rootScope', '$scope'];
+    function TopnavbarCtrl($rootScope, $scope) {
+      $scope.toggleItem = function() {
+        if($('.dropdown').hasClass('open'))
+          $('.dropdown').removeClass('open');  
+        else
+          $('.dropdown').addClass('open');
+      }
+    }
+})();
+
+/**=========================================================
+ * feedsController: Controller for data of feeds page
+ * used in feeds page.
+ * Author: Ryan - 2015.9.21
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.feeds', ["ngSanitize", "com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'nsPopover', 'ngMap'])
+        .controller('feedsController', feedsController)
+        .directive('viewportWidth', function() {
+            return {
+              link: function(scope, elm, attrs) {
+                function getViewport() {
+                  var e = window, a = 'inner';
+                  if (!('innerWidth' in window)) {
+                    a = 'client';
+                    e = document.documentElement || document.body;
+                  }
+                  return {
+                    width : e[a + 'Width'] ,
+                    height : e[a + 'Height']
+                  };
+                }
+
+                elm.css('maxWidth', getViewport().width + 'px');
+              }
+            };
+          });        
+
+    function feedsController($rootScope, $scope, $http, $sce, RouteHelpers, $timeout) {
+        $scope.basepath = RouteHelpers.basepath;
+        $scope.tiles = [];
+        $scope.dateDiffs = [];
+        $scope.videoSources = [];
+        $scope.participants = new Array([]);
+        $scope.showVideo = false;
+        $scope.hideImg = false;
+        $scope.filter = {
+          feeds : ''
+        };
+
+        $scope.items = [{
+          name: "Attend",
+          icon: "app/img/attend.png"
+        }, {
+          name: "Location",
+          icon: "app/img/location.png"
+        }, {
+          name: "Participant",
+          icon: "app/img/participant.png"
+        }];
+        
+        $scope.showAttend = false;
+        $scope.showLocation = false;
+        $scope.showParticipant = false;
+
+        $http.get('http://data.yabrfish.com:3000/tiles')
+          .success(function(data){
+            $scope.tiles = data;         
+            var curDate = new Date();
+            
+            for (var i in data) {            
+              // Get Time Difference
+              var tileCreatedDate = new Date(data[i].createdDate);
+              if( tileCreatedDate.getFullYear() == curDate.getFullYear() ){
+                if(tileCreatedDate.getMonth() == curDate.getMonth()){
+                  if(tileCreatedDate.getDate() == curDate.getDate()){
+                    if(tileCreatedDate.getHours() == curDate.getHours()){
+                      if(tileCreatedDate.getMinutes() == curDate.getMinutes()){
+                        if(tileCreatedDate.getSeconds() - curDate.getSeconds()){
+                          $scope.tiles[i].createdDate = 'now';
+                        }else{
+                          var secDiff = curDate.getSeconds() - tileCreatedDate.getSeconds();
+                          if(secDiff == 1)
+                            $scope.tiles[i].createdDate = secDiff + ' second ago';
+                          else
+                            $scope.tiles[i].createdDate = secDiff + ' seconds ago';
+                        }
+                      }else{
+                        var minDiff = curDate.getMinutes() - tileCreatedDate.getMinutes();
+                        if(minDiff == 1)
+                          $scope.tiles[i].createdDate = minDiff + ' minute ago';
+                        else
+                          $scope.tiles[i].createdDate = minDiff + ' minutes ago';
+                      }
+                    }else{
+                      var hoursDiff = curDate.getHours() - tileCreatedDate.getHours();
+                      if(hoursDiff == 1)
+                        $scope.tiles[i].createdDate = hoursDiff + ' hour ago';
+                      else
+                        $scope.tiles[i].createdDate = hoursDiff + ' hours ago';
+                    }
+                  }else{
+                    var dateDiff = curDate.getDate() - tileCreatedDate.getDate();
+                    if(dateDiff == 1)
+                      $scope.tiles[i].createdDate = dateDiff + ' day ago';
+                    else
+                      $scope.tiles[i].createdDate = dateDiff + ' days ago';
+                  }
+                }else{
+                  var monthDiff = curDate.getMonth() - tileCreatedDate.getMonth();
+                  if(monthDiff == 1)
+                    $scope.tiles[i].createdDate = monthDiff + ' month ago';
+                  else
+                    $scope.tiles[i].createdDate = monthDiff + ' months ago';
+                }
+              }else{
+                var yearDiff = curDate.getFullYear() - tileCreatedDate.getFullYear();
+                if(yearDiff == 1)
+                  $scope.tiles[i].createdDate = yearDiff + ' year ago';
+                else
+                  $scope.tiles[i].createdDate = yearDiff + ' years ago';
+              }
+
+              //Get Video Source
+              if($scope.tiles[i].ExternalRef.length > 0){
+                if($scope.tiles[i].ExternalRef[0].linkType == 'youTube'){
+                    // Videogular
+                    $scope.tiles[i].config = {
+                        preload: "none",
+                        sources: [
+                            {src: "https://www.youtube.com/watch?v=" + $scope.tiles[i].ExternalRef[0].url},
+                            {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.webm"), type: "video/webm"},
+                            {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"}
+                        ],                      
+                        theme: {
+                            url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
+                        },
+                        plugins: {
+                          controls: {
+                            autoHide: true,
+                            autoHideTime: 5000
+                          }
+                        }
+                    };
+                }
+              }
+              // Get Participants
+              $http.get('http://data.yabrfish.com/api/tiles/'+$scope.tiles[i].id+'/participants')
+                  .success(function(data) {
+                      $scope.tiles[i].participants = data;
+                  });
+
+              // Show Google Map
+              if(!$scope.tiles[i].location){
+                $scope.tiles[i].location = [ {"lat": 51.50013, "lon":-0.126305} ];
+              }
+              
+              var marker, map;               
+              $scope.$on('mapInitialized', function(evt, evtMap) {
+                  map = evtMap; 
+                  marker = map.markers[0]; 
+              }); 
+              // $scope.centerChanged = function(event) {
+              //     $timeout(function() { 
+              //         map.panTo(marker.getPosition()); 
+              //     }, 100); 
+              // } 
+              // $scope.click = function(event) {
+              //     map.setZoom(8); 
+              //     map.setCenter(marker.getPosition());
+              // }
+            }
+          }).error(function(data, status){
+            console.log("Error status : " + status);
+          });
+
+        $scope.swapImgVideo = function(element) {
+          if(element.length > 0){
+            if(element[0].linkType == 'youTube'){
+              $scope.showVideo = true;
+              $scope.hideImg = true;
+              angular.element('.tileVideo').height(angular.element('.tileImg').height());              
+            }
+          }
+        }
+
+        $scope.filterFeeds = function() {
+          var query = $scope.filter.feeds;
+          $http.get('http://data.yabrfish.com:3000/tiles?q='+query)
+            .success(function(data) {
+                $scope.tiles = data;                   
+                var curDate = new Date();                
+                for (var i in data) {
+                  // Get Time Difference
+                    var tileCreatedDate = new Date(data[i].createdDate);
+                    if( tileCreatedDate.getFullYear() == curDate.getFullYear() ){
+                        if(tileCreatedDate.getMonth() == curDate.getMonth()){
+                            if(tileCreatedDate.getDate() == curDate.getDate()){
+                                if(tileCreatedDate.getHours() == curDate.getHours()){
+                                    if(tileCreatedDate.getMinutes() == curDate.getMinutes()){
+                                        if(tileCreatedDate.getSeconds() - curDate.getSeconds()){
+                                            $scope.tiles[i].createdDate = 'now';
+                                        }else{
+                                            var secDiff = curDate.getSeconds() - tileCreatedDate.getSeconds();
+                                            if(secDiff == 1)
+                                                $scope.tiles[i].createdDate = secDiff + ' second ago';
+                                            else
+                                                $scope.tiles[i].createdDate = secDiff + ' seconds ago';
+                                        }
+                                    }else{
+                                        var minDiff = curDate.getMinutes() - tileCreatedDate.getMinutes();
+                                        if(minDiff == 1)
+                                            $scope.tiles[i].createdDate = minDiff + ' minute ago';
+                                        else
+                                            $scope.tiles[i].createdDate = minDiff + ' minutes ago';
+                                    }
+                                }else{
+                                    var hoursDiff = curDate.getHours() - tileCreatedDate.getHours();
+                                    if(hoursDiff == 1)
+                                        $scope.tiles[i].createdDate = hoursDiff + ' hour ago';
+                                    else
+                                        $scope.tiles[i].createdDate = hoursDiff + ' hours ago';
+                                }
+                            }else{
+                                var dateDiff = curDate.getDate() - tileCreatedDate.getDate();
+                                if(dateDiff == 1)
+                                    $scope.tiles[i].createdDate = dateDiff + ' day ago';
+                                else
+                                    $scope.tiles[i].createdDate = dateDiff + ' days ago';
+                            }
+                        }else{
+                            var monthDiff = curDate.getMonth() - tileCreatedDate.getMonth();
+                            if(monthDiff == 1)
+                                $scope.tiles[i].createdDate = monthDiff + ' month ago';
+                            else
+                                $scope.tiles[i].createdDate = monthDiff + ' months ago';
+                        }
+                    }else{
+                        var yearDiff = curDate.getFullYear() - tileCreatedDate.getFullYear();
+                        if(yearDiff == 1)
+                            $scope.tiles[i].createdDate = yearDiff + ' year ago';
+                        else
+                            $scope.tiles[i].createdDate = yearDiff + ' years ago';
+                    }
+
+                    //Get Video Source
+                    if($scope.tiles[i].ExternalRef.length > 0){
+                        if($scope.tiles[i].ExternalRef[0].linkType == 'youTube'){
+                            // Videogular
+                            $scope.tiles[i].config = {
+                                preload: "none",
+                                sources: [
+                                    {src: "https://www.youtube.com/watch?v=" + $scope.tiles[i].ExternalRef[0].url},
+                                    {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.webm"), type: "video/webm"},
+                                    {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"}
+                                ],                      
+                                theme: {
+                                    url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
+                                },
+                                plugins: {
+                                  controls: {
+                                    autoHide: true,
+                                    autoHideTime: 5000
+                                  }
+                                }
+                            };
+                        }
+                    }
+                    // Get Participants
+                    $http.get('http://data.yabrfish.com/api/tiles/'+$scope.tiles[i].id+'/participants')
+                        .success(function(data) {
+                            $scope.tiles[i].participants = data;
+                        });
+
+                    // Show Google Map
+                    if(!$scope.tiles[i].location){
+                      $scope.tiles[i].location = [ {"lat": 51.50013, "lon":-0.126305} ];
+                    }
+                    var marker, map;               
+                    $scope.$on('mapInitialized', function(evt, evtMap) {
+                        map = evtMap; 
+                        marker = map.markers[0]; 
+                    }); 
+                    // $scope.centerChanged = function(event) {
+                    //     $timeout(function() { 
+                    //         map.panTo(marker.getPosition()); 
+                    //     }, 100); 
+                    // } 
+                    // $scope.click = function(event) {
+                    //     map.setZoom(8); 
+                    //     map.setCenter(marker.getPosition());
+                    // }
+                }
+            }).error(function(data, status){
+              console.log("Error status : " + status);
+            });
+        }
+
+        $scope.shouldDisplayPopover = function() {
+          return $scope.displayPopover;
+        }
+
+        $scope.expandTiles = function(item) {
+          if(item == 'Attend'){
+            $scope.showAttend = true;
+          }
+          else if(item == 'Location'){
+            $scope.showLocation = true;
+          }
+          else if (item == 'Participant'){
+            $scope.showParticipant = true;
+          }else{
+            $scope.showAttend = false;
+            $scope.showParticipant = false;
+            $scope.showLocation = false;
+          }
+        }
+
+        $scope.close = function(item){
+          if(item == 'attend')
+            $scope.showAttend = false;
+          else if(item == 'location')
+            $scope.showLocation = false;
+          else
+            $scope.showParticipant = false;
         }
     }
 })();

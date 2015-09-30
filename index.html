@@ -15,12 +15,24 @@
    <link rel="stylesheet" href="app/css/app-rtl.css" data-ng-if="app.layout.isRTL">
    <!-- Themes-->
    <link rel="stylesheet" ng-href="{{app.layout.theme}}" data-ng-if="app.layout.theme">
+
+   <link rel="stylesheet" href="app/css/font-awesome.css">
+   <link rel="stylesheet" href="app/css/nsPopover.css">
 </head>
 
 <body data-ng-class="{ 'layout-fixed' : app.layout.isFixed, 'aside-collapsed' : app.layout.isCollapsed, 'layout-boxed' : app.layout.isBoxed, 'layout-fs': app.useFullLayout, 'hidden-footer': app.hiddenFooter, 'layout-h': app.layout.horizontal, 'aside-float': app.layout.isFloat, 'offsidebar-open': app.offsidebarOpen, 'aside-toggled': app.asideToggled}">
    <div data-preloader></div>
    <div data-ui-view="" data-autoscroll="false" class="wrapper"></div>
+   
+   <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
    <script src="app/js/base.js"></script>
+   <script src="vendor/angular-facebook/angular-facebook.js"></script> 
+   <script src="vendor/angular-sanitize/angular-sanitize.min.js"></script>
+   <script src="vendor/angular-sanitize/videogular.js"></script>
+   <script src="http://static.videogular.com/scripts/controls/latest/vg-controls.js"></script>
+   <script src="http://static.videogular.com/scripts/youtube/latest/youtube.js"></script>
+   <script src="app/js/nsPopover.js"></script>
+   <script src="vendor/angular-ui-map/ng-map.min.js"></script>
    <script src="app/js/app.js"></script>
 </body>
 

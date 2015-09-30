@@ -1,7 +1,7 @@
 [  
    {
         "text": "Feeds",
-        "sref": "app.widgets",
+        "sref": "app.feeds",
         "icon": "",
         "label": "label label-info"
     },
