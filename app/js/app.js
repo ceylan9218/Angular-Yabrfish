@@ -792,10 +792,10 @@
                 templateUrl: helper.basepath('grid-masonry-deck.html'),
                 resolve: helper.resolveFor('spinkit', 'akoenig.deckgrid')
             })
-            .state('app.singleview', {
-              url: '/singleview',
-              title: 'Single View',
-              templateUrl: helper.basepath('singleview.html')
+            .state('app.video-test', {
+              url: '/video-test',
+              title: 'Video Test',
+              templateUrl: helper.basepath('video-test.html')
             })
             .state('app.submenu', {
                 url: '/submenu',
