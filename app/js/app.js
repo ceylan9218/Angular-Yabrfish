@@ -1073,12 +1073,10 @@
 
       	  // Autoclose when click outside the sidebar
           if ( angular.isDefined(attrs.sidebarAnyclickClose) ) {
-            
             var wrapper = $('.wrapper');
             var sbclickEvent = 'click.sidebar';
             
             $rootScope.$watch('app.asideToggled', watchExternalClicks);
-
           }
 
           //////
@@ -1091,6 +1089,7 @@
                   // if not child of sidebar
                   if( ! $(e.target).parents('.aside').length ) {
                     asideToggleOff();
+                    $rootScope.$broadcast('closeSidebarMenu');
                   }
                 });
               });
@@ -3708,7 +3707,7 @@
     'use strict';
 
     angular
-        .module('app.feeds', ["ngSanitize", "com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'nsPopover', 'ngMap'])
+        .module('app.feeds', ["ngSanitize", "com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'ngMap'])
         .controller('feedsController', feedsController)
         .directive('viewportWidth', function() {
             return {
@@ -3741,23 +3740,9 @@
         $scope.filter = {
           feeds : ''
         };
+        $scope.extendWrap = false;
 
-        $scope.items = [{
-          name: "Attend",
-          icon: "app/img/attend.png"
-        }, {
-          name: "Location",
-          icon: "app/img/location.png"
-        }, {
-          name: "Participant",
-          icon: "app/img/participant.png"
-        }];
-        
-        $scope.showAttend = false;
-        $scope.showLocation = false;
-        $scope.showParticipant = false;
-
-        $http.get('http://data.yabrfish.com:3000/tiles')
+        $http.get('http://data.yabrfish.com/api/tiles')
           .success(function(data){
             $scope.tiles = data;         
             var curDate = new Date();
@@ -3836,8 +3821,16 @@
                           }
                         }
                     };
-                }
+                }else if ($scope.tiles[i].ExternalRef[0].linkType == 'SYCO') {
+                    $http.get('http://api1.syndicatecontent.com/Sc.Content.Api.External/ScContentExt/inventory/'+$scope.tiles[i].ExternalRef[0].url+'?mediaformatid=9&vendortoken=B9C333B9-54F3-40B6-8C34-7A6512955B98')
+                        .success(function(data) {
+                            if(data.resources[0].medias[0].hostId){
+                              $scope.tiles[i].hls_source = data.resources[0].medias[0].clientPlayBackUrl + data.resources[0].medias[0].url;
+                            }
+                        }); 
+                };
               }
+
               // Get Participants
               $http.get('http://data.yabrfish.com/api/tiles/'+$scope.tiles[i].id+'/participants')
                   .success(function(data) {
@@ -3870,7 +3863,7 @@
 
         $scope.swapImgVideo = function(element) {
           if(element.length > 0){
-            if(element[0].linkType == 'youTube'){
+            if(element[0].linkType == 'youTube' || element[0].linkType == 'SYCO' ){
               $scope.showVideo = true;
               $scope.hideImg = true;
               angular.element('.tileVideo').height(angular.element('.tileImg').height());              
@@ -3880,7 +3873,7 @@
 
         $scope.filterFeeds = function() {
           var query = $scope.filter.feeds;
-          $http.get('http://data.yabrfish.com:3000/tiles?q='+query)
+          $http.get('http://data.yabrfish.com/api/tiles?q='+query)
             .success(function(data) {
                 $scope.tiles = data;                   
                 var curDate = new Date();                
@@ -3990,33 +3983,11 @@
             });
         }
 
-        $scope.shouldDisplayPopover = function() {
-          return $scope.displayPopover;
-        }
-
-        $scope.expandTiles = function(item) {
-          if(item == 'Attend'){
-            $scope.showAttend = true;
-          }
-          else if(item == 'Location'){
-            $scope.showLocation = true;
-          }
-          else if (item == 'Participant'){
-            $scope.showParticipant = true;
-          }else{
-            $scope.showAttend = false;
-            $scope.showParticipant = false;
-            $scope.showLocation = false;
-          }
-        }
-
-        $scope.close = function(item){
-          if(item == 'attend')
-            $scope.showAttend = false;
-          else if(item == 'location')
-            $scope.showLocation = false;
+        $scope.showExtend = function(){
+          if(!$scope.extendWrap)
+            $scope.extendWrap = true;
           else
-            $scope.showParticipant = false;
+            $scope.extendWrap = false;
         }
     }
 })();

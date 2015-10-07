@@ -1,9 +1,10 @@
 <div ng-controller="feedsController" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer'" class="yabrTile-body">
-   <div class="ribbon" ng-if="card.isRecommended == true"><span>Recommended</span></div>
+   <div class="ribbon" ng-hide="showVideo" ng-if="card.isRecommended == true"><span>Recommended</span></div>
    <div class="img-video-wrap" ng-click="swapImgVideo(card.ExternalRef)">
       <div class="tileImg" ng-hide="hideImg">
          <img src="{{card.creatives[0].url}}" alt="tile" class="" />
          <div ng-if="card.ExternalRef[0].linkType == 'youTube'" class="play-icon"><i class="fa fa-youtube-play fa-3x"></i></div>
+         <div ng-if="card.ExternalRef[0].linkType == 'SYCO'" class="play-icon"><i class="fa fa-play-circle fa-3x"></i></div>
       </div>
       <div class="tileVideo" ng-show="showVideo" ng-if="card.ExternalRef[0].linkType == 'youTube'">
          <videogular vg-theme="card.config.theme.url">
@@ -22,48 +23,66 @@
                <vg-fullscreen-button></vg-fullscreen-button>
             </vg-controls>
          </videogular>
+      </div>
+      <div class="tileVideo" ng-show="showVideo" ng-if="card.ExternalRef[0].linkType == 'SYCO'">         
+         <div id="player"></div>
+         <input type="hidden" id="hls_link" value="{{card.hls_source}}"></input>
+         <script type="text/javascript">
+            setTimeout(function(){
+               var hls_link = $("#hls_link").val();
+               var conf = {
+                  key:       "525b4ea5bdadf4ae74ab40546a6be359",
+                  source: {                
+                     hls: hls_link
+                  }
+               };
+               var player = bitdash("player").setup(conf);
+            }, 1000);
+         </script>
       </div>      
    </div>   
    <div class="tile-infos">
       <h4 class="title">{{card.title}}<i class="fa fa-angle-right fg-lg"></i></h4>
-      <p class="date"><span>{{card.createdDate}}</span></p>
-      <div class="extend-wrap">
-         <div class="attend animate-show tile-extras" ng-if="showAttend">
-            <a class="pull-right" ng-click="close('attend');"><i class="fa fa-close"></i></a>
-            <p>Here is Attend.</p>
-         </div>
-         <div class="location animate-show tile-extras" ng-if="showLocation">
-            <a class="pull-right" ng-click="close('location');"><i class="fa fa-close"></i></a>
-            <map zoom="8" center="{{card.location[0].lat}}, {{card.location[0].lon}}" on-center-changed="centerChanged()"> <marker position="{{card.location[0].lat}}, {{card.location[0].lon}}" on-click="click()" title="Click to zoom"></marker> </map>
-         </div>
-         <div class="participant animate-show tile-extras" ng-if="showParticipant">
-            <a class="pull-right" ng-click="close('participant');"><i class="fa fa-close"></i></a>
-            <h4>Participants</h4>
+      <p class="date"><span>{{card.createdDate}}</span></p>      
+      <div class="icons">
+         <a class="check-btn"><img src="app/img/check.png"></a>
+         <a class="net-btn"><img src="app/img/fish-net.png"></a>
+         <a class="share-btn"><img src="app/img/share-alt.png"></a>
+         <a class="comment-btn"><img src="app/img/comment.png"></a>
+         <span>{{card.commentCount}} Comments</span>         
+         <a class="dots pull-right" ng-click="showExtend()">
+            <img ng-if="extendWrap" src="app/img/dots.png">
+            <img ng-if="!extendWrap" src="app/img/dots-o.png">
+         </a>
+      </div>
+      <accordion class="extend-wrap" ng-if="extendWrap" close-others="false">
+         <accordion-group is-open="participants.open" class="participants-group">
+            <accordion-heading>
+               <img src="app/img/participants.png">Participants <i class="pull-right fa" ng-class="{'fa-angle-up': participants.open, 'fa-angle-down': !participants.open}"></i>
+            </accordion-heading>
             <ul>
                <li ng-repeat="participant in card.participants">
                   <img src="{{participant.avatar}}"></img>
                   <span class="name">{{participant.name}}</span>
-                  <div class="follow_btn_wrap"><a class="follow_btn">Follow</a></div>
+                  <a class="follow_btn">Follow</a>
                </li>
             </ul>
-         </div>
-      </div>
-      <div class="icons">
-         <a><i class="fa fa-check"></i></a>
-         <a><i class="fa fa-star"></i></a>
-         <a><i class="fa fa-repeat"></i></a>
-         <a><i class="fa fa-comment"></i></a>
-         <span>{{card.commentCount}} Comments</span>
-         <script type="text/ng-template" id="close">
-            <div class="triangle"></div>
-            <div class="ns-popover-tooltip">
-               <ul>
-                  <li ng-repeat="item in items"><a ng-click="expandTiles(item.name)"><img src="{{item.icon}}"></img>{{item.name}}</a></li>
-               </ul>
-            </div>
-         </script>
-         <a class="right" ns-popover ns-popover-template="close" ns-popover-trigger="click" ns-popover-theme="ns-popover-tooltip-theme" ns-popover-timeout="100" ns-popover-hide-on-inside-click="true" ns-popover-hide-on-outside-click="true" ns-popover-hide-on-button-click="true" ns-popover-placement="top"><i class="fa fa-ellipsis-h"></i></a>
-      </div>
+         </accordion-group>
+         <accordion-group is-open="location.open" class="location-group">
+            <accordion-heading>
+               <img src="app/img/location.png">Location <i class="pull-right fa" ng-class="{'fa-angle-up': location.open, 'fa-angle-down': !location.open}"></i>
+            </accordion-heading>
+            <map zoom="8" center="{{card.location[0].lat}}, {{card.location[0].lon}}" on-center-changed="centerChanged()"> <marker position="{{card.location[0].lat}}, {{card.location[0].lon}}" on-click="click()" title="Click to zoom"></marker> </map>
+         </accordion-group>
+         <accordion-group is-open="attend.open" class="attend-group">
+            <accordion-heading>
+               <img src="app/img/attending.png" style="width: 20px; margin-right: 10px;">Attending <i class="pull-right fa" ng-class="{'fa-angle-up': attend.open, 'fa-angle-down': !attend.open}"></i>
+            </accordion-heading>
+            <div class="button"><button type="button" class="btn attend-btn pull-left enable">Attend</button></div>
+            <div class="button"><button type="button" class="btn maybe-btn center-block disable">Maybe</button></div>
+            <div class="button"><button type="button" class="btn notgoing-btn pull-right disable">Not going</button></div>
+         </accordion-group>
+      </accordion>
    </div>
 </div>
 <div ng-controller="feedsController" ng-if="card.tileType == 'poll'" class="yabrTile-body">
@@ -82,43 +101,46 @@
          <span>{{choice.rate}}</span>
          <br/>
       </div>
-   </div>
-   <div class="extend-wrap">
-      <div class="attend animate-show tile-extras" ng-if="showAttend">
-         <a class="pull-right" ng-click="close('attend');"><i class="fa fa-close"></i></a>
-         <p>Here is Attend.</p>
-      </div>
-      <div class="location animate-show tile-extras" ng-if="showLocation">
-         <a class="pull-right" ng-click="close('location');"><i class="fa fa-close"></i></a>
-         <map zoom="8" center="{{card.location[0].lat}}, {{card.location[0].lon}}" on-center-changed="centerChanged()"> <marker position="{{card.location[0].lat}}, {{card.location[0].lon}}" on-click="click()" title="Click to zoom"></marker></map>
-      </div>
-      <div class="participant animate-show tile-extras" ng-if="showParticipant">
-         <a class="pull-right" ng-click="close('participant');"><i class="fa fa-close"></i></a>
-         <h4>Participants</h4>
-         <ul>
-            <li ng-repeat="participant in card.participants">
-               <img src="{{participant.avatar}}"></img>
-               <span class="name">{{participant.name}}</span>
-               <div class="follow_btn_wrap"><a class="follow_btn">Follow</a></div>
-            </li>
-         </ul>
-      </div>
-   </div>
+   </div>   
    <div class="tile-infos">
       <div class="icons">
-         <a><i class="fa fa-check"></i></a>
-         <a><i class="fa fa-star"></i></a>
-         <a><i class="fa fa-repeat"></i></a>
-         <a><i class="fa fa-comment"></i></a>
-         <script type="text/ng-template" id="close">
-            <div class="triangle"></div>
-            <div class="ns-popover-tooltip">
-               <ul>
-                  <li ng-repeat="item in items"><a ng-click="expandTiles(item.name)"><img src="{{item.icon}}"></img>{{item.name}}</a></li>
-               </ul>
-            </div>
-         </script>
-         <a class="right" ns-popover ns-popover-template="close" ns-popover-trigger="click" ns-popover-theme="ns-popover-tooltip-theme" ns-popover-timeout="100" ns-popover-hide-on-inside-click="true" ns-popover-hide-on-outside-click="true" ns-popover-hide-on-button-click="true" ns-popover-placement="top"><i class="fa fa-ellipsis-h"></i></a>
+         <a class="check-btn"><img src="app/img/check.png"></a>
+         <a class="net-btn"><img src="app/img/fish-net.png"></a>
+         <a class="share-btn"><img src="app/img/share-alt.png"></a>
+         <a class="comment-btn"><img src="app/img/comment.png"></a>
+         <span>{{card.commentCount}} Comments</span>         
+         <a class="dots pull-right" ng-click="showExtend()">
+            <img ng-if="extendWrap" src="app/img/dots.png">
+            <img ng-if="!extendWrap" src="app/img/dots-o.png">
+         </a>
       </div>
+      <accordion class="extend-wrap" ng-if="extendWrap" close-others="false">
+         <accordion-group is-open="participants.open" class="participants-group">
+            <accordion-heading>
+               <img src="app/img/participants.png">Participants <i class="pull-right fa" ng-class="{'fa-angle-up': participants.open, 'fa-angle-down': !participants.open}"></i>
+            </accordion-heading>
+            <ul>
+               <li ng-repeat="participant in card.participants">
+                  <img src="{{participant.avatar}}"></img>
+                  <span class="name">{{participant.name}}</span>
+                  <a class="follow_btn">Follow</a>
+               </li>
+            </ul>
+         </accordion-group>
+         <accordion-group is-open="location.open" class="location-group">
+            <accordion-heading>
+               <img src="app/img/location.png">Location <i class="pull-right fa" ng-class="{'fa-angle-up': location.open, 'fa-angle-down': !location.open}"></i>
+            </accordion-heading>
+            <map zoom="8" center="{{card.location[0].lat}}, {{card.location[0].lon}}" on-center-changed="centerChanged()"> <marker position="{{card.location[0].lat}}, {{card.location[0].lon}}" on-click="click()" title="Click to zoom"></marker> </map>
+         </accordion-group>
+         <accordion-group is-open="attend.open" class="attend-group">
+            <accordion-heading>
+               <img src="app/img/attending.png" style="width: 20px; margin-right: 10px;">Attending <i class="pull-right fa" ng-class="{'fa-angle-up': attend.open, 'fa-angle-down': !attend.open}"></i>
+            </accordion-heading>
+            <div class="button"><button type="button" class="btn attend-btn pull-left enable">Attend</button></div>
+            <div class="button"><button type="button" class="btn maybe-btn center-block disable">Maybe</button></div>
+            <div class="button"><button type="button" class="btn notgoing-btn pull-right disable">Not going</button></div>
+         </accordion-group>
+      </accordion>
    </div>
 </div> 
