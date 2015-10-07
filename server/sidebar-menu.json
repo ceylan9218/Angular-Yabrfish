@@ -1,31 +1,32 @@
 [  
-   {
-        "text": "Feeds",
-        "sref": "app.feeds",
-        "icon": "",
-        "label": "label label-info"
-    },
-    {
-    "text": "New Feed",
-    "sref": "app.grid-masonry-deck",
-    "icon": "",
-    "label": "label label-info"
+  {
+      "text": "Notifications",
+      "sref": "app.feeds",
+      "icon": "app/img/notifications.png",
+      "label": "label label-info"
   },
   {
-    "text": "Single View",
-    "sref": "app.video-test",
-    "icon": ""
+      "text": "Radar",
+      "sref": "app.grid-masonry-deck",
+      "icon": "app/img/radar.png",
+      "label": "label label-info"
   },
   {
-    "text": "Menu",
-    "sref": "#",
-    "icon": "",
-    "submenu": [
-      { "text": "Sub Menu", 
-        "sref": "app.submenu", 
-        "translate": "sidebar.nav.menu.SUBMENU" 
-      }    
-    ],
-    "translate": "sidebar.nav.menu.MENU"
+      "text": "My NET",
+      "sref": "app.video-test",
+      "icon": "app/img/fish-net.png",
+      "label": "label label-info"
+  },
+  {
+      "text": "Go Fish",
+      "sref": "app.video-test",
+      "icon": "app/img/go-fish.png",
+      "label": "label label-info"
+  },
+  {
+      "text": "Settings",
+      "sref": "app.video-test",
+      "icon": "app/img/setting.png",
+      "label": "label label-info"
   }
 ]
