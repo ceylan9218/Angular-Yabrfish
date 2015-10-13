@@ -1,10 +1,11 @@
-<div ng-controller="feedsController" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer'" class="yabrTile-body">
+<div ng-controller="feedsController" ng-if="card.tileType == 'Content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer'" class="yabrTile-body">
    <div class="ribbon" ng-hide="showVideo" ng-if="card.isRecommended == true"><span>Recommended</span></div>
    <div class="img-video-wrap" ng-click="swapImgVideo(card.ExternalRef)">
       <div class="tileImg" ng-hide="hideImg">
          <img src="{{card.creatives[0].url}}" alt="tile" class="" />
-         <div ng-if="card.ExternalRef[0].linkType == 'youTube'" class="play-icon"><i class="fa fa-youtube-play fa-3x"></i></div>
-         <div ng-if="card.ExternalRef[0].linkType == 'SYCO'" class="play-icon"><i class="fa fa-play-circle fa-3x"></i></div>
+         <div ng-if="card.ExternalRef[0].linkType == 'youTube' || card.ExternalRef[0].linkType == 'SYCO'" class="play-icon">
+            <img src="app/img/tv-icon.png">
+         </div>         
       </div>
       <div class="tileVideo" ng-show="showVideo" ng-if="card.ExternalRef[0].linkType == 'youTube'">
          <videogular vg-theme="card.config.theme.url">
@@ -42,8 +43,8 @@
       </div>      
    </div>   
    <div class="tile-infos">
-      <h4 class="title">{{card.title}}<i class="fa fa-angle-right fg-lg"></i></h4>
-      <p class="date"><span>{{card.createdDate}}</span></p>      
+      <h4 class="title">{{card.name}}<i class="fa fa-angle-right fg-lg"></i></h4>
+      <p class="date"><span>{{card.publishedDate}}</span></p>      
       <div class="icons">
          <a class="check-btn"><img src="app/img/check.png"></a>
          <a class="net-btn"><img src="app/img/fish-net.png"></a>

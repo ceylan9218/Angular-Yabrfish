@@ -29,7 +29,8 @@
             'app.utils',
             'app.elements',
             'app.topnavbar',
-            'app.feeds'
+            'app.feeds',
+            'app.nets'
         ]);
 })();
 
@@ -62,7 +63,7 @@
             'cfp.loadingBar',
             'ngSanitize',
             'ngResource',
-            'ui.utils'
+            'ui.utils'            
         ]);
 })();
 (function() {
@@ -792,10 +793,17 @@
                 templateUrl: helper.basepath('grid-masonry-deck.html'),
                 resolve: helper.resolveFor('spinkit', 'akoenig.deckgrid')
             })
-            .state('app.video-test', {
-              url: '/video-test',
-              title: 'Video Test',
-              templateUrl: helper.basepath('video-test.html')
+            .state('app.nets', {
+              url: '/nets',
+              title: 'My Nets',
+              controller: 'netsController',
+              templateUrl: helper.basepath('nets.html')
+            })
+            .state('app.net-detail', {
+              url: '/net-detail',
+              title: 'My Nets',
+              controller: 'netsController',
+              templateUrl: helper.basepath('net-detail.html')
             })
             .state('app.submenu', {
                 url: '/submenu',
@@ -3741,67 +3749,67 @@
           feeds : ''
         };
         $scope.extendWrap = false;
-
-        $http.get('http://data.yabrfish.com/api/tiles')
+        
+        $http.get('http://data.yabrfish.com/yfapi/recoservice/recommendations')
           .success(function(data){
-            $scope.tiles = data;         
+            $scope.tiles = data.recommendations;
             var curDate = new Date();
-            
-            for (var i in data) {            
+            console.log($scope.tiles);
+            for (var i in $scope.tiles) {
               // Get Time Difference
-              var tileCreatedDate = new Date(data[i].createdDate);
-              if( tileCreatedDate.getFullYear() == curDate.getFullYear() ){
-                if(tileCreatedDate.getMonth() == curDate.getMonth()){
-                  if(tileCreatedDate.getDate() == curDate.getDate()){
-                    if(tileCreatedDate.getHours() == curDate.getHours()){
-                      if(tileCreatedDate.getMinutes() == curDate.getMinutes()){
-                        if(tileCreatedDate.getSeconds() - curDate.getSeconds()){
-                          $scope.tiles[i].createdDate = 'now';
+              var tilePublishedDate = new Date($scope.tiles[i].publishedDate);
+              if( tilePublishedDate.getFullYear() == curDate.getFullYear() ){
+                if(tilePublishedDate.getMonth() == curDate.getMonth()){
+                  if(tilePublishedDate.getDate() == curDate.getDate()){
+                    if(tilePublishedDate.getHours() == curDate.getHours()){
+                      if(tilePublishedDate.getMinutes() == curDate.getMinutes()){
+                        if(tilePublishedDate.getSeconds() - curDate.getSeconds()){
+                          $scope.tiles[i].publishedDate = 'now';
                         }else{
-                          var secDiff = curDate.getSeconds() - tileCreatedDate.getSeconds();
+                          var secDiff = curDate.getSeconds() - tilePublishedDate.getSeconds();
                           if(secDiff == 1)
-                            $scope.tiles[i].createdDate = secDiff + ' second ago';
+                            $scope.tiles[i].publishedDate = secDiff + ' second ago';
                           else
-                            $scope.tiles[i].createdDate = secDiff + ' seconds ago';
+                            $scope.tiles[i].publishedDate = secDiff + ' seconds ago';
                         }
                       }else{
-                        var minDiff = curDate.getMinutes() - tileCreatedDate.getMinutes();
+                        var minDiff = curDate.getMinutes() - tilePublishedDate.getMinutes();
                         if(minDiff == 1)
-                          $scope.tiles[i].createdDate = minDiff + ' minute ago';
+                          $scope.tiles[i].publishedDate = minDiff + ' minute ago';
                         else
-                          $scope.tiles[i].createdDate = minDiff + ' minutes ago';
+                          $scope.tiles[i].publishedDate = minDiff + ' minutes ago';
                       }
                     }else{
-                      var hoursDiff = curDate.getHours() - tileCreatedDate.getHours();
+                      var hoursDiff = curDate.getHours() - tilePublishedDate.getHours();
                       if(hoursDiff == 1)
-                        $scope.tiles[i].createdDate = hoursDiff + ' hour ago';
+                        $scope.tiles[i].publishedDate = hoursDiff + ' hour ago';
                       else
-                        $scope.tiles[i].createdDate = hoursDiff + ' hours ago';
+                        $scope.tiles[i].publishedDate = hoursDiff + ' hours ago';
                     }
                   }else{
-                    var dateDiff = curDate.getDate() - tileCreatedDate.getDate();
+                    var dateDiff = curDate.getDate() - tilePublishedDate.getDate();
                     if(dateDiff == 1)
-                      $scope.tiles[i].createdDate = dateDiff + ' day ago';
+                      $scope.tiles[i].publishedDate = dateDiff + ' day ago';
                     else
-                      $scope.tiles[i].createdDate = dateDiff + ' days ago';
+                      $scope.tiles[i].publishedDate = dateDiff + ' days ago';
                   }
                 }else{
-                  var monthDiff = curDate.getMonth() - tileCreatedDate.getMonth();
+                  var monthDiff = curDate.getMonth() - tilePublishedDate.getMonth();
                   if(monthDiff == 1)
-                    $scope.tiles[i].createdDate = monthDiff + ' month ago';
+                    $scope.tiles[i].publishedDate = monthDiff + ' month ago';
                   else
-                    $scope.tiles[i].createdDate = monthDiff + ' months ago';
+                    $scope.tiles[i].publishedDate = monthDiff + ' months ago';
                 }
               }else{
-                var yearDiff = curDate.getFullYear() - tileCreatedDate.getFullYear();
+                var yearDiff = curDate.getFullYear() - tilePublishedDate.getFullYear();
                 if(yearDiff == 1)
-                  $scope.tiles[i].createdDate = yearDiff + ' year ago';
+                  $scope.tiles[i].publishedDate = yearDiff + ' year ago';
                 else
-                  $scope.tiles[i].createdDate = yearDiff + ' years ago';
+                  $scope.tiles[i].publishedDate = yearDiff + ' years ago';
               }
 
               //Get Video Source
-              if($scope.tiles[i].ExternalRef.length > 0){
+              if($scope.tiles[i].ExternalRef && $scope.tiles[i].ExternalRef.length > 0){
                 if($scope.tiles[i].ExternalRef[0].linkType == 'youTube'){
                     // Videogular
                     $scope.tiles[i].config = {
@@ -3879,55 +3887,55 @@
                 var curDate = new Date();                
                 for (var i in data) {
                   // Get Time Difference
-                    var tileCreatedDate = new Date(data[i].createdDate);
-                    if( tileCreatedDate.getFullYear() == curDate.getFullYear() ){
-                        if(tileCreatedDate.getMonth() == curDate.getMonth()){
-                            if(tileCreatedDate.getDate() == curDate.getDate()){
-                                if(tileCreatedDate.getHours() == curDate.getHours()){
-                                    if(tileCreatedDate.getMinutes() == curDate.getMinutes()){
-                                        if(tileCreatedDate.getSeconds() - curDate.getSeconds()){
-                                            $scope.tiles[i].createdDate = 'now';
+                    var tilePublishedDate = new Date(data[i].publishedDate);
+                    if( tilePublishedDate.getFullYear() == curDate.getFullYear() ){
+                        if(tilePublishedDate.getMonth() == curDate.getMonth()){
+                            if(tilePublishedDate.getDate() == curDate.getDate()){
+                                if(tilePublishedDate.getHours() == curDate.getHours()){
+                                    if(tilePublishedDate.getMinutes() == curDate.getMinutes()){
+                                        if(tilePublishedDate.getSeconds() - curDate.getSeconds()){
+                                            $scope.tiles[i].publishedDate = 'now';
                                         }else{
-                                            var secDiff = curDate.getSeconds() - tileCreatedDate.getSeconds();
+                                            var secDiff = curDate.getSeconds() - tilePublishedDate.getSeconds();
                                             if(secDiff == 1)
-                                                $scope.tiles[i].createdDate = secDiff + ' second ago';
+                                                $scope.tiles[i].publishedDate = secDiff + ' second ago';
                                             else
-                                                $scope.tiles[i].createdDate = secDiff + ' seconds ago';
+                                                $scope.tiles[i].publishedDate = secDiff + ' seconds ago';
                                         }
                                     }else{
-                                        var minDiff = curDate.getMinutes() - tileCreatedDate.getMinutes();
+                                        var minDiff = curDate.getMinutes() - tilePublishedDate.getMinutes();
                                         if(minDiff == 1)
-                                            $scope.tiles[i].createdDate = minDiff + ' minute ago';
+                                            $scope.tiles[i].publishedDate = minDiff + ' minute ago';
                                         else
-                                            $scope.tiles[i].createdDate = minDiff + ' minutes ago';
+                                            $scope.tiles[i].publishedDate = minDiff + ' minutes ago';
                                     }
                                 }else{
-                                    var hoursDiff = curDate.getHours() - tileCreatedDate.getHours();
+                                    var hoursDiff = curDate.getHours() - tilePublishedDate.getHours();
                                     if(hoursDiff == 1)
-                                        $scope.tiles[i].createdDate = hoursDiff + ' hour ago';
+                                        $scope.tiles[i].publishedDate = hoursDiff + ' hour ago';
                                     else
-                                        $scope.tiles[i].createdDate = hoursDiff + ' hours ago';
+                                        $scope.tiles[i].publishedDate = hoursDiff + ' hours ago';
                                 }
                             }else{
-                                var dateDiff = curDate.getDate() - tileCreatedDate.getDate();
+                                var dateDiff = curDate.getDate() - tilePublishedDate.getDate();
                                 if(dateDiff == 1)
-                                    $scope.tiles[i].createdDate = dateDiff + ' day ago';
+                                    $scope.tiles[i].publishedDate = dateDiff + ' day ago';
                                 else
-                                    $scope.tiles[i].createdDate = dateDiff + ' days ago';
+                                    $scope.tiles[i].publishedDate = dateDiff + ' days ago';
                             }
                         }else{
-                            var monthDiff = curDate.getMonth() - tileCreatedDate.getMonth();
+                            var monthDiff = curDate.getMonth() - tilePublishedDate.getMonth();
                             if(monthDiff == 1)
-                                $scope.tiles[i].createdDate = monthDiff + ' month ago';
+                                $scope.tiles[i].publishedDate = monthDiff + ' month ago';
                             else
-                                $scope.tiles[i].createdDate = monthDiff + ' months ago';
+                                $scope.tiles[i].publishedDate = monthDiff + ' months ago';
                         }
                     }else{
-                        var yearDiff = curDate.getFullYear() - tileCreatedDate.getFullYear();
+                        var yearDiff = curDate.getFullYear() - tilePublishedDate.getFullYear();
                         if(yearDiff == 1)
-                            $scope.tiles[i].createdDate = yearDiff + ' year ago';
+                            $scope.tiles[i].publishedDate = yearDiff + ' year ago';
                         else
-                            $scope.tiles[i].createdDate = yearDiff + ' years ago';
+                            $scope.tiles[i].publishedDate = yearDiff + ' years ago';
                     }
 
                     //Get Video Source
@@ -3989,5 +3997,69 @@
           else
             $scope.extendWrap = false;
         }
+    }
+})();
+
+/**=========================================================
+ * netsController: Controller for My Net Page
+ * used in My Nets page.
+ * Author: Ryan - 2015.10.9
+ =========================================================*/
+ (function() {
+    'use strict';
+
+    angular
+        .module('app.nets', ['ngAnimate', 'ui.bootstrap'])
+        .controller('netsController', netsController);        
+
+    function netsController($scope, $http, $uibModal, $log) {
+      $scope.nets = [
+        {
+          title: 'Summer Activities',
+          url: 'app/img/nets/net1.png',
+          catches: 14
+        },
+        {
+          title: 'Interesting',
+          url: 'app/img/nets/net2.png',
+          catches: 19
+        },
+        {
+          title: 'Equipment',
+          url: 'app/img/nets/net3.png',
+          catches: 9
+        },
+        {
+          title: 'Must go to events',
+          url: 'app/img/nets/net4.png',
+          catches: 3
+        },
+        {
+          title: 'Sailing photos',
+          url: 'app/img/nets/net5.png',
+          catches: 5
+        }
+      ];
+
+      $scope.items = ['item1', 'item2', 'item3'];
+      $scope.animationsEnabled = true;
+      $scope.openCreateNet = function () {
+        var modalInstance = $uibModal.open({
+          animation: $scope.animationsEnabled,
+          templateUrl: 'createNet.html',
+//          controller: 'ModalInstanceCtrl',
+          resolve: {
+            items: function () {
+              return $scope.items;
+            }
+          }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+          $scope.selected = selectedItem;
+        }, function () {
+          $log.info('Modal dismissed at: ' + new Date());
+        });
+      }
     }
 })();
