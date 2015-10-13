@@ -1,9 +1,9 @@
 <!-- START Top Navbar-->
-<nav role="navigation" class="navbar topnavbar" ng-controller="feedsController">
+<nav role="navigation" class="navbar col-sm-12 topnavbar" ng-controller="feedsController">
    <!-- START Nav wrapper-->
    <div class="nav-wrapper">
       <!-- START Left navbar-->
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav left-navbar">
          <li>
             <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops
             <a href="" trigger-resize="" ng-click="app.layout.isCollapsed = !app.layout.isCollapsed" class="">
@@ -11,7 +11,8 @@
             </a>-->
             <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
             <a href="" ng-click="app.asideToggled = !app.asideToggled" class="sidebar-toggle">
-               <em class="fa fa-navicon"></em>
+               <img ng-if="!app.asideToggled" src="app/img/menu-icon.png">
+               <img ng-if="app.asideToggled" src="app/img/menu-icon-sel.png">
             </a>
          </li>
       </ul>
@@ -30,26 +31,31 @@
       <!-- END navbar header-->
       <!-- START Right Navbar-->
       <ul class="nav navbar-nav navbar-user navbar-right">
+         <li class="search">
+            <a search-open="">
+               <em class="icon-magnifier"></em>
+            </a>
+         </li>
+         <li class="notifications">
+            <a>
+               <img src="app/img/notifications.png">
+            </a>
+         </li>
+         <!-- <li>
+            <a href="" ng-click="app.offsidebarOpen = !app.offsidebarOpen">
+               <em class="icon-notebook"></em>
+            </a>
+         </li> -->
          <!-- User -->
-         <li class="dropdown">
+         <li class="user dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" ng-click="toggleItem()">
-               <img src="app/img/user/02.jpg" width="35" alt="Bill" class="img-circle" /> Bill <span class="caret"></span>
+               <img src="app/img/user/14.png" alt="Bill" class="img-circle" /></span>
             </a>
             <ul class="dropdown-menu" role="menu">
                <li><a href="app/views/profile.html">Profile</a></li>
                <li><a href="app/views/messages.html">Messages</a></li>
                <li><a href="app/views/login.html">Login</a></li>
             </ul>
-         </li>
-         <li>
-            <a search-open="">
-               <em class="icon-magnifier"></em>
-            </a>
-         </li>
-         <li>
-            <a href="" ng-click="app.offsidebarOpen = !app.offsidebarOpen">
-               <em class="icon-notebook"></em>
-            </a>
          </li>
       </ul>
       <!-- END Right Navbar-->
