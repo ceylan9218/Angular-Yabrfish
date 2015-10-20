@@ -22,12 +22,22 @@
 	<div class="nets">
 		<div ng-repeat="net in nets track by $index" class="net-content">
 			<div class="net-detail">
-				<img src="{{net.url}}">
+				<img src="{{net.creatives[0].url}}">
 				<div class="net-info">
-					<h4>{{net.title}}<i class="fa fa-angle-right"></i></h4>
-					<span>{{net.catches}}</span>&nbsp;Catches
+					<h4>{{net.name}}<i class="fa fa-angle-right"></i></h4>
+					<!-- <span>{{net.catches}}</span>&nbsp;Catches -->
 				</div>				
 			</div>
 		</div>
 	</div>
 </div>
+<div id="player" style="width: 500px; height: 300px;"></div>
+<script type="text/javascript">
+	var conf = {
+		key:       "525b4ea5bdadf4ae74ab40546a6be359",
+		source: {                
+			hls: "http://88.208.233.3/sailtv/HDTV/16711/Turkish_Delight__Meet_Edhem_Dirvana_and_Mitch_Booth-7b68c05a-1aa0-401c-b5fd-a7e9a72100cb/Turkish_Delight__Meet_Edhem_Dirvana_and_Mitch_Booth-HDTV.m3u8"
+		}
+	};
+	var player = bitdash("player").setup(conf);
+</script>
