@@ -1,17 +1,17 @@
-<div ng-controller="feedsController" ng-if="card.tileType == 'Content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer'" class="yabrTile-body">
-   <div class="ribbon" ng-hide="showVideo" ng-if="card.isRecommended == true"><span>Recommended</span></div>
-   <div class="img-video-wrap" ng-click="swapImgVideo(card.ExternalRef)">
-      <div class="tileImg" ng-hide="hideImg">
+<div ng-controller="feedsController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'Content' || card.tileType == 'Event' || card.tileType == 'sale' || card.tileType == 'offer'" class="yabrTile-body">
+   <div class="ribbon" ng-hide="showVideo" ng-if="card.reason != ''"><span>{{card.reason}}</span></div>
+   <div class="img-video-wrap">
+      <div class="tileImg">
          <img src="{{card.creatives[0].url}}" alt="tile" class="" />
-         <div ng-if="card.ExternalRef[0].linkType == 'youTube' || card.ExternalRef[0].linkType == 'SYCO'" class="play-icon">
-            <img src="app/img/tv-icon.png">
-         </div>         
+         <div ng-if="card.tileType == 'Content'" class="play-icon" ng-click="getVideoList(card)">
+            <img src="app/img/tv-icon.png" />            
+         </div>
       </div>
-      <div class="tileVideo" ng-show="showVideo" ng-if="card.ExternalRef[0].linkType == 'youTube'">
-         <videogular vg-theme="card.config.theme.url">
-            <vg-media vg-src="card.config.sources" vg-youtube="rel=1;showinfo=1">
+      <div class="tileVideo" ng-if="card.showYoutube">
+         <videogular vg-theme="card.youtube.config.theme.url">
+            <vg-media vg-src="card.youtube.config.sources" vg-youtube="rel=1;showinfo=1">
             </vg-media>
-            <vg-controls vg-autohide="card.config.plugins.controls.autoHide" vg-autohide-time="card.config.plugins.controls.autoHideTime">
+            <vg-controls vg-autohide="card.youtube.config.plugins.controls.autoHide" vg-autohide-time="card.youtube.config.plugins.controls.autoHideTime">
                <vg-play-pause-button></vg-play-pause-button>
                <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
                <vg-scrub-bar>
@@ -25,22 +25,10 @@
             </vg-controls>
          </videogular>
       </div>
-      <div class="tileVideo" ng-show="showVideo" ng-if="card.ExternalRef[0].linkType == 'SYCO'">         
-         <div id="player"></div>
-         <input type="hidden" id="hls_link" value="{{card.hls_source}}"></input>
-         <script type="text/javascript">
-            setTimeout(function(){
-               var hls_link = $("#hls_link").val();
-               var conf = {
-                  key:       "525b4ea5bdadf4ae74ab40546a6be359",
-                  source: {                
-                     hls: hls_link
-                  }
-               };
-               var player = bitdash("player").setup(conf);
-            }, 1000);
-         </script>
-      </div>      
+      <div class="tileVideo" ng-if="!card.showYoutube">
+         <loading></loading>
+         <sycovideo hls="card.hls_source" id="card.externalId"></sycovideo>
+      </div>
    </div>   
    <div class="tile-infos">
       <h4 class="title">{{card.name}}<i class="fa fa-angle-right fg-lg"></i></h4>
@@ -55,6 +43,15 @@
             <img ng-if="extendWrap" src="app/img/dots.png">
             <img ng-if="!extendWrap" src="app/img/dots-o.png">
          </a>
+      </div>
+      <loading></loading>
+      <div class="video-list" ng-if="card.videoList">
+         <h4>Video List</h4>
+         <ul>
+            <li ng-repeat="video in card.videoList track by $index">
+               <a class="video" ng-click="videoPlay(card, video)">{{card.videoTitles[$index]}}</a>
+            </li>
+         </ul>         
       </div>
       <accordion class="extend-wrap" ng-if="extendWrap" close-others="false">
          <accordion-group is-open="participants.open" class="participants-group">
@@ -144,4 +141,4 @@
          </accordion-group>
       </accordion>
    </div>
-</div> 
+</div>

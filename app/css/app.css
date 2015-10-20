@@ -923,7 +923,7 @@ _:-ms-lang(x),
 /* ========================================================================
    Component: top-navbar.less
  ========================================================================== */
-.topnavbar, .searchbar {
+.topnavbar{
   -webkit-backface-visibility: hidden;
   /* fixes chrome jump */
   margin-bottom: 0;
@@ -945,14 +945,15 @@ _:-ms-lang(x),
 .topnavbar {
   position: relative;
 }
+#search-wrap{
+  width: 100%;
+  height: 60px;
+}
 .searchbar {
-  position: fixed;
-  width: calc(100% - 150px);  
-  width: -moz-calc(100% - 150px);  /* Firefox */
-  width: -webkit-calc(100% - 150px); /* WebKit */
-  width: -o-calc(100% - 150px);  /* Opera */
-  top: 0;
-  right: 0;
+  background: #ebebeb;
+  border-bottom: 1px solid #C1C1C1;
+  margin: 0;
+  height: 100%;
 }
 .topnavbar .navbar-header {
   background-color: transparent;
@@ -1064,26 +1065,13 @@ _:-ms-lang(x),
   border-top: 1px solid #e1e1e1;
   border-bottom: 1px solid #e1e1e1;
 }
-.searchbar .navbar-form {
-  position: absolute;
-  top: -100%;
-  left: 0;
-  right: 0;
-  margin: 0;
-  padding: 0;
-  height: 80px;
-  z-index: 9001;
-  -webkit-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s;
-  border: 0;
-  border-bottom: 1px solid #C1C1C1;
-}
 .searchbar .navbar-form .form-group {
   height: 100%;
   width: 100%;
 }
 .searchbar .navbar-form .form-control {
+  background: transparent;
+  color: #a3a3a3;
   height: 100%;
   border: 0;
   border-radius: 0;
@@ -1107,9 +1095,6 @@ _:-ms-lang(x),
   width: 15px;
 }
 @media only screen and (min-width: 768px) {
-  .searchbar .navbar-form {
-    left: 220px;
-  }
 }
 @media only screen and (min-width: 768px) {
   .topnavbar {
@@ -1216,9 +1201,6 @@ _:-ms-lang(x),
     display: block;
   }
   .aside-collapsed .topnavbar .navbar-header {
-  }
-  .aside-collapsed .searchbar .navbar-form {
-    left: 0px;
   }
 }
 /* ========================================================================
@@ -9454,21 +9436,39 @@ flot .legend .legendColorBox > div > div {
   border: 1px solid #3abeef;
   color: #3abeef;
 }
-#player .bitdash-vc{
+.tileVideo{
+  width: 100%;
+}
+.player{
+  width: 100%;
+  height: 100%;
+}
+.player .bitdash-vc{
   width: 100% !important;
   height: 100% !important;
-  display: none;
   min-width: 100% !important;
   min-height: 100% !important;
 }
-#player .bitdash-vc:first-child{
+.player .bitdash-vc:first-child{
   display: block;
 }
-#player .bitdash-error:first-child{
+.player .bitdash-error:first-child{
   display: block;
 }
-#player .bitdash-error{
+.player .bitdash-error{
   display: none;
+}
+.loading{
+  margin: 0 auto;
+  width: 100px;
+}
+.video-list{
+  border-top: 1px solid #C1C1C1;
+  padding: 20px;
+  width: 100%;  
+}
+.video-list h4{
+
 }
 @media only screen and (min-width: 320px)  and (max-width: 479px) {
   .preloader-progress {
@@ -9854,6 +9854,7 @@ body.login .lock-container .panel .forgot-password {
  ========================================================================== */
 .nets-wrap{
   display: inline-block;
+  width: 100%;
 }
 .btn.create-net-button{
   width: 100%;
