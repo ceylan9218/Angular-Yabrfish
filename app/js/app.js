@@ -30,7 +30,8 @@
             'app.elements',
             'app.topnavbar',
             'app.feeds',
-            'app.nets'
+            'app.nets',
+            'app.net-tiles'
         ]);
 })();
 
@@ -805,11 +806,12 @@
               controller: 'netsController',
               templateUrl: helper.basepath('nets.html')
             })
-            .state('app.net-detail', {
-              url: '/net-detail',
-              title: 'My Nets',
-              controller: 'netsController',
-              templateUrl: helper.basepath('net-detail.html')
+            .state('app.net-tiles', {
+              url: '/net-tiles/:id',
+              title: 'Net Tiles',
+              controller: 'netTilesController',
+              templateUrl: helper.basepath('net-tiles.html'),
+              resolve: helper.resolveFor('spinkit', 'akoenig.deckgrid')
             })
             .state('app.submenu', {
                 url: '/submenu',
@@ -3732,21 +3734,28 @@
                 id: "=id"
               },
               link: function(scope, elm, attr) {
-                scope.$watch('hls_source', function(newVal, oldVal) {
-console.log(newVal);                  
-                  if(newVal) {
-                    var conf = {
-                        key:       '525b4ea5bdadf4ae74ab40546a6be359',
-                        source: {
-                          hls: newVal,
-                        },
-                        events: {
-                          onReady : function(data) {
-                            console.log(data);
-                          }                          
-                        }
-                    };
-                    bitdash(scope.id).setup(conf);
+                scope.$on('linkChanged', function(event, val, id) {
+                  if(scope.id == id) {
+                    angular.element('.player').each(function(){
+                      var vid = angular.element(this).attr('id');
+                      bitdash(vid).destroy();                      
+                    });
+                    if(val) {
+                      var conf = {
+                          key:       '525b4ea5bdadf4ae74ab40546a6be359',
+                          playback: {
+                            autoplay : true
+                          },
+                          source: {
+                            hls: val,
+                          },
+                          events: {
+                            onReady : function(data) {
+                            }                          
+                          }
+                      };
+                      bitdash(scope.id).setup(conf);
+                    }
                   }
                 });
               }
@@ -3776,7 +3785,6 @@ console.log(newVal);
         $scope.filter = {
           feeds : ''
         };
-        $scope.extendWrap = false;
 
         $scope.getRecommendations = function(){
           var deferred = $q.defer();
@@ -3800,14 +3808,13 @@ console.log(newVal);
             for (var i in $scope.tiles) {
               // Get Time Difference
               $scope.tiles[i].publishedDate = getTimeDiff($scope.tiles[i].publishedDate);
-              $scope.tiles[i].hls_source = '';
               var uid = $scope.tiles[i].externalId;              
 
               // Get Participants
-              $http.get('http://data.yabrfish.com/api/tiles/'+uid+'/participants')
-                .success(function(data) {
-                    $scope.tiles[i].participants = data;
-                });
+              // $http.get('http://data.yabrfish.com/api/tiles/'+uid+'/participants')
+              //   .success(function(data) {
+              //       $scope.tiles[i].participants = data;
+              //   });
 
               // Show Google Map
               if(!$scope.tiles[i].location){
@@ -3843,31 +3850,17 @@ console.log(newVal);
               config: {}
             }
 
-            $http.get('http://data.yabrfish.com/yfapi/tilesservice/tiles/' + uid + '/content')
+            var video_list = angular.element("#tile_"+element.externalId+ " .video-list");
+            if(video_list[0])
+              video_list[0].style.display = 'block';
+
+            $http.get('http://data.yabrfish.com/yfapi/tileservice/tiles/' + uid + '/content')
               .success(function(data){
                   if(data.contentList && data.contentList.length>0){
                     element.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
-                    
                     if(element.videoType == 'youtube'){
-                      var vid = data.contentList[0].externalRefs[0].externalContentId;
-                      element.youtube.config = {
-                          preload: "none",
-                          sources: [
-                              {src: "https://www.youtube.com/watch?v=" + vid},
-                              {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.webm"), type: "video/webm"},
-                              {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"}
-                          ],                      
-                          theme: {
-                              url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
-                          },
-                          plugins: {
-                            controls: {
-                              autoHide: true,
-                              autoHideTime: 5000
-                            }
-                          }
-                        };
-                      for( var i in data.contentList ){                        
+                      element.vid = data.contentList[0].externalRefs[0].externalContentId;                      
+                      for( var i in data.contentList ){
                         element.videoTitles[i] = data.contentList[i].title;
                       }
                     }else if (element.videoType == 'syco') {
@@ -3888,24 +3881,81 @@ console.log(newVal);
         }
 
         $scope.videoPlay = function(element, video) {
-          if(element.videoType == 'syco')
+          if(element.videoType == 'syco'){           
             element.hls_source = video.clientPlayBackUrl + video.url;
-          else{
-            element.showYoutube = true;
+            $rootScope.$broadcast( "linkChanged", element.hls_source, element.externalId);
           }
-          
+
           var tileVideo = angular.element("#tile_"+element.externalId+ " .tileVideo");
           var tileImg = angular.element("#tile_"+element.externalId+ " .tileImg");
           var video_list = angular.element("#tile_"+element.externalId+ " .video-list");
+          var ribbon = angular.element("#tile_"+element.externalId+ " .ribbon");
+
           tileVideo.height(tileImg.height());
 
           angular.element(".tileImg").css('display', 'inline-block');
           angular.element(".tileVideo").css('display', 'none');
+          angular.element(".youtubeVideo").css('display', 'none');        
           angular.element(".video-list").css('display', 'none');
 
           tileVideo[0].style.display = 'inline-block';
           tileImg[0].style.display = 'none';
           video_list[0].style.display = 'block';
+
+          if(ribbon[0])
+            ribbon[0].style.display = 'none';
+        }
+
+        $scope.youtubeVideoPlay = function(element) {
+          element.showYoutube = true;
+          element.youtube.config = {
+            preload: "none",
+            autoPlay: true,
+            sources: [
+                {src: "https://www.youtube.com/watch?v=" + element.vid},
+                {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.webm"), type: "video/webm"},
+                {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"}
+            ],                      
+            theme: {
+                url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
+            },
+            plugins: {
+              controls: {
+                autoHide: true,
+                autoHideTime: 5000
+              }
+            }
+          };
+
+          var youtubeVideo = angular.element("#tile_"+element.externalId+ " .youtubeVideo");
+          var tileImg = angular.element("#tile_"+element.externalId+ " .tileImg");
+          var video_list = angular.element("#tile_"+element.externalId+ " .video-list");
+          var ribbon = angular.element("#tile_"+element.externalId+ " .ribbon");
+          
+          youtubeVideo.height(tileImg.height());
+
+          angular.element(".tileImg").css('display', 'inline-block');
+          angular.element(".tileVideo").css('display', 'none');
+          angular.element(".youtubeVideo").css('display', 'none');
+          angular.element(".video-list").css('display', 'none');
+
+          youtubeVideo[0].style.display = 'inline-block';
+          tileImg[0].style.display = 'none';
+          video_list[0].style.display = 'block';
+          if(ribbon[0])
+            ribbon[0].style.display = 'none';
+        }
+
+        $scope.hideVideo = function(element) {          
+          $rootScope.$broadcast( "linkChanged", element.hls_source, element.externalId);
+
+          var tileVideo = angular.element("#tile_"+element.externalId+ " .tileVideo");
+          var tileImg = angular.element("#tile_"+element.externalId+ " .tileImg");
+          var ribbon = angular.element("#tile_"+element.externalId+ " .ribbon");
+          tileVideo[0].style.display = 'none';
+          tileImg[0].style.display = 'inline-block';
+          if(ribbon[0])
+            ribbon[0].style.display = 'inline-block';
         }
 
         $scope.filterFeeds = function() {
@@ -3941,10 +3991,10 @@ console.log(newVal);
                         }
                     }
                     // Get Participants
-                    $http.get('http://data.yabrfish.com/api/tiles/'+$scope.tiles[i].id+'/participants')
-                        .success(function(data) {
-                            $scope.tiles[i].participants = data;
-                        });
+                    // $http.get('http://data.yabrfish.com/api/tiles/'+$scope.tiles[i].id+'/participants')
+                    //     .success(function(data) {
+                    //         $scope.tiles[i].participants = data;
+                    //     });
 
                     // Show Google Map
                     if(!$scope.tiles[i].location){
@@ -3968,13 +4018,6 @@ console.log(newVal);
             }).error(function(data, status){
               console.log("Error status : " + status);
             });
-        }
-
-        $scope.showExtend = function(){
-          if(!$scope.extendWrap)
-            $scope.extendWrap = true;
-          else
-            $scope.extendWrap = false;
         }
 
         function getTimeDiff(date){
@@ -4049,16 +4092,16 @@ console.log(newVal);
         .module('app.nets', ['ngAnimate', 'ui.bootstrap'])
         .controller('netsController', netsController);        
 
-    function netsController($scope, $http, $uibModal, $log) {
+    function netsController($scope, $http, $modal, $log) {
       $http.get('http://data.yabrfish.com/yfapi/viewerservice/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/nets')
         .success(function(data) {
             $scope.nets = data.viewerNets;
-        });
+        });      
 
       $scope.items = ['item1', 'item2', 'item3'];
       $scope.animationsEnabled = true;
       $scope.openCreateNet = function () {
-        var modalInstance = $uibModal.open({
+        var modalInstance = $modal.open({
           animation: $scope.animationsEnabled,
           templateUrl: 'createNet.html',
 //          controller: 'ModalInstanceCtrl',
@@ -4075,5 +4118,122 @@ console.log(newVal);
           $log.info('Modal dismissed at: ' + new Date());
         });
       }
+    }
+})();
+
+/**=========================================================
+ * netTilesController: Controller for a Net Tiles page
+ * used in Net Tiles page.
+ * Author: Ryan - 2015.10.20
+ =========================================================*/
+ (function() {
+    'use strict';
+
+    angular
+        .module('app.net-tiles', ['ngAnimate', 'ui.bootstrap'])
+        .controller('netTilesController', netTilesController);        
+
+    function netTilesController($scope, $http, $state, RouteHelpers, $modal, $log) {
+      $scope.basepath = RouteHelpers.basepath;
+      $scope.tiles = [];
+      $scope.netName = '';
+
+      var netId = $state.params.id;
+      $http.get('http://data.yabrfish.com/yfapi/viewerservice/nets/'+ netId +'/tiles')
+        .success(function(data) {
+            $scope.tiles = data.tileList;
+            for ( var i in $scope.tiles ){
+              $scope.tiles[i].publishedDate = getTimeDiff($scope.tiles[i].publishedDate);
+            }
+        });
+
+      $http.get('http://data.yabrfish.com/yfapi/viewerservice/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/nets')
+        .success(function(data) {
+            $scope.nets = data.viewerNets;
+            for (var i in $scope.nets){
+              if( $scope.nets[i].externalId == netId ){
+                $scope.netName = $scope.nets[i].name;
+              }
+            }
+        });
+
+      function getTimeDiff(date){
+            var curDate = new Date();
+            var tilePublishedDate = new Date(date);
+            var timeDiff = '';
+
+            if( tilePublishedDate.getFullYear() == curDate.getFullYear() ){
+              if(tilePublishedDate.getMonth() == curDate.getMonth()){
+                if(tilePublishedDate.getDate() == curDate.getDate()){
+                  if(tilePublishedDate.getHours() == curDate.getHours()){
+                    if(tilePublishedDate.getMinutes() == curDate.getMinutes()){
+                      if(tilePublishedDate.getSeconds() - curDate.getSeconds()){
+                        timeDiff = 'now';
+                      }else{
+                        var secDiff = curDate.getSeconds() - tilePublishedDate.getSeconds();
+                        if(secDiff == 1)
+                          timeDiff = secDiff + ' second ago';
+                        else
+                          timeDiff = secDiff + ' seconds ago';
+                      }
+                    }else{
+                      var minDiff = curDate.getMinutes() - tilePublishedDate.getMinutes();
+                      if(minDiff == 1)
+                        timeDiff = minDiff + ' minute ago';
+                      else
+                        timeDiff = minDiff + ' minutes ago';
+                    }
+                  }else{
+                    var hoursDiff = curDate.getHours() - tilePublishedDate.getHours();
+                    if(hoursDiff == 1)
+                      timeDiff = hoursDiff + ' hour ago';
+                    else
+                      timeDiff = hoursDiff + ' hours ago';
+                  }
+                }else{
+                  var dateDiff = curDate.getDate() - tilePublishedDate.getDate();
+                  if(dateDiff == 1)
+                    timeDiff = dateDiff + ' day ago';
+                  else
+                    timeDiff = dateDiff + ' days ago';
+                }
+              }else{
+                var monthDiff = curDate.getMonth() - tilePublishedDate.getMonth();
+                if(monthDiff == 1)
+                  timeDiff = monthDiff + ' month ago';
+                else
+                  timeDiff = monthDiff + ' months ago';
+              }
+            }else{
+              var yearDiff = curDate.getFullYear() - tilePublishedDate.getFullYear();
+              if(yearDiff == 1)
+                timeDiff = yearDiff + ' year ago';
+              else
+                timeDiff = yearDiff + ' years ago';
+            }
+
+            return timeDiff;
+        }
+
+        $scope.items = ['item1', 'item2', 'item3'];
+        $scope.animationsEnabled = true;
+        $scope.openCreateTile = function () {
+          var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'createTile.html',
+  //          controller: 'ModalInstanceCtrl',
+            resolve: {
+              items: function () {
+                return $scope.items;
+              }
+            }
+          });
+
+          modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+          }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+          });
+        }
     }
 })();
