@@ -1,0 +1,57 @@
+<div class="tiles-wrap">
+	<div class="tiles-header">
+		<a href="#/app/nets"><i class="fa fa-angle-left"></i>&nbsp;&nbsp;&nbsp;Back</a>
+		<h4>{{netName}}</h4> 
+		<p>
+			<span ng-if="tiles.length == 1">{{tiles.length}} Tile</span>
+			<span ng-if="tiles.length != 1">{{tiles.length}} Tiles</span>
+		</p>
+	</div>
+	<div class="create-tile">
+		<!-- <button class="create-tile-button btn btn-default" ng-click="openCreateTile()">
+			<img src="app/img/create-tile.png">
+			<span>Create New Tile</span>
+		</button> -->
+		<script type="text/ng-template" id="createTile.html">
+	        <div class="modal-header">
+	            <img src="app/img/tiles.png" style="width: 40px; margin-top: 20px;">
+	            <h4>Create Tile</h4>
+	        </div>	        
+	        <div class="modal-body" id="createTile">
+	        	<div class="modal-body-content">
+		        	<p>What type of tile do you want to create?</p>
+		        	<div class="createTile-body">
+						<div class="createTile-body-content">
+							<div class="img-wrap">
+								<img src="app/img/article.png">
+							</div>			        		
+			        		<span>Article</span>
+			        	</div>
+			        	<div class="createTile-body-content">
+			        		<div class="img-wrap">
+			        			<img src="app/img/sell.png">
+			        		</div>
+			        		<span>Sell</span>
+			        	</div>
+		        	</div>
+		        	<div class="createTile-buttons">
+			        	<div class="createTile-body-content">
+			        		<button class="btn create-btn" type="button" ng-click="ok()">Create</button>	            
+			        	</div>
+			        	<div class="createTile-body-content">
+			            	<button class="btn cancel-btn" type="button" ng-click="cancel()">Cancel</button>
+			        	</div>
+		        	</div>
+	        	</div>
+	        </div>
+	    </script>
+	</div>
+	<!-- START row-->
+	<div class="row yabrTile-wrap">
+	   <!-- START widget-->
+	   <div class="container-fluid">
+	      <div deckgrid="" source="tiles" cardtemplate="{{basepath('feed-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
+	   </div>
+	   <!-- END widget-->      
+	</div>
+</div>

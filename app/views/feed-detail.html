@@ -1,5 +1,5 @@
-<div ng-controller="feedsController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'Content' || card.tileType == 'Event' || card.tileType == 'sale' || card.tileType == 'offer'" class="yabrTile-body">
-   <div class="ribbon" ng-hide="showVideo" ng-if="card.reason != ''"><span>{{card.reason}}</span></div>
+<div ng-controller="feedsController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'Content' || card.tileType == 'Event' || card.tileType == 'sale' || card.tileType == 'offer' || card.tileType == 'Business'" class="yabrTile-body">
+   <div class="ribbon" ng-if="card.segmentations[0].reason != ''"><span>{{card.segmentations[0].reason}}</span></div>
    <div class="img-video-wrap">
       <div class="tileImg">
          <img src="{{card.creatives[0].url}}" alt="tile" class="" />
@@ -7,9 +7,9 @@
             <img src="app/img/tv-icon.png" />            
          </div>
       </div>
-      <div class="tileVideo" ng-if="card.showYoutube">
-         <videogular vg-theme="card.youtube.config.theme.url">
-            <vg-media vg-src="card.youtube.config.sources" vg-youtube="rel=1;showinfo=1">
+      <div class="youtubeVideo" ng-show="card.showYoutube">
+         <videogular class="y-video" vg-theme="card.youtube.config.theme.url">
+            <vg-media class="vg-media" vg-src="card.youtube.config.sources" vg-youtube="rel=1;showinfo=1">
             </vg-media>
             <vg-controls vg-autohide="card.youtube.config.plugins.controls.autoHide" vg-autohide-time="card.youtube.config.plugins.controls.autoHideTime">
                <vg-play-pause-button></vg-play-pause-button>
@@ -25,9 +25,10 @@
             </vg-controls>
          </videogular>
       </div>
-      <div class="tileVideo" ng-if="!card.showYoutube">
-         <loading></loading>
+      <div class="tileVideo">
+         <!-- <loading></loading> -->
          <sycovideo hls="card.hls_source" id="card.externalId"></sycovideo>
+         <a class="close-btn" ng-click="hideVideo(card)"><i class="fa fa-times" ng-if="card.hls_source"></i></a>
       </div>
    </div>   
    <div class="tile-infos">
@@ -39,7 +40,7 @@
          <a class="share-btn"><img src="app/img/share-alt.png"></a>
          <a class="comment-btn"><img src="app/img/comment.png"></a>
          <span>{{card.commentCount}} Comments</span>         
-         <a class="dots pull-right" ng-click="showExtend()">
+         <a class="dots pull-right" ng-click="extendWrap = !extendWrap">
             <img ng-if="extendWrap" src="app/img/dots.png">
             <img ng-if="!extendWrap" src="app/img/dots-o.png">
          </a>
@@ -47,11 +48,16 @@
       <loading></loading>
       <div class="video-list" ng-if="card.videoList">
          <h4>Video List</h4>
-         <ul>
+         <ul ng-if="card.videoType == 'syco'">
             <li ng-repeat="video in card.videoList track by $index">
-               <a class="video" ng-click="videoPlay(card, video)">{{card.videoTitles[$index]}}</a>
+               <a class="video" ng-click="videoPlay(card, video);">{{card.videoTitles[$index]}}</a>
             </li>
-         </ul>         
+         </ul>
+         <ul ng-if="card.videoType == 'youtube'">
+            <li ng-repeat="video in card.videoTitles track by $index">
+               <a class="video" ng-click="youtubeVideoPlay(card)">{{card.videoTitles[$index]}}</a>
+            </li>
+         </ul>
       </div>
       <accordion class="extend-wrap" ng-if="extendWrap" close-others="false">
          <accordion-group is-open="participants.open" class="participants-group">

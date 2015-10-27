@@ -21,10 +21,17 @@
       "label": "label label-info"
   },
   {
-      "text": "Go Fish",
+      "text": "Market Place",
       "sref": "app.video-test",
       "icon": "app/img/go-fish.png",
       "selicon": "app/img/go-fish-o.png",
+      "label": "label label-info"
+  },
+  {
+      "text": "My Tiles",
+      "sref": "app.tiles",
+      "icon": "app/img/tiles.png",
+      "selicon": "app/img/tiles-o.png",
       "label": "label label-info"
   },
   {
