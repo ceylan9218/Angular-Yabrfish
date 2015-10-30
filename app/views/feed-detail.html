@@ -1,29 +1,32 @@
-<div ng-controller="feedsController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'Content' || card.tileType == 'Event' || card.tileType == 'sale' || card.tileType == 'offer' || card.tileType == 'Business'" class="yabrTile-body">
+<div ng-controller="feedsController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer' || card.tileType == 'business' || card.tileType == 'job' || card.tileType == 'swap'" class="yabrTile-body">
    <div class="ribbon" ng-if="card.segmentations[0].reason != ''"><span>{{card.segmentations[0].reason}}</span></div>
    <div class="img-video-wrap">
       <div class="tileImg">
          <img src="{{card.creatives[0].url}}" alt="tile" class="" />
-         <div ng-if="card.tileType == 'Content'" class="play-icon" ng-click="getVideoList(card)">
+         <div ng-if="card.tileType == 'content'" class="play-icon" ng-click="getVideoList(card)">
             <img src="app/img/tv-icon.png" />            
          </div>
       </div>
-      <div class="youtubeVideo" ng-show="card.showYoutube">
-         <videogular class="y-video" vg-theme="card.youtube.config.theme.url">
-            <vg-media class="vg-media" vg-src="card.youtube.config.sources" vg-youtube="rel=1;showinfo=1">
-            </vg-media>
-            <vg-controls vg-autohide="card.youtube.config.plugins.controls.autoHide" vg-autohide-time="card.youtube.config.plugins.controls.autoHideTime">
-               <vg-play-pause-button></vg-play-pause-button>
-               <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
-               <vg-scrub-bar>
-                  <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-               </vg-scrub-bar>
-               <vg-volume>
-                  <vg-mute-button></vg-mute-button>
-                  <vg-volume-bar></vg-volume-bar>
-               </vg-volume>
-               <vg-fullscreen-button></vg-fullscreen-button>
-            </vg-controls>
-         </videogular>
+      <div class="youtubeVideo-wrap">
+         <div class="youtubeVideo" ng-if="card.showYoutube && $root.youtubePlay">
+            <videogular class="y-video" vg-theme="card.youtube.config.theme.url">
+               <vg-media class="vg-media" vg-src="card.youtube.config.sources" vg-youtube="rel=1;showinfo=1">
+               </vg-media>
+               <vg-controls vg-autohide="card.youtube.config.plugins.controls.autoHide" vg-autohide-time="card.youtube.config.plugins.controls.autoHideTime">
+                  <vg-play-pause-button></vg-play-pause-button>
+                  <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+                  <vg-scrub-bar>
+                     <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                  </vg-scrub-bar>
+                  <vg-volume>
+                     <vg-mute-button></vg-mute-button>
+                     <vg-volume-bar></vg-volume-bar>
+                  </vg-volume>
+                  <vg-fullscreen-button></vg-fullscreen-button>
+               </vg-controls>
+            </videogular>            
+         </div>
+         <a class="close-btn" ng-click="hideVideo(card)"><i class="fa fa-times" ng-if="card.showYoutube"></i></a>
       </div>
       <div class="tileVideo">
          <!-- <loading></loading> -->
@@ -39,10 +42,9 @@
          <a class="net-btn"><img src="app/img/fish-net.png"></a>
          <a class="share-btn"><img src="app/img/share-alt.png"></a>
          <a class="comment-btn"><img src="app/img/comment.png"></a>
-         <span>{{card.commentCount}} Comments</span>         
-         <a class="dots pull-right" ng-click="extendWrap = !extendWrap">
-            <img ng-if="extendWrap" src="app/img/dots.png">
-            <img ng-if="!extendWrap" src="app/img/dots-o.png">
+         <a class="dots pull-right" ng-click="extendTile(card)">
+            <img ng-if="card.extendWrap" src="app/img/dots.png">
+            <img ng-if="!card.extendWrap" src="app/img/dots-o.png">
          </a>
       </div>
       <loading></loading>
@@ -59,14 +61,66 @@
             </li>
          </ul>
       </div>
-      <accordion class="extend-wrap" ng-if="extendWrap" close-others="false">
+      <accordion class="extend-wrap" ng-if="card.extendWrap" close-others="false">
+         <accordion-group ng-if="card.tileType == 'event'" is-open="events.open" class="events-group">
+            <accordion-heading>
+               <img src="app/img/event.png">Event <i class="pull-right fa" ng-class="{'fa-angle-up': events.open, 'fa-angle-down': !events.open}"></i>
+            </accordion-heading>
+            <div class="event-wrap">
+               <div class="left-arrow arrow">
+                  <a href ng-click="slideEvents('left', card)"><i class="pull-left fa fa-angle-left"></i></a>               
+               </div>
+               <div class="events">
+                  <div class="event-slider" ng-style="{'transform': card.transform, '-webkit-transform': card.transform, '-ms-transform': card.transform, '-moz-transform': card.transform, '-o-transform': card.transform, 'width': card.eventSliderWidth}"  ng-show="card.showEvent">
+                     <div class="slide animation" ng-repeat="event in card.event_cals" ng-style="{'width': card.eventWidth}">
+                        <div class="calendar-wrap">
+                           <img class="calendar" src="app/img/cal-icon.png" alt="">
+                           <span class="month">{{event.month}}</span>
+                           <span class="date">{{event.date}}</span>
+                        </div>
+                        <h4 class="event-name" ng-click="changeClasses(card, event.eventId)">{{event.name}}</h4>                     
+                     </div>
+                  </div>
+               </div>
+               <div class="right-arrow arrow">
+                  <a href ng-click="slideEvents('right', card)"><i class="pull-right fa fa-angle-right"></i></a>               
+               </div>
+            </div>  
+            <div class="class-content">
+               <div class="panel-heading">
+                  <h4 class="panel-title">
+                     <a href="" class="accordion-toggle">
+                     <img class="ng-scope" src="app/img/event.png"><span class="ng-scope">Class </span><i style="" class="pull-right fa ng-scope fa-angle-up" ng-class="{'fa-angle-up': events.open, 'fa-angle-down': !events.open}"></i>
+                     </a>
+                  </h4>
+               </div>
+               <div class="class-wrap">
+                  <div class="left-arrow arrow">
+                     <a href ng-click="slideClasses('left', card)"><i class="pull-left fa fa-angle-left"></i></a>
+                  </div>
+                  <div class="classes">
+                     <div class="class-slider" ng-style="{'transform': card.classTransform, '-webkit-transform': card.classTransform, '-ms-transform': card.classTransform, '-moz-transform': card.classTransform, '-o-transform': card.classTransform, 'width': card.classSliderWidth}"  ng-show="card.showClass">
+                        <div class="class-slide animation" ng-repeat="class in card.classes" ng-style="{'width': card.classWidth}">
+                           <div class="class-img">
+                              <img src="{{class.flag}}" alt="">
+                           </div>
+                           <h4 class="class-name">{{class.name}}</h4>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="right-arrow arrow">
+                     <a href ng-click="slideClasses('right', card)"><i class="pull-right fa fa-angle-right"></i></a>
+                  </div>
+               </div>               
+            </div>            
+         </accordion-group>         
          <accordion-group is-open="participants.open" class="participants-group">
             <accordion-heading>
                <img src="app/img/participants.png">Participants <i class="pull-right fa" ng-class="{'fa-angle-up': participants.open, 'fa-angle-down': !participants.open}"></i>
             </accordion-heading>
             <ul>
                <li ng-repeat="participant in card.participants">
-                  <img src="{{participant.avatar}}"></img>
+                  <img src="{{participant.avatar}}" />
                   <span class="name">{{participant.name}}</span>
                   <a class="follow_btn">Follow</a>
                </li>
@@ -114,11 +168,11 @@
          <a class="comment-btn"><img src="app/img/comment.png"></a>
          <span>{{card.commentCount}} Comments</span>         
          <a class="dots pull-right" ng-click="showExtend()">
-            <img ng-if="extendWrap" src="app/img/dots.png">
-            <img ng-if="!extendWrap" src="app/img/dots-o.png">
+            <img ng-if="card.extendWrap" src="app/img/dots.png">
+            <img ng-if="!card.extendWrap" src="app/img/dots-o.png">
          </a>
       </div>
-      <accordion class="extend-wrap" ng-if="extendWrap" close-others="false">
+      <accordion class="extend-wrap" ng-if="card.extendWrap" close-others="false">
          <accordion-group is-open="participants.open" class="participants-group">
             <accordion-heading>
                <img src="app/img/participants.png">Participants <i class="pull-right fa" ng-class="{'fa-angle-up': participants.open, 'fa-angle-down': !participants.open}"></i>

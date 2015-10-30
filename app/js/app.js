@@ -3742,7 +3742,7 @@
                     });
                     if(val) {
                       var conf = {
-                          key:       '525b4ea5bdadf4ae74ab40546a6be359',
+                          key:       '9dfc435e221ba94fd0cdbacda4c656cf',
                           playback: {
                             autoplay : true
                           },
@@ -3785,6 +3785,7 @@
         $scope.filter = {
           feeds : ''
         };
+        $rootScope.youtubePlay = false;
 
         $scope.getRecommendations = function(){
           var deferred = $q.defer();
@@ -3806,9 +3807,14 @@
         recommendations.then(function(resolve){
             $scope.tiles = resolve.tiles;
             for (var i in $scope.tiles) {
+              $scope.tiles[i].events = [];
+              var uid = $scope.tiles[i].externalId;         // Tile ExternalId.
+
+              //Get and change lowercase Tile Type.              
+              $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
+
               // Get Time Difference
               $scope.tiles[i].publishedDate = getTimeDiff($scope.tiles[i].publishedDate);
-              var uid = $scope.tiles[i].externalId;              
 
               // Get Participants
               // $http.get('http://data.yabrfish.com/api/tiles/'+uid+'/participants')
@@ -3881,6 +3887,8 @@
         }
 
         $scope.videoPlay = function(element, video) {
+          $rootScope.youtubePlay = false;
+
           if(element.videoType == 'syco'){           
             element.hls_source = video.clientPlayBackUrl + video.url;
             $rootScope.$broadcast( "linkChanged", element.hls_source, element.externalId);
@@ -3895,7 +3903,7 @@
 
           angular.element(".tileImg").css('display', 'inline-block');
           angular.element(".tileVideo").css('display', 'none');
-          angular.element(".youtubeVideo").css('display', 'none');        
+          angular.element(".youtubeVideo-wrap").css('display', 'none');        
           angular.element(".video-list").css('display', 'none');
 
           tileVideo[0].style.display = 'inline-block';
@@ -3908,6 +3916,9 @@
 
         $scope.youtubeVideoPlay = function(element) {
           element.showYoutube = true;
+          $rootScope.youtubePlay = true;
+          $rootScope.$broadcast( "linkChanged", element.hls_source, element.externalId);
+
           element.youtube.config = {
             preload: "none",
             autoPlay: true,
@@ -3927,16 +3938,16 @@
             }
           };
 
-          var youtubeVideo = angular.element("#tile_"+element.externalId+ " .youtubeVideo");
+          var youtubeVideo = angular.element("#tile_"+element.externalId+ " .youtubeVideo-wrap");
           var tileImg = angular.element("#tile_"+element.externalId+ " .tileImg");
           var video_list = angular.element("#tile_"+element.externalId+ " .video-list");
           var ribbon = angular.element("#tile_"+element.externalId+ " .ribbon");
           
           youtubeVideo.height(tileImg.height());
-
+          
           angular.element(".tileImg").css('display', 'inline-block');
           angular.element(".tileVideo").css('display', 'none');
-          angular.element(".youtubeVideo").css('display', 'none');
+          angular.element(".youtubeVideo-wrap").css('display', 'none');
           angular.element(".video-list").css('display', 'none');
 
           youtubeVideo[0].style.display = 'inline-block';
@@ -3948,14 +3959,137 @@
 
         $scope.hideVideo = function(element) {          
           $rootScope.$broadcast( "linkChanged", element.hls_source, element.externalId);
+          $rootScope.youtubePlay = false;
 
           var tileVideo = angular.element("#tile_"+element.externalId+ " .tileVideo");
+          var youtubeVideo = angular.element("#tile_"+element.externalId+ " .youtubeVideo-wrap");
           var tileImg = angular.element("#tile_"+element.externalId+ " .tileImg");
           var ribbon = angular.element("#tile_"+element.externalId+ " .ribbon");
+          
           tileVideo[0].style.display = 'none';
+          youtubeVideo[0].style.display = 'none';
           tileImg[0].style.display = 'inline-block';
           if(ribbon[0])
             ribbon[0].style.display = 'inline-block';
+        }
+
+        $scope.extendTile = function(element){
+          if(element.extendWrap){
+            element.extendWrap = false;
+          }
+          else{
+            element.extendWrap = true;
+
+            // Get Events if tile type is 'Event'
+            if( element.tileType == 'event' ){
+              element.event_cals = [];
+              element.classes = [];
+
+              var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+              $http.get('http://data.yabrfish.com/yfapi/tileservice/tiles/'+ element.externalId +'/events')
+                .success(function(data) {
+                  element.events = data.eventList;
+                  for(var i in element.events) {
+                    var startDate = new Date(element.events[i].startDate);
+                    var month = monthNames[startDate.getMonth()];
+                    var date = startDate.getDate();
+                    element.event_cals.push({
+                      eventId: element.events[i].externalId,
+                      month: month,
+                      date: date,
+                      name: element.events[i].name
+                    });
+                  }
+                  element.eventWidth = angular.element('.events').width() / 3;
+                  element.eventSliderWidth = element.eventWidth * element.event_cals.length;
+                  element.showEvent = true;
+                  
+                  // Get Classes for first Event.
+                  $http.get('http://data.yabrfish.com/yfapi/tileservice/events/'+ element.events[0].externalId +'/classes')
+                    .success(function(data) {
+                      element.classes_data = data;                      
+                      for(var i in element.classes_data) {
+                        var flag = "http://img.yabrfish.com/cdn/flags/"+element.classes_data[i].classFlag.toLowerCase()+".jpg";
+                        element.classes.push({
+                          flag: flag,
+                          name: element.classes_data[i].name
+                        });
+                      }
+                      element.classWidth = angular.element('.classes').width() / 4;
+                      element.classSliderWidth = element.classWidth * element.classes.length;
+                      element.showClass = true;
+                    });
+                });
+            }
+          }
+        }
+          
+        $scope.slideEvents = function(dir, element){
+            var eventWidth = angular.element('.events').width() / 3;
+            var endTranslate = (element.event_cals.length - 3) * eventWidth * -1;
+
+            if(!element.translate)
+              element.translate = 0;
+
+            if (dir === 'left') {
+              element.translate += eventWidth;
+              if(element.translate <= 0)
+                element.transform = "translate("+element.translate+"px, 0px)";
+              else
+                element.translate = 0;
+            } else {
+              if(element.event_cals.length > 3) {
+                element.translate -= eventWidth;
+                if(element.translate >= endTranslate)
+                  element.transform = "translate("+element.translate+"px, 0px)";
+                else{
+                  element.transform = "translate("+endTranslate+"px, 0px)";
+                  element.translate = endTranslate;
+                }
+              }
+            }
+        }
+
+        $scope.slideClasses = function(dir, element){
+            var classWidth = angular.element('.classes').width() / 4;
+            var endTranslate = (element.classes.length - 4) * classWidth * -1;
+
+            if(!element.classTranslate)
+              element.classTranslate = 0;
+
+            if (dir === 'left') {
+              element.classTranslate += classWidth;
+              if(element.classTranslate <= 0)
+                element.classTransform = "translate("+element.classTranslate+"px, 0px)";
+              else
+                element.classTranslate = 0;
+            } else {
+              if(element.classes.length > 4){
+                element.classTranslate -= classWidth;
+                if(element.classTranslate >= endTranslate)
+                  element.classTransform = "translate("+element.classTranslate+"px, 0px)";
+                else{
+                  element.classTransform = "translate("+endTranslate+"px, 0px)";
+                  element.classTranslate = endTranslate;
+                }
+              }
+            }
+        }
+
+        $scope.changeClasses = function(element, eventId){
+          element.classes = [];
+          // Get Classes for Event.
+          $http.get('http://data.yabrfish.com/yfapi/tileservice/events/'+ eventId +'/classes')
+            .success(function(data) {
+              element.classes_data = data;
+              for(var i in element.classes_data) {
+                var flag = "http://img.yabrfish.com/cdn/flags/"+element.classes_data[i].classFlag.toLowerCase()+".jpg";
+                element.classes.push({
+                  flag: flag,
+                  name: element.classes_data[i].name
+                });
+              }
+            });
         }
 
         $scope.filterFeeds = function() {
@@ -4144,6 +4278,7 @@
             $scope.tiles = data.tileList;
             for ( var i in $scope.tiles ){
               $scope.tiles[i].publishedDate = getTimeDiff($scope.tiles[i].publishedDate);
+              $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
             }
         });
 
