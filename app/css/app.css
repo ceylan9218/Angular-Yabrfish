@@ -9375,18 +9375,30 @@ flot .legend .legendColorBox > div > div {
     border-radius: 0px;
     margin-top: 0;
     box-shadow: none;
+    border-top: none;
+}
+.tile-infos .panel-group .panel:nth-of-type(1){
+  border-top: 1px solid #e4e4e4;
 }
 .tile-infos .panel-group .panel .panel-body{
   margin: 0 15px;
   padding: 0;
-  border-top-color: #e4e4e4;
+  border-top: 1px solid #e4e4e4;
+}
+.tile-infos .panel-group .panel:nth-of-type(1) .panel-body{
+  border-top: 1px solid #e4e4e4;  
 }
 .tile-infos .panel-group .panel .panel-heading{
+  display: none;
+}
+.tile-infos .panel-group .panel:nth-of-type(1) .panel-heading{
   padding: 15px;
+  display: inline-block;
+  width: 100%;
 }
-.tile-infos accordion{
+/*.tile-infos accordion .panel-group{
   margin: 0;
-}
+}*/
 .tile-infos .panel-group .panel .collapse{
   display: block;
   overflow: hidden;
@@ -9410,6 +9422,14 @@ flot .legend .legendColorBox > div > div {
 .tile-infos .panel-group .panel .panel-body ul li span{
   color: #333;
   font-size: 16px;
+}
+.tile-infos .panel-group .panel .panel-body ul li span.race-date{
+  font-size: 14px;
+  line-height: 2;
+}
+.tile-infos .panel-group .panel .panel-body ul li .alert-danger span{
+  color: #a94442;
+  font-size: 14px;
 }
 .tile-infos .panel-group .panel .panel-body ul li a{
   background: #3abeef;
@@ -9479,6 +9499,8 @@ flot .legend .legendColorBox > div > div {
   border-top: 1px solid #C1C1C1;
   padding: 20px;
   width: 100%;  
+}
+.section {
 }
 /* Events Slider Style */
 .events, .classes{
@@ -9557,10 +9579,16 @@ flot .legend .legendColorBox > div > div {
   color: #0d3d4f;
   font-size: 22px;
 }
-.tile-infos .panel-group .panel .class-content .panel-heading{
-  padding: 15px 0;
+.class-content .class-heading{
+  padding: 10px 0;
   border-top: 1px solid #cbcbcb;
   border-bottom: 1px solid #cbcbcb;
+}
+.class-content .class-heading img{
+  width: 20px;
+}
+.class-content .class-heading span{
+  margin-left: 10px;
 }
 .class-img img{
   width: 50px;
@@ -9570,6 +9598,148 @@ flot .legend .legendColorBox > div > div {
 .event-name:hover{
   cursor: pointer;
   color: #3ABEEF;
+}
+.races-wrap h4{
+  font-size: 18px;
+  font-weight: normal;
+  color: #333;
+  padding: 10px 0;
+  border-top: 1px solid #e4e4e4;
+  border-bottom: 1px solid #e4e4e4;
+  margin-bottom: 0;
+}
+.races-wrap ul li{
+  padding: 5px 0;
+}
+.races-wrap ul li .race-btn{
+  background: #3abeef;
+  float: right;
+  padding: 1px 10px;
+  color: #fff;
+}
+.races-wrap ul li .race-date{
+  float: right;
+  margin-right: 10px;
+}
+.races-wrap ul li span.race-name{
+  padding-left: 10px;
+}
+.offer-extend-wrap{
+  border-top: 1px solid #e4e4e4;
+  padding: 10px;
+}
+.offer-extend-wrap h4, .offer-extend-wrap h5{
+  color: #333;
+  font-weight: bold;
+}
+.offer-extend-wrap ul{
+  list-style: none;
+  padding: 0;
+}
+.offer-extend-wrap ul li{
+  padding: 0 20px;
+  border-top: 1px solid #e4e4e4;
+}
+.offer-extend-wrap h5{
+  font-size: 16px;
+}
+.offer-extend-wrap .get-offer-btn{
+  background: #3abeef;
+  width: 100%;
+  color: #fff;
+  font-weight: bold;
+}
+.offer-extend-wrap p.offer-detail{
+  margin-top: 20px;
+  color: #333;
+}
+.result-wrap{
+  padding: 0 10px;
+  height: 300px;
+  overflow: auto;
+  width: 100%;
+}
+.result-wrap ul li{
+  display: inline-block;
+  width: 100%;
+}
+.result-wrap .position{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #3abeef;
+  display: inline-block;
+  line-height: 40px;
+  text-align: center;
+  color: #fff !important;
+  float: left;
+}
+.result-wrap .position.gold{
+  background: #C98910;
+}
+.result-wrap .position.silver{
+  background: #A8A8A8;
+}
+.result-wrap .position.bronze{
+  background: #965A38;
+}
+.result-wrap .position.blue{
+  background: #3ABEEF;
+}
+.result-wrap .position.red{
+  background: red;
+}
+.result-wrap .race-info{
+  width: calc(100% - 40px);
+  float: left;
+  display: inline-block;
+  padding-left: 15px;
+}
+.result-wrap .race-info span{
+  font-size: 14px !important;
+  line-height: 1;
+}
+.result-wrap .race-info span.equipmentOwner{
+  width: 100%;
+  display: inline-block;
+}
+.jump-in-wrap{
+  width: 96%;
+  display: table;
+  margin: 10px auto;
+}
+.jump-in-wrap a.jump{
+  padding: 0px 20px;
+  border: 1px solid #cbcbcb;
+  border-radius: 7px;
+  width: 48%;
+  height: 50px;
+  display: inline-block;
+  float: left;
+  margin-bottom: 15px;
+  line-height: 50px;
+}
+.jump-in-wrap img{
+  width: 20px;
+  margin-top: -3px;
+}
+.jump-in-wrap a.jump:nth-child(2n){
+  float: right;
+}
+.jump:hover{
+  text-decoration: none;
+}
+.jump-in-wrap a.jump.active{
+  background: #3abeef;
+  border-color: #3abeef;
+}
+.jump-name{
+  color: #333;
+  margin-left: 15px;  
+  font-size: 16px;
+}
+.jump-name.active{
+  color: #fff;
 }
 @media only screen and (min-width: 320px)  and (max-width: 479px) {
   .events img.calendar{
@@ -9670,6 +9840,9 @@ flot .legend .legendColorBox > div > div {
   }
   .yabrTile .tile-infos .icons a.dots img{
     width: 15px;
+  }
+  .jump-in-wrap a.jump{
+    width: 100%;
   }
 }
 @media only screen and (min-width: 480px) and (max-width: 767px) {
@@ -9787,6 +9960,9 @@ flot .legend .legendColorBox > div > div {
   .yabrTile .tile-infos .icons a.dots img{
     width: 20px;
   }
+  .jump-in-wrap a.jump{
+    width: 100%;
+  }
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .preloader-progress {
@@ -9852,6 +10028,9 @@ flot .legend .legendColorBox > div > div {
      width: 185px; display: block;
      box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
      top: 22px; right: -18px;
+  }
+  .jump-in-wrap a.jump{
+    width: 100%;
   }
 }
 @media only screen and (min-width: 1400px) {
@@ -9972,6 +10151,9 @@ body.login .lock-container .panel .forgot-password {
  ========================================================================== */
 .nets-wrap{
   display: inline-block;
+  width: 100%;
+}
+.create-net img{
   width: 100%;
 }
 .btn.create-net-button{
