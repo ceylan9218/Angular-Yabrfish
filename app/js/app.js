@@ -3723,7 +3723,7 @@
     'use strict';
 
     angular
-        .module('app.feeds', ["ngSanitize", "com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'ngMap'])
+        .module('app.feeds', ["ngSanitize", "com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'ngMap', 'flash', 'ngAnimate', 'infinite-scroll'])
         .controller('feedsController', feedsController)
         .directive('sycovideo', function(){
             return {
@@ -3777,7 +3777,7 @@
             }
         });        
 
-    function feedsController($rootScope, $scope, $http, $sce, RouteHelpers, $timeout, $q) {
+    function feedsController($rootScope, $scope, $http, $sce, RouteHelpers, $timeout, $q, Flash) {
         $scope.basepath = RouteHelpers.basepath;
         $scope.tiles = [];
         $scope.showVideo = false;
@@ -3785,6 +3785,7 @@
         $scope.filter = {
           feeds : ''
         };
+        $scope.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         $rootScope.youtubePlay = false;
 
         $scope.getRecommendations = function(){
@@ -3847,43 +3848,43 @@
         })       
 
         $scope.getVideoList = function(element){
-            var uid = element.externalId;
-            $scope.loading = true;
-            element.videoList = [];
-            element.videoTitles = [];
-            element.videoType = '';
-            element.youtube = {
-              config: {}
-            }
+          var uid = element.externalId;
+          $scope.loading = true;
+          element.videoList = [];
+          element.videoTitles = [];
+          element.videoType = '';
+          element.youtube = {
+            config: {}
+          }
 
-            var video_list = angular.element("#tile_"+element.externalId+ " .video-list");
-            if(video_list[0])
-              video_list[0].style.display = 'block';
+          var video_list = angular.element("#tile_"+element.externalId+ " .video-list");
+          if(video_list[0])
+            video_list[0].style.display = 'block';
 
-            $http.get('http://data.yabrfish.com/yfapi/tileservice/tiles/' + uid + '/content')
-              .success(function(data){
-                  if(data.contentList && data.contentList.length>0){
-                    element.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
-                    if(element.videoType == 'youtube'){
-                      element.vid = data.contentList[0].externalRefs[0].externalContentId;                      
-                      for( var i in data.contentList ){
-                        element.videoTitles[i] = data.contentList[i].title;
-                      }
-                    }else if (element.videoType == 'syco') {
-                      for( var i in data.contentList ){
-                        var vid = data.contentList[i].externalRefs[0].externalContentId;
-                        $http.get('http://api1.syndicatecontent.com/Sc.Content.Api.External/ScContentExt/inventory/'+vid+'?mediaformatid=9&vendortoken=B9C333B9-54F3-40B6-8C34-7A6512955B98')
-                          .success(function(data) {
-                              if(data.resources[0].medias[0].hostId){
-                                element.videoList[i] = data.resources[0].medias[0];
-                              }
-                          })
-                        element.videoTitles[i] = data.contentList[i].title;
-                      }
+          $http.get('http://data.yabrfish.com/yfapi/tileservice/tiles/' + uid + '/content')
+            .success(function(data){
+                if(data.contentList && data.contentList.length>0){
+                  element.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
+                  if(element.videoType == 'youtube'){
+                    element.vid = data.contentList[0].externalRefs[0].externalContentId;                      
+                    for( var i in data.contentList ){
+                      element.videoTitles[i] = data.contentList[i].title;
+                    }
+                  }else if (element.videoType == 'syco') {
+                    for( var i in data.contentList ){
+                      var vid = data.contentList[i].externalRefs[0].externalContentId;
+                      $http.get('http://api1.syndicatecontent.com/Sc.Content.Api.External/ScContentExt/inventory/'+vid+'?mediaformatid=9&vendortoken=B9C333B9-54F3-40B6-8C34-7A6512955B98')
+                        .success(function(data) {
+                            if(data.resources[0].medias[0].hostId){
+                              element.videoList[i] = data.resources[0].medias[0];
+                            }
+                        })
+                      element.videoTitles[i] = data.contentList[i].title;
                     }
                   }
-                  $scope.loading = false;
-              })
+                }
+                $scope.loading = false;
+            })
         }
 
         $scope.videoPlay = function(element, video) {
@@ -3984,14 +3985,14 @@
             if( element.tileType == 'event' ){
               element.event_cals = [];
               element.classes = [];
+              element.showJumpIn = true;
 
-              var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
               $http.get('http://data.yabrfish.com/yfapi/tileservice/tiles/'+ element.externalId +'/events')
                 .success(function(data) {
                   element.events = data.eventList;
                   for(var i in element.events) {
                     var startDate = new Date(element.events[i].startDate);
-                    var month = monthNames[startDate.getMonth()];
+                    var month = $scope.monthNames[startDate.getMonth()];
                     var date = startDate.getDate();
                     element.event_cals.push({
                       eventId: element.events[i].externalId,
@@ -4000,17 +4001,25 @@
                       name: element.events[i].name
                     });
                   }
-                  element.eventWidth = angular.element('.events').width() / 3;
+                  element.eventWidth = angular.element('#tile_'+element.externalId+' .events').width() / 3;
                   element.eventSliderWidth = element.eventWidth * element.event_cals.length;
-                  element.showEvent = true;
-                  
+                  element.showEventSlider = true;
+
                   // Get Classes for first Event.
                   $http.get('http://data.yabrfish.com/yfapi/tileservice/events/'+ element.events[0].externalId +'/classes')
                     .success(function(data) {
-                      element.classes_data = data;                      
+                      element.classes_data = data;
+
+                      if(element.classes_data.length == 0){
+                        var message = 'No Classes!';
+                        Flash.create('danger', message);
+                      }                      
+                      
                       for(var i in element.classes_data) {
                         var flag = "http://img.yabrfish.com/cdn/flags/"+element.classes_data[i].classFlag.toLowerCase()+".jpg";
                         element.classes.push({
+                          eventId: element.events[0].externalId,
+                          classId: element.classes_data[i].externalId,
                           flag: flag,
                           name: element.classes_data[i].name
                         });
@@ -4020,10 +4029,39 @@
                       element.showClass = true;
                     });
                 });
+            }else if(element.tileType == 'offer'){
+              $http.get('http://data.yabrfish.com/yfapi/tileservice/tiles/'+ element.externalId +'/offers')
+                .success(function(data) {
+                  element.offers = data;
+                  var curDate = new Date();
+
+                  for(var i in element.offers){
+                    element.offers[i].enddate = new Date(element.offers[i].enddate);
+
+                    // Get Diff days between Expired Date and Today.
+                    var diff = (element.offers[i].enddate - curDate)/1000;
+                    diff = Math.abs(Math.floor(diff));
+                    element.offers[i].expire_days = Math.floor(diff/(24*60*60));
+
+                    // Get EndDate.
+                    var endDay = element.offers[i].enddate.getDate();
+                    var endMonth = element.offers[i].enddate.getMonth() + 1;
+                    var endYear = element.offers[i].enddate.getFullYear();
+
+                    if( endDay < 10 ){
+                      endDay = '0' + endDay;
+                    }
+                    if( endMonth < 10 ){
+                      endMonth = '0' + endMonth;
+                    }
+                    element.offers[i].enddate = endDay + '/' + endMonth + '/' + endYear;
+
+                  }
+                })
             }
           }
         }
-          
+
         $scope.slideEvents = function(dir, element){
             var eventWidth = angular.element('.events').width() / 3;
             var endTranslate = (element.event_cals.length - 3) * eventWidth * -1;
@@ -4076,20 +4114,152 @@
             }
         }
 
-        $scope.changeClasses = function(element, eventId){
-          element.classes = [];
+        $scope.getClasses = function(element, eventId){
           // Get Classes for Event.
           $http.get('http://data.yabrfish.com/yfapi/tileservice/events/'+ eventId +'/classes')
             .success(function(data) {
+              element.classes = [];
               element.classes_data = data;
+              
+              if(element.classes_data.length == 0){
+                var message = 'No Classes!';
+                Flash.create('danger', message);
+              }
+              
               for(var i in element.classes_data) {
                 var flag = "http://img.yabrfish.com/cdn/flags/"+element.classes_data[i].classFlag.toLowerCase()+".jpg";
                 element.classes.push({
+                  eventId: eventId,
+                  classId: element.classes_data[i].externalId,
                   flag: flag,
                   name: element.classes_data[i].name
                 });
               }
             });
+        }
+
+        $scope.getRaces = function(element, classElm){
+          var eventId = classElm.eventId;
+          var classId = classElm.classId;
+          element.races = [];
+
+          // Get Races for a class
+          $http.get('http://data.yabrfish.com/yfapi/tileservice/events/'+ eventId +'/classes/'+classId+'/races')
+            .success(function(data){
+              element.races = data;
+              
+              if(element.races.length == 0){
+                var message = 'No Races!';
+                Flash.create('danger', message);
+              }
+
+              for(var i in element.races){
+                // Get Date of Race
+                var race_date = new Date(element.races[i].startdate);
+                var race_day = race_date.getDate();
+                if(race_day>3 && race_day<21){
+                  race_day = race_day + 'th';
+                }else{
+                  switch (race_day % 10) {
+                      case 1:  race_day = race_day + "st";
+                      case 2:  race_day = race_day + "nd";
+                      case 3:  race_day = race_day + "rd";
+                      default: race_day = race_day + "th";
+                  }
+                }
+                var race_month = $scope.monthNames[race_date.getMonth()];
+                var race_hours = race_date.getHours();
+                var race_min = race_date.getMinutes();
+                element.races[i].race_date = race_day + " " + race_month + " " + race_hours + ":" + race_min;
+
+                // Set Event ID and Class ID to Races.
+                element.races[i].eventId = eventId;
+                element.races[i].classId = classId;
+              }
+            });
+        }
+
+        $scope.getResult = function(race){
+          if(race.showResult)
+            race.showResult = false;
+          else{
+            race.showResult = true;
+            
+            var eventId = race.eventId;
+            var classId = race.classId;
+            var raceId = race.externalId;
+            $http.get('http://data.yabrfish.com/yfapi/tileservice/events/'+eventId+'/classes/'+classId+'/races/'+raceId+'/results')
+              .success(function(data){
+                race.results = data;
+
+                if(race.results.length == 0){
+                  var message = 'No Results!';
+                  Flash.create('danger', message);
+                }
+                
+                for(var i in race.results){
+                  if(isNaN(race.results[i].positionDesc))
+                    race.results[i].position = "DNC";
+                }
+              })
+          }
+        }
+
+        $scope.jumpSection = function(element, section){
+          switch(section){
+            case 'events':
+              element.showEvents = true;
+              element.showRaces = false;
+              element.showEnter = false;
+              element.showParticipants = false;
+              element.showCrew = false;
+              element.showActionReplay = false;
+              break;
+            case 'races':
+              element.showEvents = false;
+              element.showRaces = true;
+              element.showEnter = false;
+              element.showParticipants = false;
+              element.showCrew = false;
+              element.showActionReplay = false;
+              break;
+            case 'enter':
+              element.showEvents = false;
+              element.showRaces = false;
+              element.showEnter = true;
+              element.showParticipants = false;
+              element.showCrew = false;
+              element.showActionReplay = false;
+              break;
+            case 'participants':
+              element.showEvents = false;
+              element.showRaces = false;
+              element.showEnter = false;
+              element.showParticipants = true;
+              element.showCrew = false;
+              element.showActionReplay = false;
+              break;
+            case 'crew':
+              element.showEvents = false;
+              element.showRaces = false;
+              element.showEnter = false;
+              element.showParticipants = false;
+              element.showCrew = true;
+              element.showActionReplay = false;
+              break;
+            case 'action-replay':
+              element.showEvents = false;
+              element.showRaces = false;
+              element.showEnter = false;
+              element.showParticipants = false;
+              element.showCrew = false;
+              element.showActionReplay = true;
+              break;
+          }
+        }
+
+        $scope.loadMore = function(element){
+          console.log(1);
         }
 
         $scope.filterFeeds = function() {
