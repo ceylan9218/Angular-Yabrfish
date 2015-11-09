@@ -9709,7 +9709,7 @@ flot .legend .legendColorBox > div > div {
   margin: 10px auto;
 }
 .jump-in-wrap a.jump{
-  padding: 0px 20px;
+  padding: 0px 15px;
   border: 1px solid #cbcbcb;
   border-radius: 7px;
   width: 48%;
@@ -9735,8 +9735,8 @@ flot .legend .legendColorBox > div > div {
 }
 .jump-name{
   color: #333;
-  margin-left: 15px;  
-  font-size: 16px;
+  margin-left: 10px;  
+  font-size: 14px;
 }
 .jump-name.active{
   color: #fff;
@@ -9758,7 +9758,8 @@ flot .legend .legendColorBox > div > div {
   }
 }
 /*-----------------------Radar Page Responsive-----------------------------------------*/
-@media only screen and (min-width: 320px)  and (max-width: 479px) {
+@media only screen and (max-width: 767px) {
+
   .preloader-progress {
     width: 100px;
     height: 100px;
@@ -9795,9 +9796,12 @@ flot .legend .legendColorBox > div > div {
   .yabrTile-body{
     margin: 0 0 30px 0;
   }
-  .yabrTile{
-    width: 100%;
-  } 
+  .yabrTile.deckgrid{
+    width: 290px;
+  }
+  .yabrTile.deckgrid .column.size-1-1{
+    width: 290px;
+  }
   .yabrTile .tile-infos h4.title{
     font-size: 14px;
     padding: 0 15px;
@@ -9842,70 +9846,20 @@ flot .legend .legendColorBox > div > div {
     width: 15px;
   }
   .jump-in-wrap a.jump{
-    width: 100%;
+    padding: 0px 5px;
+    height: 40px;
+    line-height: 40px;
   }
-}
-@media only screen and (min-width: 480px) and (max-width: 767px) {
-  .preloader-progress {
-    width: 100px;
-    height: 100px;
-    background-size: 100px 100px;
+  .jump-in-wrap img{
+    width: 15px;
   }
-  /*@noflip*/
-  .preloader-progress-bar {
-    background-size: 100px 100px;
-  }
-  .slider-wrap{
-    display: none;
-  }
-  .topnavbar .navbar-header .brand-logo{
-    width: 150px;
-    margin: 5px auto;
-  }
-  .topnavbar .navbar-nav .fa-navicon{
-    font-size: 16px;
-  }
-  .ribbon {
-     right: -5px; top: -5px;
-     width: 200px; height: 120px; 
-  }
-  .ribbon span {
-     font-size: 12px;
-     line-height: 22px;
-     width: 225px; display: block;
-     box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
-     top: 36px; right: -19px;
-  }
-  .yabrTile-body{
-    margin: 0 0 30px 0;
-  }
-  .yabrTile{
-    width: 100%;
-  } 
-  .yabrTile .tile-infos h4.title{
-    font-size: 14px;
-    padding: 0 15px;
-  }
-  .yabrTile .tile-infos p.date{
-    padding: 0 15px;
-    font-size: 10px;
-  }
-  .yabrTile .tile-infos .icons{
-    padding: 10px;
-  }
-  .yabrTile .tile-infos .icons i{
-    font-size: 14px; 
-    margin: 0 3px;
-  }
-  .yabrTile .tile-infos .icons span{
+  .jump-name{
+    margin-left: 5px;
     font-size: 12px;
-    margin: 0 3px;
-  }
-  .ns-popover-tooltip ul li a img{
-    display: none;
   }
 }
-@media only screen and (min-width: 768px) and (max-width: 991px) {
+
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
   .preloader-progress {
     width: 150px;
     height: 150px;
@@ -9914,9 +9868,6 @@ flot .legend .legendColorBox > div > div {
   /*@noflip*/
   .preloader-progress-bar {
     background-size: 150px 150px;
-  }
-  .yabrTile-body{
-    margin: 0 10px 30px;
   }
   .ribbon {
      right: -5px; top: -5px;
@@ -9929,9 +9880,21 @@ flot .legend .legendColorBox > div > div {
      box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
      top: 13px; right: -11px;
   }
-  .yabrTile{
-    width: 100%;
+  .slider-wrap{
+    width: 708px;
+  }
+  .yabrTile.deckgrid{
+    width: 708px;
+  }
+  .yabrTile.deckgrid .column.size-1-2{
+    width: 354px;
   } 
+  .column:nth-child(2n) .yabrTile-body{
+    margin: 0 0px 30px 10px;
+  }
+  .column:nth-child(2n+1) .yabrTile-body{
+    margin: 0 10px 30px 0;
+  }
   .yabrTile .tile-infos h4.title{
     font-size: 14px;
     padding: 0 15px;
@@ -9961,54 +9924,13 @@ flot .legend .legendColorBox > div > div {
     width: 20px;
   }
   .jump-in-wrap a.jump{
-    width: 100%;
+    padding: 0px 10px;
+  }
+  .jump-name{
+    margin-left: 5px;
   }
 }
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-  .preloader-progress {
-    width: 150px;
-    height: 150px;
-    background-size: 150px 150px;
-  }
-  /*@noflip*/
-  .preloader-progress-bar {
-    background-size: 150px 150px;
-  }
-  .ribbon {
-     right: -5px; top: -5px;
-     width: 150px; height: 100px; 
-  }
-  .ribbon span {
-     font-size: 12px;
-     line-height: 24px;
-     width: 165px; display: block;
-     box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
-     top: 20px; right: -16px;
-  }
-  .yabrTile{
-    width: 100%;
-  } 
-  .yabrTile .tile-infos h4.title{
-    font-size: 14px;
-    padding: 0 15px;
-  }
-  .yabrTile .tile-infos p.date{
-    padding: 0 15px;
-    font-size: 10px;
-  }
-  .yabrTile .tile-infos .icons{
-    padding: 10px;
-  }
-  .yabrTile .tile-infos .icons i{
-    font-size: 14px; 
-    margin: 0 3px;
-  }
-  .yabrTile .tile-infos .icons span{
-    font-size: 12px;
-    margin: 0 3px;
-  }
-}
-@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+@media only screen and (min-width: 1200px) {
   .preloader-progress {
     width: 200px;
     height: 200px;
@@ -10018,6 +9940,24 @@ flot .legend .legendColorBox > div > div {
   .preloader-progress-bar {
     background-size: 200px 200px;
   }
+  .slider-wrap{
+    width: 1140px;
+  }
+  .yabrTile.deckgrid{
+    width: 1140px;
+  }
+  .yabrTile.deckgrid .column.size-1-3{
+    width: 380px;
+  }
+  .column:nth-child(3n) .yabrTile-body{
+    margin: 0px 0px 30px 10px;
+  }
+  .column:nth-child(3n+1) .yabrTile-body{
+    margin: 0px 10px 30px 0px;
+  } 
+  .column:nth-child(3n+2) .yabrTile-body{
+    margin: 0px 5px 30px;
+  } 
   .ribbon {
      right: -5px; top: -5px;
      width: 170px; height: 100px;
@@ -10029,34 +9969,6 @@ flot .legend .legendColorBox > div > div {
      box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
      top: 22px; right: -18px;
   }
-  .jump-in-wrap a.jump{
-    width: 100%;
-  }
-}
-@media only screen and (min-width: 1400px) {
-  .ribbon {
-     position: absolute;
-     right: -5px; top: -5px;
-     z-index: 1;
-     overflow: hidden;
-     width: 200px; height: 120px; 
-     text-align: right;
-  }
-  .ribbon span {
-     font-size: 14px;
-     color: #fff; 
-     text-transform: uppercase; 
-     text-align: center;
-     font-weight: bold; line-height: 30px;
-     transform: rotate(30deg);
-     -webkit-transform: rotate(30deg); /* Needed for Safari */
-     width: 220px; display: block;
-     background: #8F0808;
-     background: linear-gradient(#F70505 0%, #8F0808 100%);
-     box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 1);
-     position: absolute;
-     top: 29px; right: -22px;
-  } 
 }
 /* ========================================================================
    title: Login page style;
