@@ -31,7 +31,8 @@
             'app.topnavbar',
             'app.feeds',
             'app.nets',
-            'app.net-tiles'
+            'app.net-tiles',
+            'app.profile'
         ]);
 })();
 
@@ -823,7 +824,12 @@
                 title: 'Login',
                 templateUrl: helper.basepath('login.html')
             })
-
+            .state('app.profile', {
+                url: '/profile',
+                title: 'Profile',
+                controller: 'profileController',
+                templateUrl: helper.basepath('profile.html')
+            })
           // 
           // CUSTOM RESOLVES
           //   Add your own resolves properties
@@ -3711,6 +3717,9 @@
         else
           $('.dropdown').addClass('open');
       }
+      $scope.hideMenu = function() {        
+        angular.element('.open').removeClass('open');
+      }
     }
 })();
 
@@ -4389,7 +4398,7 @@
  * used in My Nets page.
  * Author: Ryan - 2015.10.9
  =========================================================*/
- (function() {
+(function() {
     'use strict';
 
     angular
@@ -4430,7 +4439,7 @@
  * used in Net Tiles page.
  * Author: Ryan - 2015.10.20
  =========================================================*/
- (function() {
+(function() {
     'use strict';
 
     angular
@@ -4540,5 +4549,63 @@
             $log.info('Modal dismissed at: ' + new Date());
           });
         }
+    }
+})();
+
+/**=========================================================
+ * profileController: Controller for a Profile page
+ * used in Profile page.
+ * Author: Marcin - 2015.11.11
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.profile', ['ngAnimate', 'ui.bootstrap'])
+        .controller('profileController', profileController);
+
+    function profileController($scope, $http) {
+      $scope.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+      // Get profile Attributes
+      $http.get('http://data.yabrfish.com/yfapi/lookupservice/viewerattributes')
+        .success(function(data) {
+          $scope.attrs = data;
+        });
+
+      // Get profile infos
+      $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes')
+        .success(function(data) {
+          $scope.infos = data;
+          
+          // Get Birthday          
+          $scope.birthday = new Date($scope.infos[0].attributeValueDate);
+          var birth_date = $scope.birthday.getDate();
+          if(birth_date>3 && birth_date<21){
+            birth_date = birth_date + 'th';
+          }else{
+            switch (birth_date % 10) {
+                case 1:  birth_date = birth_date + "st";
+                case 2:  birth_date = birth_date + "nd";
+                case 3:  birth_date = birth_date + "rd";
+                default: birth_date = birth_date + "th";
+            }
+          }
+          var birth_month = $scope.monthNames[$scope.birthday.getMonth()];
+          var birth_year = $scope.birthday.getFullYear();
+          $scope.birthday = birth_date + " " + birth_month + " " + birth_year;
+
+          // Get Sex
+          $scope.sex = $scope.infos[2].attributeValueText;
+
+          // Get Job
+          $scope.job = $scope.infos[1].attributeValueText;
+
+          // Get Location
+          $scope.location = $scope.infos[3].attributeValueText;
+
+          // Get Bio Text
+          $scope.bio = $scope.infos[4].attributeValueText;
+        });      
     }
 })();

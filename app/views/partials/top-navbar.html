@@ -48,11 +48,11 @@
          </li> -->
          <!-- User -->
          <li class="user dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" ng-click="toggleItem()">
+            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="toggleItem()">
                <img src="app/img/user/14.png" alt="Bill" class="img-circle" /></span>
             </a>
             <ul class="dropdown-menu" role="menu">
-               <li><a href="app/views/profile.html">Profile</a></li>
+               <li><a ng-href="{{'#/app/profile'}}" ng-click="hideMenu()">Profile</a></li>
                <li><a href="app/views/messages.html">Messages</a></li>
                <li><a href="app/views/login.html">Login</a></li>
             </ul>

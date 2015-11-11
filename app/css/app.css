@@ -10379,3 +10379,52 @@ body.login .lock-container .panel .forgot-password {
 .createTile-buttons button.cancel-btn{
   margin-right: 0;
 }
+/* ========================================================================
+   title: Profile Page Style
+   author: Marcin
+   date: 2015.11.11
+ ========================================================================== */
+.profile-wrap{
+  width: 100%;
+  display: inline-block;
+}
+.block{
+  background: #fff;
+  width: 100%;
+  padding: 10px 20px 20px;
+  margin-bottom: 30px;
+}
+.profile-header{
+  border-bottom: 1px solid #e4e4e4;
+  display: inline-block;
+  width: 100%;
+}
+.profile-header img{
+  width: 15px;
+}
+.profile-header span{
+  color: #333;
+  margin-left: 15px;
+}
+.profile-header h4{
+  float: left;
+  width: calc(100% - 100px);
+  margin: 10px 0;
+}
+.profile-header .edit_info{
+  float: right;
+  text-decoration: none;
+  color: #333;
+  width: 100px;
+  margin-top: 10px;
+}
+.infos{
+  margin-top: 20px;
+}
+.infos i{
+  font-size: 16px;
+}
+.infos span{
+  margin-left: 15px;
+  font-size: 14px;
+}
