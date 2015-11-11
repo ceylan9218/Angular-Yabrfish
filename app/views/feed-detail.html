@@ -49,69 +49,40 @@
       </div>
       <loading></loading>
       <div class="video-list" ng-if="card.videoList">
-         <h4>Video List</h4>
+         <h4>Play List</h4>
          <ul ng-if="card.videoType == 'syco'">
-            <li ng-repeat="video in card.videoList track by $index">
-               <a class="video" ng-click="videoPlay(card, video);">{{card.videoTitles[$index]}}</a>
+            <li ng-repeat="video in card.videoList track by $index">            
+               <a class="video" ng-click="videoPlay(card, video);">
+                  <div class="videoImage-wrap">
+                     <img class="videoImg" src="{{card.videoImages[$index]}}">
+                     <img class="videoIcon" src="app/img/tv-icon.png">
+                  </div>
+                  <div class="video-infos">
+                     <span>{{card.videoTitles[$index]}}</span>
+                     <span class="videoType">Sail TV</span>                     
+                  </div>
+               </a>
             </li>
          </ul>
          <ul ng-if="card.videoType == 'youtube'">
             <li ng-repeat="video in card.videoTitles track by $index">
-               <a class="video" ng-click="youtubeVideoPlay(card)">{{card.videoTitles[$index]}}</a>
+               <a class="video" ng-click="youtubeVideoPlay(card)">
+                  <img src="{{card.videoImages[$index]}}">
+                  <span>{{card.videoTitles[$index]}}</span>
+                  <span>YouTube</span>
+               </a>
             </li>
          </ul>
       </div>
-      <accordion class="extend-wrap" ng-if="card.extendWrap && card.tileType != 'offer'" close-others="false">
-         <accordion-group ng-if="card.tileType == 'event'" is-open="card.showJumpIn">
-            <accordion-heading>
-               <img src="app/img/jump-in.png">Jump in <i class="pull-right fa" ng-class="{'fa-angle-up': events.open, 'fa-angle-down': !events.open}"></i>
-            </accordion-heading>
-            <div class="jump-in-wrap">
-               <a class="jump event" ng-class="{'active': card.showEvents}" ng-click="jumpSection(card, 'events');">
-                  <img src="app/img/event.png" ng-if="!card.showEvents">
-                  <img src="app/img/event-o.png" ng-if="card.showEvents">
-                  <span class="jump-name" ng-class="{'active': card.showEvents}">Events</span>
-               </a>
-               <a class="jump races" ng-class="{'active': card.showRaces}" ng-click="jumpSection(card, 'races');">
-                  <img src="app/img/results.png" ng-if="!card.showRaces">
-                  <img src="app/img/results-o.png" ng-if="card.showRaces">
-                  <span class="jump-name" ng-class="{'active': card.showRaces}">Races</span>
-               </a>
-               <a class="jump enter" ng-class="{'active': card.showEnter}" ng-click="jumpSection(card, 'enter');">
-                  <img src="app/img/enter.png" ng-if="!card.showEnter">
-                  <img src="app/img/enter-o.png" ng-if="card.showEnter">
-                  <span class="jump-name" ng-class="{'active': card.showEnter}">Enter</span>
-               </a>
-               <a class="jump participants" ng-class="{'active': card.showParticipants}" ng-click="jumpSection(card, 'participants');">
-                  <img src="app/img/participants.png" ng-if="!card.showParticipants">
-                  <img src="app/img/participants-o.png" ng-if="card.showParticipants">
-                  <span class="jump-name" ng-class="{'active': card.showParticipants}">Participants</span>
-               </a>
-               <a class="jump crew" ng-class="{'active': card.showCrew}" ng-click="jumpSection(card, 'crew');">
-                  <img src="app/img/crew.png" ng-if="!card.showCrew">
-                  <img src="app/img/crew-o.png" ng-if="card.showCrew">
-                  <span class="jump-name" ng-class="{'active': card.showCrew}">Crew</span>
-               </a>
-               <a class="jump action-replay" ng-class="{'active': card.showActionReplay}" ng-click="jumpSection(card, 'action-replay');">
-                  <img src="app/img/action-replay.png" ng-if="!card.showActionReplay">
-                  <img src="app/img/action-replay-o.png" ng-if="card.showActionReplay">
-                  <span class="jump-name" ng-class="{'active': card.showActionReplay}">Action Replay</span>
-               </a>
-               <a class="jump location" ng-class="{'active': card.showLocation}" ng-click="jumpSection(card, 'location');">
-                  <img src="app/img/location.png" ng-if="!card.showLocation">
-                  <img src="app/img/" ng-if="card.showLocation">
-                  <span class="jump-name" ng-class="{'active': card.showLocation}">Location</span>
-               </a>
-               <a class="jump weather" ng-class="{'active': card.showWeather}" ng-click="jumpSection(card, 'weather');">
-                  <img src="app/img/location.png" ng-if="!card.showWeather">
-                  <img src="app/img/" ng-if="card.showWeather">
-                  <span class="jump-name" ng-class="{'active': card.showWeather}">Weather</span>
-               </a>
-            </div>
-         </accordion-group>
-         <accordion-group is-open="card.showJumpIn && card.showEvents">
+      <accordion class="extend-wrap" ng-if="card.extendWrap && card.tileType == 'event'" close-others="false">         
+         <accordion-group is-open="card.showEvents">
             <accordion-heading class="event-header">
-               <img src="app/img/event.png">Events<i class="pull-right fa" ng-class="{'fa-angle-up': events.open, 'fa-angle-down': !events.open}"></i>
+               <img src="app/img/event.png">Events
+               <i class="pull-right fa" ng-class="{'fa-angle-up': card.showEvents, 'fa-angle-down': !card.showEvents}"></i>
+               <p ng-if="card.eventName && card.className && card.showEvents">
+                  <span>{{card.eventName}}</span>
+                  <span>/{{card.className}}</span>
+               </p>               
             </accordion-heading>
             <div class="section">
                <div class="event-wrap">
@@ -120,7 +91,7 @@
                   </div>
                   <div class="events">
                      <div class="event-slider" ng-style="{'transform': card.transform, '-webkit-transform': card.transform, '-ms-transform': card.transform, '-moz-transform': card.transform, '-o-transform': card.transform, 'width': card.eventSliderWidth}" ng-show="card.showEventSlider">
-                        <div class="slide animation" ng-repeat="event in card.event_cals" ng-style="{'width': card.eventWidth}" ng-click="getClasses(card, event.eventId)">
+                        <div class="slide animation" ng-repeat="event in card.event_cals" ng-style="{'width': card.eventWidth}" ng-click="getClasses(card, event.eventId, event.name)" ng-class="{'selected': card.selectedEvent == event.eventId}">
                            <div class="calendar-wrap">
                               <img class="calendar" src="app/img/cal-icon.png" alt="">
                               <span class="month">{{event.month}}</span>
@@ -144,80 +115,77 @@
                      </div>
                      <div class="classes">
                         <div class="class-slider" ng-style="{'transform': card.classTransform, '-webkit-transform': card.classTransform, '-ms-transform': card.classTransform, '-moz-transform': card.classTransform, '-o-transform': card.classTransform, 'width': card.classSliderWidth}"  ng-show="card.showClass">
-                           <div class="class-slide animation" ng-repeat="class in card.classes" ng-style="{'width': card.classWidth}" ng-click="getRaces(card, class)">
+                           <div class="class-slide animation" ng-repeat="class in card.classes" ng-style="{'width': card.classWidth}" ng-click="getRaces(card, class)" ng-class="{'selected': card.selectedClass == class}">
                               <div class="class-img">
                                  <img src="{{class.flag}}" alt="">
+                                 <span class="class-name">{{class.name}}</span>
                               </div>
-                              <h4 class="class-name">{{class.name}}</h4>                              
                            </div>
                         </div>
                      </div>
                      <div class="right-arrow arrow">
                         <a href ng-click="slideClasses('right', card)"><i class="pull-right fa fa-angle-right"></i></a>
                      </div>
-                  </div>
-                  <div class="races-wrap" ng-if="card.races && card.races.length != 0">
-                     <h4>Races</h4>
-                     <ul class="races">
-                        <li class="race" ng-repeat="race in card.races">
-                           <span class="race-name">{{race.name}}</span>
-                           <button class="race-btn btn" ng-click="getResult(race)">Result</button>
-                           <span class="race-date">{{race.race_date}}</span>
-                           <div class="result-wrap" ng-if="race.results.length > 0 && race.showResult">
-                              <ul infinite-scroll='loadMore(card)' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='1'>
-                                 <li ng-repeat="result in race.results">
-                                    <span class="position" ng-class="{'gold': result.position == '1', 'silver': result.position == '2', 'bronze': result.position == '3', 'blue': result.position != '1' && result.position != '2' && result.position != '3'}" ng-if="result.position != 'DNC'">{{result.position}}</span>
-                                    <span class="position red" ng-if="result.position == 'DNC'">{{result.positionDesc}}</span>
-                                    <div class="race-info">
-                                       <span class="equipmentOwner">{{result.equipmentOwner}}</span>
-                                       <span class="equipmentName">{{result.equipmentName}}</span>
-                                       &nbsp;<span class="equipmentName">{{result.sailNumber}}</span>
-                                    </div>
-                                 </li>
-                                 <div ng-show='reddit.busy'>Loading data...</div>
-                              </ul>
-                           </div>
-                        </li>
-                     </ul>
                   </div>               
                </div>            
             </div>
          </accordion-group>
-         <accordion-group is-open="card.showJumpIn && card.showRaces">
+         <accordion-group is-open="card.showRaces" is-disabled="card.isRace">
             <accordion-heading class="races-header">
-               <img src="app/img/results.png">Races<i class="pull-right fa" ng-class="{'fa-angle-up': events.open, 'fa-angle-down': !events.open}"></i>
+               <img src="app/img/results.png">Races<i class="pull-right fa" ng-class="{'fa-angle-up': card.showRaces, 'fa-angle-down': !card.showRaces}"></i>
             </accordion-heading>
             <div>
-               Races
+               <div class="races-wrap" ng-if="card.races && card.races.length != 0">
+                  <ul class="races">
+                     <li class="race" ng-repeat="race in card.races">
+                        <span class="race-name">{{race.name}}</span>
+                        <button class="race-btn btn" ng-click="getResult(race)">Result</button>
+                        <span class="race-date">{{race.race_date}}</span>
+                        <div class="result-wrap" ng-if="race.results.length > 0 && race.showResult">
+                           <ul>
+                              <li ng-repeat="result in race.results">
+                                 <span class="position" ng-class="{'gold': result.position == '1', 'silver': result.position == '2', 'bronze': result.position == '3', 'blue': result.position != '1' && result.position != '2' && result.position != '3'}" ng-if="result.positionDesc != 'DNC'">{{result.position}}</span>
+                                 <span class="position red" ng-if="result.positionDesc == 'DNC'">{{result.position}}</span>
+                                 <div class="race-info">
+                                    <span class="equipmentOwner">{{result.equipmentOwner}}</span>
+                                    <span class="equipmentName">{{result.equipmentName}}</span>
+                                    &nbsp;<span class="equipmentName">{{result.sailNumber}}</span>
+                                 </div>
+                              </li>
+                           </ul>
+                        </div>
+                     </li>
+                  </ul>
+               </div>
             </div>
          </accordion-group>
-         <accordion-group is-open="card.showJumpIn && card.showEnter">
+         <accordion-group is-open="card.showEnter">
             <accordion-heading class="enter-header">
-               <img src="app/img/enter.png">Enter<i class="pull-right fa" ng-class="{'fa-angle-up': events.open, 'fa-angle-down': !events.open}"></i>
+               <img src="app/img/enter.png">Enter<i class="pull-right fa" ng-class="{'fa-angle-up': card.showEnter, 'fa-angle-down': !card.showEnter}"></i>
             </accordion-heading>
             <div>
                Enter
             </div>
          </accordion-group>
-         <accordion-group is-open="card.showJumpIn && card.showParticipants">
+         <accordion-group is-open="card.showParticipants">
             <accordion-heading class="participant-header">
-               <img src="app/img/participants.png">Participants<i class="pull-right fa" ng-class="{'fa-angle-up': events.open, 'fa-angle-down': !events.open}"></i>
+               <img src="app/img/participants.png">Participants<i class="pull-right fa" ng-class="{'fa-angle-up': card.showParticipants, 'fa-angle-down': !card.showParticipants}"></i>
             </accordion-heading>
             <div>
                Participants
             </div>
          </accordion-group>
-         <accordion-group is-open="card.showJumpIn && card.showCrew">
+         <accordion-group is-open="card.showCrew">
             <accordion-heading class="crew-header">
-               <img src="app/img/crew.png">Crew<i class="pull-right fa" ng-class="{'fa-angle-up': events.open, 'fa-angle-down': !events.open}"></i>
+               <img src="app/img/crew.png">Crew<i class="pull-right fa" ng-class="{'fa-angle-up': card.showCrew, 'fa-angle-down': !card.showCrew}"></i>
             </accordion-heading>
             <div>
                Crew
             </div>
          </accordion-group>
-         <accordion-group is-open="card.showJumpIn && card.showActionReplay">
+         <accordion-group is-open="card.showActionReplay">
             <accordion-heading class="actionReplay-header">
-               <img src="app/img/action-replay.png">Action Replay<i class="pull-right fa" ng-class="{'fa-angle-up': events.open, 'fa-angle-down': !events.open}"></i>
+               <img src="app/img/action-replay.png">Action Replay<i class="pull-right fa" ng-class="{'fa-angle-up': card.showActionReplay, 'fa-angle-down': !card.showActionReplay}"></i>
             </accordion-heading>
             <div>
                Action Replay

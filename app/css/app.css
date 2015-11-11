@@ -8269,7 +8269,7 @@ ul[rn-carousel] {
   width: 100px;
 }
 .deckgrid {
-  margin: 0 auto;
+  margin: 10px auto 0;
   padding: 10px;
   max-width: 100%;
 }
@@ -9368,6 +9368,13 @@ flot .legend .legendColorBox > div > div {
 .panel .panel-heading a.accordion-toggle i{
   color: #3abeef;
 }
+.panel .panel-heading a.accordion-toggle p{
+  margin: 10px 0 0;
+  text-align: center;
+}
+.panel .panel-heading a.accordion-toggle p span{
+  color: #3abeef;  
+}
 .tile-infos .panel-group .panel{
     border-width: 1px medium medium;
     border-style: solid none none;
@@ -9375,30 +9382,17 @@ flot .legend .legendColorBox > div > div {
     border-radius: 0px;
     margin-top: 0;
     box-shadow: none;
-    border-top: none;
-}
-.tile-infos .panel-group .panel:nth-of-type(1){
-  border-top: 1px solid #e4e4e4;
 }
 .tile-infos .panel-group .panel .panel-body{
   margin: 0 15px;
   padding: 0;
   border-top: 1px solid #e4e4e4;
 }
-.tile-infos .panel-group .panel:nth-of-type(1) .panel-body{
-  border-top: 1px solid #e4e4e4;  
-}
 .tile-infos .panel-group .panel .panel-heading{
-  display: none;
-}
-.tile-infos .panel-group .panel:nth-of-type(1) .panel-heading{
-  padding: 15px;
+  padding: 10px 15px;
   display: inline-block;
   width: 100%;
 }
-/*.tile-infos accordion .panel-group{
-  margin: 0;
-}*/
 .tile-infos .panel-group .panel .collapse{
   display: block;
   overflow: hidden;
@@ -9497,8 +9491,59 @@ flot .legend .legendColorBox > div > div {
 }
 .video-list{
   border-top: 1px solid #C1C1C1;
-  padding: 20px;
-  width: 100%;  
+  padding: 0 10px 20px;
+  width: 100%;
+  display: inline-block;
+}
+.video-list h4{
+  color: #333;
+}
+.video-list ul {
+  padding: 0 10px;
+}
+.video-list ul li{
+  list-style: none;
+  border-top: 1px solid #e4e4e4;
+  padding: 5px 0;
+  display: inline-block;
+  width: 100%;
+}
+.video-list ul li:last-child{
+  border-bottom: 1px solid #e4e4e4; 
+}
+.video-list ul li a .videoImage-wrap{
+  width: 50px;
+  float: left;
+  display: table;
+  position: relative;
+  line-height: 50px;
+}
+.video-list ul li a .videoImage-wrap img.videoImg{
+  width: 100%;
+  vertical-align: middle;
+  display: table-cell;
+}
+.video-list ul li a img.videoIcon{
+  width: 20px;
+  position: absolute;
+  left: calc(50% - 10px);
+  top: 15px;
+}
+.video-list ul li a .video-infos{
+  color: #333;
+  margin-left: 10px;
+  display: inline-block;
+  width: calc(100% - 60px);
+  line-height: 1;
+  margin-top: 3px;
+}
+.video-list ul li a span.videoType{
+  clear: both;
+  color: #333;
+  width: 100%;
+  float: left;
+  margin-top: 5px;
+  font-size: 12px;
 }
 .section {
 }
@@ -9509,7 +9554,7 @@ flot .legend .legendColorBox > div > div {
   margin: 0 auto;
 }
 .classes{
-  min-height: 90px;
+  min-height: 40px;
 }
 .event-slider, .class-slider {
   width: 100%;
@@ -9526,7 +9571,19 @@ flot .legend .legendColorBox > div > div {
   display: inline-block;
   float: left;
 }
-.slide .event-name, .class-slide .class-name{
+.class-img{
+  height: 40px;
+  line-height: 35px;
+  display: table;
+  width: 100%;
+}
+.class-slide.selected .class-name{
+  color: #3ABEEF;
+}
+.class-name:hover{
+  color: #3ABEEF;  
+}
+.slide .event-name{
   color: #333;
   font-weight: normal;
   font-size: 16px;
@@ -9534,6 +9591,13 @@ flot .legend .legendColorBox > div > div {
   text-align: center;
   width: 80%;
   margin: 10px auto;
+}
+.class-slide .class-name{
+  color: #333;
+  font-weight: normal;
+  font-size: 16px;
+  white-space: normal;
+  margin-left: 7px;
 }
 .arrow{
   width: 5%;
@@ -9591,9 +9655,12 @@ flot .legend .legendColorBox > div > div {
   margin-left: 10px;
 }
 .class-img img{
-  width: 50px;
-  margin: 0 auto;
-  display: table;
+  width: 25px;
+  display: table-cell;
+  vertical-align: middle;
+}
+.slide.selected .event-name{
+  color: #3ABEEF;
 }
 .event-name:hover{
   cursor: pointer;
@@ -9703,44 +9770,6 @@ flot .legend .legendColorBox > div > div {
   width: 100%;
   display: inline-block;
 }
-.jump-in-wrap{
-  width: 96%;
-  display: table;
-  margin: 10px auto;
-}
-.jump-in-wrap a.jump{
-  padding: 0px 15px;
-  border: 1px solid #cbcbcb;
-  border-radius: 7px;
-  width: 48%;
-  height: 50px;
-  display: inline-block;
-  float: left;
-  margin-bottom: 15px;
-  line-height: 50px;
-}
-.jump-in-wrap img{
-  width: 20px;
-  margin-top: -3px;
-}
-.jump-in-wrap a.jump:nth-child(2n){
-  float: right;
-}
-.jump:hover{
-  text-decoration: none;
-}
-.jump-in-wrap a.jump.active{
-  background: #3abeef;
-  border-color: #3abeef;
-}
-.jump-name{
-  color: #333;
-  margin-left: 10px;  
-  font-size: 14px;
-}
-.jump-name.active{
-  color: #fff;
-}
 @media only screen and (min-width: 320px)  and (max-width: 479px) {
   .events img.calendar{
     width: 40px;
@@ -9759,7 +9788,11 @@ flot .legend .legendColorBox > div > div {
 }
 /*-----------------------Radar Page Responsive-----------------------------------------*/
 @media only screen and (max-width: 767px) {
-
+  .nav-wrapper{
+    width: 290px;
+    margin: 0 auto;
+    position: relative;
+  }
   .preloader-progress {
     width: 100px;
     height: 100px;
@@ -9845,21 +9878,17 @@ flot .legend .legendColorBox > div > div {
   .yabrTile .tile-infos .icons a.dots img{
     width: 15px;
   }
-  .jump-in-wrap a.jump{
-    padding: 0px 5px;
-    height: 40px;
-    line-height: 40px;
-  }
-  .jump-in-wrap img{
-    width: 15px;
-  }
-  .jump-name{
-    margin-left: 5px;
-    font-size: 12px;
+  .class-slide .class-name{
+    margin-left: 3px;
+    font-size: 14px;
   }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1199px) {
+  .nav-wrapper{
+    width: 708px;
+    margin: 0 auto;    
+  }
   .preloader-progress {
     width: 150px;
     height: 150px;
@@ -9871,14 +9900,14 @@ flot .legend .legendColorBox > div > div {
   }
   .ribbon {
      right: -5px; top: -5px;
-     width: 100px; height: 70px; 
+     width: 150px; height: 100px; 
   }
   .ribbon span {
-     font-size: 8px;
-     line-height: 18px;
-     width: 110px; display: block;
+     font-size: 12px;
+     line-height: 24px;
+     width: 165px; display: block;
      box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
-     top: 13px; right: -11px;
+     top: 20px; right: -16px;
   }
   .slider-wrap{
     width: 708px;
@@ -9890,10 +9919,10 @@ flot .legend .legendColorBox > div > div {
     width: 354px;
   } 
   .column:nth-child(2n) .yabrTile-body{
-    margin: 0 0px 30px 10px;
+    margin: 0 0px 30px 15px;
   }
   .column:nth-child(2n+1) .yabrTile-body{
-    margin: 0 10px 30px 0;
+    margin: 0 15px 30px 0;
   }
   .yabrTile .tile-infos h4.title{
     font-size: 14px;
@@ -9923,14 +9952,12 @@ flot .legend .legendColorBox > div > div {
   .yabrTile .tile-infos .icons a.dots img{
     width: 20px;
   }
-  .jump-in-wrap a.jump{
-    padding: 0px 10px;
-  }
-  .jump-name{
-    margin-left: 5px;
-  }
 }
 @media only screen and (min-width: 1200px) {
+  .nav-wrapper{
+    width: 1140px;
+    margin: 0 auto;
+  }
   .preloader-progress {
     width: 200px;
     height: 200px;
@@ -9950,13 +9977,13 @@ flot .legend .legendColorBox > div > div {
     width: 380px;
   }
   .column:nth-child(3n) .yabrTile-body{
-    margin: 0px 0px 30px 10px;
+    margin: 0px 0px 30px 15px;
   }
   .column:nth-child(3n+1) .yabrTile-body{
-    margin: 0px 10px 30px 0px;
+    margin: 0px 15px 30px 0px;
   } 
   .column:nth-child(3n+2) .yabrTile-body{
-    margin: 0px 5px 30px;
+    margin: 0px 7.5px 30px;
   } 
   .ribbon {
      right: -5px; top: -5px;

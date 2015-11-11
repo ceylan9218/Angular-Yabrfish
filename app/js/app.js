@@ -3852,6 +3852,7 @@
           $scope.loading = true;
           element.videoList = [];
           element.videoTitles = [];
+          element.videoImages = [];
           element.videoType = '';
           element.youtube = {
             config: {}
@@ -3866,20 +3867,21 @@
                 if(data.contentList && data.contentList.length>0){
                   element.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
                   if(element.videoType == 'youtube'){
-                    element.vid = data.contentList[0].externalRefs[0].externalContentId;                      
-                    for( var i in data.contentList ){
+                    element.vid = data.contentList[0].externalRefs[0].externalContentId;
+                    for( var i in data.contentList ){                      
                       element.videoTitles[i] = data.contentList[i].title;
                     }
                   }else if (element.videoType == 'syco') {
-                    for( var i in data.contentList ){
+                    for( var i = 0; i < data.contentList.length; i++ ){
                       var vid = data.contentList[i].externalRefs[0].externalContentId;
                       $http.get('http://api1.syndicatecontent.com/Sc.Content.Api.External/ScContentExt/inventory/'+vid+'?mediaformatid=9&vendortoken=B9C333B9-54F3-40B6-8C34-7A6512955B98')
                         .success(function(data) {
                             if(data.resources[0].medias[0].hostId){
-                              element.videoList[i] = data.resources[0].medias[0];
+                              element.videoList.push(data.resources[0].medias[0]);
                             }
-                        })
-                      element.videoTitles[i] = data.contentList[i].title;
+                        });
+                      element.videoTitles.push(data.contentList[i].title);
+                      element.videoImages.push(data.contentList[i].creatives[0].url);
                     }
                   }
                 }
@@ -3889,7 +3891,6 @@
 
         $scope.videoPlay = function(element, video) {
           $rootScope.youtubePlay = false;
-
           if(element.videoType == 'syco'){           
             element.hls_source = video.clientPlayBackUrl + video.url;
             $rootScope.$broadcast( "linkChanged", element.hls_source, element.externalId);
@@ -3985,7 +3986,7 @@
             if( element.tileType == 'event' ){
               element.event_cals = [];
               element.classes = [];
-              element.showJumpIn = true;
+              element.isRace = true;
 
               $http.get('http://data.yabrfish.com/yfapi/tileservice/tiles/'+ element.externalId +'/events')
                 .success(function(data) {
@@ -4021,10 +4022,11 @@
                           eventId: element.events[0].externalId,
                           classId: element.classes_data[i].externalId,
                           flag: flag,
+                          eventName: element.events[0].name,
                           name: element.classes_data[i].name
                         });
                       }
-                      element.classWidth = angular.element('.classes').width() / 4;
+                      element.classWidth = angular.element('.classes').width() / 3;
                       element.classSliderWidth = element.classWidth * element.classes.length;
                       element.showClass = true;
                     });
@@ -4089,8 +4091,8 @@
         }
 
         $scope.slideClasses = function(dir, element){
-            var classWidth = angular.element('.classes').width() / 4;
-            var endTranslate = (element.classes.length - 4) * classWidth * -1;
+            var classWidth = angular.element('.classes').width() / 3;
+            var endTranslate = (element.classes.length - 3) * classWidth * -1;
 
             if(!element.classTranslate)
               element.classTranslate = 0;
@@ -4102,7 +4104,7 @@
               else
                 element.classTranslate = 0;
             } else {
-              if(element.classes.length > 4){
+              if(element.classes.length > 3){
                 element.classTranslate -= classWidth;
                 if(element.classTranslate >= endTranslate)
                   element.classTransform = "translate("+element.classTranslate+"px, 0px)";
@@ -4114,7 +4116,9 @@
             }
         }
 
-        $scope.getClasses = function(element, eventId){
+        $scope.getClasses = function(element, eventId, eventName){
+          element.selectedEvent = eventId;
+
           // Get Classes for Event.
           $http.get('http://data.yabrfish.com/yfapi/tileservice/events/'+ eventId +'/classes')
             .success(function(data) {
@@ -4132,6 +4136,7 @@
                   eventId: eventId,
                   classId: element.classes_data[i].externalId,
                   flag: flag,
+                  eventName: eventName,
                   name: element.classes_data[i].name
                 });
               }
@@ -4139,6 +4144,10 @@
         }
 
         $scope.getRaces = function(element, classElm){
+          element.selectedClass = classElm;
+          element.eventName = classElm.eventName;
+          element.className = classElm.name;
+
           var eventId = classElm.eventId;
           var classId = classElm.classId;
           element.races = [];
@@ -4149,8 +4158,12 @@
               element.races = data;
               
               if(element.races.length == 0){
+                element.isRace = true;
+                element.showRaces = false;
                 var message = 'No Races!';
                 Flash.create('danger', message);
+              }else{
+                element.isRace = false;
               }
 
               for(var i in element.races){
@@ -4188,6 +4201,7 @@
             var eventId = race.eventId;
             var classId = race.classId;
             var raceId = race.externalId;
+
             $http.get('http://data.yabrfish.com/yfapi/tileservice/events/'+eventId+'/classes/'+classId+'/races/'+raceId+'/results')
               .success(function(data){
                 race.results = data;
@@ -4199,67 +4213,10 @@
                 
                 for(var i in race.results){
                   if(isNaN(race.results[i].positionDesc))
-                    race.results[i].position = "DNC";
+                    race.results[i].positionDesc = "DNC";
                 }
               })
           }
-        }
-
-        $scope.jumpSection = function(element, section){
-          switch(section){
-            case 'events':
-              element.showEvents = true;
-              element.showRaces = false;
-              element.showEnter = false;
-              element.showParticipants = false;
-              element.showCrew = false;
-              element.showActionReplay = false;
-              break;
-            case 'races':
-              element.showEvents = false;
-              element.showRaces = true;
-              element.showEnter = false;
-              element.showParticipants = false;
-              element.showCrew = false;
-              element.showActionReplay = false;
-              break;
-            case 'enter':
-              element.showEvents = false;
-              element.showRaces = false;
-              element.showEnter = true;
-              element.showParticipants = false;
-              element.showCrew = false;
-              element.showActionReplay = false;
-              break;
-            case 'participants':
-              element.showEvents = false;
-              element.showRaces = false;
-              element.showEnter = false;
-              element.showParticipants = true;
-              element.showCrew = false;
-              element.showActionReplay = false;
-              break;
-            case 'crew':
-              element.showEvents = false;
-              element.showRaces = false;
-              element.showEnter = false;
-              element.showParticipants = false;
-              element.showCrew = true;
-              element.showActionReplay = false;
-              break;
-            case 'action-replay':
-              element.showEvents = false;
-              element.showRaces = false;
-              element.showEnter = false;
-              element.showParticipants = false;
-              element.showCrew = false;
-              element.showActionReplay = true;
-              break;
-          }
-        }
-
-        $scope.loadMore = function(element){
-          console.log(1);
         }
 
         $scope.filterFeeds = function() {
