@@ -9659,7 +9659,6 @@ flot .legend .legendColorBox > div > div {
 }
 .class-img img{
   width: 25px;
-  display: table-cell;
   vertical-align: middle;
 }
 .slide.selected .event-name{
@@ -9769,10 +9768,10 @@ flot .legend .legendColorBox > div > div {
   background: red;
 }
 .result-wrap .race-info{
-  width: calc(100% - 130px);
+  width: calc(100% - 135px);
   float: left;
   display: inline-block;
-  padding-left: 15px;
+  padding-left: 10px;
   color: #333;
 }
 .result-wrap .race-info span{
@@ -9785,21 +9784,36 @@ flot .legend .legendColorBox > div > div {
   margin-bottom: 5px;
 }
 .result-wrap .finish-time{
-  width: 90px;
+  width: 95px;
   float: right;
-  margin-top: 10px;
+  margin-top: 5px;
+  float: left;
 }
-.result-wrap .finish-time span{
+.time{
+  width: 33.33%;
+  float: left;
+  display: inline-block;
+}
+.time .seperator{
+  margin: 5px 1px;
+  display: inline-block;
+}
+.result-wrap .finish-time span.time-val{
+  background: #f8f8f8;
   text-align: center;
   display: table;
   float: left;
-  font-size: 14px;
-  margin-right: 2px;
+  font-size: 15px;
+  color: #333;
+  width: 25px;
+  border: 1px solid #e2e2e2;
+  padding: 5px 0;
+  letter-spacing: 2px;
 }
-.result-wrap .finish-time span.blue{
-  background: #3ABEEF;  
-  color: white;
-  width: 10px;
+.result-wrap .finish-time span.time-val .timer{
+  background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+  width: 100%;
+  display: inline-block;
 }
 .result-wrap .finish-time span.no-time{
   width: 50px;
