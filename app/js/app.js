@@ -922,9 +922,23 @@
         .module('app.sidebar')
         .controller('SidebarController', SidebarController);
 
-    SidebarController.$inject = ['$rootScope', '$scope', '$state', 'SidebarLoader', 'Utils'];
-    function SidebarController($rootScope, $scope, $state, SidebarLoader,  Utils) {
+    SidebarController.$inject = ['$rootScope', '$scope', '$state', 'SidebarLoader', 'Utils', '$location'];
+    function SidebarController($rootScope, $scope, $state, SidebarLoader,  Utils, $location) {
+        var path = $location.path();
+        // Show/Hide Profile Menu.
+        if(path == '/app/profile')
+          $scope.profileMenu = true;
+        else
+          $scope.profileMenu = false;
 
+        $scope.$on('$locationChangeStart', function(next, current) {
+          path = $location.path();
+          if(path == '/app/profile')
+            $scope.profileMenu = true;
+          else
+            $scope.profileMenu = false;
+        });
+        
         activate();
 
         ////////////////
@@ -940,13 +954,18 @@
           });
 
 
-          // Load menu from json file
+          // Load main menu from json file
           // ----------------------------------- 
-
-          SidebarLoader.getMenu(sidebarReady);
-          
+          SidebarLoader.getMenu(sidebarReady);          
           function sidebarReady(items) {
             $scope.menuItems = items;
+          }
+
+          // Load profile menu from json file
+          // ----------------------------------- 
+          SidebarLoader.getProfileMenu(sidebarProfileReady);
+          function sidebarProfileReady(items) {
+            $scope.profileMenuItems = items;
           }
 
           // Handle sidebar and collapse items
@@ -1209,11 +1228,24 @@
     SidebarLoader.$inject = ['$http'];
     function SidebarLoader($http) {
         this.getMenu = getMenu;
+        this.getProfileMenu = getProfileMenu;
 
         ////////////////
 
         function getMenu(onReady, onError) {
           var menuJson = 'server/sidebar-menu.json',
+              menuURL  = menuJson + '?v=' + (new Date().getTime()); // jumps cache
+            
+          onError = onError || function() { alert('Failure loading menu'); };
+
+          $http
+            .get(menuURL)
+            .success(onReady)
+            .error(onError);
+        }
+
+        function getProfileMenu(onReady, onError) {
+          var menuJson = 'server/sidebar-profile-menu.json',
               menuURL  = menuJson + '?v=' + (new Date().getTime()); // jumps cache
             
           onError = onError || function() { alert('Failure loading menu'); };

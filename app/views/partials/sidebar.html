@@ -46,7 +46,8 @@
       </div>
       <ul class="nav">
          <!-- Iterates over all sidebar items-->
-         <li ng-class="getMenuItemPropClasses(item)" ng-repeat="item in menuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'" ng-click="toggleCollapse(pIndex, true)"></li>
+         <li ng-class="getMenuItemPropClasses(item)" ng-show="!profileMenu" ng-repeat="item in menuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'" ng-click="toggleCollapse(pIndex, true)"></li>
+         <li ng-class="getMenuItemPropClasses(item)" ng-show="profileMenu" ng-repeat="item in profileMenuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'" ng-click="toggleCollapse(pIndex, true)"></li>
       </ul>
       <!-- END sidebar nav-->
    </nav>
