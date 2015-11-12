@@ -4223,6 +4223,10 @@
                 for(var i in race.results){
                   if(isNaN(race.results[i].positionDesc))
                     race.results[i].positionDesc = "DNC";
+
+                  // Get finishCorrected
+                  if(race.results[i].finishCorrected)
+                    race.results[i].finishCorrected = race.results[i].finishCorrected.split('.')[0].split('');
                 }
               })
           }

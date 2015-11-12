@@ -575,12 +575,12 @@ body {
   }
   .aside-collapsed.aside-toggled .nav-wrapper .nav.navbar-nav.left-navbar{
     position: absolute;
-    -webkit-transform: translate3d(290px, 0, 0);
+    /*-webkit-transform: translate3d(290px, 0, 0);
     transform: translate3d(290px, 0, 0);
     -webkit-transition: -webkit-transform 0.3s ease;
     -moz-transition: -moz-transform 0.3s ease;
     -o-transition: -o-transform 0.3s ease;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease;*/
   }
 }
 @media (max-width: 1140px) {
@@ -9234,11 +9234,11 @@ flot .legend .legendColorBox > div > div {
 .yabrTile .tile-infos .icons a.net-btn img{
   width: 20px;
 }
-.yabrTile .tile-infos .icons a.dots{
+.yabrTile .tile-infos .icons a.more{
   margin-right: 0;
 }
-.yabrTile .tile-infos .icons a.dots img{
-  width: 25px;
+.yabrTile .tile-infos .icons a.more img{
+  width: 70px;
 }
 .yabrTile .tile-infos .icons a i{
   color: #3abeef;
@@ -9413,7 +9413,7 @@ flot .legend .legendColorBox > div > div {
   padding: 10px 0;
   margin-right: 30px;
 }
-.tile-infos .panel-group .panel .panel-body ul li span{
+/*.tile-infos .panel-group .panel .panel-body ul li span{
   color: #333;
   font-size: 16px;
 }
@@ -9421,6 +9421,7 @@ flot .legend .legendColorBox > div > div {
   font-size: 14px;
   line-height: 2;
 }
+*/
 .tile-infos .panel-group .panel .panel-body ul li .alert-danger span{
   color: #a94442;
   font-size: 14px;
@@ -9589,15 +9590,17 @@ flot .legend .legendColorBox > div > div {
   font-size: 16px;
   white-space: normal;
   text-align: center;
-  width: 80%;
   margin: 10px auto;
 }
 .class-slide .class-name{
   color: #333;
   font-weight: normal;
-  font-size: 16px;
+  font-size: 14px;
   white-space: normal;
   margin-left: 7px;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
 }
 .arrow{
   width: 5%;
@@ -9687,9 +9690,14 @@ flot .legend .legendColorBox > div > div {
 .races-wrap ul li .race-date{
   float: right;
   margin-right: 10px;
+  font-size: 14px;
+  color: #333;
+  line-height: 2;
 }
 .races-wrap ul li span.race-name{
   padding-left: 10px;
+  color: #333;
+  font-size: 16px;
 }
 .offer-extend-wrap{
   border-top: 1px solid #e4e4e4;
@@ -9729,6 +9737,7 @@ flot .legend .legendColorBox > div > div {
 .result-wrap ul li{
   display: inline-block;
   width: 100%;
+  line-height: 1;
 }
 .result-wrap .position{
   width: 40px;
@@ -9742,13 +9751,16 @@ flot .legend .legendColorBox > div > div {
   float: left;
 }
 .result-wrap .position.gold{
-  background: #C98910;
+  background: #cd8a00;
+  border-color: #cd8a00;
 }
 .result-wrap .position.silver{
-  background: #A8A8A8;
+  background: #a8a8a8;
+  border-color: #a8a8a8;
 }
 .result-wrap .position.bronze{
-  background: #965A38;
+  background: #985a33;
+  border-color: #985a33;
 }
 .result-wrap .position.blue{
   background: #3ABEEF;
@@ -9757,10 +9769,11 @@ flot .legend .legendColorBox > div > div {
   background: red;
 }
 .result-wrap .race-info{
-  width: calc(100% - 40px);
+  width: calc(100% - 130px);
   float: left;
   display: inline-block;
   padding-left: 15px;
+  color: #333;
 }
 .result-wrap .race-info span{
   font-size: 14px !important;
@@ -9769,6 +9782,31 @@ flot .legend .legendColorBox > div > div {
 .result-wrap .race-info span.equipmentOwner{
   width: 100%;
   display: inline-block;
+  margin-bottom: 5px;
+}
+.result-wrap .finish-time{
+  width: 90px;
+  float: right;
+  margin-top: 10px;
+}
+.result-wrap .finish-time span{
+  text-align: center;
+  display: table;
+  float: left;
+  font-size: 14px;
+  margin-right: 2px;
+}
+.result-wrap .finish-time span.blue{
+  background: #3ABEEF;  
+  color: white;
+  width: 10px;
+}
+.result-wrap .finish-time span.no-time{
+  width: 50px;
+  color: #fff;
+  text-align: center;
+  float: right;
+  background: red;
 }
 @media only screen and (min-width: 320px)  and (max-width: 479px) {
   .events img.calendar{
@@ -9875,12 +9913,16 @@ flot .legend .legendColorBox > div > div {
   .yabrTile .tile-infos .icons a img{
     width: 15px;
   }
-  .yabrTile .tile-infos .icons a.dots img{
-    width: 15px;
+  .yabrTile .tile-infos .icons a.more img{
+    width: 60px;
   }
   .class-slide .class-name{
-    margin-left: 3px;
+    margin-left: 5px;
     font-size: 14px;
+    width: calc(100% - 30px);
+  }
+  .result-wrap .race-info{
+    padding-left: 10px;
   }
 }
 
@@ -9949,8 +9991,8 @@ flot .legend .legendColorBox > div > div {
   .yabrTile .tile-infos .icons a img{
     width: 15px;
   }
-  .yabrTile .tile-infos .icons a.dots img{
-    width: 20px;
+  .yabrTile .tile-infos .icons a.more img{
+    width: 60px;
   }
 }
 @media only screen and (min-width: 1200px) {
@@ -10413,7 +10455,7 @@ body.login .lock-container .panel .forgot-password {
  ========================================================================== */
 .profile-wrap{
   width: 100%;
-  display: inline-block;
+  margin: 0px auto;
 }
 .block{
   background: #fff;
@@ -10454,4 +10496,19 @@ body.login .lock-container .panel .forgot-password {
 .infos span{
   margin-left: 15px;
   font-size: 14px;
+}
+@media only screen and (max-width: 767px) {
+  .profile-wrap{
+    width: 290px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+  .profile-wrap{
+    width: 708px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .profile-wrap{
+    width: 1140px;
+  }
 }
