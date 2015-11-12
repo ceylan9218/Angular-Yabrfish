@@ -4226,7 +4226,7 @@
 
                   // Get finishCorrected
                   if(race.results[i].finishCorrected)
-                    race.results[i].finishCorrected = race.results[i].finishCorrected.split('.')[0].split('');
+                    race.results[i].finishCorrected = race.results[i].finishCorrected.split('.')[0].split(':');
                 }
               })
           }

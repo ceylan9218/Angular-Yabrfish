@@ -152,9 +152,12 @@
                                     &nbsp;{{result.sailNumber}}</span>
                                  </div>
                                  <div class="finish-time">
-                                    <span class="time-val" ng-repeat="time in result.finishCorrected track by $index" ng-class="{'blue': time != ':'}" ng-if="result.finishCorrected">
-                                       {{time}}
-                                    </span>
+                                    <div class="time" ng-repeat="time in result.finishCorrected track by $index" ng-if="result.finishCorrected">
+                                       <span class="time-val">
+                                          <span class="timer">{{time}}</span>
+                                       </span>                                       
+                                       <span class="seperator" ng-if="$index !=2"><b>:</b></span>
+                                    </div>
                                     <span class="no-time" ng-if="result.positionDesc == 'DNC'">{{result.positionDesc}}</span>
                                  </div>
                               </li>
