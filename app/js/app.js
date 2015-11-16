@@ -838,7 +838,13 @@
                 title: 'Profile',
                 controller: 'profileController',
                 templateUrl: helper.basepath('profile.html')
-            })            
+            })  
+            .state('app.profile-clubs', {
+                url: '/profile/clubs',
+                title: 'Profile Clubs',
+                controller: 'profileController',
+                templateUrl: helper.basepath('profile-clubs.html')
+            })          
           // 
           // CUSTOM RESOLVES
           //   Add your own resolves properties
@@ -935,14 +941,14 @@
     function SidebarController($rootScope, $scope, $state, SidebarLoader,  Utils, $location) {
         var path = $location.path();
         // Show/Hide Profile Menu.
-        if(path == '/app/profile')
+        if(path.indexOf('/app/profile') != -1)
           $scope.profileMenu = true;
         else
           $scope.profileMenu = false;
 
         $scope.$on('$locationChangeStart', function(next, current) {
           path = $location.path();
-          if(path == '/app/profile')
+          if(path.indexOf('/app/profile') != -1)
             $scope.profileMenu = true;
           else
             $scope.profileMenu = false;

@@ -1,12 +1,12 @@
 [  
   {
       "text": "About",
-      "sref": "",
+      "sref": "app.profile",
       "label": "label label-info"
   },
   {
       "text": "Clubs",
-      "sref": "",
+      "sref": "app.profile-clubs",
       "label": "label label-info"
   },
   {
