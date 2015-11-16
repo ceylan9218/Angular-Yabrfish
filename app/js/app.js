@@ -32,7 +32,9 @@
             'app.feeds',
             'app.nets',
             'app.net-tiles',
-            'app.profile'
+            'app.profile',
+            'app.signup',
+            'app.login'
         ]);
 })();
 
@@ -822,14 +824,21 @@
             .state('app.login', {
                 url: '/login',
                 title: 'Login',
+                controller: 'loginController',
                 templateUrl: helper.basepath('login.html')
+            })
+            .state('app.signup', {
+                url: '/signup',
+                title: 'Sign up',
+                controller: 'signupController',
+                templateUrl: helper.basepath('sign-up.html')
             })
             .state('app.profile', {
                 url: '/profile',
                 title: 'Profile',
                 controller: 'profileController',
                 templateUrl: helper.basepath('profile.html')
-            })
+            })            
           // 
           // CUSTOM RESOLVES
           //   Add your own resolves properties
@@ -4600,5 +4609,195 @@
           // Get Bio Text
           $scope.bio = $scope.infos[4].attributeValueText;
         });      
+    }
+})();
+
+/**=========================================================
+ * signupController: Controller for a Sign Up page
+ * used in Sign Up page.
+ * Author: Ryan - 2015.11.15
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.signup', ['ngAnimate', 'ui.bootstrap'])
+        .controller('signupController', signupController);
+
+    function signupController($scope, $http) {
+      $scope.slideSignup = function(dir){
+        var formWidth = angular.element('.signup-form').width();
+
+        if (dir === 'next') {
+          formWidth = formWidth * -1;
+          $scope.transform = "translate("+formWidth+"px, 0px)";
+        }else {
+          $scope.transform = "translate(0px, 0px)";
+        }
+      }
+
+      $scope.setFile = function(element) {
+        $scope.currentFile = element.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(event) {
+          $scope.image_source = event.target.result;
+          $scope.$apply();
+        }
+
+        // when the file is read it triggers the onload event above.
+        reader.readAsDataURL(element.files[0]);
+      }
+    }
+})();
+
+/**=========================================================
+ * Module: Facebook Login
+ * Author: Ryan - 2015.9.21
+ * Login Via Facebook Account
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.login', ['facebook'])
+        .config(['FacebookProvider',
+          function(FacebookProvider) {
+            var myAppId = '502380783269481';
+           
+            // You can set appId with setApp method
+            // FacebookProvider.setAppId('myAppId');
+           
+            /**
+            * After setting appId you need to initialize the module.
+            * You can pass the appId on the init method as a shortcut too.
+            */
+            FacebookProvider.init(myAppId);           
+          }
+        ])
+        .controller('loginController', loginController)
+        /**
+         * Just for debugging purposes.
+         * Shows objects in a pretty way
+         */
+        .directive('debug', function() {
+          return {
+            restrict: 'E',
+            scope: {
+              expression: '=val'
+            },
+            template: '<pre>{{debug(expression)}}</pre>',
+            link: function(scope) {
+              // pretty-prints
+              scope.debug = function(exp) {
+                return angular.toJson(exp, true);
+              };
+            }
+          }
+        });
+    
+    function loginController($scope, $timeout, Facebook) {
+      // Define user empty data :/
+      $scope.user = {};
+      
+      // Defining user logged status
+      $scope.logged = false;
+      
+      // And some fancy flags to display messages upon user status change
+      $scope.byebye = false;
+      $scope.salutation = false;
+      
+      /**
+       * Watch for Facebook to be ready.
+       * There's also the event that could be used
+       */
+      $scope.$watch(
+        function() {
+          return Facebook.isReady();
+        },
+        function(newVal) {
+          if (newVal)
+            $scope.facebookReady = true;
+        }
+      );
+      
+      var userIsConnected = false;
+      
+      Facebook.getLoginStatus(function(response) {
+        if (response.status == 'connected') {
+          userIsConnected = true;
+        }
+      });
+      
+      /**
+       * IntentLogin
+       */
+      $scope.IntentLogin = function() {
+        if(!userIsConnected) {
+          $scope.login();
+        }
+      };
+      
+      /**
+       * Login
+       */
+      $scope.login = function() {
+        Facebook.login(function(response) {
+          if (response.status == 'connected') {
+            $scope.logged = true;
+            $scope.me();
+          }        
+        });
+      };
+       
+      /**
+       * me 
+       */
+      $scope.me = function() {
+        Facebook.api('/me', function(response) {
+console.log(response);
+          /**
+           * Using $scope.$apply since this happens outside angular framework.
+           */
+          $scope.$apply(function() {
+            $scope.user = response;
+          });          
+        });
+      };
+      
+      /**
+       * Logout
+       */
+      $scope.logout = function() {
+        Facebook.logout(function() {
+          $scope.$apply(function() {
+            $scope.user   = {};
+            $scope.logged = false;  
+          });
+        });
+      }
+      
+      /**
+       * Taking approach of Events :D
+       */
+      $scope.$on('Facebook:statusChange', function(ev, data) {
+        console.log('Status: ', data);
+        if (data.status == 'connected') {
+          $scope.$apply(function() {
+            $scope.salutation = true;
+            $scope.byebye     = false;    
+          });
+        } else {
+          $scope.$apply(function() {
+            $scope.salutation = false;
+            $scope.byebye     = true;
+            
+            // Dismiss byebye message after two seconds
+            $timeout(function() {
+              $scope.byebye = false;
+            }, 2000)
+          });
+        }
+      });
     }
 })();

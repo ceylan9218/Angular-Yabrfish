@@ -1,0 +1,32 @@
+<div class="signup-wrap">
+  <h4 class="title">Sign up</h4>  
+  <div class="signup-content">
+    <div class="signup" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform}">
+      <div class="signup-form first">
+        <input class="form-control" type="text" placeholder="Username">
+        <input class="form-control" type="password" placeholder="Password">
+        <input class="form-control" type="password" placeholder="Re-type Password">
+      </div>
+      <div class="signup-form second">
+        <input class="form-control" type="text" placeholder="First name">
+        <input class="form-control" type="text" placeholder="Surname">
+        <input class="form-control" type="email" placeholder="Email address">
+        <input class="form-control" type="date" placeholder="Date of birth DD/MM/YYYY">
+        <div class="sex">
+          <input type="radio" id="male" name="sex">
+          <label for="male">Male</label>
+          <input type="radio" id="female" name="sex">
+          <label for="female">Female</label>
+        </div>
+        <div class="upload-wrap">
+          <img class="user-picture" src="app/img/user/default.png" ng-src="{{image_source}}">
+          <input type="file" onchange="angular.element(this).scope().setFile(this)" accept="image/*">          
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="back btn" ng-click="slideSignup('back')"><i class="fa fa-angle-left"></i>Back</button>
+      <button class="next btn" ng-click="slideSignup('next')">Next<i class="fa fa-angle-right"></i></button>
+    </div>
+  </div>
+</div>
