@@ -1,49 +1,24 @@
-<!DOCTYPE html>
-<html class="hide-sidebar ls-bottom-footer" lang="en" ng-app="loginApp">
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <title>yabrFish</title>
-  
-  <!-- Bootstrap styles-->
-   <link rel="stylesheet" href="../../app/css/bootstrap.css">
-   <!-- Application styles-->
-   <link rel="stylesheet" href="../../app/css/app.css">
-   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.js"></script>    
-    <script src="../../vendor/angular-facebook/angular-facebook.js"></script> 
-    <script src="../../app/js/auth-facebook.js"></script>
-</head>
-
-<body class="login" data-ng-controller="loginController">
-  <div id="content">
-    <div class="container-fluid">
-      <div class="lock-container">
-        <h1>Account Access</h1>
-        <div class="panel panel-default text-center">
-          <img src="../img/user/02.jpg" class="img-circle">
-          <div class="panel-body">
-            <button type="button" id="facebookBtn" class="btn btn-primary btn-large" ng-show="!logged" ng-disabled="!facebookReady" ng-click="IntentLogin()">Login with Facebook</button>            
-            <input class="form-control" type="text" placeholder="Username">
-            <input class="form-control" type="password" placeholder="Enter Password">
-
-            <a href="../../index.html" class="btn btn-primary">Login <i class="fa fa-fw fa-unlock-alt"></i></a>
-            <a href="#" class="forgot-password">Forgot password?</a>
-          </div>
-        </div>
+<div class="login-wrap">
+  <div class="login">
+    <img class="logo" src="app/img/logo-fish.png">
+    <h4 class="title">Login</h4>
+    <div class="login-form">
+      <input class="form-control" type="text" placeholder="Username">
+      <input class="form-control" type="password" placeholder="Password">
+      <div class="login-btn-wrap">
+        <span>Forgotten Password</span>
+        <a href="" class="login-btn btn">Login</a>
+      </div>
+      <div class="signup-btn-wrap">
+        <span>Not yet a member?</span>
+        <a href="#/app/signup" class="signup-btn btn">Sign up</a>
+      </div>
+      <p>Or sign in using:</p>
+      <div class="facebook-twitter">
+        <button type="button" class="facebook-btn btn" ng-show="!logged" ng-disabled="!facebookReady" ng-click="IntentLogin()"><img src="app/img/facebook.png">Facebook</button>
+        <button type="button" class="facebook-btn btn" ng-show="logged" ng-click="logout()"><img src="app/img/facebook.png">Log out via Facebook</button>
+        <button type="button" class="twitter-btn btn"><img src="app/img/twitter.png">Twitter</button>
       </div>
     </div>
   </div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <strong>yabrFish</strong> v4.0.0 &copy; Copyright 2015
-  </footer>
-  <!-- // Footer -->  
-</body>
-</html>
+</div>

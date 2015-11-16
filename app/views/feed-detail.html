@@ -26,12 +26,12 @@
                </vg-controls>
             </videogular>            
          </div>
-         <a class="close-btn" ng-click="hideVideo(card)"><i class="fa fa-times" ng-if="card.showYoutube"></i></a>
+         <a class="close-btn" ng-click="hideVideo(card)"><img src="app/img/video-close.png" ng-if="card.showYoutube"></a>
       </div>
       <div class="tileVideo">
          <!-- <loading></loading> -->
          <sycovideo hls="card.hls_source" id="card.externalId"></sycovideo>
-         <a class="close-btn" ng-click="hideVideo(card)"><i class="fa fa-times" ng-if="card.hls_source"></i></a>
+         <a class="close-btn" ng-click="hideVideo(card)"><img src="app/img/video-close.png" ng-if="card.hls_source"></a>
       </div>
    </div>   
    <div class="tile-infos">
