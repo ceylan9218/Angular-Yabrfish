@@ -23,20 +23,6 @@
 		<div class="net-content create-net">
 			<img src="app/img/create-net.png" ng-click="openCreateNet()">
 		</div>
-		<script type="text/ng-template" id="createNet.html">
-	        <div class="modal-header">
-	            <img src="app/img/fish-net.png">
-	            <h4>Create Net</h4>
-	        </div>	        
-	        <div class="modal-body">
-	        	<div class="modal-body-content">
-		        	<p>Enter the name or category of your net and start to catch!</p>
-		        	<input type="text" class="form-control" placeholder="Net Name">
-		            <button class="btn create-btn" type="button" ng-click="ok()">Create</button>	            
-		            <button class="btn cancel-btn" type="button" ng-click="cancel()">Cancel</button>
-	        	</div>
-	        </div>
-	    </script>
 		<div ng-repeat="net in nets track by $index" class="net-content">
 			<div class="net-detail">
 				<img ng-if="net.creatives[0].url" src="{{net.creatives[0].url}}">
@@ -51,3 +37,17 @@
 		</div>
 	</div>
 </div>
+<script type="text/ng-template" id="createNet.html">
+    <div class="modal-header">
+        <img src="app/img/fish-net.png">
+        <h4>Create Net</h4>
+    </div>	        
+    <div class="modal-body">
+    	<div class="modal-body-content">
+        	<p>Enter the name or category of your net and start to catch!</p>
+        	<input type="text" class="form-control" placeholder="Net Name">
+            <button class="btn create-btn" type="button" ng-click="ok()">Create</button>	            
+            <button class="btn cancel-btn" type="button" ng-click="cancel()">Cancel</button>
+    	</div>
+    </div>
+</script>

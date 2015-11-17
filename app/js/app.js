@@ -4572,7 +4572,7 @@
         .module('app.profile', ['ngAnimate', 'ui.bootstrap'])
         .controller('profileController', profileController);
 
-    function profileController($scope, $http) {
+    function profileController($scope, $http, $modal, $log) {
       $scope.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
       // Get profile Attributes
@@ -4614,7 +4614,23 @@
 
           // Get Bio Text
           $scope.bio = $scope.infos[4].attributeValueText;
-        });      
+        });
+
+      // Profile - Club Page Controller
+      $scope.animationsEnabled = true;
+      $scope.openAddClub = function () {
+        var modalInstance = $modal.open({
+          animation: $scope.animationsEnabled,
+          templateUrl: 'addClub.html',
+//          controller: 'ModalInstanceCtrl',          
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+          $scope.selected = selectedItem;
+        }, function () {
+          $log.info('Modal dismissed at: ' + new Date());
+        });
+      }
     }
 })();
 
