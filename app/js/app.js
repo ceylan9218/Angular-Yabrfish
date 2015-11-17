@@ -4718,7 +4718,7 @@
           }
         });
     
-    function loginController($scope, $timeout, Facebook) {
+    function loginController($scope, $rootScope, $timeout, Facebook, $location) {
       // Define user empty data :/
       $scope.user = {};
       
@@ -4767,6 +4767,7 @@
         Facebook.login(function(response) {
           if (response.status == 'connected') {
             $scope.logged = true;
+            $location.path('#/');
             $scope.me();
           }        
         });
@@ -4777,7 +4778,9 @@
        */
       $scope.me = function() {
         Facebook.api('/me', function(response) {
-console.log(response);
+//         var alert_txt = "username:" + response.name + "\n" + "userId:" + response.id;
+// alert(alert_txt);
+          
           /**
            * Using $scope.$apply since this happens outside angular framework.
            */
@@ -4790,11 +4793,12 @@ console.log(response);
       /**
        * Logout
        */
-      $scope.logout = function() {
+      $rootScope.logout = function() {
         Facebook.logout(function() {
           $scope.$apply(function() {
             $scope.user   = {};
             $scope.logged = false;  
+            $location.path('#/app/login');
           });
         });
       }
@@ -4807,7 +4811,7 @@ console.log(response);
         if (data.status == 'connected') {
           $scope.$apply(function() {
             $scope.salutation = true;
-            $scope.byebye     = false;    
+            $scope.byebye     = false;
           });
         } else {
           $scope.$apply(function() {
