@@ -1,3 +1,53 @@
 <div class="profile-club-wrap">
-asdfasdf
+	<div class="club-header">
+		<h4>Clubs</h4>
+		<p>Lorem ipsum dolor site amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+	</div>
+	<div class="clubs">
+		<div class="club-content add"  ng-click="openAddClub()">
+			<div class="add-club">
+				<img src="app/img/add-green.png">
+				<h4>Add new club</h4>
+			</div>			
+		</div>
+		<div class="club-content">
+			<div class="club-detail">
+				<img src="app/img/clubs/club1.png">
+				<!-- <div class="no-image" ng-if="!net.creatives[0].url">
+					<img src="app/img/grey-bg.png">
+					<span>+Sign In</span>					
+				</div> -->
+				<div class="club-info">
+					<h4><a>Newport Rowing Club</a></h4>
+					<span>1 Yabrfish Member&nbsp;<i class="fa fa-angle-right"></i></span>
+				</div>				
+			</div>
+		</div>
+		<div class="club-content">
+			<div class="club-detail">
+				<img src="app/img/clubs/club2.png">
+				<!-- <div class="no-image" ng-if="!net.creatives[0].url">
+					<img src="app/img/grey-bg.png">
+					<span>+Sign In</span>					
+				</div> -->
+				<div class="club-info">
+					<h4><a>Cowes Yacht Haven</a></h4>
+					<span>6 Yabrfish Members&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-right"></i></span>
+				</div>				
+			</div>
+		</div>
+	</div>
 </div>
+<script type="text/ng-template" id="addClub.html">
+    <div class="modal-header addClub">
+        <img src="app/img/add.png">
+        <h4>Add Club</h4>
+    </div>	        
+    <div class="modal-body">
+    	<div class="modal-body-content">
+        	<input type="text" class="form-control" placeholder="Club Name">
+            <button class="btn create-btn" type="button" ng-click="ok()">Save</button>	            
+            <button class="btn cancel-btn" type="button" ng-click="cancel()">Cancel</button>
+    	</div>
+    </div>
+</script>
