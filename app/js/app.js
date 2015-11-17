@@ -4617,6 +4617,12 @@
         });
 
       // Profile - Club Page Controller
+      // Get Clubs
+      $http.get('http://data.yabrfish.com/yfapi/commerceservice/account?name=sea&type=6')
+        .success(function(data) {
+          $scope.clubs = data[0].organizations;
+        });
+
       $scope.animationsEnabled = true;
       $scope.openAddClub = function () {
         var modalInstance = $modal.open({
