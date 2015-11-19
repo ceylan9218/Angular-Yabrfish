@@ -10712,12 +10712,14 @@ img.logo{
 .infos{
   margin-top: 20px;
 }
-.infos i{
-  font-size: 16px;
+.infos img{
+  width: 18px;
 }
 .infos span{
   margin-left: 15px;
   font-size: 14px;
+  position: relative;
+  top: 4px;
 }
 @media only screen and (max-width: 767px) {
   .profile-wrap{
@@ -10764,24 +10766,109 @@ img.logo{
   height: 220px;
 }
 .club-content.add{
-  border: 4px dashed #b4b4b4;
+  background: #e4e4e4;
+  border: 4px dashed #0d6c8f;
   border-radius: 0 0 15px 0;
   display: table;
 }
 .add-club{
-  display: table-cell;
-  vertical-align: middle;
+  
 }
-.add-club img{
-  display: table;
-  margin: 0 auto;
+.add-club img.add-icon{
   width: 20px;
+  margin-right: 10px;
 }
 .add-club h4{
   font-weight: normal;
   color: #11748c;
-  text-align: center;
   font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+}
+.add-club input.search{
+  background: url(../img/search.png) no-repeat right 15px center;
+  background-size: 20px;
+}
+.add-club input.form-control{
+  background-color: #ebebeb;
+  width: 90%;
+  border-radius: 0;
+  border-bottom: 1px solid #0d6c8f;
+  margin: 0 auto;
+  padding: 10px 15px;
+  height: 45px;
+  font-size: 16px;
+  color: #838383;
+}
+.add-club input::-webkit-input-placeholder {
+   color: #838383;
+}
+.add-club input:-moz-placeholder { /* Firefox 18- */
+   color: #838383;  
+}
+.add-club input::-moz-placeholder {  /* Firefox 19+ */
+   color: #838383;  
+}
+.add-club input:-ms-input-placeholder {  
+   color: #838383;  
+}
+.add-club span{
+  width: 90%;
+  margin: 5px auto;
+  text-align: center;
+  display: block;
+}
+.new-club-wrap{
+  width: 90%;
+  margin: 20px auto;
+  display: block;
+}
+.new-club-wrap input.file{
+  display: none;
+}
+.new-club-wrap img{
+  width: 100%;
+  cursor: pointer;
+  height: 112px;
+}
+.add-club .new-club-wrap input.form-control{
+  width: 100%;
+  margin: 10px auto;
+}
+.add-club .new-club-wrap select.form-control{
+  background-color: #ebebeb;
+  border-radius: 0;
+  border-bottom: 1px solid #0d6c8f;
+  margin: 0 auto;
+  padding: 10px 15px;
+  height: 45px;
+  font-size: 16px;
+  color: #838383;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+}
+.add-club #club_sel{
+  position: relative;
+}
+.add-club #club_sel::after{
+  content: "\f107";
+  font-family: FontAwesome;
+  padding: 0px;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 16px;
+}
+.add-club .create-club-btn{
+  background: #0d6c8f;
+  color: #fff;
+  font-size: 18px;
+  padding: 5px 15px;
+  width: 150px;
+  display: block;
+  margin: 20px auto;
+  border-radius: 20px;
 }
 .club-content .club-detail {
   background: none repeat scroll 0% 0% #FFF;
