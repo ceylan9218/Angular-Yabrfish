@@ -6,22 +6,22 @@
 	<div class="clubs">
 		<div class="club-content add">
 			<div class="add-club">				
-				<h4><img class="add-icon" src="app/img/add-green.png">Add new club</h4>
+				<a ng-click="addMember(aid)"><img class="add-icon" src="app/img/add-green.png">Member</a>
 				<input class="search form-control" ng-model="search_club" placeholder="Search for club...">
 				<ul class="club-list" ng-if="clubs.length != 0">
-					<li ng-repeat="club in clubs" ng-click="selectClub(club.name)">{{club.name}}</li>
+					<li ng-repeat="club in clubs" ng-click="selectClub(club.externalId, club.name)">{{club.name}}</li>
 				</ul>
 			</div>
 		</div>
-		<div class="club-content" ng-repeat="club in clubsss">
+		<div class="club-content" ng-repeat="myclub in myClubs">
 			<div class="club-detail">
 				<!-- <img src="app/img/clubs/club1.png"> -->
-				<div class="no-image" ng-if="!club.image">
+				<div class="no-image" ng-if="!myclub.image">
 					<img src="app/img/grey-bg.png">
 					<!-- <span>+Sign In</span> -->
 				</div>
 				<div class="club-info">
-					<h4><a>{{club.name}}</a></h4>
+					<h4><a>{{myclub.name}}</a></h4>
 					<span>X Yabrfish Member&nbsp;<i class="fa fa-angle-right"></i></span>
 				</div>				
 			</div>
