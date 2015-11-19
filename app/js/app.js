@@ -1282,7 +1282,7 @@
     UserBlockController.$inject = ['$rootScope'];
     function UserBlockController($rootScope) {
 
-        activate();
+//        activate();
 
         ////////////////
 
@@ -4742,10 +4742,10 @@
     
     function loginController($scope, $rootScope, $timeout, Facebook, $location, $http) {
       // Define user empty data :/
-      $scope.user = {};
+      $rootScope.user = {};
       
       // Defining user logged status
-      $scope.logged = false;
+      $rootScope.logged = false;
       
       // And some fancy flags to display messages upon user status change
       $scope.byebye = false;
@@ -4770,6 +4770,12 @@
       Facebook.getLoginStatus(function(response) {
         if (response.status == 'connected') {
           userIsConnected = true;
+          $rootScope.user = response;
+          $rootScope.logged = true;
+          $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/'+$rootScope.user.authResponse.userID+'?ident=facebook')
+            .success(function(data) {
+              $rootScope.user = data;
+            })
         }
       });
       
@@ -4788,8 +4794,8 @@
       $scope.login = function() {
         Facebook.login(function(response) {
           if (response.status == 'connected') {
-            $scope.logged = true;
-            $location.path('#/');
+            $rootScope.logged = true;
+            $location.path('/app');
             $scope.me();
           }        
         });
@@ -4799,25 +4805,32 @@
        * me 
        */
       $scope.me = function() {
-        Facebook.api(
-          '/me/permissions/user_birthday',
-          'DELETE',
-          {},
-          function(response) {
-console.log(response);            
-          }
-        );
+//         Facebook.api(
+//           '/me/permissions/user_birthday',
+//           'DELETE',
+//           {},
+//           function(response) {
+// console.log(response);            
+//           }
+//         );
         
-        Facebook.api('/me?fields=email,about,bio,name,birthday,gender,location', function(response) {
-console.log(response);
-//         var alert_txt = "username:" + response.name + "\n" + "userId:" + response.id;
-
+        Facebook.api('/me', function(response) {
           /**
            * Using $scope.$apply since this happens outside angular framework.
            */
-          $scope.$apply(function() {
-            $scope.user = response;
+          $rootScope.$apply(function() {
+            $rootScope.user = response;
           });
+
+          $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/'+$rootScope.user.id+'?ident=facebook')
+            .success(function(data) {
+              $rootScope.user = data;
+            }).error(function(data, status){
+              $http.post('http://data.yabrfish.com/yfapi/commerceservice/viewer/'+$rootScope.user.id+'?ident=facebook')
+                .success(function(data) {
+
+                })
+            });
         });
       };
       
@@ -4825,13 +4838,18 @@ console.log(response);
        * Logout
        */
       $rootScope.logout = function() {
+console.log($rootScope.user);            
+        angular.element('.open').removeClass('open');
         Facebook.logout(function() {
-          $scope.$apply(function() {
-            $scope.user   = {};
-            $scope.logged = false;  
-            $location.path('#/app/login');
+          $rootScope.$apply(function() {
+            $rootScope.user = {};
+            $rootScope.logged = false;
+            userIsConnected = false;
+            $location.path('app/login');
           });
         });
+        
+
       }
       
       /**

@@ -34,9 +34,10 @@
          </div>
       </div>
       <div class="user-profile">
-      	<img src="app/img/user/14.png"></img>
+      	<img ng-if="!$root.logged" src="app/img/user/default.png"></img>
+         <img ng-if="$root.logged" src="{{$root.user.avatarUrl}}"></img>
       	<div class="info">
-	      	<span class="username">Tom Fallick</span>
+	      	<span ng-if="$root.logged" class="username">{{$root.user.forename}}&nbsp;{{$root.user.surname}}</span>
 	      	<a class="profile-link">View Profile</a>      		
       	</div>
       </div>
@@ -50,10 +51,15 @@
          <li ng-class="getMenuItemPropClasses(item)" ng-show="profileMenu" ng-repeat="item in profileMenuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'" ng-click="toggleCollapse(pIndex, true)"></li>
       </ul>
       <div class="sign-out">
-         <a ng-href="{{$state.href('app.login')}}" ng-mouseover="signOver = true" ng-mouseout="signOver = false" ng-click="logout()">
+         <a ng-if="$root.logged" ng-mouseover="signOver = true" ng-mouseout="signOver = false" ng-click="logout()">
             <img ng-if="!signOver" src="app/img/signout.png">
             <img ng-if="signOver" src="app/img/signout-o.png">
-            <span>Sign Out</span>            
+            <span>Sign Out</span>
+         </a>
+         <a ng-if="!$root.logged" ng-mouseover="signOver = true" ng-mouseout="signOver = false" ng-href="#/app/login">
+            <img ng-if="!signOver" src="app/img/signout.png">
+            <img ng-if="signOver" src="app/img/signout-o.png">
+            <span>Sign In</span>
          </a>
       </div>
       <!-- END sidebar nav-->
