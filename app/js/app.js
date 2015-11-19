@@ -4616,27 +4616,43 @@
           $scope.bio = $scope.infos[4].attributeValueText;
         });
 
-      // Profile - Club Page Controller
+      /*-------------------------------------------
+        Title: Club Controller
+        used in Profile Club page.
+        Author: Marcin - 2015-11-19
+      ------------------------------------------*/
       // Get Clubs
-      $http.get('http://data.yabrfish.com/yfapi/commerceservice/account?name=sea&type=6')
+      $http.get('')
         .success(function(data) {
           $scope.clubs = data[0].organizations;
         });
+      
+      $scope.setFile = function(element) {
+        $scope.currentFile = element.files[0];
+        var reader = new FileReader();
 
-      $scope.animationsEnabled = true;
-      $scope.openAddClub = function () {
-        var modalInstance = $modal.open({
-          animation: $scope.animationsEnabled,
-          templateUrl: 'addClub.html',
-//          controller: 'ModalInstanceCtrl',          
-        });
+        reader.onload = function(event) {
+          $scope.image_source = event.target.result;
+          $scope.$apply();
+        }
 
-        modalInstance.result.then(function (selectedItem) {
-          $scope.selected = selectedItem;
-        }, function () {
-          $log.info('Modal dismissed at: ' + new Date());
-        });
+        // when the file is read it triggers the onload event above.
+        reader.readAsDataURL(element.files[0]);
       }
+//       $scope.animationsEnabled = true;
+//       $scope.openAddClub = function () {
+//         var modalInstance = $modal.open({
+//           animation: $scope.animationsEnabled,
+//           templateUrl: 'addClub.html',
+// //          controller: 'ModalInstanceCtrl',          
+//         });
+
+//         modalInstance.result.then(function (selectedItem) {
+//           $scope.selected = selectedItem;
+//         }, function () {
+//           $log.info('Modal dismissed at: ' + new Date());
+//         });
+//       }
     }
 })();
 
