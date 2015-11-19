@@ -4724,7 +4724,7 @@
           }
         });
     
-    function loginController($scope, $rootScope, $timeout, Facebook, $location) {
+    function loginController($scope, $rootScope, $timeout, Facebook, $location, $http) {
       // Define user empty data :/
       $scope.user = {};
       
@@ -4783,16 +4783,25 @@
        * me 
        */
       $scope.me = function() {
-        Facebook.api('/me', function(response) {
+        Facebook.api(
+          '/me/permissions/user_birthday',
+          'DELETE',
+          {},
+          function(response) {
+console.log(response);            
+          }
+        );
+        
+        Facebook.api('/me?fields=email,about,bio,name,birthday,gender,location', function(response) {
+console.log(response);
 //         var alert_txt = "username:" + response.name + "\n" + "userId:" + response.id;
-// alert(alert_txt);
-          
+
           /**
            * Using $scope.$apply since this happens outside angular framework.
            */
           $scope.$apply(function() {
             $scope.user = response;
-          });          
+          });
         });
       };
       
@@ -4813,8 +4822,8 @@
        * Taking approach of Events :D
        */
       $scope.$on('Facebook:statusChange', function(ev, data) {
-        console.log('Status: ', data);
-        if (data.status == 'connected') {
+//        console.log('Status: ', data);
+        if (data.status == 'connected') {          
           $scope.$apply(function() {
             $scope.salutation = true;
             $scope.byebye     = false;
