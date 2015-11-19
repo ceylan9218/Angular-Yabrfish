@@ -934,7 +934,7 @@
     'use strict';
 
     angular
-        .module('app.sidebar')
+        .module('app.sidebar')        
         .controller('SidebarController', SidebarController);
 
     SidebarController.$inject = ['$rootScope', '$scope', '$state', 'SidebarLoader', 'Utils', '$location'];
@@ -1052,7 +1052,7 @@
               /*jshint -W018*/
               return (typeof $index === 'string') && !($index.indexOf('-') < 0);
             }
-        
+
         } // activate
     }
 
@@ -3753,7 +3753,7 @@
     'use strict';
 
     angular
-        .module('app.topnavbar', [])
+        .module('app.topnavbar', [])        
         .controller('TopnavbarCtrl', TopnavbarCtrl);
 
 //    TopnavbarCtrl.$inject = ['$rootScope', '$scope'];
@@ -3766,7 +3766,7 @@
       }
       $scope.hideMenu = function() {        
         angular.element('.open').removeClass('open');
-      }
+      }      
     }
 })();
 
@@ -4781,7 +4781,6 @@
           userIsConnected = true;
           $rootScope.user = response;
           $rootScope.logged = true;
-console.log($rootScope.logged);
           $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/'+$rootScope.user.authResponse.userID+'?ident=facebook')
             .success(function(data) {
               $rootScope.user = data;
