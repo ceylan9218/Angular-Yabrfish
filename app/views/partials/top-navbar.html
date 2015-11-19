@@ -56,7 +56,7 @@
                <li><a ng-href="{{'#/app/profile'}}" ng-click="hideMenu()">Profile</a></li>
                <li><a href="app/views/messages.html" ng-click="hideMenu()">Messages</a></li>
                <li><a ng-href="{{'#/app/login'}}" ng-if="!$root.logged" ng-click="hideMenu()">Login</a></li>
-               <li><a ng-href="{{'#/app/login'}}" ng-if="$root.logged" ng-click="logout()">Logout</a></li>
+               <li><a ng-if="$root.logged" ng-click="logout()">Logout</a></li>
             </ul>
          </li>
       </ul>

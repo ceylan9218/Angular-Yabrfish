@@ -38,7 +38,7 @@
          <img ng-if="$root.logged" src="{{$root.user.avatarUrl}}"></img>
       	<div class="info">
 	      	<span ng-if="$root.logged" class="username">{{$root.user.forename}}&nbsp;{{$root.user.surname}}</span>
-	      	<a class="profile-link">View Profile</a>      		
+	      	<a ng-href="#/app/profile" class="profile-link">View Profile</a>      		
       	</div>
       </div>
       <div class="follow-wrap">
