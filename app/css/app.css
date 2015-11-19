@@ -1310,6 +1310,7 @@ _:-ms-lang(x),
   border-bottom: 1px solid #cbcbcb;
   padding: 15px 40px;
   display: inline-block;
+  width: 100%;
 }
 .sidebar .user-profile img{
   width: 70px;
