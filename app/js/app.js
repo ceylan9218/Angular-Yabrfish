@@ -4621,38 +4621,25 @@
         used in Profile Club page.
         Author: Marcin - 2015-11-19
       ------------------------------------------*/
-      // Get Clubs
-      $http.get('')
-        .success(function(data) {
-          $scope.clubs = data[0].organizations;
-        });
-      
-      $scope.setFile = function(element) {
-        $scope.currentFile = element.files[0];
-        var reader = new FileReader();
+      $scope.clubs = [];
+      $scope.search_club = '';
 
-        reader.onload = function(event) {
-          $scope.image_source = event.target.result;
-          $scope.$apply();
+      // Search Clubs
+      $scope.$watch('search_club', function(newVal){
+        if(newVal != ''){
+          $http.get('http://data.yabrfish.com/yfapi/commerceservice/account?name='+newVal+'&type=6')
+            .success(function(data){
+              $scope.clubs = data;
+            })          
+        }else{
+          $scope.clubs = [];
         }
+      });
 
-        // when the file is read it triggers the onload event above.
-        reader.readAsDataURL(element.files[0]);
+      // Set Club Name in Search box.
+      $scope.selectClub = function(text){
+        $scope.search_club = text;
       }
-//       $scope.animationsEnabled = true;
-//       $scope.openAddClub = function () {
-//         var modalInstance = $modal.open({
-//           animation: $scope.animationsEnabled,
-//           templateUrl: 'addClub.html',
-// //          controller: 'ModalInstanceCtrl',          
-//         });
-
-//         modalInstance.result.then(function (selectedItem) {
-//           $scope.selected = selectedItem;
-//         }, function () {
-//           $log.info('Modal dismissed at: ' + new Date());
-//         });
-//       }
     }
 })();
 

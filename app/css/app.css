@@ -10772,7 +10772,6 @@ img.logo{
   display: table;
 }
 .add-club{
-  
 }
 .add-club img.add-icon{
   width: 20px;
@@ -10812,63 +10811,17 @@ img.logo{
 .add-club input:-ms-input-placeholder {  
    color: #838383;  
 }
-.add-club span{
+.add-club .club-list{
+  list-style: none;
   width: 90%;
-  margin: 5px auto;
-  text-align: center;
-  display: block;
-}
-.new-club-wrap{
-  width: 90%;
-  margin: 20px auto;
-  display: block;
-}
-.new-club-wrap input.file{
-  display: none;
-}
-.new-club-wrap img{
-  width: 100%;
-  cursor: pointer;
-  height: 112px;
-}
-.add-club .new-club-wrap input.form-control{
-  width: 100%;
-  margin: 10px auto;
-}
-.add-club .new-club-wrap select.form-control{
-  background-color: #ebebeb;
-  border-radius: 0;
-  border-bottom: 1px solid #0d6c8f;
   margin: 0 auto;
-  padding: 10px 15px;
-  height: 45px;
-  font-size: 16px;
-  color: #838383;
-  -webkit-appearance:none;
-  -moz-appearance:none;
-  appearance:none;
+  padding: 0;
 }
-.add-club #club_sel{
-  position: relative;
-}
-.add-club #club_sel::after{
-  content: "\f107";
-  font-family: FontAwesome;
-  padding: 0px;
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  font-size: 16px;
-}
-.add-club .create-club-btn{
-  background: #0d6c8f;
-  color: #fff;
-  font-size: 18px;
-  padding: 5px 15px;
-  width: 150px;
-  display: block;
-  margin: 20px auto;
-  border-radius: 20px;
+.add-club .club-list li{
+  background: #EBEBEB;
+  border-bottom: 1px solid #0D6C8F;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 .club-content .club-detail {
   background: none repeat scroll 0% 0% #FFF;
