@@ -4644,7 +4644,10 @@
       $scope.addMember = function(aid) {
         $http.post('http://data.yabrfish.com/yfapi/commerceservice/viewer/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership/'+aid)
           .success(function(data){
-            console.log(data);
+            $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
+              .success(function(data){
+                $scope.myClubs = data;
+              })
           });
       }
 
