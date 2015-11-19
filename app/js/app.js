@@ -4759,6 +4759,7 @@
           userIsConnected = true;
           $rootScope.user = response;
           $rootScope.logged = true;
+console.log($rootScope.logged);
           $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/'+$rootScope.user.authResponse.userID+'?ident=facebook')
             .success(function(data) {
               $rootScope.user = data;
@@ -4785,23 +4786,14 @@
             $location.path('/app');
             $scope.me();
           }        
-        });
+        }, {scope: 'email, user_birthday, user_friends, user_likes'});
       };
        
       /**
        * me 
        */
-      $scope.me = function() {
-//         Facebook.api(
-//           '/me/permissions/user_birthday',
-//           'DELETE',
-//           {},
-//           function(response) {
-// console.log(response);            
-//           }
-//         );
-        
-        Facebook.api('/me', function(response) {
+      $scope.me = function() {        
+        Facebook.api('/me?fields=name,email,birthday,gender,sports,taggable_friends', function(response) {
           /**
            * Using $scope.$apply since this happens outside angular framework.
            */
@@ -4825,7 +4817,6 @@
        * Logout
        */
       $rootScope.logout = function() {
-console.log($rootScope.user);            
         angular.element('.open').removeClass('open');
         Facebook.logout(function() {
           $rootScope.$apply(function() {
@@ -4835,15 +4826,13 @@ console.log($rootScope.user);
             $location.path('app/login');
           });
         });
-        
-
       }
       
       /**
        * Taking approach of Events :D
        */
       $scope.$on('Facebook:statusChange', function(ev, data) {
-//        console.log('Status: ', data);
+        console.log('Status: ', data);
         if (data.status == 'connected') {          
           $scope.$apply(function() {
             $scope.salutation = true;
