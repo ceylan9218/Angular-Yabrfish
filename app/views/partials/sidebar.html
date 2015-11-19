@@ -50,7 +50,7 @@
          <li ng-class="getMenuItemPropClasses(item)" ng-show="profileMenu" ng-repeat="item in profileMenuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'" ng-click="toggleCollapse(pIndex, true)"></li>
       </ul>
       <div class="sign-out">
-         <a ng-href="{{$state.href('app.login')}}" ng-mouseover="signOver = true" ng-mouseout="signOver = false">
+         <a ng-href="{{$state.href('app.login')}}" ng-mouseover="signOver = true" ng-mouseout="signOver = false" ng-click="logout()">
             <img ng-if="!signOver" src="app/img/signout.png">
             <img ng-if="signOver" src="app/img/signout-o.png">
             <span>Sign Out</span>            
