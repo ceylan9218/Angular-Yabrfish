@@ -4572,7 +4572,7 @@
         .module('app.profile', ['ngAnimate', 'ui.bootstrap'])
         .controller('profileController', profileController);
 
-    function profileController($scope, $http, $modal, $log) {
+    function profileController($scope, $http, $modal, $log, $rootScope) {
       $scope.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
       // Get profile Attributes
@@ -4580,6 +4580,10 @@
         .success(function(data) {
           $scope.attrs = data;
         });
+
+      if($rootScope.user){
+        console.log($rootScope.user);
+      }
 
       // Get profile infos
       $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes')
@@ -4622,6 +4626,7 @@
         Author: Marcin - 2015-11-19
       ------------------------------------------*/
       $scope.clubs = [];
+      $scope.myClubs = [];
       $scope.search_club = '';
 
       // Search Clubs
@@ -4636,10 +4641,24 @@
         }
       });
 
+      $scope.addMember = function(aid) {
+        $http.post('http://data.yabrfish.com/yfapi/commerceservice/viewer/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership/'+aid)
+          .success(function(data){
+            console.log(data);
+          });
+      }
+
       // Set Club Name in Search box.
-      $scope.selectClub = function(text){
+      $scope.selectClub = function(aid, text){
+        $scope.aid = aid;
         $scope.search_club = text;
       }
+
+      // Get My Clubs
+      $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
+        .success(function(data){
+          $scope.myClubs = data;
+        }) 
     }
 })();
 
