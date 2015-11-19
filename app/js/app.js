@@ -4569,10 +4569,10 @@
     'use strict';
 
     angular
-        .module('app.profile', ['ngAnimate', 'ui.bootstrap'])
+        .module('app.profile', ['ngAnimate', 'ui.bootstrap','flash'])
         .controller('profileController', profileController);
 
-    function profileController($scope, $http, $modal, $log, $rootScope) {
+    function profileController($scope, $http, $modal, $log, $rootScope, Flash) {
       $scope.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
       // Get profile Attributes
@@ -4647,7 +4647,16 @@
             $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
               .success(function(data){
                 $scope.myClubs = data;
-              })
+              });
+            
+            var message = "Successfully Added!";
+            Flash.create('success', message);
+          })
+          .error(function(status, data){
+            if (status.error == "Conflict") {
+              var message = "This memeber already Added!";
+              Flash.create('danger', message);
+            };
           });
       }
 
