@@ -4605,12 +4605,17 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
         // Update Job.
         if($scope.job != $scope.infos[1].attributeValueText){
           var params = {
-              attributeType: 0,
-              attributeValueDate: 0,
-              attributeValueText: $scope.job,
-              externalId: 'string'
+              attributeValueText: $scope.job
             };
-
+          
+          // $http({
+          //     method: 'PUT',
+          //     url: VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/2',
+          //     data: $.param({
+          //             attributeValueText: $scope.job,
+          //           }),
+          //     headers: {'content-type': 'application/json;charset=UTF-8'}
+          //   })
           $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/2', params)
             .success(function (data, status, headers) {
                 console.log(data);
@@ -4669,7 +4674,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
       // Search Clubs
       $scope.$watch('search_club', function(newVal){
         if(newVal != ''){
-          $http.get(COMMERCE_SERVICE+'/account?name='+newVal+'&type=6')
+          $http.get(COMMERCE_SERVICE+'/accounts?name='+newVal+'&type=6')
             .success(function(data){
               $scope.clubs = data;
             })          
@@ -4681,7 +4686,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
       $scope.addMember = function(aid) {
         $http.post(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership/'+aid)
           .success(function(data){
-            $http.get(VIEWER_MANAGEMENT+'A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
+            $http.get(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
               .success(function(data){
                 $scope.myClubs = data;
               });
