@@ -10,8 +10,20 @@
  */
 
 // API Link
-var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewers/';
+var BASE_URL = 'http://data.yabrfish.com';
+var BASE_SERVICE = 'http://data.yabrfish.com/yfapi';
+var COMMERCE_SERVICE = 'http://data.yabrfish.com/yfapi/commerceservice';
+var TILE_SERVICE = 'http://data.yabrfish.com/yfapi/tileservice';
+var LOOKUP_SERVICE = 'http://data.yabrfish.com/yfapi/lookupservice';
+var RECO_SERVICE = 'http://data.yabrfish.com/yfapi/recoservice';
+var VIEWER_SERVICE = 'http://data.yabrfish.com/yfapi/viewerservice';
 
+var ACCOUNT_MANAGEMENT = 'http://data.yabrfish.com/yfapi/commerceservice/account';
+var ORGANIZATION_MANAGEMENT = 'http://data.yabrfish.com/yfapi/commerceservice/organization';
+var VIEWER_MANAGEMENT = 'http://data.yabrfish.com/yfapi/commerceservice/viewers';
+var ACCOUNTS_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/accounts';
+var EVENTS_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/events';
+var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
 
 // APP START
 // ----------------------------------- 
@@ -3776,7 +3788,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
         if (response.status == 'connected') {
           $rootScope.user = response;
           $rootScope.logged = true;
-          $http.get(COMMERCE_API_VIEWERS+$rootScope.user.authResponse.userID+'?ident=facebook')
+          $http.get(VIEWER_MANAGEMENT+'/'+$rootScope.user.authResponse.userID+'?ident=facebook')
             .success(function(data) {
               $rootScope.user = data;
             })
@@ -3876,7 +3888,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
         $scope.getRecommendations = function(){
           var deferred = $q.defer();
 
-          $http.get('http://data.yabrfish.com/yfapi/recoservice/recommendations')
+          $http.get(RECO_SERVICE+'/recommendations')
             .success(function(data){
               deferred.resolve({
                 tiles: data.recommendations
@@ -3901,12 +3913,6 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
 
               // Get Time Difference
               $scope.tiles[i].publishedDate = getTimeDiff($scope.tiles[i].publishedDate);
-
-              // Get Participants
-              // $http.get('http://data.yabrfish.com/api/tiles/'+uid+'/participants')
-              //   .success(function(data) {
-              //       $scope.tiles[i].participants = data;
-              //   });
 
               // Show Google Map
               if(!$scope.tiles[i].location){
@@ -3947,7 +3953,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
           if(video_list[0])
             video_list[0].style.display = 'block';
 
-          $http.get('http://data.yabrfish.com/yfapi/tileservice/tiles/' + uid + '/content')
+          $http.get(TILES_MANAGEMENT+'/' + uid + '/content')
             .success(function(data){
                 if(data.contentList && data.contentList.length>0){
                   element.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
@@ -4073,7 +4079,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
               element.classes = [];
               element.isRace = true;
 
-              $http.get('http://data.yabrfish.com/yfapi/tileservice/tiles/'+ element.externalId +'/events')
+              $http.get(TILES_MANAGEMENT+'/'+ element.externalId +'/events')
                 .success(function(data) {
                   element.events = data.eventList;
                   for(var i in element.events) {
@@ -4092,7 +4098,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
                   element.showEventSlider = true;
 
                   // Get Classes for first Event.
-                  $http.get('http://data.yabrfish.com/yfapi/tileservice/events/'+ element.events[0].externalId +'/classes')
+                  $http.get(EVENTS_MANAGEMENT+'/'+ element.events[0].externalId +'/classes')
                     .success(function(data) {
                       element.classes_data = data;
 
@@ -4117,7 +4123,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
                     });
                 });
             }else if(element.tileType == 'offer'){
-              $http.get('http://data.yabrfish.com/yfapi/tileservice/tiles/'+ element.externalId +'/offers')
+              $http.get(TILES_MANAGEMENT+'/'+ element.externalId +'/offers')
                 .success(function(data) {
                   element.offers = data;
                   var curDate = new Date();
@@ -4205,7 +4211,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
           element.selectedEvent = eventId;
 
           // Get Classes for Event.
-          $http.get('http://data.yabrfish.com/yfapi/tileservice/events/'+ eventId +'/classes')
+          $http.get(EVENTS_MANAGEMENT+'/'+ eventId +'/classes')
             .success(function(data) {
               element.classes = [];
               element.classes_data = data;
@@ -4238,7 +4244,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
           element.races = [];
 
           // Get Races for a class
-          $http.get('http://data.yabrfish.com/yfapi/tileservice/events/'+ eventId +'/classes/'+classId+'/races')
+          $http.get(EVENTS_MANAGEMENT+'/'+ eventId +'/classes/'+classId+'/races')
             .success(function(data){
               element.races = data;
               
@@ -4287,7 +4293,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
             var classId = race.classId;
             var raceId = race.externalId;
 
-            $http.get('http://data.yabrfish.com/yfapi/tileservice/events/'+eventId+'/classes/'+classId+'/races/'+raceId+'/results')
+            $http.get(EVENTS_MANAGEMENT+'/'+eventId+'/classes/'+classId+'/races/'+raceId+'/results')
               .success(function(data){
                 race.results = data;
 
@@ -4309,65 +4315,6 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
         }
 
         $scope.filterFeeds = function() {
-          var query = $scope.filter.feeds;
-          $http.get('http://data.yabrfish.com/api/tiles?q='+query)
-            .success(function(data) {
-                $scope.tiles = data;                   
-                for (var i in data) {
-                  // Get Time Difference
-                    $scope.tiles[i].publishedDate = getTimeDiff($scope.tiles[i].publishedDate);                    
-
-                    //Get Video Source
-                    if($scope.tiles[i].ExternalRef.length > 0){
-                        if($scope.tiles[i].ExternalRef[0].linkType == 'youTube'){
-                            // Videogular
-                            $scope.tiles[i].config = {
-                                preload: "none",
-                                sources: [
-                                    {src: "https://www.youtube.com/watch?v=" + $scope.tiles[i].ExternalRef[0].url},
-                                    {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.webm"), type: "video/webm"},
-                                    {src: $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.ogg"), type: "video/ogg"}
-                                ],                      
-                                theme: {
-                                    url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
-                                },
-                                plugins: {
-                                  controls: {
-                                    autoHide: true,
-                                    autoHideTime: 5000
-                                  }
-                                }
-                            };
-                        }
-                    }
-                    // Get Participants
-                    // $http.get('http://data.yabrfish.com/api/tiles/'+$scope.tiles[i].id+'/participants')
-                    //     .success(function(data) {
-                    //         $scope.tiles[i].participants = data;
-                    //     });
-
-                    // Show Google Map
-                    if(!$scope.tiles[i].location){
-                      $scope.tiles[i].location = [ {"lat": 51.50013, "lon":-0.126305} ];
-                    }
-                    var marker, map;               
-                    $scope.$on('mapInitialized', function(evt, evtMap) {
-                        map = evtMap; 
-                        marker = map.markers[0]; 
-                    }); 
-                    // $scope.centerChanged = function(event) {
-                    //     $timeout(function() { 
-                    //         map.panTo(marker.getPosition()); 
-                    //     }, 100); 
-                    // } 
-                    // $scope.click = function(event) {
-                    //     map.setZoom(8); 
-                    //     map.setCenter(marker.getPosition());
-                    // }
-                }
-            }).error(function(data, status){
-              console.log("Error status : " + status);
-            });
         }
 
         function getTimeDiff(date){
@@ -4443,7 +4390,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
         .controller('netsController', netsController);        
 
     function netsController($scope, $http, $modal, $log) {
-      $http.get('http://data.yabrfish.com/yfapi/viewerservice/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/nets')
+      $http.get(VIEWER_SERVICE+'/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/nets')
         .success(function(data) {
             $scope.nets = data.viewerNets;
         });      
@@ -4489,7 +4436,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
       $scope.netName = '';
 
       var netId = $state.params.id;
-      $http.get('http://data.yabrfish.com/yfapi/viewerservice/nets/'+ netId +'/tiles')
+      $http.get(VIEWER_SERVICE+'/nets/'+ netId +'/tiles')
         .success(function(data) {
             $scope.tiles = data.tileList;
             for ( var i in $scope.tiles ){
@@ -4498,7 +4445,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
             }
         });
 
-      $http.get('http://data.yabrfish.com/yfapi/viewerservice/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/nets')
+      $http.get(VIEWER_SERVICE+'/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/nets')
         .success(function(data) {
             $scope.nets = data.viewerNets;
             for (var i in $scope.nets){
@@ -4605,7 +4552,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
       $scope.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
       // Get profile Attributes
-      $http.get('http://data.yabrfish.com/yfapi/lookupservice/viewerattributes')
+      $http.get(LOOKUP_SERVICE+'/viewerattributes')
         .success(function(data) {
           $scope.attrs = data;
         });
@@ -4615,7 +4562,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
       }
 
       // Get profile infos
-      $http.get(COMMERCE_API_VIEWERS+'A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes')
+      $http.get(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes')
         .success(function(data) {
           $scope.infos = data;
           
@@ -4661,7 +4608,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
       // Search Clubs
       $scope.$watch('search_club', function(newVal){
         if(newVal != ''){
-          $http.get(COMMERCE_API+'account?name='+newVal+'&type=6')
+          $http.get(COMMERCE_SERVICE+'/account?name='+newVal+'&type=6')
             .success(function(data){
               $scope.clubs = data;
             })          
@@ -4671,9 +4618,9 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
       });
 
       $scope.addMember = function(aid) {
-        $http.post(COMMERCE_API_VIEWERS+'A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership/'+aid)
+        $http.post(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership/'+aid)
           .success(function(data){
-            $http.get(COMMERCE_API_VIEWERS+'A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
+            $http.get(VIEWER_MANAGEMENT+'A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
               .success(function(data){
                 $scope.myClubs = data;
               });
@@ -4696,7 +4643,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
       }
 
       // Get My Clubs
-      $http.get(COMMERCE_API_VIEWERS+'A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
+      $http.get(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
         .success(function(data){
           $scope.myClubs = data;
         }) 
@@ -4819,7 +4766,7 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
 //          userIsConnected = true;
           $rootScope.user = response;
           $rootScope.logged = true;
-          $http.get(COMMERCE_API_VIEWERS+$rootScope.user.authResponse.userID+'?ident=facebook')
+          $http.get(VIEWER_MANAGEMENT+'/'+$rootScope.user.authResponse.userID+'?ident=facebook')
             .success(function(data) {
               $rootScope.user = data;
             })
@@ -4860,11 +4807,11 @@ var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewe
             $rootScope.user = response;
           });
 
-          $http.get(COMMERCE_API_VIEWERS+$rootScope.user.id+'?ident=facebook')
+          $http.get(VIEWER_MANAGEMENT+'/'+$rootScope.user.id+'?ident=facebook')
             .success(function(data) {
               $rootScope.user = data;
             }).error(function(data, status){
-              $http.post(COMMERCE_API_VIEWERS+$rootScope.user.id+'?ident=facebook')
+              $http.post(VIEWER_MANAGEMENT+'/'+$rootScope.user.id+'?ident=facebook')
                 .success(function(data) {
 
                 })
