@@ -9,6 +9,10 @@
  * 
  */
 
+// API Link
+var COMMERCE_API_VIEWERS = 'http://data.yabrfish.com/yfapi/commerceservice/viewers/';
+
+
 // APP START
 // ----------------------------------- 
 
@@ -934,7 +938,7 @@
     'use strict';
 
     angular
-        .module('app.sidebar')        
+        .module('app.sidebar')
         .controller('SidebarController', SidebarController);
 
     SidebarController.$inject = ['$rootScope', '$scope', '$state', 'SidebarLoader', 'Utils', '$location'];
@@ -952,8 +956,8 @@
             $scope.profileMenu = true;
           else
             $scope.profileMenu = false;
-        });
-        
+        });      
+
         activate();
 
         ////////////////
@@ -3753,20 +3757,45 @@
     'use strict';
 
     angular
-        .module('app.topnavbar', [])        
+        .module('app.topnavbar', ['facebook'])        
         .controller('TopnavbarCtrl', TopnavbarCtrl);
 
 //    TopnavbarCtrl.$inject = ['$rootScope', '$scope'];
-    function TopnavbarCtrl($rootScope, $scope) {
+    function TopnavbarCtrl($rootScope, $scope, $http, $location, Facebook) {
       $scope.toggleItem = function() {
         if($('.dropdown').hasClass('open'))
-          $('.dropdown').removeClass('open');  
+          $('.dropdown').removeClass('open');
         else
           $('.dropdown').addClass('open');
       }
-      $scope.hideMenu = function() {        
+      $scope.hideMenu = function() {
         angular.element('.open').removeClass('open');
-      }      
+      }
+
+      Facebook.getLoginStatus(function(response) {
+        if (response.status == 'connected') {
+          $rootScope.user = response;
+          $rootScope.logged = true;
+          $http.get(COMMERCE_API_VIEWERS+$rootScope.user.authResponse.userID+'?ident=facebook')
+            .success(function(data) {
+              $rootScope.user = data;
+            })
+        }
+      });
+
+      /**
+       * Logout
+       */
+      $rootScope.logout = function() {
+        angular.element('.open').removeClass('open');
+        Facebook.logout(function() {
+          $rootScope.$apply(function() {
+            $rootScope.user = {};
+            $rootScope.logged = false;
+            $location.path('app/login');
+          });
+        });
+      }
     }
 })();
 
@@ -4586,7 +4615,7 @@
       }
 
       // Get profile infos
-      $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes')
+      $http.get(COMMERCE_API_VIEWERS+'A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes')
         .success(function(data) {
           $scope.infos = data;
           
@@ -4632,7 +4661,7 @@
       // Search Clubs
       $scope.$watch('search_club', function(newVal){
         if(newVal != ''){
-          $http.get('http://data.yabrfish.com/yfapi/commerceservice/account?name='+newVal+'&type=6')
+          $http.get(COMMERCE_API+'account?name='+newVal+'&type=6')
             .success(function(data){
               $scope.clubs = data;
             })          
@@ -4642,9 +4671,9 @@
       });
 
       $scope.addMember = function(aid) {
-        $http.post('http://data.yabrfish.com/yfapi/commerceservice/viewer/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership/'+aid)
+        $http.post(COMMERCE_API_VIEWERS+'A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership/'+aid)
           .success(function(data){
-            $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
+            $http.get(COMMERCE_API_VIEWERS+'A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
               .success(function(data){
                 $scope.myClubs = data;
               });
@@ -4667,7 +4696,7 @@
       }
 
       // Get My Clubs
-      $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
+      $http.get(COMMERCE_API_VIEWERS+'A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
         .success(function(data){
           $scope.myClubs = data;
         }) 
@@ -4783,14 +4812,14 @@
         }
       );
       
-      var userIsConnected = false;
+//      var userIsConnected = false;
       
       Facebook.getLoginStatus(function(response) {
         if (response.status == 'connected') {
-          userIsConnected = true;
+//          userIsConnected = true;
           $rootScope.user = response;
           $rootScope.logged = true;
-          $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/'+$rootScope.user.authResponse.userID+'?ident=facebook')
+          $http.get(COMMERCE_API_VIEWERS+$rootScope.user.authResponse.userID+'?ident=facebook')
             .success(function(data) {
               $rootScope.user = data;
             })
@@ -4801,7 +4830,7 @@
        * IntentLogin
        */
       $scope.IntentLogin = function() {
-        if(!userIsConnected) {
+        if(!$rootScope.logged) {
           $scope.login();
         }
       };
@@ -4831,11 +4860,11 @@
             $rootScope.user = response;
           });
 
-          $http.get('http://data.yabrfish.com/yfapi/commerceservice/viewer/'+$rootScope.user.id+'?ident=facebook')
+          $http.get(COMMERCE_API_VIEWERS+$rootScope.user.id+'?ident=facebook')
             .success(function(data) {
               $rootScope.user = data;
             }).error(function(data, status){
-              $http.post('http://data.yabrfish.com/yfapi/commerceservice/viewer/'+$rootScope.user.id+'?ident=facebook')
+              $http.post(COMMERCE_API_VIEWERS+$rootScope.user.id+'?ident=facebook')
                 .success(function(data) {
 
                 })
@@ -4852,7 +4881,7 @@
           $rootScope.$apply(function() {
             $rootScope.user = {};
             $rootScope.logged = false;
-            userIsConnected = false;
+//            userIsConnected = false;
             $location.path('app/login');
           });
         });
