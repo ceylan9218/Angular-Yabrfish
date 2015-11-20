@@ -50,7 +50,8 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
             'app.net-tiles',
             'app.profile',
             'app.signup',
-            'app.login'
+            'app.login',
+            'app.tiles'
         ]);
 })();
 
@@ -860,7 +861,13 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
                 title: 'Profile Clubs',
                 controller: 'profileController',
                 templateUrl: helper.basepath('profile-clubs.html')
-            })          
+            })
+            .state('app.tiles', {
+                url: '/tiles',
+                title: 'My Tiles',
+                controller: 'tilesController',
+                templateUrl: helper.basepath('tiles.html')
+            })
           // 
           // CUSTOM RESOLVES
           //   Add your own resolves properties
@@ -4568,7 +4575,6 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
       $http.get(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes')
         .success(function(data) {
           $scope.infos = data;
-
           // Get Birthday          
           $scope.birthday = new Date($scope.infos[0].attributeValueDate);
           var birth_date = $scope.birthday.getDate();
@@ -4674,7 +4680,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
       // Search Clubs
       $scope.$watch('search_club', function(newVal){
         if(newVal != ''){
-          $http.get(COMMERCE_SERVICE+'/accounts?name='+newVal+'&type=6')
+          $http.get(COMMERCE_SERVICE+'/account?name='+newVal+'&type=6')
             .success(function(data){
               $scope.clubs = data;
             })          
@@ -4686,6 +4692,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
       $scope.addMember = function(aid) {
         $http.post(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership/'+aid)
           .success(function(data){
+            $http.get(VIEWER_MANAGEMENT+'A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
             $http.get(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
               .success(function(data){
                 $scope.myClubs = data;
@@ -4922,5 +4929,21 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
           });
         }
       });
+    }
+})();
+
+/**=========================================================
+ * tilesController: Controller for My Tiles
+ * used in My Tiles
+ * Author: Ryan - 2015.11.20
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.tiles', ['ngAnimate', 'ui.bootstrap'])
+        .controller('tilesController', tilesController);
+
+    function tilesController($scope, $http) {
     }
 })();
