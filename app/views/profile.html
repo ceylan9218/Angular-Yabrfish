@@ -5,10 +5,10 @@
       <a class="edit_info">Edit Information</a>
     </div>
     <div class="infos">
-      <p><img src="app/img/cake.png"><span>{{birthday}}</span></p>
-      <p><img src="app/img/male.png"><span>{{sex}}</span></p>
-      <p><img src="app/img/job.png"><span>{{job}}</span></p>
-      <p><img src="app/img/location-g.png"></i><span>{{location}}</span></p>    
+      <p><img src="app/img/cake.png"><a editable-text="birthday"><span>{{birthday || 'No Birthday'}}</span></a></p>
+      <p><img src="app/img/male.png"><a editable-text="sex"><span>{{sex || 'No Gender'}}</span></a></p>
+      <p><img src="app/img/job.png"><a editable-text="job"><span>{{job || 'No Job'}}</span></a></p>
+      <p><img src="app/img/location-g.png"><a editable-text="location"><span>{{location || 'No Location'}}</span></a></p>
     </div>
   </div>
   <div class="block">
@@ -16,7 +16,10 @@
       <h4><img src="app/img/info.png" style="width: 20px;"><span style="margin-left: 10px;">Bio</span></h4>
     </div>
     <div class="infos">
-      <p>{{bio}}</p>
+      <a editable-textarea="bio">{{bio}}</a>
     </div>
+  </div>
+  <div class="buttons">
+    <button class="update-profile btn pull-right" ng-click="updateProfile();">Save</button>
   </div>
 </div>
