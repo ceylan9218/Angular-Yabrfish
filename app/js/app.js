@@ -4692,7 +4692,6 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
       $scope.addMember = function(aid) {
         $http.post(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership/'+aid)
           .success(function(data){
-            $http.get(VIEWER_MANAGEMENT+'A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
             $http.get(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
               .success(function(data){
                 $scope.myClubs = data;
