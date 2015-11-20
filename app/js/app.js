@@ -50,7 +50,8 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
             'app.net-tiles',
             'app.profile',
             'app.signup',
-            'app.login'
+            'app.login',
+            'app.tiles'
         ]);
 })();
 
@@ -860,7 +861,13 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
                 title: 'Profile Clubs',
                 controller: 'profileController',
                 templateUrl: helper.basepath('profile-clubs.html')
-            })          
+            })
+            .state('app.tiles', {
+                url: '/tiles',
+                title: 'My Tiles',
+                controller: 'tilesController',
+                templateUrl: helper.basepath('tiles.html')
+            })
           // 
           // CUSTOM RESOLVES
           //   Add your own resolves properties
@@ -4545,10 +4552,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
     'use strict';
 
     angular
-        .module('app.profile', ['ngAnimate', 'ui.bootstrap','flash', 'xeditable'])
-        .run(function(editableOptions) {
-          editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
-        })
+        .module('app.profile', ['ngAnimate', 'ui.bootstrap','flash'])
         .controller('profileController', profileController);
 
     function profileController($scope, $http, $modal, $log, $rootScope, Flash) {
@@ -4568,7 +4572,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
       $http.get(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes')
         .success(function(data) {
           $scope.infos = data;
-
+          
           // Get Birthday          
           $scope.birthday = new Date($scope.infos[0].attributeValueDate);
           var birth_date = $scope.birthday.getDate();
@@ -4598,64 +4602,6 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
           // Get Bio Text
           $scope.bio = $scope.infos[4].attributeValueText;
         });
-
-      // Update profile infos
-      $scope.updateProfile = function(){
-        var data = {};
-        // Update Job.
-        if($scope.job != $scope.infos[1].attributeValueText){
-          var params = {
-              attributeType: 0,
-              attributeValueDate: 0,
-              attributeValueText: $scope.job,
-              externalId: 'string'
-            };
-
-          $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/2', params)
-            .success(function (data, status, headers) {
-                console.log(data);
-            });
-        }
-        // Update Sex.
-        if($scope.sex != $scope.infos[2].attributeValueText){
-          data = $.param({
-            attributeType: 0,
-            attributeValueDate: 0,
-            attributeValueText: $scope.sex,
-            externalId: 'string'
-          });
-          $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/3?'+data)
-            .success(function (data, status, headers) {
-                console.log(data);
-            })
-        }
-        // Update Location.
-        if($scope.location != $scope.infos[3].attributeValueText){
-          data = $.param({
-            attributeType: 0,
-            attributeValueDate: 0,
-            attributeValueText: $scope.location,
-            externalId: 'string'
-          });
-          $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/4?'+data)
-            .success(function (data, status, headers) {
-                console.log(data);
-            })
-        }
-        // Update Bio.
-        if($scope.bio != $scope.infos[4].attributeValueText){
-          data = $.param({
-            attributeType: 0,
-            attributeValueDate: 0,
-            attributeValueText: $scope.bio,
-            externalId: 'string'
-          });
-          $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/5?'+data)
-            .success(function (data, status, headers) {
-                console.log(data);
-            })
-        }        
-      }
 
       /*-------------------------------------------
         Title: Club Controller
@@ -4917,5 +4863,21 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
           });
         }
       });
+    }
+})();
+
+/**=========================================================
+ * tilesController: Controller for My Tiles
+ * used in My Tiles
+ * Author: Ryan - 2015.11.20
+ =========================================================*/
+(function() {
+    'use strict';
+
+    angular
+        .module('app.tiles', ['ngAnimate', 'ui.bootstrap'])
+        .controller('tilesController', tilesController);
+
+    function tilesController($scope, $http) {
     }
 })();
