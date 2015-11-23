@@ -12,18 +12,18 @@
 // API Link
 var BASE_URL = 'http://data.yabrfish.com';
 var BASE_SERVICE = 'http://data.yabrfish.com/yfapi';
-var COMMERCE_SERVICE = 'http://data.yabrfish.com/yfapi/commerceservice';
-var TILE_SERVICE = 'http://data.yabrfish.com/yfapi/tileservice';
-var LOOKUP_SERVICE = 'http://data.yabrfish.com/yfapi/lookupservice';
-var RECO_SERVICE = 'http://data.yabrfish.com/yfapi/recoservice';
-var VIEWER_SERVICE = 'http://data.yabrfish.com/yfapi/viewerservice';
+var COMMERCE_SERVICE = 'http://data.yabrfish.com:9095/commerceservice';
+var TILE_SERVICE = 'http://data.yabrfish.com:9091/tileservice';
+var LOOKUP_SERVICE = 'http://data.yabrfish.com:9096/lookupservice';
+var RECO_SERVICE = 'http://data.yabrfish.com:9093/recoservice';
+var VIEWER_SERVICE = 'http://data.yabrfish.com:9094/viewerservice';
 
-var ACCOUNT_MANAGEMENT = 'http://data.yabrfish.com/yfapi/commerceservice/account';
-var ORGANIZATION_MANAGEMENT = 'http://data.yabrfish.com/yfapi/commerceservice/organization';
-var VIEWER_MANAGEMENT = 'http://data.yabrfish.com/yfapi/commerceservice/viewers';
-var ACCOUNTS_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/accounts';
-var EVENTS_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/events';
-var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
+var ACCOUNT_MANAGEMENT = 'http://data.yabrfish.com:9095/commerceservice/account';
+var ORGANIZATION_MANAGEMENT = 'http://data.yabrfish.com:9095/commerceservice/organization';
+var VIEWER_MANAGEMENT = 'http://data.yabrfish.com:9095/commerceservice/viewers';
+var ACCOUNTS_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/accounts';
+var EVENTS_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/events';
+var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
 
 // APP START
 // ----------------------------------- 
@@ -866,7 +866,8 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
                 url: '/tiles',
                 title: 'My Tiles',
                 controller: 'tilesController',
-                templateUrl: helper.basepath('tiles.html')
+                templateUrl: helper.basepath('tiles.html'),
+                resolve: helper.resolveFor('akoenig.deckgrid')
             })
           // 
           // CUSTOM RESOLVES
@@ -3881,7 +3882,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
             }
         });        
 
-    function feedsController($rootScope, $scope, $http, $sce, RouteHelpers, $timeout, $q, Flash) {
+    function feedsController($rootScope, $scope, $http, $sce, RouteHelpers, $timeout, $q, Flash) {      
         $scope.basepath = RouteHelpers.basepath;
         $scope.tiles = [];
         $scope.showVideo = false;
@@ -4437,7 +4438,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
         .module('app.net-tiles', ['ngAnimate', 'ui.bootstrap'])
         .controller('netTilesController', netTilesController);        
 
-    function netTilesController($scope, $http, $state, RouteHelpers, $modal, $log) {
+    function netTilesController($scope, $rootScope, $http, $state, RouteHelpers, $modal, $log) {
       $scope.basepath = RouteHelpers.basepath;
       $scope.tiles = [];
       $scope.netName = '';
@@ -4446,7 +4447,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
       $http.get(VIEWER_SERVICE+'/nets/'+ netId +'/tiles')
         .success(function(data) {
             $scope.tiles = data.tileList;
-            for ( var i in $scope.tiles ){
+            for ( var i in data.tileList ){
               $scope.tiles[i].publishedDate = getTimeDiff($scope.tiles[i].publishedDate);
               $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
             }
@@ -4518,27 +4519,6 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
             }
 
             return timeDiff;
-        }
-
-        $scope.items = ['item1', 'item2', 'item3'];
-        $scope.animationsEnabled = true;
-        $scope.openCreateTile = function () {
-          var modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'createTile.html',
-  //          controller: 'ModalInstanceCtrl',
-            resolve: {
-              items: function () {
-                return $scope.items;
-              }
-            }
-          });
-
-          modalInstance.result.then(function (selectedItem) {
-            $scope.selected = selectedItem;
-          }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-          });
         }
     }
 })();
@@ -4686,7 +4666,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
       // Search Clubs
       $scope.$watch('search_club', function(newVal){
         if(newVal != ''){
-          $http.get(COMMERCE_SERVICE+'/account?name='+newVal+'&type=6')
+          $http.get(COMMERCE_SERVICE+'/accounts?name='+newVal+'&type=6')
             .success(function(data){
               $scope.clubs = data;
             })          
@@ -4946,9 +4926,65 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
     'use strict';
 
     angular
-        .module('app.tiles', ['ngAnimate', 'ui.bootstrap'])
+        .module('app.tiles', ['ngAnimate', 'ui.bootstrap'])        
         .controller('tilesController', tilesController);
 
-    function tilesController($scope, $http) {
+    function tilesController($scope, $http, $rootScope, RouteHelpers) {
+      $scope.tiles = [];
+      $scope.basepath = RouteHelpers.basepath;
+      $scope.tileType = ['Event', 'Content', 'Offer', 'Sale', 'Business', 'Job', 'Swap', 'Poll'];
+      $scope.newTile = {
+        tileType: $scope.tileType[0],
+        imageUrl: '',
+        title: '',
+        description: ''
+      };
+      
+      $scope.tiles.unshift('addTile');
+
+      $scope.setFile = function(element) {
+        $scope.currentFile = element.files[0];
+         var reader = new FileReader();
+
+        reader.onload = function(event) {
+          $scope.image_source = event.target.result
+          $scope.$apply()
+
+        }
+        // when the file is read it triggers the onload event above.
+        reader.readAsDataURL(element.files[0]);
+      }
+
+      $scope.createTile = function() {
+        // File Upload
+        var fd = new FormData();
+        //Take the first selected file
+        fd.append("file", $scope.currentFile);
+
+        // $http.post('http://img.yabrfish.com/cdn/', fd, {
+        //     withCredentials: true,
+        //     headers: {'Content-Type': undefined },
+        //     transformRequest: angular.identity
+        // }).success( console.log('all right!')).error(console.log('..damn!...'));
+
+        var params = {
+          "description": $scope.newTile.description,
+          "name": $scope.newTile.title,
+          "tileType": $scope.newTile.tileType
+        };
+
+        $http({
+          method: 'POST',
+          url: TILE_SERVICE + '/tiles',
+          data: JSON.stringify(params),
+          headers: {'Content-Type': 'application/json'}
+        }).success(function (data, status, headers, config){
+          console.log(data);
+        }).error(function (data, status, headers, config){
+          console.log(status);
+        })
+
+        console.log($scope.newTile.tileType, $scope.newTile.title, $scope.newTile.description);
+      }
     }
 })();
