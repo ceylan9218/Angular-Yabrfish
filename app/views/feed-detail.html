@@ -1,3 +1,18 @@
+<div ng-controller="tilesController" class="yabrTile-body create-tile" ng-if="card=='addTile'">
+   <h4><img class="add-icon" src="app/img/create-tile.png">Create New tile</h4>
+   <div class="new-tile-wrap">
+      <label for="file-input">
+         <img src="app/img/upload-photo.png"/ ng-src="{{image_source}}">
+      </label>
+      <input id="file-input" class="file" type="file" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
+      <div id="type_sel">
+         <select class="form-control" ng-init="newTile.tileType = tileType[0]" ng-model="newTile.tileType" ng-options="value for value in tileType"></select>
+      </div>
+      <input type="text" class="form-control" ng-model="newTile.title" placeholder="The title...">
+      <textarea class="form-control" ng-model="newTile.description" placeholder="Description..."></textarea>
+      <button class="create-tile-btn btn" ng-click="createTile()">Create Tile</button>
+   </div>
+</div>
 <div ng-controller="feedsController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer' || card.tileType == 'business' || card.tileType == 'job' || card.tileType == 'swap'" class="yabrTile-body">
    <div class="ribbon" ng-if="card.segmentations[0].reason != ''"><span>{{card.segmentations[0].reason}}</span></div>
    <div class="img-video-wrap">

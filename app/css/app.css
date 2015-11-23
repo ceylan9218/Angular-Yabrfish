@@ -10581,7 +10581,7 @@ img.logo{
   }
 }
 /* ========================================================================
-   title: My Tiles Page Style
+   title: Net Tiles Page Style
    author: Ryan
    date: 2015.10.20
  ========================================================================== */
@@ -10959,4 +10959,106 @@ img.logo{
     float: left;
     margin-bottom: 20px;
   }  
+}
+/* ========================================================================
+   title: My Tiles Page Style
+   author: Ryan
+   date: 2015.11.20
+ ========================================================================== */
+.create-tile{
+  background: #e4e4e4;
+  border: 4px dashed #0d6c8f;
+  border-radius: 0 0 15px 0;
+}
+.create-tile img.add-icon{
+  width: 20px;
+  margin-right: 10px;
+}
+.create-tile h4{
+  font-weight: normal;
+  color: #11748c;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+}
+.create-tile .new-tile-wrap{
+  width: 90%;
+  margin: 0 auto;
+}
+.create-tile input.form-control, .create-tile textarea{
+  background-color: #ebebeb;
+  border-radius: 0;
+  border-bottom: 1px solid #0d6c8f;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #838383;
+}
+.create-tile input::-webkit-input-placeholder{
+  color: #838383;
+}
+.create-tile input::-moz-placeholder{
+  color: #838383;
+}
+.create-tile input:-ms-input-placeholder {
+   color: #838383;
+}
+.create-tile textarea::-webkit-input-placeholder{
+  color: #838383;
+}
+.create-tile textarea::-moz-placeholder{
+  color: #838383;
+}
+.create-tile textarea:-ms-input-placeholder {
+   color: #838383;
+}
+.create-tile input.file{
+  display: none;
+}
+.create-tile .new-tile-wrap label{
+  width: 100%;
+}
+.create-tile .new-tile-wrap img{
+  width: 100%;
+  cursor: pointer;
+  height: 150px;
+}
+.create-tile input.form-control{
+  width: 100%;
+  margin: 10px auto;
+  height: 45px;
+}
+.create-tile select.form-control{
+  background-color: #ebebeb;
+  border-radius: 0;
+  border-bottom: 1px solid #0d6c8f;
+  margin: 0 auto;
+  padding: 10px 15px;
+  height: 45px;
+  font-size: 16px;
+  color: #838383;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+}
+.create-tile #type_sel{
+  position: relative;
+}
+.create-tile #type_sel::after{
+  content: "\f107";
+  font-family: FontAwesome;
+  padding: 0px;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 16px;
+}
+.create-tile .create-tile-btn{
+  background: #0d6c8f;
+  color: #fff;
+  font-size: 18px;
+  padding: 5px 15px;
+  width: 150px;
+  display: block;
+  margin: 20px auto;
+  border-radius: 20px;
 }
