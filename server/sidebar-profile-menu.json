@@ -31,7 +31,7 @@
   },
   {
       "text": "Accounts",
-      "sref": "",
+      "sref": "app.profile-accounts",
       "label": "label label-info"
   }
 ]

@@ -51,7 +51,8 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
             'app.profile',
             'app.signup',
             'app.login',
-            'app.tiles'
+            'app.tiles',
+            'app.profile-accounts'
         ]);
 })();
 
@@ -867,6 +868,13 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
                 title: 'My Tiles',
                 controller: 'tilesController',
                 templateUrl: helper.basepath('tiles.html'),
+                resolve: helper.resolveFor('akoenig.deckgrid')
+            })
+            .state('app.profile-accounts', {
+                url: '/profile/accounts',
+                title: 'Profile Accounts',
+                controller: 'accountsController',
+                templateUrl: helper.basepath('profile-accounts.html'),
                 resolve: helper.resolveFor('akoenig.deckgrid')
             })
           // 
@@ -4593,10 +4601,8 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
           var params = {
               "attribute": 2,
               "attributeValueDate": 0,
-              "attributeValueText": "asd",
-              "externalId": "string"
+              "attributeValueText": $scope.job
             };
-          
           $http({
               method: 'PUT',
               url: VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/2',
@@ -4607,51 +4613,67 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
             }).error(function (data, status, headers, config) {
                 console.log(data, status, headers, config);
             });
-          // $http.defaults.headers.post["Content-Type"] = "application/json";
-          // $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/2', params)
-          //   .success(function (data, status, headers) {
-          //       console.log(data);
-          //   });
         }
+
         // Update Sex.
-        // if($scope.sex != $scope.infos[2].attributeValueText){
-        //   data = $.param({
-        //     attributeType: 0,
-        //     attributeValueDate: 0,
-        //     attributeValueText: $scope.sex,
-        //     externalId: 'string'
-        //   });
-        //   $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/3?'+data)
-        //     .success(function (data, status, headers) {
-        //         console.log(data);
-        //     })
-        // }
-        // // Update Location.
-        // if($scope.location != $scope.infos[3].attributeValueText){
-        //   data = $.param({
-        //     attributeType: 0,
-        //     attributeValueDate: 0,
-        //     attributeValueText: $scope.location,
-        //     externalId: 'string'
-        //   });
-        //   $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/4?'+data)
-        //     .success(function (data, status, headers) {
-        //         console.log(data);
-        //     })
-        // }
-        // // Update Bio.
-        // if($scope.bio != $scope.infos[4].attributeValueText){
-        //   data = $.param({
-        //     attributeType: 0,
-        //     attributeValueDate: 0,
-        //     attributeValueText: $scope.bio,
-        //     externalId: 'string'
-        //   });
-        //   $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/5?'+data)
-        //     .success(function (data, status, headers) {
-        //         console.log(data);
-        //     })
-        // }        
+        if($scope.sex != $scope.infos[2].attributeValueText){
+          data = $.param({
+            attributeType: 0,
+            attributeValueDate: 0,
+            attributeValueText: $scope.sex,
+            externalId: 'string'
+          });
+          $http({
+              method: 'PUT',
+              url: VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/3',
+              data: JSON.stringify(params),
+              headers: {'Content-type': 'application/json'}
+            }).success(function (data, status, headers, config) {
+                console.log(data);
+            }).error(function (data, status, headers, config) {
+                console.log(data, status, headers, config);
+            });
+        }
+
+        // Update Location.
+        if($scope.location != $scope.infos[3].attributeValueText){
+          data = $.param({
+            attributeType: 0,
+            attributeValueDate: 0,
+            attributeValueText: $scope.location,
+            externalId: 'string'
+          });
+          $http({
+              method: 'PUT',
+              url: VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/4',
+              data: JSON.stringify(params),
+              headers: {'Content-type': 'application/json'}
+            }).success(function (data, status, headers, config) {
+                console.log(data);
+            }).error(function (data, status, headers, config) {
+                console.log(data, status, headers, config);
+            });
+        }
+
+        // Update Bio.
+        if($scope.bio != $scope.infos[4].attributeValueText){
+          data = $.param({
+            attributeType: 0,
+            attributeValueDate: 0,
+            attributeValueText: $scope.bio,
+            externalId: 'string'
+          });
+          $http({
+              method: 'PUT',
+              url: VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/5',
+              data: JSON.stringify(params),
+              headers: {'Content-type': 'application/json'}
+            }).success(function (data, status, headers, config) {
+                console.log(data);
+            }).error(function (data, status, headers, config) {
+                console.log(data, status, headers, config);
+            });
+        }
       }
 
       /*-------------------------------------------
@@ -4704,7 +4726,44 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
       $http.get(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
         .success(function(data){
           $scope.myClubs = data;
-        }) 
+        });
+    }
+})();
+
+/**=========================================================
+ * accountsController: Controller for a Profile Accounts page
+ * used in Profile Accounts page.
+ * Author: Marcin - 2015.11.23
+ =========================================================*/
+ (function() {
+    'use strict';
+
+    angular
+        .module('app.profile-accounts', ['ngAnimate', 'ui.bootstrap'])        
+        .controller('accountsController', accountsController);
+
+    function accountsController($scope, $http, RouteHelpers) {
+      $scope.basepath = RouteHelpers.basepath;
+      $scope.accounts = [];      
+      $scope.accounts.unshift('addAccount');
+
+      // Get Roles by viewer.
+      $http.get(VIEWER_MANAGEMENT+'/B16EF381-81D1-4014-8BFA-AA7B082E0FD7/roles')
+        .success(function(data){
+          for(var i in data){
+            $scope.accounts.push(data[i].account);
+          }
+console.log($scope.accounts);        
+        });
+
+      $scope.extendAccount = function(element){
+        if(element.extendWrap){
+          element.extendWrap = false;
+        }
+        else{
+          element.extendWrap = true;
+        }
+      }
     }
 })();
 
