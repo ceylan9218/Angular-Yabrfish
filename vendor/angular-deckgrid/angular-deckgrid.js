@@ -20,7 +20,7 @@ angular.module('akoenig.deckgrid').directive('deckgrid', [
 
     function initialize (DeckgridDescriptor) {
 
-        'use strict';
+        //'use strict';
 
         return DeckgridDescriptor.create();
     }
@@ -45,7 +45,7 @@ angular.module('akoenig.deckgrid').factory('DeckgridDescriptor', [
 
     function initialize (Deckgrid, $templateCache) {
 
-        'use strict';
+        //'use strict';
 
         /**
          * This is a wrapper around the AngularJS
@@ -165,7 +165,7 @@ angular.module('akoenig.deckgrid').factory('Deckgrid', [
 
     function initialize ($window, $log) {
 
-        'use strict';
+        //'use strict';
 
         /**
          * The deckgrid directive.
