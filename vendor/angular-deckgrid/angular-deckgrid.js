@@ -132,7 +132,6 @@ angular.module('akoenig.deckgrid').factory('DeckgridDescriptor', [
                 // use the provided template file
                 scope.cardTemplate = attrs.cardtemplate;
             }
-
             scope.mother = scope.$parent;
 
             this.$$deckgrid = Deckgrid.create(scope, elem[0]);
@@ -305,13 +304,12 @@ angular.module('akoenig.deckgrid').factory('Deckgrid', [
 
             this.$$scope.columns = [];
 
-            angular.forEach(this.$$scope.model, function onIteration (card, index) {
+            angular.forEach(this.$$scope.model, function onIteration (card, index) {                
                 var column = (index % self.$$scope.layout.columns) | 0;
 
                 if (!self.$$scope.columns[column]) {
                     self.$$scope.columns[column] = [];
                 }
-
                 card.$index = index;
                 self.$$scope.columns[column].push(card);
             });
