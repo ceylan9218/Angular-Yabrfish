@@ -23,5 +23,15 @@
       "text": "Messages",
       "sref": "",
       "label": "label label-info"
+  },
+  {
+      "text": "Groups",
+      "sref": "",
+      "label": "label label-info"
+  },
+  {
+      "text": "Accounts",
+      "sref": "",
+      "label": "label label-info"
   }
 ]

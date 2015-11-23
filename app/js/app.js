@@ -4611,61 +4611,67 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com/yfapi/tileservice/tiles';
         // Update Job.
         if($scope.job != $scope.infos[1].attributeValueText){
           var params = {
-              attributeValueText: $scope.job
+              "attribute": 2,
+              "attributeValueDate": 0,
+              "attributeValueText": "asd",
+              "externalId": "string"
             };
           
-          // $http({
-          //     method: 'PUT',
-          //     url: VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/2',
-          //     data: $.param({
-          //             attributeValueText: $scope.job,
-          //           }),
-          //     headers: {'content-type': 'application/json;charset=UTF-8'}
-          //   })
-          $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/2', params)
-            .success(function (data, status, headers) {
+          $http({
+              method: 'PUT',
+              url: VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/2',
+              data: JSON.stringify(params),
+              headers: {'Content-type': 'application/json'}
+            }).success(function (data, status, headers, config) {
                 console.log(data);
+            }).error(function (data, status, headers, config) {
+                console.log(data, status, headers, config);
             });
+          // $http.defaults.headers.post["Content-Type"] = "application/json";
+          // $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/2', params)
+          //   .success(function (data, status, headers) {
+          //       console.log(data);
+          //   });
         }
         // Update Sex.
-        if($scope.sex != $scope.infos[2].attributeValueText){
-          data = $.param({
-            attributeType: 0,
-            attributeValueDate: 0,
-            attributeValueText: $scope.sex,
-            externalId: 'string'
-          });
-          $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/3?'+data)
-            .success(function (data, status, headers) {
-                console.log(data);
-            })
-        }
-        // Update Location.
-        if($scope.location != $scope.infos[3].attributeValueText){
-          data = $.param({
-            attributeType: 0,
-            attributeValueDate: 0,
-            attributeValueText: $scope.location,
-            externalId: 'string'
-          });
-          $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/4?'+data)
-            .success(function (data, status, headers) {
-                console.log(data);
-            })
-        }
-        // Update Bio.
-        if($scope.bio != $scope.infos[4].attributeValueText){
-          data = $.param({
-            attributeType: 0,
-            attributeValueDate: 0,
-            attributeValueText: $scope.bio,
-            externalId: 'string'
-          });
-          $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/5?'+data)
-            .success(function (data, status, headers) {
-                console.log(data);
-            })
-        }        
+        // if($scope.sex != $scope.infos[2].attributeValueText){
+        //   data = $.param({
+        //     attributeType: 0,
+        //     attributeValueDate: 0,
+        //     attributeValueText: $scope.sex,
+        //     externalId: 'string'
+        //   });
+        //   $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/3?'+data)
+        //     .success(function (data, status, headers) {
+        //         console.log(data);
+        //     })
+        // }
+        // // Update Location.
+        // if($scope.location != $scope.infos[3].attributeValueText){
+        //   data = $.param({
+        //     attributeType: 0,
+        //     attributeValueDate: 0,
+        //     attributeValueText: $scope.location,
+        //     externalId: 'string'
+        //   });
+        //   $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/4?'+data)
+        //     .success(function (data, status, headers) {
+        //         console.log(data);
+        //     })
+        // }
+        // // Update Bio.
+        // if($scope.bio != $scope.infos[4].attributeValueText){
+        //   data = $.param({
+        //     attributeType: 0,
+        //     attributeValueDate: 0,
+        //     attributeValueText: $scope.bio,
+        //     externalId: 'string'
+        //   });
+        //   $http.put(VIEWER_MANAGEMENT+'/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/5?'+data)
+        //     .success(function (data, status, headers) {
+        //         console.log(data);
+        //     })
+        // }        
       }
 
       /*-------------------------------------------
