@@ -1482,6 +1482,10 @@ _:-ms-lang(x),
 }
 .sidebar-subnav > li {
   border-left: 0 !important;
+  border-bottom: 1px solid #f2f2f2;
+}
+.sidebar-subnav > li:last-child{
+  border-bottom: none;
 }
 .sidebar-subnav > li > a,
 .sidebar-subnav > li > .nav-item {
@@ -1491,7 +1495,7 @@ _:-ms-lang(x),
   padding-left: 100px;
   font-weight: normal;
   background-color: transparent !important;
-  color: #515253;
+  color: #515253;  
 }
 .sidebar-subnav > li > a:focus,
 .sidebar-subnav > li > .nav-item:focus,
@@ -10979,6 +10983,9 @@ img.logo{
   background: #e4e4e4;
   border: 4px dashed #0d6c8f;
   border-radius: 0 0 15px 0;
+  display: block;
+  width: 350px;
+  margin: 0 auto;
 }
 .create img.add-icon{
   width: 20px;
@@ -10994,6 +11001,24 @@ img.logo{
 .create .new-tile-wrap{
   width: 90%;
   margin: 0 auto;
+  overflow: hidden;
+}
+.create-tile-slider{
+  white-space: nowrap;
+  transition:0.1s;
+  -webkit-transition:0.1s;
+  -moz-transition:0.1s;
+}
+.create-tile-slider .steps{
+  float: left;
+  display: inline-block;
+  padding: 0 2px;
+}
+.create-tile-slider #step2 label{
+  font-size: 16px;
+  font-weight: normal;
+  margin: 10px 0 0;
+  padding-left: 10px;
 }
 .create input.form-control, .create textarea{
   background-color: #ebebeb;
@@ -11050,10 +11075,10 @@ img.logo{
   -moz-appearance:none;
   appearance:none;
 }
-.create #type_sel{
+.create .type_sel{
   position: relative;
 }
-.create #type_sel::after{
+.create .type_sel::after{
   content: "\f107";
   font-family: FontAwesome;
   padding: 0px;
@@ -11073,14 +11098,65 @@ img.logo{
   border-radius: 20px;
 }
 .next-btn{
+  background: #0d6c8f;
+  width: 40px;
+  height: 40px;
   float: right;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 50%;
+  margin: 10px;
+}
+.prev-btn{
+  background: #0d6c8f;
+  width: 40px;
+  height: 40px;
+  float: left;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 50%;
+  margin: 10px;
+}
+.next-btn:hover, .next-btn:focus, .next-btn.focus,
+.prev-btn:hover, .prev-btn:focus, .prev-btn.focus{
+  color: #fff;
+}
+@media only screen and (max-width: 767px) {
+  .create{
+    border: 2px dashed #0d6c8f;
+    width: 270px;
+  }
+  .create h4{
+    margin-top: 10px;
+  }
+  .create .new-tile-wrap img{
+    height: 130px;
+  }
+  .create select.form-control{
+    height: 35px;
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+  .create .type_sel::after{
+    top: 5px;
+  }
+  .create input.form-control{
+    height: 35px;
+  }
+  textarea.form-control{
+    height: auto;
+  }
+  .create input.form-control, .create textarea{
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+  .create .create-tile-btn{
+    width: 120px;
+    font-size: 16px;
+  }
 }
 /* ========================================================================
    title: Create Account Page Style
    author: Marcin
    date: 2015.11.24
  ========================================================================== */
- .create{
-  width: 350px;
-  margin: 0 auto;
- }

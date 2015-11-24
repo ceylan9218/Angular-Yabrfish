@@ -29,10 +29,20 @@
   },
   {
       "text": "My Tiles",
-      "sref": "app.tiles",
+      "sref": "",
       "icon": "app/img/tiles.png",
       "selicon": "app/img/tiles-o.png",
-      "label": "label label-info"
+      "label": "label label-info",
+      "submenu": [
+          {
+            "text": "My Tiles",
+            "sref": "app.tiles"
+          },
+          {
+            "text": "New Tile", 
+            "sref": "app.new-tile" 
+          }    
+      ]
   },
   {
       "text": "Settings",
