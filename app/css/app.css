@@ -11160,3 +11160,10 @@ img.logo{
    author: Marcin
    date: 2015.11.24
  ========================================================================== */
+.create select option{
+  padding: 5px 10px;
+  border-bottom: 1px solid #838383;
+}
+.create select option:last-child{
+  border-bottom: none;
+}
