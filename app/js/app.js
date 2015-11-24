@@ -877,6 +877,12 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
                 templateUrl: helper.basepath('profile-accounts.html'),
                 resolve: helper.resolveFor('akoenig.deckgrid')
             })
+            .state('app.profile-new-account', {
+                url: '/profile/accounts/new',
+                title: 'Profile New Account',
+                controller: 'accountsController',
+                templateUrl: helper.basepath('profile-new-account.html')
+            })
           // 
           // CUSTOM RESOLVES
           //   Add your own resolves properties
@@ -1000,6 +1006,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
             }
           });
 
+          closeAllBut(1);
 
           // Load main menu from json file
           // ----------------------------------- 
@@ -1024,7 +1031,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
           };
 
           $scope.addCollapse = function($index, item) {
-            collapseList[$index] = $rootScope.app.layout.asideHover ? true : !isActive(item);
+            collapseList[$index] = true;
           };
 
           $scope.isCollapse = function($index) {
@@ -1034,11 +1041,11 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
           $scope.toggleCollapse = function($index, isParentItem) {
 
             // collapsed sidebar doesn't toggle drodopwn
-            if( Utils.isSidebarCollapsed() || $rootScope.app.layout.asideHover ) return true;
+            //if( Utils.isSidebarCollapsed() || $rootScope.app.layout.asideHover ) return true;
 
             // make sure the item index exists
             if( angular.isDefined( collapseList[$index] ) ) {
-              if ( ! $scope.lastEventFromChild ) {
+              if ( ! $scope.lastEventFromChild ) {                
                 collapseList[$index] = !collapseList[$index];
                 closeAllBut($index);
               }
@@ -1124,14 +1131,14 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
           var $sidebar = element;
 
           var eventName = Utils.isTouch() ? 'click' : 'mouseenter' ;
-          var subNav = $();
+          //var subNav = $();
 
           $sidebar.on( eventName, '.nav > li', function() {
 
             if( Utils.isSidebarCollapsed() || $rootScope.app.layout.asideHover ) {
 
-              subNav.trigger('mouseleave');
-              subNav = toggleMenuItem( $(this), $sidebar);
+              // subNav.trigger('mouseleave');
+              // subNav = toggleMenuItem( $(this), $sidebar);
 
               // Used to detect click and touch events outside the sidebar          
               sidebarAddBackdrop();
@@ -1231,27 +1238,27 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
           var $asideInner = $('.aside-inner'); // for top offset calculation
           // float aside uses extra padding on aside
           var mar = parseInt( $asideInner.css('padding-top'), 0) + parseInt( $aside.css('padding-top'), 0);
-          var subNav = ul.clone().appendTo( $aside );
+          //var subNav = ul.clone().appendTo( $aside );
           
           toggleTouchItem($listItem);
 
           var itemTop = ($listItem.position().top + mar) - $sidebar.scrollTop();
           var vwHeight = $win.height();
 
-          subNav
-            .addClass('nav-floating')
-            .css({
-              position: $rootScope.app.layout.isFixed ? 'fixed' : 'absolute',
-              top:      itemTop,
-              bottom:   (subNav.outerHeight(true) + itemTop > vwHeight) ? 0 : 'auto'
-            });
+          // subNav
+          //   .addClass('nav-floating')
+          //   .css({
+          //     position: $rootScope.app.layout.isFixed ? 'fixed' : 'absolute',
+          //     top:      itemTop,
+          //     bottom:   (subNav.outerHeight(true) + itemTop > vwHeight) ? 0 : 'auto'
+          //   });
 
-          subNav.on('mouseleave', function() {
-            toggleTouchItem($listItem);
-            subNav.remove();
-          });
+          // subNav.on('mouseleave', function() {
+          //   toggleTouchItem($listItem);
+          //   subNav.remove();
+          // });
 
-          return subNav;
+          //return subNav;
         }
 
         function removeFloatingNav() {
@@ -4745,7 +4752,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
     function accountsController($scope, $http, RouteHelpers) {
       $scope.basepath = RouteHelpers.basepath;
       $scope.accounts = [];      
-      $scope.accounts.unshift('addAccount');
+//      $scope.accounts.unshift('addAccount');
 
       // Get Roles by viewer.
       $http.get(VIEWER_MANAGEMENT+'/B16EF381-81D1-4014-8BFA-AA7B082E0FD7/roles')
@@ -4753,7 +4760,6 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
           for(var i in data){
             $scope.accounts.push(data[i].account);
           }
-console.log($scope.accounts);        
         });
 
       $scope.extendAccount = function(element){
