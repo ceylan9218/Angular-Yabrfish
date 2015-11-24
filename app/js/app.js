@@ -870,6 +870,12 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
                 templateUrl: helper.basepath('tiles.html'),
                 resolve: helper.resolveFor('akoenig.deckgrid')
             })
+            .state('app.new-tile', {
+                url: '/tiles/new',
+                title: 'New Tile',
+                controller: 'tilesController',
+                templateUrl: helper.basepath('new-tile.html')
+            })
             .state('app.profile-accounts', {
                 url: '/profile/accounts',
                 title: 'Profile Accounts',
@@ -4759,9 +4765,7 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
         title: '',
         description: ''
       };
-
-//      $scope.accounts.unshift('addAccount');
-      
+     
       // Get Roles by viewer.
       $http.get(VIEWER_MANAGEMENT+'/B16EF381-81D1-4014-8BFA-AA7B082E0FD7/roles')
         .success(function(data){
@@ -5019,8 +5023,28 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
         title: '',
         description: ''
       };
-      
-      $scope.tiles.unshift('addTile');
+      $scope.accounts = [];
+      $scope.organizations = [];
+
+      // Slide Tile Creation Steps.
+      var step_count = 3;
+      $scope.stepWidth = angular.element('.new-tile-wrap').width();
+      $scope.sliderWidth = angular.element('.new-tile-wrap').width() * step_count;
+      $scope.transform = '';
+      var translate = 0;
+      $scope.index = 0;
+
+      $scope.slideWrap = function(dir){
+        if(dir === 'next'){
+          $scope.index ++;
+          translate -= $scope.stepWidth;
+          $scope.transform = "translate("+translate+"px, 0px)";
+        }else{
+          $scope.index --;
+          translate += $scope.stepWidth;
+          $scope.transform = "translate("+translate+"px, 0px)";
+        }
+      }
 
       $scope.setFile = function(element) {
         $scope.currentFile = element.files[0];
@@ -5034,6 +5058,15 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
         // when the file is read it triggers the onload event above.
         reader.readAsDataURL(element.files[0]);
       }
+
+      // Get Current User's Roles
+      $http.get(VIEWER_MANAGEMENT+'/B16EF381-81D1-4014-8BFA-AA7B082E0FD7/roles')
+        .success(function(data){
+          for(var i in data){            
+            $scope.accounts.push(data[i].account);
+            $scope.organizations.push(data[i].organization);
+          }
+        })
 
       $scope.createTile = function() {
         // File Upload
@@ -5064,8 +5097,6 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
         }).error(function (data, status, headers, config){
           console.log(status);
         })
-
-        console.log($scope.newTile.tileType, $scope.newTile.title, $scope.newTile.description);
       }
     }
 })();

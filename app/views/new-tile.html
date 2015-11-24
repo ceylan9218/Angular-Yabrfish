@@ -1,0 +1,38 @@
+<div class="create tile">
+   <h4><img class="add-icon" src="app/img/create-tile.png">Create New tile</h4>
+   <div class="new-tile-wrap">
+      <div class="create-tile-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': sliderWidth}">
+         <div id="step1" class="steps" ng-style="{'width': stepWidth}">
+            <label for="file-input">
+               <img src="app/img/upload-photo.png"/ ng-src="{{image_source}}">
+            </label>
+            <input id="file-input" class="file" type="file" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
+            <div class="type_sel">
+               <select class="form-control" ng-init="newTile.tileType = tileType[0]" ng-model="newTile.tileType" ng-options="value for value in tileType"></select>
+            </div>
+            <input type="text" class="form-control" ng-model="newTile.title" placeholder="The title...">
+            <textarea class="form-control" ng-model="newTile.description" placeholder="Description..."></textarea>
+         </div>
+         <div id="step2" class="steps" ng-style="{'width': stepWidth}">
+            <label for="accounts">Accounts:</label>
+            <div class="type_sel">
+               <select class="form-control">
+                  <option ng-repeat="account in accounts">{{account.name}}</option>
+               </select>
+            </div>
+            <label for="accounts">Organizations:</label>
+            <div class="type_sel">
+               <select class="form-control">
+                  <option ng-if="organization" ng-repeat="organization in organizations track by $index">{{organization.name}}</option>
+               </select>
+            </div>
+            <button class="create-tile-btn btn" ng-click="createTile()">Create Tile</button>
+         </div>
+         <div id="step3" class="steps" ng-style="{'width': stepWidth}">
+            <label>Packs:</label>
+         </div>
+      </div>      
+      <button ng-if="index != 2" class="next-btn btn" ng-click="slideWrap('next')"><i class="fa fa-angle-right fg-lg"></i></button>
+      <button ng-if="index != 0" class="prev-btn btn" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i></button>      
+   </div>
+</div>
