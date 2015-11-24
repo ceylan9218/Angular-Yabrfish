@@ -4751,15 +4751,30 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
 
     function accountsController($scope, $http, RouteHelpers) {
       $scope.basepath = RouteHelpers.basepath;
-      $scope.accounts = [];      
-//      $scope.accounts.unshift('addAccount');
+      $scope.accounts = [];
+      $scope.accountTypes = [];
+      $scope.newAccount = {
+        accountType: '',
+        imageUrl: '',
+        title: '',
+        description: ''
+      };
 
+//      $scope.accounts.unshift('addAccount');
+      
       // Get Roles by viewer.
       $http.get(VIEWER_MANAGEMENT+'/B16EF381-81D1-4014-8BFA-AA7B082E0FD7/roles')
         .success(function(data){
           for(var i in data){
             $scope.accounts.push(data[i].account);
           }
+        });
+
+      // Get Account Type
+      $http.get(LOOKUP_SERVICE+'/accounttypes')
+        .success(function(data){
+          $scope.accountTypes = data;
+          $scope.newAccount.accountType = $scope.accountTypes[0].fullName;
         });
 
       $scope.extendAccount = function(element){
