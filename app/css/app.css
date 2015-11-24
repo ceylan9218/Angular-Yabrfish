@@ -568,6 +568,7 @@ body {
 }
 .aside-collapsed.aside-toggled .sidebar > .nav > li:hover, .aside-collapsed.aside-toggled .sidebar > .nav > li.active{
   background: #00aced;
+  color: #fff;
 }
 .aside-collapsed.aside-toggled .sidebar > .nav > li > a, 
 .aside-collapsed.aside-toggled .sidebar > .nav > li > .nav-item{
@@ -1379,7 +1380,9 @@ _:-ms-lang(x),
   color: #333;
   padding: 15px 0;
 }
-.aside-collapsed.aside-toggled .sidebar > .nav > li > a:hover, .aside-collapsed.aside-toggled .sidebar > .nav > li.active > a{
+.aside-collapsed.aside-toggled .sidebar > .nav > li > a:hover,
+.aside-collapsed.aside-toggled .sidebar > .nav > li.active > a,
+.aside-collapsed.aside-toggled .sidebar > .nav > li:hover > a{
   color: #fff;
   font-weight: bold;
 }
@@ -1396,7 +1399,10 @@ _:-ms-lang(x),
   right: 0px;
   color: rgb(58, 190, 239);
 }
-.aside-collapsed.aside-toggled .sidebar > .nav > li > a:hover i, .aside-collapsed.aside-toggled .sidebar > .nav > li.active > a i{
+.aside-collapsed.aside-toggled .sidebar > .nav > li > a:hover i,
+.aside-collapsed.aside-toggled .sidebar > .nav > li:hover > a i,
+.aside-collapsed.aside-toggled .sidebar > .nav > li.active > a i
+{
   color: #fff;
 }
 .sidebar > .nav .label {
@@ -1482,7 +1488,7 @@ _:-ms-lang(x),
   display: block;
   position: relative;
   padding: 10px 20px;
-  padding-left: 53px;
+  padding-left: 100px;
   font-weight: normal;
   background-color: transparent !important;
   color: #515253;
@@ -1605,6 +1611,10 @@ _:-ms-lang(x),
     display: inline-block;
     width: 100%;
     border-top: none;
+  }
+  .sidebar-subnav > li > a, .sidebar-subnav > li > .nav-item{
+      padding: 5px 20px;
+      padding-left: 55px;
   }
 }
 @media only screen and (min-width: 768px) {
@@ -10965,27 +10975,27 @@ img.logo{
    author: Ryan
    date: 2015.11.20
  ========================================================================== */
-.create-tile{
+.create{
   background: #e4e4e4;
   border: 4px dashed #0d6c8f;
   border-radius: 0 0 15px 0;
 }
-.create-tile img.add-icon{
+.create img.add-icon{
   width: 20px;
   margin-right: 10px;
 }
-.create-tile h4{
+.create h4{
   font-weight: normal;
   color: #11748c;
   font-size: 16px;
   text-align: center;
   margin-top: 20px;
 }
-.create-tile .new-tile-wrap{
+.create .new-tile-wrap{
   width: 90%;
   margin: 0 auto;
 }
-.create-tile input.form-control, .create-tile textarea{
+.create input.form-control, .create textarea{
   background-color: #ebebeb;
   border-radius: 0;
   border-bottom: 1px solid #0d6c8f;
@@ -10993,41 +11003,41 @@ img.logo{
   font-size: 16px;
   color: #838383;
 }
-.create-tile input::-webkit-input-placeholder{
+.create input::-webkit-input-placeholder{
   color: #838383;
 }
-.create-tile input::-moz-placeholder{
+.create input::-moz-placeholder{
   color: #838383;
 }
-.create-tile input:-ms-input-placeholder {
+.create input:-ms-input-placeholder {
    color: #838383;
 }
-.create-tile textarea::-webkit-input-placeholder{
+.create textarea::-webkit-input-placeholder{
   color: #838383;
 }
-.create-tile textarea::-moz-placeholder{
+.create textarea::-moz-placeholder{
   color: #838383;
 }
-.create-tile textarea:-ms-input-placeholder {
+.create textarea:-ms-input-placeholder {
    color: #838383;
 }
-.create-tile input.file{
+.create input.file{
   display: none;
 }
-.create-tile .new-tile-wrap label{
+.create .new-tile-wrap label{
   width: 100%;
 }
-.create-tile .new-tile-wrap img{
+.create .new-tile-wrap img{
   width: 100%;
   cursor: pointer;
   height: 150px;
 }
-.create-tile input.form-control{
+.create input.form-control{
   width: 100%;
   margin: 10px auto;
   height: 45px;
 }
-.create-tile select.form-control{
+.create select.form-control{
   background-color: #ebebeb;
   border-radius: 0;
   border-bottom: 1px solid #0d6c8f;
@@ -11040,10 +11050,10 @@ img.logo{
   -moz-appearance:none;
   appearance:none;
 }
-.create-tile #type_sel{
+.create #type_sel{
   position: relative;
 }
-.create-tile #type_sel::after{
+.create #type_sel::after{
   content: "\f107";
   font-family: FontAwesome;
   padding: 0px;
@@ -11052,7 +11062,7 @@ img.logo{
   top: 10px;
   font-size: 16px;
 }
-.create-tile .create-tile-btn{
+.create .create-tile-btn{
   background: #0d6c8f;
   color: #fff;
   font-size: 18px;
@@ -11062,3 +11072,13 @@ img.logo{
   margin: 20px auto;
   border-radius: 20px;
 }
+
+/* ========================================================================
+   title: Create Account Page Style
+   author: Marcin
+   date: 2015.11.24
+ ========================================================================== */
+ .create{
+  width: 350px;
+  margin: 0 auto;
+ }
