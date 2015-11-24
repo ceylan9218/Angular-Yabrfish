@@ -10,7 +10,8 @@
       </div>
       <input type="text" class="form-control" ng-model="newTile.title" placeholder="The title...">
       <textarea class="form-control" ng-model="newTile.description" placeholder="Description..."></textarea>
-      <button class="create-tile-btn btn" ng-click="createTile()">Create Tile</button>
+      <button class="next-btn btn" ng-click="slideWrap('next')">Next</button>
+      <!-- <button class="create-tile-btn btn" ng-click="createTile()">Create Tile</button> -->
    </div>
 </div>
 <div ng-controller="feedsController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer' || card.tileType == 'business' || card.tileType == 'job' || card.tileType == 'swap'" class="yabrTile-body">

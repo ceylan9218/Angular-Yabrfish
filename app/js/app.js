@@ -5046,11 +5046,12 @@ var TILES_MANAGEMENT = 'http://data.yabrfish.com:9091/tileservice/tiles';
         //     headers: {'Content-Type': undefined },
         //     transformRequest: angular.identity
         // }).success( console.log('all right!')).error(console.log('..damn!...'));
-
+        $scope.newTile.tileType = $scope.newTile.tileType.toUpperCase();
         var params = {
           "description": $scope.newTile.description,
           "name": $scope.newTile.title,
-          "tileType": $scope.newTile.tileType
+          "tileType": $scope.newTile.tileType,
+          "isDeleted": false
         };
 
         $http({
