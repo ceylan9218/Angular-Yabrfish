@@ -1,15 +1,17 @@
 <div class="create account">
-   <h4><img class="add-icon" src="app/img/add-green.png">Create New Account</h4>
-   <div class="new-tile-wrap">
-      <label for="file-input">
-         <img src="app/img/upload-photo.png"/ ng-src="{{image_source}}">
-      </label>
-      <input id="file-input" class="file" type="file" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
-      <div id="type_sel">
-         <select class="form-control" ng-init="newTile.tileType = tileType[0]" ng-model="newTile.tileType" ng-options="value for value in tileType"></select>
-      </div>
-      <input type="text" class="form-control" ng-model="newTile.title" placeholder="The title...">
-      <textarea class="form-control" ng-model="newTile.description" placeholder="Description..."></textarea>
-      <button class="create-tile-btn btn" ng-click="createTile()">Create Account</button>
-   </div>
+   	<h4><img class="add-icon" src="app/img/add-green.png">Create New Account</h4>
+   	<div class="new-tile-wrap">
+      	<label for="file-input">
+        	<img src="app/img/upload-photo.png"/ ng-src="{{image_source}}">
+      	</label>
+      	<input id="file-input" class="file" type="file" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
+      	<div id="type_sel">
+         	<select class="form-control" ng-model="newAccount.accountType">
+         		<option ng-repeat="type in accountTypes">{{type.fullName}}</option>
+         	</select>
+      	</div>
+      	<input type="text" class="form-control" ng-model="newAccount.title" placeholder="The title...">
+      	<textarea class="form-control" ng-model="newAccount.description" placeholder="Description..."></textarea>
+      	<button class="create-tile-btn btn" ng-click="createTile()">Create Account</button>
+   	</div>
 </div>
