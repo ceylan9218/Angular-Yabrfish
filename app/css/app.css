@@ -11160,10 +11160,45 @@ img.logo{
    author: Marcin
    date: 2015.11.24
  ========================================================================== */
+.create .new-account-wrap{
+  width: 90%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.create .new-account-wrap label{
+  width: 100%;
+}
+.create .new-account-wrap img{
+  width: 100%;
+  cursor: pointer;
+  height: 150px;
+}
 .create select option{
   padding: 5px 10px;
   border-bottom: 1px solid #838383;
 }
 .create select option:last-child{
   border-bottom: none;
+}
+.create-account-slider{
+  white-space: nowrap;
+  transition:0.1s;
+  -webkit-transition:0.1s;
+  -moz-transition:0.1s;
+}
+.create-account-slider .steps{
+  float: left;
+  display: inline-block;
+  padding: 0 2px;
+}
+.create-account-slider #step2 label{
+  font-size: 16px;
+  font-weight: normal;
+  margin: 10px 0 0;
+  padding-left: 10px;
+}
+@media only screen and (max-width: 767px) {
+  .create .new-account-wrap img{
+    height: 130px;
+  }   
 }
