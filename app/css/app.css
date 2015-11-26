@@ -11055,7 +11055,7 @@ img.logo{
 .create .new-tile-wrap img{
   width: 100%;
   cursor: pointer;
-  height: 150px;
+  height: 171px;
 }
 .create input.form-control{
   width: 100%;
@@ -11130,7 +11130,7 @@ img.logo{
     margin-top: 10px;
   }
   .create .new-tile-wrap img{
-    height: 130px;
+    height: 132px;
   }
   .create select.form-control{
     height: 35px;
