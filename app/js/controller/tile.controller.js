@@ -10,7 +10,8 @@
         .module('app.tiles', ['ngAnimate', 'ui.bootstrap'])        
         .controller('tileController', tileController);
 
-    function tileController($scope, $http, $rootScope, RouteHelpers, APP_APIS) {
+    function tileController($scope, $http, $rootScope, $location, RouteHelpers, APP_APIS) {
+      $scope.viewerId = 'B16EF381-81D1-4014-8BFA-AA7B082E0FD7';
       $scope.tiles = [];
       $scope.basepath = RouteHelpers.basepath;
       $scope.tileType = ['Event', 'Content', 'Offer', 'Sale', 'Business', 'Job', 'Swap', 'Poll'];
@@ -57,43 +58,72 @@
       }
 
       // Get Current User's Roles
-      $http.get(APP_APIS['commerce']+'/viewers/B16EF381-81D1-4014-8BFA-AA7B082E0FD7/roles')
+      $http.get(APP_APIS['commerce']+'/viewers/'+$scope.viewerId+'/roles')
         .success(function(data){
           for(var i in data){            
             $scope.accounts.push(data[i].account);
-            $scope.organizations.push(data[i].organization);
           }
-        })
+        });
+
+      $scope.$watch('accountExternalId', function(newVal, oldVal){
+        var accountId = newVal;
+        for(var i in $scope.accounts){
+          if( $scope.accounts[i].externalId == accountId )
+            $scope.organizations = $scope.accounts[i].organizations;
+        }
+      })
 
       $scope.createTile = function() {
         // File Upload
-        var fd = new FormData();
-        //Take the first selected file
-        fd.append("file", $scope.currentFile);
+        var file = $scope.currentFile;
+        $http.post(APP_APIS['media']+'/images'+file)
+          .success(function(response){
+            console.log(response)
+          }).error(function(status){
+            console.log(status);
+          });
 
-        // $http.post('http://img.yabrfish.com/cdn/', fd, {
-        //     withCredentials: true,
-        //     headers: {'Content-Type': undefined },
-        //     transformRequest: angular.identity
-        // }).success( console.log('all right!')).error(console.log('..damn!...'));
+        
+        if(!$scope.newTile.description) $scope.newTile.description = '';
+        if(!$scope.newTile.title) $scope.newTile.title = '';
+        if(!$scope.newTile.tileType) $scope.newTile.tileType = '';
+        if(!$scope.viewerId) $scope.viewerId = '';
+        if(!$scope.accountExternalId) $scope.accountExternalId = '';
+        if(!$scope.organizationExternalId) $scope.organizationExternalId = '';
+
         $scope.newTile.tileType = $scope.newTile.tileType.toUpperCase();
         var params = {
           "description": $scope.newTile.description,
           "name": $scope.newTile.title,
+          "accountExternalId": $scope.accountExternalId,
           "tileType": $scope.newTile.tileType,
+          "organizationExternalId": $scope.organizationExternalId,
+          "viewerExternalId": $scope.viewerId,
           "isDeleted": false
         };
 
-        $http({
-          method: 'POST',
-          url: APP_APIS['tile'] + '/tiles',
-          data: JSON.stringify(params),
-          headers: {'Content-Type': 'application/json'}
-        }).success(function (data, status, headers, config){
-          console.log(data);
-        }).error(function (data, status, headers, config){
-          console.log(status);
-        })
+        // $http({
+        //   method: 'POST',
+        //   url: APP_APIS['tile'] + '/tiles',
+        //   data: JSON.stringify(params),
+        //   headers: {'Content-Type': 'application/json'}
+        // }).success(function (data, status, headers, config){
+        //   $location.path('app/tiles')
+        // }).error(function (data, status, headers, config){
+        //   console.log(status);
+        // })
+      }
+
+      $scope.getTiles = function() {
+        $http.get(APP_APIS['tile']+'/tiles/pure/'+ $scope.viewerId)
+          .success(function(tiles){
+            $scope.tiles = tiles;
+            for(var i in $scope.tiles){
+              //Get and change lowercase Tile Type.              
+              $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
+            }
+            console.log(tiles);
+          })
       }
     }
 })();
