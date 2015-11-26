@@ -855,7 +855,7 @@
             .state('app.profile-new-account', {
                 url: '/profile/accounts/new',
                 title: 'Profile New Account',
-                controller: 'accountsController',
+                controller: 'accountController',
                 templateUrl: helper.basepath('profile-new-account.html')
             })
             .state('app.tiles', {
