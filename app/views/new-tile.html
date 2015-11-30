@@ -15,15 +15,15 @@
          </div>
          <div id="step2" class="steps" ng-style="{'width': stepWidth}">
             <label for="accounts">Accounts:</label>
-            <div class="type_sel">
-               <select class="form-control">
-                  <option ng-repeat="account in accounts">{{account.name}}</option>
+            <div class="type_sel">               
+               <select class="form-control" ng-model="accountExternalId">
+                  <option value="{{account.externalId}}" ng-repeat="account in accounts">{{account.name}}</option>
                </select>
             </div>
             <label for="accounts">Organizations:</label>
             <div class="type_sel">
-               <select class="form-control">
-                  <option ng-if="organization" ng-repeat="organization in organizations track by $index">{{organization.name}}</option>
+               <select class="form-control" ng-model="organizationExternalId">
+                  <option value="{{organization.externalId}}" ng-if="organization" ng-repeat="organization in organizations track by $index">{{organization.name}}</option>
                </select>
             </div>
             <button class="create-tile-btn btn" ng-click="createTile()">Create</button>

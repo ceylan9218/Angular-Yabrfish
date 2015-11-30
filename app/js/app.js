@@ -41,11 +41,12 @@
         ])
         .constant('APP_APIS', {
           'base':                 'http://data.yabrfish.com/yfapi',
-          'commerce':             'http://data.yabrfish.com:9095/commerceservice',
-          'tile':                 'http://data.yabrfish.com:9091/tileservice',
-          'lookup':               'http://data.yabrfish.com:9096/lookupservice',
-          'reco':                 'http://data.yabrfish.com:9093/recoservice',
-          'viewer':               'http://data.yabrfish.com:9094/viewerservice'
+          'commerce':             'http://data.yabrfish.com/yfapi/commerceservice',
+          'tile':                 'http://data.yabrfish.com/yfapi/tileservice',
+          'lookup':               'http://data.yabrfish.com/yfapi/lookupservice',
+          'reco':                 'http://data.yabrfish.com/yfapi/recoservice',
+          'viewer':               'http://data.yabrfish.com/yfapi/viewerservice',
+          'media':                'http://data.yabrfish.com/yfapi/mediaservice'
         });
 })();
 
