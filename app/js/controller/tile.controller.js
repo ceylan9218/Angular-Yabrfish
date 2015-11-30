@@ -7,10 +7,10 @@
     'use strict';
 
     angular
-        .module('app.tiles', ['ngAnimate', 'ui.bootstrap'])        
+        .module('app.tiles', ['ngAnimate', 'ui.bootstrap', 'ngCropper'])        
         .controller('tileController', tileController);
 
-    function tileController($scope, $http, $rootScope, $location, RouteHelpers, APP_APIS) {
+    function tileController($scope, $http, $rootScope, $location, RouteHelpers, APP_APIS, $timeout, Cropper, $route) {
       $scope.viewerId = 'B16EF381-81D1-4014-8BFA-AA7B082E0FD7';
       $scope.tiles = [];
       $scope.basepath = RouteHelpers.basepath;
@@ -57,6 +57,56 @@
         reader.readAsDataURL(element.files[0]);
       }
 
+      var file, data;
+      $scope.onFile = function(blob) {
+        Cropper.encode((file = blob)).then(function(dataUrl) {
+          $scope.dataUrl = dataUrl;
+          $timeout(showCropper);  // wait for $digest to set image's src
+        });        
+        angular.element('.cropper-canvas img').attr('src', $scope.dataUrl);
+        $route.reload();
+      };
+
+      $scope.cropper = {};
+      $scope.cropperProxy = 'cropper.first';
+
+      $scope.preview = function() {
+        if (!file || !data) return;
+        Cropper.crop(file, data).then(Cropper.encode).then(function(dataUrl) {
+          ($scope.preview || ($scope.preview = {})).dataUrl = dataUrl;
+        });
+      };
+
+      $scope.clear = function(degrees) {
+        if (!$scope.cropper.first) return;
+        $scope.cropper.first('clear');
+      };
+
+      $scope.scale = function(width) {
+        Cropper.crop(file, data)
+          .then(function(blob) {
+            return Cropper.scale(blob, {width: width});
+          })
+          .then(Cropper.encode).then(function(dataUrl) {
+            ($scope.preview || ($scope.preview = {})).dataUrl = dataUrl;
+          });
+      }
+
+      $scope.options = {
+        maximize: false,
+        aspectRatio: 16 / 9,
+        crop: function(dataNew) {
+          data = dataNew;
+        }
+      };
+      
+      $scope.showEvent = 'show';
+      $scope.hideEvent = 'hide';
+
+      function showCropper() { $scope.$broadcast($scope.showEvent); }
+      function hideCropper() { $scope.$broadcast($scope.hideEvent); }
+
+
       // Get Current User's Roles
       $http.get(APP_APIS['commerce']+'/viewers/'+$scope.viewerId+'/roles')
         .success(function(data){
@@ -71,18 +121,17 @@
           if( $scope.accounts[i].externalId == accountId )
             $scope.organizations = $scope.accounts[i].organizations;
         }
-      })
+      });
 
       $scope.createTile = function() {
         // File Upload
-        var file = $scope.currentFile;
-        $http.post(APP_APIS['media']+'/images'+file)
-          .success(function(response){
-            console.log(response)
-          }).error(function(status){
-            console.log(status);
-          });
-
+        // var file = $scope.currentFile;
+        // $http.post(APP_APIS['media']+'/images'+file)
+        //   .success(function(response){
+        //     console.log(response);
+        //   }).error(function(status){
+        //     console.log(status);
+        //   });
         
         if(!$scope.newTile.description) $scope.newTile.description = '';
         if(!$scope.newTile.title) $scope.newTile.title = '';
@@ -102,16 +151,23 @@
           "isDeleted": false
         };
 
-        // $http({
-        //   method: 'POST',
-        //   url: APP_APIS['tile'] + '/tiles',
-        //   data: JSON.stringify(params),
-        //   headers: {'Content-Type': 'application/json'}
-        // }).success(function (data, status, headers, config){
-        //   $location.path('app/tiles')
-        // }).error(function (data, status, headers, config){
-        //   console.log(status);
-        // })
+        $http({
+          method: 'POST',
+          url: APP_APIS['tile'] + '/tiles',
+          data: JSON.stringify(params),
+          headers: {'Content-Type': 'application/json'}
+        }).success(function (data, status, headers, config){
+          var tileId = data.externalId;
+
+          // Add Creatives to Given Tile
+          $http.post(APP_APIS['tile'] + '/tiles/' + tileId + '/creatives/' + data.viewerExternalId)
+            .success(function(response){
+              console.log(response);
+              //$location.path('app/tiles');
+            });
+        }).error(function (data, status, headers, config){
+          console.log(status);
+        })
       }
 
       $scope.getTiles = function() {

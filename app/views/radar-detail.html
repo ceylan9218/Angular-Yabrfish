@@ -1,4 +1,4 @@
-<div id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer' || card.tileType == 'business' || card.tileType == 'job' || card.tileType == 'swap'" class="yabrTile-body">
+<div ng-controller="recommendationController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer' || card.tileType == 'business' || card.tileType == 'job' || card.tileType == 'swap'" class="yabrTile-body">
    <div class="ribbon" ng-if="card.segmentations[0].reason != ''"><span>{{card.segmentations[0].reason}}</span></div>
    <div class="img-video-wrap">
       <div class="tileImg">
