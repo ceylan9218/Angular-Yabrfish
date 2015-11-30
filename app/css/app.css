@@ -11046,11 +11046,12 @@ img.logo{
 .create textarea:-ms-input-placeholder {
    color: #838383;
 }
-.create input.file{
+.create input#file-input{
   display: none;
 }
 .create .new-tile-wrap label{
   width: 100%;
+  height: 100%;
 }
 .create .new-tile-wrap img{
   width: 100%;
@@ -11121,6 +11122,18 @@ img.logo{
 .prev-btn:hover, .prev-btn:focus, .prev-btn.focus{
   color: #fff;
 }
+
+.img-container {
+  max-width: 304px;
+  float: left;
+}
+.preview-container {
+  float: right;
+}
+.preview-container img {
+  max-width: 304px;
+}
+
 @media only screen and (max-width: 767px) {
   .create{
     border: 2px dashed #0d6c8f;

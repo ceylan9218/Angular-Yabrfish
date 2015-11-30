@@ -61,7 +61,7 @@
             }
         });        
 
-    function recommendationController($rootScope, $scope, $http, $sce, RouteHelpers, $timeout, $q, Flash, APP_APIS) {      
+    function recommendationController($rootScope, $scope, $http, $sce, RouteHelpers, $timeout, $q, Flash, APP_APIS) {
         $scope.basepath = RouteHelpers.basepath;
         $scope.tiles = [];
         $scope.showVideo = false;
