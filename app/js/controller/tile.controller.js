@@ -7,10 +7,10 @@
     'use strict';
 
     angular
-        .module('app.tiles', ['ngAnimate', 'ui.bootstrap', 'ngCropper'])        
+        .module('app.tiles', ['ngAnimate', 'ui.bootstrap', 'aj.crop'])        
         .controller('tileController', tileController);
 
-    function tileController($scope, $http, $rootScope, $location, RouteHelpers, APP_APIS, $timeout, Cropper, $route) {
+    function tileController($scope, $http, $rootScope, $location, RouteHelpers, APP_APIS, $timeout, $window) {
       $scope.viewerId = 'B16EF381-81D1-4014-8BFA-AA7B082E0FD7';
       $scope.tiles = [];
       $scope.basepath = RouteHelpers.basepath;
@@ -44,67 +44,150 @@
         }
       }
 
+      // var file, data;
+      // $scope.onFile = function(blob) {
+      //   Cropper.encode((file = blob)).then(function(dataUrl) {
+      //     $scope.dataUrl = dataUrl;
+      //     $timeout(showCropper);  // wait for $digest to set image's src
+      //   });        
+      //   angular.element('.cropper-canvas img').attr('src', $scope.dataUrl);
+      //   $route.reload();
+      // };
+
+      // $scope.cropper = {};
+      // $scope.cropperProxy = 'cropper.first';
+
+      // $scope.preview = function() {
+      //   if (!file || !data) return;
+      //   Cropper.crop(file, data).then(Cropper.encode).then(function(dataUrl) {
+      //     ($scope.preview || ($scope.preview = {})).dataUrl = dataUrl;
+      //   });
+      // };
+
+      // $scope.clear = function(degrees) {
+      //   if (!$scope.cropper.first) return;
+      //   $scope.cropper.first('clear');
+      // };
+
+      // $scope.scale = function(width) {
+      //   Cropper.crop(file, data)
+      //     .then(function(blob) {
+      //       return Cropper.scale(blob, {width: width});
+      //     })
+      //     .then(Cropper.encode).then(function(dataUrl) {
+      //       ($scope.preview || ($scope.preview = {})).dataUrl = dataUrl;
+      //     });
+      // }
+
+      // $scope.options = {
+      //   maximize: false,
+      //   aspectRatio: 16 / 9,
+      //   crop: function(dataNew) {
+      //     data = dataNew;
+      //   }
+      // };
+      
+      // $scope.showEvent = 'show';
+      // $scope.hideEvent = 'hide';
+
+      // function showCropper() { $scope.$broadcast($scope.showEvent); }
+      // function hideCropper() { $scope.$broadcast($scope.hideEvent); }
+
+      var scope = this;
+
       $scope.setFile = function(element) {
         $scope.currentFile = element.files[0];
          var reader = new FileReader();
 
         reader.onload = function(event) {
-          $scope.image_source = event.target.result
-          $scope.$apply()
+          $scope.image_source = event.target.result;
+          scope.imageSrc = event.target.result;
 
+          $timeout(function () {
+            scope.initJcrop();
+          });
+          
+          $scope.$apply();          
         }
         // when the file is read it triggers the onload event above.
         reader.readAsDataURL(element.files[0]);
       }
 
-      var file, data;
-      $scope.onFile = function(blob) {
-        Cropper.encode((file = blob)).then(function(dataUrl) {
-          $scope.dataUrl = dataUrl;
-          $timeout(showCropper);  // wait for $digest to set image's src
-        });        
-        angular.element('.cropper-canvas img').attr('src', $scope.dataUrl);
-        $route.reload();
-      };
+      scope.file = {};
 
-      $scope.cropper = {};
-      $scope.cropperProxy = 'cropper.first';
+      $scope.$on("fileProgress", function(e, progress) {
+        $scope.progress = progress.loaded / progress.total;
+      });
 
-      $scope.preview = function() {
-        if (!file || !data) return;
-        Cropper.crop(file, data).then(Cropper.encode).then(function(dataUrl) {
-          ($scope.preview || ($scope.preview = {})).dataUrl = dataUrl;
+      scope.initJcrop = function () {
+        console.log('init jcrop');
+        $window.jQuery('img.aj-crop').Jcrop({
+          onSelect: function () {
+            //$scope.$apply();
+            console.log('onSelect', arguments);
+          }
+        , onChange: function () {
+            //$scope.$apply();
+            console.log('onChange', arguments);
+          }
+        , trackDocument: true
+        , aspectRatio: 16 / 9
         });
       };
 
-      $scope.clear = function(degrees) {
-        if (!$scope.cropper.first) return;
-        $scope.cropper.first('clear');
+      // http://plnkr.co/edit/Iizykd7UORy3po1h5mfm?p=preview
+      scope.cropOpts = {
+        ratioW: 1
+      , ratioH: 1
       };
+      $scope.selected = function (cords) {
+        var scale;
 
-      $scope.scale = function(width) {
-        Cropper.crop(file, data)
-          .then(function(blob) {
-            return Cropper.scale(blob, {width: width});
-          })
-          .then(Cropper.encode).then(function(dataUrl) {
-            ($scope.preview || ($scope.preview = {})).dataUrl = dataUrl;
-          });
-      }
+        $scope.picWidth = cords.w;
+        $scope.picHeight = cords.h;
 
-      $scope.options = {
-        maximize: false,
-        aspectRatio: 16 / 9,
-        crop: function(dataNew) {
-          data = dataNew;
+        console.log('scale');
+        if ($scope.picWidth > 400) {
+          scale = (400 / $scope.picWidth);
+          console.log($scope.picHeight);
+          $scope.picHeight *= scale;
+          $scope.picWidth *= scale;
+          console.log(scale);
         }
-      };
-      
-      $scope.showEvent = 'show';
-      $scope.hideEvent = 'hide';
 
-      function showCropper() { $scope.$broadcast($scope.showEvent); }
-      function hideCropper() { $scope.$broadcast($scope.hideEvent); }
+        if ($scope.picHeight > 400) {
+          scale = (400 / $scope.picHeight);
+          $scope.picHeight *= scale;
+          $scope.picWidth *= scale;
+          console.log(scale);
+        }
+
+        console.log('[cords]', $scope.picWidth / $scope.picHeight);
+        console.log(cords);
+        $scope.cropped = true;
+
+        var rx = $scope.picWidth / cords.w
+          , ry = $scope.picHeight / cords.h
+          , canvas = document.createElement("canvas")
+          , context = canvas.getContext('2d')
+          , imageObj = $window.jQuery('img#preview')[0]
+          ;
+
+
+        $window.jQuery('.canvas-preview').children().remove();
+        canvas.width = cords.w;
+        canvas.height = cords.h;
+        context.drawImage(imageObj, cords.x, cords.y, cords.w, cords.h, 0, 0, cords.w, cords.h);
+        $window.jQuery('.canvas-preview').append(canvas);
+
+
+        $window.jQuery('img#preview').css({
+          width: Math.round(rx * cords.bx) + 'px',
+          height: Math.round(ry * cords.by) + 'px',
+          marginLeft: '-' + Math.round(rx * cords.x) + 'px',
+          marginTop: '-' + Math.round(ry * cords.y) + 'px'
+        });
+      };
 
 
       // Get Current User's Roles
@@ -125,13 +208,22 @@
 
       $scope.createTile = function() {
         // File Upload
-        // var file = $scope.currentFile;
-        // $http.post(APP_APIS['media']+'/images'+file)
-        //   .success(function(response){
-        //     console.log(response);
-        //   }).error(function(status){
-        //     console.log(status);
-        //   });
+        var file = $scope.currentFile;
+console.log($scope.image_source);
+        var params = {
+          'file': $scope.image_source
+        }
+
+        $http({
+          method: 'POST',
+          url: APP_APIS['media']+'/images/',
+          data: params,
+          headers: {'Content-Type': 'multipart/form-data'}
+        }).success(function(data, status, headers, config){
+          console.log(data);
+        }).error(function(data, status, headers, config){
+          console.log(status);
+        });
         
         if(!$scope.newTile.description) $scope.newTile.description = '';
         if(!$scope.newTile.title) $scope.newTile.title = '';
@@ -151,23 +243,23 @@
           "isDeleted": false
         };
 
-        $http({
-          method: 'POST',
-          url: APP_APIS['tile'] + '/tiles',
-          data: JSON.stringify(params),
-          headers: {'Content-Type': 'application/json'}
-        }).success(function (data, status, headers, config){
-          var tileId = data.externalId;
+        // $http({
+        //   method: 'POST',
+        //   url: APP_APIS['tile'] + '/tiles',
+        //   data: JSON.stringify(params),
+        //   headers: {'Content-Type': 'application/json'}
+        // }).success(function (data, status, headers, config){
+        //   var tileId = data.externalId;
 
-          // Add Creatives to Given Tile
-          $http.post(APP_APIS['tile'] + '/tiles/' + tileId + '/creatives/' + data.viewerExternalId)
-            .success(function(response){
-              console.log(response);
-              //$location.path('app/tiles');
-            });
-        }).error(function (data, status, headers, config){
-          console.log(status);
-        })
+        //   // Add Creatives to Given Tile
+        //   $http.post(APP_APIS['tile'] + '/tiles/' + tileId + '/creatives/' + data.viewerExternalId)
+        //     .success(function(response){
+        //       console.log(response);
+        //       //$location.path('app/tiles');
+        //     });
+        // }).error(function (data, status, headers, config){
+        //   console.log(status);
+        // })
       }
 
       $scope.getTiles = function() {
