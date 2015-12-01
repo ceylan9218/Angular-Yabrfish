@@ -33,7 +33,11 @@
                <img src="app/img/location.png">Locations<i class="pull-right fa" ng-class="{'fa-angle-up': card.showLocations, 'fa-angle-down': !card.showLocations}"></i>
             </accordion-heading>
             <div>
-               Locations
+               <!-- <map zoom="8" center="{{card.location[0].lat}}, {{card.location[0].lon}}" on-center-changed="centerChanged()"> <marker position="{{card.location[0].lat}}, {{card.location[0].lon}}" on-click="click()" title="Click to zoom"></marker> </map> -->
+               <input id="{{'pacInput_'+card.externalId}}" class="controls pac-input" type="text" placeholder="Search Box">
+               <div id="{{'map_'+card.externalId}}" class="map-content" map></div>
+               <button ng-if="!card.hasLocations" class="add-location btn" ng-click="addLocation(card)">Add</button>
+               <button ng-if="card.hasLocations" class="add-location btn" ng-click="updateLocation(card)">Update</button>
             </div>
          </accordion-group>
          <accordion-group is-open="card.showServices">
