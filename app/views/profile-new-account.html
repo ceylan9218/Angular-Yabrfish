@@ -16,19 +16,8 @@
          	<input type="text" class="form-control" ng-model="newAccount.title" placeholder="The title...">
          	<textarea class="form-control" ng-model="newAccount.description" placeholder="Description..."></textarea>
          </div>
-         <div id="step2" class="steps" ng-style="{'width': stepWidth}">
-            <ui-select ng-model="type.selected" theme="select2">
-               <ui-select-match placeholder="Select a Product..."></ui-select-match>
-               <ui-select-choices repeat="type in accountTypes | propsFilter: {fullName: $select.search}">
-                  <div ng-bind-html="type.fullName | highlight: $select.search"></div>               
-               </ui-select-choices>
-            </ui-select>
-            <ui-select ng-model="type.selected" theme="select2">
-               <ui-select-match placeholder="Select a Purchase..."></ui-select-match>
-               <ui-select-choices repeat="type in accountTypes | propsFilter: {fullName: $select.search}">
-                  <div ng-bind-html="type.fullName | highlight: $select.search"></div>               
-               </ui-select-choices>
-            </ui-select> 
+         <div id="step2" class="steps" ng-style="{'width': stepWidth}">            
+            
             <button class="create-tile-btn btn" ng-click="createAccount()">Create</button>
          </div>
          <div id="step3" class="steps" ng-style="{'width': stepWidth}">
