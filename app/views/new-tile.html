@@ -39,11 +39,11 @@
    </div>
 </div>
 
-<input type="file" onchange="angular.element(this).scope().onFile(this.files[0])">
+<!--<input type="file" onchange="angular.element(this).scope().onFile(this.files[0])">
 <button ng-click="preview()">Show preview</button>
-<!-- <button ng-click="scale(200)">Scale to 200px width</button>
+<button ng-click="scale(200)">Scale to 200px width</button>
 <button ng-click="clear()">Clear selection</button>
-<label>Disabled <input type="checkbox" ng-model="options.disabled"></label> -->
+<label>Disabled <input type="checkbox" ng-model="options.disabled"></label> 
 <br />
 
 <div ng-if="dataUrl" class="img-container">
@@ -57,4 +57,17 @@
 
 <div class="preview-container">
    <img ng-if="preview.dataUrl" ng-src="{{preview.dataUrl}}">
+</div>
+-->
+<div style="display: inline-block;">
+   <h3>Profile Pic</h3>
+   <!--img.aj-crop(ng-src="{{ P.imageSrc }}")-->
+   <input type="file" accept="image/*" capture="camera" onchange="angular.element(this).scope().setFile(this)"/>
+   <h3>Crop</h3>
+   <img-cropped src="image_source" selected="selected(cords)"></img-cropped>
+   <h3>Div Preview
+     <div id="cropped-image" ng-show="cropped" ng-style="{ width: picWidth + 'px', height: picHeight + 'px', overflow: 'hidden' }"><img id="preview" ng-src="{{ image_source }}"/></div>
+   </h3>
+   <h4>Canvas Preview</h4>
+   <div class="canvas-preview"></div>   
 </div>
