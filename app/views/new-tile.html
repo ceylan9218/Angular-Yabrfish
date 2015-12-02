@@ -1,73 +1,46 @@
-<div class="create tile">
-   <h4><img class="add-icon" src="app/img/create-tile.png">Create New tile</h4>
-   <div class="new-tile-wrap">
-      <div class="create-tile-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': sliderWidth}">
-         <div id="step1" class="steps" ng-style="{'width': stepWidth}">
-            <label for="file-input">
-               <img id="image" src="app/img/upload-photo.png" ng-src="{{image_source}}" ng-cropper ng-cropper-options="options" ng-cropper-show="'show.cropper'" ng-cropper-hide="'hide.cropper'">
-<!--                <img src="app/img/upload-photo.png" ng-src="{{image_source}}"> -->
-            </label>
-            <input id="file-input" class="file" type="file" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>      
-
-            <div class="type_sel">
-               <select class="form-control" ng-init="newTile.tileType = tileType[0]" ng-model="newTile.tileType" ng-options="value for value in tileType"></select>
+<div class="create-area">   
+   <div class="create tile">
+      <h4><img class="add-icon" src="app/img/create-tile.png">Create New tile</h4>
+      <div class="new-tile-wrap">
+         <div class="create-tile-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': sliderWidth}">
+            <div id="step1" class="steps" ng-style="{'width': stepWidth}">            
+               <label for="file-input">
+                  <img src="app/img/upload-photo.png"/ ng-src="{{image_source}}">
+               </label>
+               <input id="file-input" class="file" type="file" uploader="form.uploader" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>               
+               <ui-select ng-model="tileType.selected" theme="select2">
+                  <ui-select-match placeholder="Select Type...">{{$select.selected.shortCode}}</ui-select-match>
+                  <ui-select-choices repeat="tileType in tileTypes | propsFilter: {shortCode: $select.search}">
+                     <div ng-bind-html="tileType.shortCode | highlight: $select.search"></div>               
+                  </ui-select-choices>
+               </ui-select>               
+               <input type="text" class="form-control" ng-model="newTile.title" placeholder="The title...">
+               <textarea class="form-control" ng-model="newTile.description" placeholder="Description..."></textarea>
             </div>
-            <input type="text" class="form-control" ng-model="newTile.title" placeholder="The title...">
-            <textarea class="form-control" ng-model="newTile.description" placeholder="Description..."></textarea>
-         </div>
-         <div id="step2" class="steps" ng-style="{'width': stepWidth}">
-            <label for="accounts">Accounts:</label>
-            <div class="type_sel">               
-               <select class="form-control" ng-model="accountExternalId">
-                  <option value="{{account.externalId}}" ng-repeat="account in accounts">{{account.name}}</option>
-               </select>
+            <div id="step2" class="steps" ng-style="{'width': stepWidth}">
+               <label for="accounts">Accounts:</label>
+               <ui-select ng-model="account.selected" theme="select2" on-select="getOrganizations($item, $model)">
+                  <ui-select-match placeholder="Select Account...">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="account in accounts | propsFilter: {name: $select.search}">
+                     <div ng-bind-html="account.name | highlight: $select.search"></div>               
+                  </ui-select-choices>
+               </ui-select>               
+               <label for="accounts">Organizations:</label>
+               <ui-select ng-model="organization.selected" theme="select2">
+                  <ui-select-match placeholder="Select Organization...">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="organization in organizations | propsFilter: {name: $select.search}">
+                     <div ng-bind-html="organization.name | highlight: $select.search"></div>               
+                  </ui-select-choices>
+               </ui-select>
+               <button class="create-tile-btn btn" ng-click="createTile()">Create</button>
             </div>
-            <label for="accounts">Organizations:</label>
-            <div class="type_sel">
-               <select class="form-control" ng-model="organizationExternalId">
-                  <option value="{{organization.externalId}}" ng-if="organization" ng-repeat="organization in organizations track by $index">{{organization.name}}</option>
-               </select>
+            <div id="step3" class="steps" ng-style="{'width': stepWidth}">
+               <label>Packs:</label>
             </div>
-            <button class="create-tile-btn btn" ng-click="createTile()">Create</button>
-         </div>
-         <div id="step3" class="steps" ng-style="{'width': stepWidth}">
-            <label>Packs:</label>
-         </div>
-      </div>      
-      <button ng-if="index != 2" class="next-btn btn" ng-click="slideWrap('next')"><i class="fa fa-angle-right fg-lg"></i></button>
-      <button ng-if="index != 0" class="prev-btn btn" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i></button>      
-   </div>
+         </div>      
+         <button ng-if="index != 2" class="next-btn btn" ng-click="slideWrap('next')"><i class="fa fa-angle-right fg-lg"></i></button>
+         <button ng-if="index != 0" class="prev-btn btn" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i></button>      
+      </div>
+   </div>   
 </div>
 
-<!--<input type="file" onchange="angular.element(this).scope().onFile(this.files[0])">
-<button ng-click="preview()">Show preview</button>
-<button ng-click="scale(200)">Scale to 200px width</button>
-<button ng-click="clear()">Clear selection</button>
-<label>Disabled <input type="checkbox" ng-model="options.disabled"></label> 
-<br />
-
-<div ng-if="dataUrl" class="img-container">
-   <img ng-if="dataUrl" ng-src="{{dataUrl}}" width="304"
-      ng-cropper
-      ng-cropper-proxy="cropperProxy"
-      ng-cropper-show="showEvent"
-      ng-cropper-hide="hideEvent"
-      ng-cropper-options="options">
-</div>
-
-<div class="preview-container">
-   <img ng-if="preview.dataUrl" ng-src="{{preview.dataUrl}}">
-</div>
--->
-<div style="display: inline-block;">
-   <h3>Profile Pic</h3>
-   <!--img.aj-crop(ng-src="{{ P.imageSrc }}")-->
-   <input type="file" accept="image/*" capture="camera" onchange="angular.element(this).scope().setFile(this)"/>
-   <h3>Crop</h3>
-   <img-cropped src="image_source" selected="selected(cords)"></img-cropped>
-   <h3>Div Preview
-     <div id="cropped-image" ng-show="cropped" ng-style="{ width: picWidth + 'px', height: picHeight + 'px', overflow: 'hidden' }"><img id="preview" ng-src="{{ image_source }}"/></div>
-   </h3>
-   <h4>Canvas Preview</h4>
-   <div class="canvas-preview"></div>   
-</div>
