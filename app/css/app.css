@@ -11256,15 +11256,33 @@ p.title{
 .add-location.btn{
   border-radius: 20px;
   background: #3ABEEF;
+  display: inline-block;
   color: #fff;
   font-size: 12px;
   padding: 3px 10px;
   float: right;
+  position: relative;
   margin: 10px;
   width: 70px;
 }
+.short-address{
+  width: calc(100% - 90px);
+  float: left;
+  position: relative;
+  margin: 10px 0;
+  height: 30px;
+}
 .add-location.btn:hover{
   color: #fff;
+}
+.full-address{
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0px 0px 2px;
+  box-sizing: border-box;
+  padding: 10px;
+  outline: medium none;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
 }
 @media only screen and (max-width: 767px) {
   .create .new-account-wrap img{
@@ -11274,5 +11292,10 @@ p.title{
     width: 90%;
     top: 40px !important;
     left: 0;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+  .controls.pac-input{
+    width: 180px;
   }
 }

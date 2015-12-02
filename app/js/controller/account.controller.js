@@ -113,11 +113,11 @@
             if(locations.length != 0){
               element.hasLocations = true;
               element.locations = locations;
-
+console.log(element.locations);
               // Show Google map.
               var map = new google.maps.Map(document.getElementById('map_'+accountId), {
                 center: {lat: locations[0].lat, lng: locations[0].lon},
-                zoom: 13,
+                zoom: 17,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
               });
 
@@ -132,7 +132,7 @@
 
               var map = new google.maps.Map(document.getElementById('map_'+accountId), {
                 center: {lat: 51.50013, lng: -0.126305},
-                zoom: 13,
+                zoom: 17,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
               });
             }
@@ -237,7 +237,7 @@
           "lat": lat,
           "lon": lon,
           "name": name,
-          "zipPostcode": postal_code          
+          "zipPostcode": postal_code
         };
 console.log(params);
 
@@ -256,6 +256,7 @@ console.log(params);
             console.log(status);
           })
       }
+
       $scope.updateLocation = function(element) {
         var locations = element.locations;
         var locationId = locations[0].externalId;        
