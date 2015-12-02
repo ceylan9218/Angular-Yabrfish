@@ -47,6 +47,7 @@
           'reco':                 'http://data.yabrfish.com/yfapi/recoservice',
           'viewer':               'http://data.yabrfish.com/yfapi/viewerservice',
           'media':                'http://data.yabrfish.com/yfapi/mediaservice'
+          // 'media':                'http://data.yabrfish.com:9097/mediaservice'
         });
 })();
 
