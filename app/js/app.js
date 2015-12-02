@@ -26,6 +26,7 @@
             'app.translate',
             'app.settings',
             'app.charts',
+            'app.forms',
             'app.utils',
             'app.elements',
             'app.topnavbar',
@@ -154,7 +155,12 @@
           'app.colors'
           ]);
 })();
+(function() {
+    'use strict';
 
+    angular
+        .module('app.forms', []);
+})();
 (function() {
     'use strict';
 
@@ -412,6 +418,7 @@
               // jquery core and widgets
 
              'classyloader':       ['vendor/jquery-classyloader/js/jquery.classyloader.min.js'],
+             'filestyle':          ['vendor/bootstrap-filestyle/src/bootstrap-filestyle.js'],
              'sparklines':         ['app/vendor/sparklines/jquery.sparkline.min.js'],
 
              'weather-icons':      ['vendor/weather-icons/css/weather-icons.min.css'],
@@ -422,7 +429,10 @@
           },
           // Angular based script (use the right module name)
           modules: [
-              {name: 'akoenig.deckgrid',          files: ['vendor/angular-deckgrid/angular-deckgrid.js']}
+              {name: 'akoenig.deckgrid',          files: ['vendor/angular-deckgrid/angular-deckgrid.js']},
+              {name: 'ngImgCrop',                 files: ['vendor/ng-img-crop/compile/unminified/ng-img-crop.js',
+                                                        'vendor/ng-img-crop/compile/unminified/ng-img-crop.css']},
+              {name: 'angularFileUpload',         files: ['vendor/angular-file-upload/angular-file-upload.js']}
           ]
         })
         ;
@@ -871,7 +881,8 @@
                 url: '/tiles/new',
                 title: 'New Tile',
                 controller: 'tileController',
-                templateUrl: helper.basepath('new-tile.html')
+                templateUrl: helper.basepath('new-tile.html'),
+                resolve: helper.resolveFor('angularFileUpload')
             })
           ;
 
@@ -3714,6 +3725,36 @@
 
         };
     }
+})();
+/**=========================================================
+ * Module: filestyle.js
+ * Initializes the fielstyle plugin
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.forms')
+        .directive('filestyle', filestyle);
+
+    function filestyle () {
+        var directive = {
+            link: link,
+            restrict: 'A'
+        };
+        return directive;
+
+        function link(scope, element) {
+          var options = element.data();
+          
+          // old usage support
+          options.classInput = element.data('classinput') || options.classInput;
+          
+          element.filestyle(options);
+        }
+    }
+
 })();
 
 (function() {

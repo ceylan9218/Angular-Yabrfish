@@ -9241,6 +9241,15 @@ flot .legend .legendColorBox > div > div {
   color: #f1f1f1;
   z-index: 5;
 }
+/* ========================================================================
+   Component: form-imgcrop.less
+ ========================================================================== */
+.cropArea {
+  background: #E4E4E4;
+  overflow: hidden;
+  width:308px;
+  height:173px;
+}
 
 /* ========================================================================
    title: Feeds(Home) page style;
@@ -11076,18 +11085,6 @@ img.logo{
   -moz-appearance:none;
   appearance:none;
 }
-.create .type_sel{
-  position: relative;
-}
-.create .type_sel::after{
-  content: "\f107";
-  font-family: FontAwesome;
-  padding: 0px;
-  position: absolute;
-  right: 15px;
-  top: 10px;
-  font-size: 16px;
-}
 .create .create-tile-btn{
   background: #0d6c8f;
   color: #fff;
@@ -11149,9 +11146,6 @@ img.logo{
     height: 35px;
     padding: 5px 10px;
     font-size: 14px;
-  }
-  .create .type_sel::after{
-    top: 5px;
   }
   .create input.form-control{
     height: 35px;
