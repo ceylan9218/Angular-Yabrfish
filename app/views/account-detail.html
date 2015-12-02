@@ -38,7 +38,7 @@
                <input id="{{'pacInput_'+card.externalId}}" class="controls pac-input" type="text" placeholder="Search Box">
                <div id="{{'map_'+card.externalId}}" class="map-content" map></div>
                <div>
-                  <input type="text" class="short-address form-control" placeholder="" />
+                  <input type="text" class="short-address form-control" ng-model="card.location_name" placeholder="{{card.locations[0].name}}" />
                   <button ng-if="!card.hasLocations" class="add-location btn" ng-click="addLocation(card)">Add</button>
                   <button ng-if="card.hasLocations" class="add-location btn" ng-click="updateLocation(card)">Update</button>                  
                </div>

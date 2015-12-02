@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-        .module('app.tiles', ['ngAnimate', 'ui.bootstrap', 'aj.crop'])        
+        .module('app.tiles', ['ngAnimate', 'ui.bootstrap'])        
         .controller('tileController', tileController);
 
     function tileController($scope, $http, $rootScope, $location, RouteHelpers, APP_APIS, $timeout, $window) {
