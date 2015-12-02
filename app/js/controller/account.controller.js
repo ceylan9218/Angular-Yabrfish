@@ -258,6 +258,7 @@ console.log(params);
       }
 
       $scope.updateLocation = function(element) {
+console.log(element.location_name);        
         var locations = element.locations;
         var locationId = locations[0].externalId;        
         var place = element.places[0];
