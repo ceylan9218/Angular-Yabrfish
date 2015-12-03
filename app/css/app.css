@@ -11023,7 +11023,7 @@ img.logo{
   display: inline-block;
   padding: 0 2px;
 }
-.create-tile-slider #step2 label{
+.create-tile-slider #step2 label, .create-tile-slider #step3 label{
   font-size: 16px;
   font-weight: normal;
   margin: 10px 0 0;
@@ -11090,10 +11090,11 @@ img.logo{
   color: #fff;
   font-size: 18px;
   padding: 5px 15px;
-  width: 150px;
-  display: block;
-  margin: 20px auto;
+  width: 130px;
+  display: block;  
   border-radius: 20px;
+  margin: 10px;
+  float: right;
 }
 .next-btn{
   background: #0d6c8f;
@@ -11130,7 +11131,76 @@ img.logo{
 .preview-container img {
   max-width: 304px;
 }
-
+.create .tileCount{
+  float: right;
+  margin: 20px 0 10px;
+}
+.create .products .offer{
+  background:url('../img/pack1.png') no-repeat;
+  background-size: 100% 100%;
+  width: 100%;
+  height: 77px;
+  margin-bottom: 10px;
+}
+.create .products .offer img.selected{
+  width: 18px;
+  height: 14px;
+  float: left;
+  margin-top: 20px;
+}
+.create .products .offer span{
+  color: #fff;
+  white-space: normal;
+}
+.create .products .offer .names{
+  width: 170px;
+  float: left;
+  position: relative;
+  height: 100%;
+  display: block;
+  padding: 10px;
+}
+.create .products .offer .names .product-name{
+  font-size: 18px;
+  font-weight: bold;
+  float: right;
+  text-align: center;
+  width: calc(100% - 20px);
+  line-height: 1;
+  margin-top: 6px;
+}
+.create .products .offer .names .offer-name{
+  font-size: 14px;
+  float: right;
+  text-align: center;
+  width: calc(100% - 20px);
+  line-height: 1;
+  margin-top: 3px;
+}
+.create .products .offer .offer-infos{
+  width: calc(100% - 170px);
+  float: right;
+  position: relative;
+  padding: 10px;
+  display: block;
+  height: 100%;
+}
+.create .products .offer .offer-infos span{
+  width: 80%;
+  text-align: center;
+  line-height: 1;
+  display: block;
+  margin: 0px auto;
+}
+.create .products .offer .offer-infos .description{
+  font-size: 10px;
+}
+.create .products .offer .offer-infos .price{
+  font-size: 24px;
+  font-weight: bold;
+  bottom: 10px;
+  position: absolute;
+}
 @media only screen and (max-width: 767px) {
   .create{
     border: 2px dashed #0d6c8f;
@@ -11160,6 +11230,31 @@ img.logo{
   .create .create-tile-btn{
     width: 120px;
     font-size: 16px;
+  }
+  .create .products .offer img.selected{
+    width: 14px;
+    height: 10px;
+  }
+  .create .products .offer .names{
+    width: 135px;
+  }
+  .create .products .offer .names .product-name{
+    font-size: 14px;
+    width: calc(100% - 15px);
+    margin-top: 10px;
+  }
+  .create .products .offer .names .offer-name{
+    width: calc(100% - 15px); 
+    font-size: 10px;
+  }
+  .create .products .offer .offer-infos{
+    width: calc(100% - 135px);
+  }
+  .create .products .offer .offer-infos .description {
+    font-size: 9px;
+  }
+  .create .products .offer .offer-infos .price {
+    font-size: 22px;
   }
 }
 /* ========================================================================

@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-        .module('app.tiles', ['ngAnimate', 'ui.bootstrap', 'ui.select', 'ngFileUpload'])
+        .module('app.tiles', ['ngAnimate', 'ui.bootstrap', 'ui.select', 'ngFileUpload', 'stripe.checkout'])
         .controller('tileController', tileController);
 
     function tileController($scope, $http, $rootScope, $location, RouteHelpers, APP_APIS, $timeout, $window, Upload) {
@@ -27,6 +27,7 @@
       $scope.account = {};
       $scope.organizations = [];
       $scope.organization = {};
+      $scope.diffInstances = 0;
 
       // Get Tile Types
       $http.get(APP_APIS['lookup']+'/tiletypes')
@@ -79,25 +80,52 @@
           }
         });
 
-      $scope.getOrganizations = function(item){
+        // Get Enablements.
+//        $http.get(APP_APIS['commerce']+'/accounts/'+accountId+'/enablements?productType=Tiles')
+      $http.get(APP_APIS['commerce']+'/accounts/AEC6B13D-4ABF-478D-BC72-DDFE26E85E11/enablements?productType=Tiles')
+        .success(function(data){
+          var enablements = data;
+          var maxInstances = 0;
+          var instanceCounts = 0;
+
+          for(var i in enablements){
+            maxInstances += enablements[i].maximumInstances;
+            instanceCounts += enablements[i].instanceCount;
+          }
+
+          $scope.diffInstances = maxInstances - instanceCounts;
+          if($scope.diffInstances <= 0)
+            $scope.enablement = false;
+          else
+            $scope.enablement = true;
+        })
+
+      $scope.changeAccount = function(item){
         $scope.organizations = item.organizations;
+        var accountId = item.externalId;
+
+//         // Get Enablements.
+// //        $http.get(APP_APIS['commerce']+'/accounts/'+accountId+'/enablements?productType=Tiles')
+//         $http.get(APP_APIS['commerce']+'/accounts/AEC6B13D-4ABF-478D-BC72-DDFE26E85E11/enablements?productType=Tiles')
+//           .success(function(data){
+//             var enablements = data;
+//             var maxInstances = 0;
+//             var instanceCounts = 0;
+
+//             for(var i in enablements){
+//               maxInstances += enablements[i].maximumInstances;
+//               instanceCounts += enablements[i].instanceCount;
+//             }
+
+//             $scope.diffInstances = maxInstances - instanceCounts;
+//             if($scope.diffInstances <= 0)
+//               $scope.enablement = false;
+//             else
+//               $scope.enablement = true;
+//           })
       }
 
       $scope.createTile = function() {
-        // File Upload
-        // Upload.upload({
-        //     url: APP_APIS['media'] + '/images',
-        //     data: {file: $scope.currentFile}
-        // }).then(function (resp) {
-        //     console.log(resp);
-        // }, function (resp) {
-        //     console.log('Error status: ' + resp.status);
-        // }, function (evt) {
-        //     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-        //     console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-        // });
-
-
         if(!$scope.newTile.description) $scope.newTile.description = '';
         if(!$scope.newTile.title) $scope.newTile.title = '';
         if(!$scope.viewerId) $scope.viewerId = '';
@@ -117,7 +145,10 @@
         else
           $scope.newTile.organizationExternalId = $scope.organization.selected.externalId;
 
-        $scope.newTile.tileType = $scope.newTile.tileType.toUpperCase();
+        $scope.newTile.tileType = $scope.newTile.tileType.toUpperCase();       
+
+        // File Upload
+        var creativesExternalId = '';
         var params = {
           "description": $scope.newTile.description,
           "name": $scope.newTile.title,
@@ -128,35 +159,69 @@
           "isDeleted": false
         };
 
-        $http({
-          method: 'POST',
-          url: APP_APIS['tile'] + '/tiles',
-          data: JSON.stringify(params),
-          headers: {'Content-Type': 'application/json'}
-        }).success(function (data, status, headers, config){
-          var tileId = data.externalId;
-console.log(data);
-          // Add Creatives to Given Tile
-          // $http.post(APP_APIS['tile'] + '/tiles/' + tileId + '/creatives/' + data.viewerExternalId)
-          //   .success(function(response){
-          //     console.log(response);
-          //     //$location.path('app/tiles');
-          //   });
-        }).error(function (data, status, headers, config){
-          console.log(status);
-        })
+        Upload.upload({
+            url: APP_APIS['media'] + '/images',
+            data: {file: $scope.currentFile}
+        }).then(function (resp) {
+console.log(resp);          
+            creativesExternalId = resp.data.externalId;
+            $http({
+              method: 'POST',
+              url: APP_APIS['tile'] + '/tiles',
+              data: JSON.stringify(params),
+              headers: {'Content-Type': 'application/json'}
+            }).success(function (data, status, headers, config){
+              var tileId = data.externalId;
+    console.log(data);
+              // Add Creatives to Given Tile
+              $http.post(APP_APIS['tile'] + '/tiles/' + tileId + '/creatives/' + creativesExternalId)
+                .success(function(response){
+                  console.log(response);
+//                  $location.path('app/tiles');
+                });
+            }).error(function (data, status, headers, config){
+              console.log(status);
+            })
+        }, function (resp) {
+            console.log('Error status: ' + resp.status);
+        }, function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        });        
       }
 
       $scope.getTiles = function() {
-        $http.get(APP_APIS['tile']+'/tiles/pure/'+ $scope.viewerId)
+        $http.get(APP_APIS['tile']+'/tiles/owners?viewerExternalId='+ $scope.viewerId)
           .success(function(tiles){
-            $scope.tiles = tiles;
+            $scope.tiles = tiles.tileList;
+console.log($scope.tiles);
             for(var i in $scope.tiles){
               //Get and change lowercase Tile Type.              
               $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
             }
             console.log(tiles);
           })
+      }
+
+      // Get Packs of type = Tile
+      $http.get(APP_APIS['commerce']+'/products?type=TILES')
+        .success(function(data){
+          $scope.products = data;
+        })
+
+      $scope.selectOffer = function(offer) {
+        $scope.selected = offer;
+        $scope.offerDescription = offer.description;
+        $scope.offerAmount = offer.grossPrice * 100;
+        $scope.offerName = offer.name;
+      }
+
+      $scope.isSelected = function(offer) {
+        return $scope.selected === offer;
+      }
+
+      $scope.doCheckout = function(token) {
+        console.log(token.id);
       }
     }
 })();

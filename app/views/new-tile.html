@@ -9,9 +9,9 @@
                </label>
                <input id="file-input" class="file" type="file" uploader="form.uploader" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>               
                <ui-select ng-model="tileType.selected" theme="select2">
-                  <ui-select-match placeholder="Select Type...">{{$select.selected.shortCode}}</ui-select-match>
-                  <ui-select-choices repeat="tileType in tileTypes | propsFilter: {shortCode: $select.search}">
-                     <div ng-bind-html="tileType.shortCode | highlight: $select.search"></div>               
+                  <ui-select-match placeholder="Select Type...">{{$select.selected.description}}</ui-select-match>
+                  <ui-select-choices repeat="tileType in tileTypes | propsFilter: {description: $select.search}">
+                     <div ng-bind-html="tileType.description | highlight: $select.search"></div>               
                   </ui-select-choices>
                </ui-select>               
                <input type="text" class="form-control" ng-model="newTile.title" placeholder="The title...">
@@ -19,7 +19,7 @@
             </div>
             <div id="step2" class="steps" ng-style="{'width': stepWidth}">
                <label for="accounts">Accounts:</label>
-               <ui-select ng-model="account.selected" theme="select2" on-select="getOrganizations($item, $model)">
+               <ui-select ng-model="account.selected" theme="select2" on-select="changeAccount($item, $model)">
                   <ui-select-match placeholder="Select Account...">{{$select.selected.name}}</ui-select-match>
                   <ui-select-choices repeat="account in accounts | propsFilter: {name: $select.search}">
                      <div ng-bind-html="account.name | highlight: $select.search"></div>               
@@ -32,14 +32,31 @@
                      <div ng-bind-html="organization.name | highlight: $select.search"></div>               
                   </ui-select-choices>
                </ui-select>
-               <button class="create-tile-btn btn" ng-click="createTile()">Create</button>
             </div>
             <div id="step3" class="steps" ng-style="{'width': stepWidth}">
                <label>Packs:</label>
+               <div class="products-wrap">
+                  <div class="products" ng-repeat="product in products track by $index">
+                     <div class="offer" ng-repeat="offer in product.offers" ng-click="selectOffer(offer)">
+                        <div class="names">
+                           <img class="selected" ng-show="isSelected(offer)" src="app/img/check-w.png">
+                           <span class="product-name">{{product.productName}}</span>
+                           <span class="offer-name">{{offer.name}}</span>
+                        </div>
+                        <div class="offer-infos">
+                           <span class="description">{{offer.description}}</span>
+                           <span class="price">&#xA3;{{offer.grossPrice}}</span>
+                        </div>
+                     </div>
+                  </div>   
+               </div>
             </div>
-         </div>      
-         <button ng-if="index != 2" class="next-btn btn" ng-click="slideWrap('next')"><i class="fa fa-angle-right fg-lg"></i></button>
-         <button ng-if="index != 0" class="prev-btn btn" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i></button>      
+         </div>
+         <!-- <button ng-show="index == 1 && enablement" class="create-tile-btn btn" ng-click="createTile()">Create</button> ng-show="index == 0 || !enablement" -->
+         <button ng-show="index == 2 && selected" class="create-tile-btn btn" stripe-checkout="doCheckout()" data-key="pk_test_hEVPAufqTlToDGSTUokAK3bs" data-name="{{offerName}}" data-description="{{offerDescription}}" data-amount="{{offerAmount}}" data-currency="GBP">Purchase</button>
+         <button ng-show="index != 2" class="next-btn btn" ng-click="slideWrap('next')"><i class="fa fa-angle-right fg-lg"></i></button>
+         <span ng-show="index == 1" class="tileCount">{{diffInstances}} Tiles</span>
+         <button ng-show="index != 0" class="prev-btn btn" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i></button>      
       </div>
    </div>   
 </div>
