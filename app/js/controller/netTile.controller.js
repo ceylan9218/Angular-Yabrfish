@@ -11,6 +11,9 @@
         .controller('netTileController', netTileController);        
 
     function netTileController($scope, $rootScope, $http, $state, RouteHelpers, $modal, $log, APP_APIS) {
+      if(!$rootScope.user)
+        return;
+      
       $scope.basepath = RouteHelpers.basepath;
       $scope.tiles = [];
       $scope.netName = '';
