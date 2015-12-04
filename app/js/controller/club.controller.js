@@ -13,7 +13,10 @@
         })
         .controller('clubController', clubController);
 
-    function clubController($scope, $http, $modal, $log, $rootScope, Flash, APP_APIS) {
+    function clubController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS) {
+      if(!$rootScope.user)
+        return;
+      
       $scope.clubs = [];
       $scope.myClubs = [];
       $scope.search_club = '';
@@ -31,9 +34,9 @@
       });
 
       $scope.addMember = function(aid) {
-        $http.post(APP_APIS['commerce']+'/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership/'+aid)
+        $http.post(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/membership/'+aid)
           .success(function(data){
-            $http.get(APP_APIS['commerce']+'/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
+            $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/membership?type=6')
               .success(function(data){
                 $scope.myClubs = data;
               });
@@ -56,7 +59,7 @@
       }
 
       // Get My Clubs
-      $http.get(APP_APIS['commerce']+'/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/membership?type=6')
+      $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/membership?type=6')
         .success(function(data){
           $scope.myClubs = data;
         });

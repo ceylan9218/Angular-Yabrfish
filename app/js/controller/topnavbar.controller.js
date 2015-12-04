@@ -29,7 +29,10 @@
           $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.authResponse.userID+'?ident=facebook')
             .success(function(data) {
               $rootScope.user = data;
+console.log($rootScope.user);
             })
+        }else{
+          $rootScope.user = {}
         }
       });
 
