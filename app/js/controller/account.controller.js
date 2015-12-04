@@ -103,6 +103,9 @@
       // Show/Hide extend wrap.
       $scope.extendAccount = function(element){
         var accountId = element.externalId;
+        var zoomVal = 17;
+        var defaultMapPos = {lat: 51.50013, lng: -0.126305};
+
         if(element.extendWrap){
           element.extendWrap = false;
         }
@@ -116,11 +119,11 @@
             if(locations.length != 0){
               element.hasLocations = true;
               element.locations = locations;
-console.log(element.locations);
+
               // Show Google map.
               var map = new google.maps.Map(document.getElementById('map_'+accountId), {
                 center: {lat: locations[0].lat, lng: locations[0].lon},
-                zoom: 17,
+                zoom: zoomVal,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
               });
 
@@ -134,8 +137,8 @@ console.log(element.locations);
               element.locations = [];
 
               var map = new google.maps.Map(document.getElementById('map_'+accountId), {
-                center: {lat: 51.50013, lng: -0.126305},
-                zoom: 17,
+                center: defaultMapPos,
+                zoom: zoomVal,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
               });
             }
@@ -242,7 +245,6 @@ console.log(element.locations);
           "name": name,
           "zipPostcode": postal_code
         };
-console.log(params);
 
         $http.post(APP_APIS['commerce']+'/locations', params)
           .success(function(data, status){
@@ -298,7 +300,6 @@ console.log(params);
           "name": name,
           "zipPostcode": postal_code          
         };
-console.log(params, locationId);
 
         $http.put(APP_APIS['commerce']+'/locations/'+locationId, params)
           .success(function(data, status){

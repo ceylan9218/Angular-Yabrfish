@@ -68,11 +68,9 @@
         }
       );
       
-//      var userIsConnected = false;
       
       Facebook.getLoginStatus(function(response) {
         if (response.status == 'connected') {
-//          userIsConnected = true;
           $rootScope.user = response;
           $rootScope.logged = true;
           $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.authResponse.userID+'?ident=facebook')
@@ -137,7 +135,6 @@
           $rootScope.$apply(function() {
             $rootScope.user = {};
             $rootScope.logged = false;
-//            userIsConnected = false;
             $location.path('app/login');
           });
         });

@@ -83,33 +83,12 @@
           }
         });
 
-        // Get Enablements.
-//        $http.get(APP_APIS['commerce']+'/accounts/'+accountId+'/enablements?productType=Tiles')
-      // $http.get(APP_APIS['commerce']+'/accounts/AEC6B13D-4ABF-478D-BC72-DDFE26E85E11/enablements?productType=Tiles')
-      //   .success(function(data){
-      //     var enablements = data;
-      //     var maxInstances = 0;
-      //     var instanceCounts = 0;
-
-      //     for(var i in enablements){
-      //       maxInstances += enablements[i].maximumInstances;
-      //       instanceCounts += enablements[i].instanceCount;
-      //     }
-
-      //     $scope.diffInstances = maxInstances - instanceCounts;
-      //     if($scope.diffInstances <= 0)
-      //       $scope.enablement = false;
-      //     else
-      //       $scope.enablement = true;
-      //   })
-
       $scope.changeAccount = function(item){
         $scope.organizations = item.organizations;
         var accountId = item.externalId;
 
         // Get Enablements.
         $http.get(APP_APIS['commerce']+'/accounts/'+accountId+'/enablements?productType=Tiles')
-//        $http.get(APP_APIS['commerce']+'/accounts/AEC6B13D-4ABF-478D-BC72-DDFE26E85E11/enablements?productType=Tiles')
           .success(function(data){
             var enablements = data;
             var maxInstances = 0;
@@ -166,7 +145,6 @@
             url: APP_APIS['media'] + '/images',
             data: {file: $scope.currentFile}
         }).then(function (resp) {
-console.log(resp);          
             creativesExternalId = resp.data.externalId;
             $http({
               method: 'POST',
@@ -175,12 +153,11 @@ console.log(resp);
               headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config){
               var tileId = data.externalId;
-    console.log(data);
+
               // Add Creatives to Given Tile
               $http.post(APP_APIS['tile'] + '/tiles/' + tileId + '/creatives/' + creativesExternalId)
                 .success(function(response){
                   console.log(response);
-//                  $location.path('app/tiles');
                 });
             }).error(function (data, status, headers, config){
               console.log(status);
@@ -197,7 +174,6 @@ console.log(resp);
         $http.get(APP_APIS['tile']+'/tiles/owners?viewerExternalId='+ $rootScope.user.externalId)
           .success(function(tiles){
             $scope.tiles = tiles.tileList;
-console.log($scope.tiles);
             for(var i in $scope.tiles){
               //Get and change lowercase Tile Type.              
               $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();

@@ -25,7 +25,6 @@
         var modalInstance = $modal.open({
           animation: $scope.animationsEnabled,
           templateUrl: 'createNet.html',
-//          controller: 'ModalInstanceCtrl',
           resolve: {
             items: function () {
               return $scope.items;
