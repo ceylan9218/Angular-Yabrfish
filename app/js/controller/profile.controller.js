@@ -13,7 +13,10 @@
         })
         .controller('profileController', profileController);
 
-    function profileController($scope, $http, $modal, $log, $rootScope, Flash, APP_APIS) {
+    function profileController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS) {
+      if(!$rootScope.user)
+        return;
+
       $scope.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
       // Get profile Attributes
@@ -21,13 +24,9 @@
         .success(function(data) {
           $scope.attrs = data;
         });
-
-      if($rootScope.user){
-        console.log($rootScope.user);
-      }
-
+      
       // Get profile infos
-      $http.get(APP_APIS['commerce']+'/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes')
+      $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/attributes')
         .success(function(data) {
           $scope.infos = data;
           // Get Birthday          
@@ -72,7 +71,7 @@
             };
           $http({
               method: 'PUT',
-              url: APP_APIS['commerce']+'/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/2',
+              url: APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/attributes/2',
               data: JSON.stringify(params),
               headers: {'Content-type': 'application/json'}
             }).success(function (data, status, headers, config) {
@@ -92,7 +91,7 @@
           });
           $http({
               method: 'PUT',
-              url: APP_APIS['commerce']+'/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/3',
+              url: APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/attributes/3',
               data: JSON.stringify(params),
               headers: {'Content-type': 'application/json'}
             }).success(function (data, status, headers, config) {
@@ -112,7 +111,7 @@
           });
           $http({
               method: 'PUT',
-              url: APP_APIS['commerce']+'/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/4',
+              url: APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/attributes/4',
               data: JSON.stringify(params),
               headers: {'Content-type': 'application/json'}
             }).success(function (data, status, headers, config) {
@@ -132,7 +131,7 @@
           });
           $http({
               method: 'PUT',
-              url: APP_APIS['commerce']+'/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/attributes/5',
+              url: APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/attributes/5',
               data: JSON.stringify(params),
               headers: {'Content-type': 'application/json'}
             }).success(function (data, status, headers, config) {

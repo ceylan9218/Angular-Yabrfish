@@ -25,7 +25,7 @@
             }
         });
 
-      $http.get(APP_APIS['viewer']+'/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/nets')
+      $http.get(APP_APIS['viewer']+'/viewers/'+$rootScope.user.externalId+'/nets')
         .success(function(data) {
             $scope.nets = data.viewerNets;
             for (var i in $scope.nets){

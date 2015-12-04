@@ -38,7 +38,8 @@
             'app.login',
             'app.tiles',
             'app.profile-accounts',
-            'app.profile-clubs'
+            'app.profile-clubs',
+//            'app.facebook-auth'
         ])
         .constant('APP_APIS', {
           'base':                 'http://data.yabrfish.com/yfapi',
@@ -51,7 +52,12 @@
           // 'media':                'http://data.yabrfish.com:9097/mediaservice'
         });
 })();
+// (function() {
+//     'use strict';
 
+//     angular
+//         .module('app.facebook-auth', []);
+// })();
 (function() {
     'use strict';
 

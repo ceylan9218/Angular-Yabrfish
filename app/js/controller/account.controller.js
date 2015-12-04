@@ -40,7 +40,10 @@
         })
         .controller('accountController', accountController);
 
-    function accountController($scope, $http, RouteHelpers, APP_APIS, Flash) {
+    function accountController($scope, $rootScope, $http, RouteHelpers, APP_APIS, Flash) {
+      if(!$rootScope.user)
+        return;
+
       $scope.basepath = RouteHelpers.basepath;
       $scope.accounts = [];
       $scope.accountTypes = [];
@@ -79,7 +82,7 @@
       
       $scope.getAccounts = function() {
         // Get Roles by viewer.
-        $http.get(APP_APIS['commerce']+'/viewers/B16EF381-81D1-4014-8BFA-AA7B082E0FD7/roles')
+        $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/roles')
           .success(function(data){
             for(var i in data){
               $scope.accounts.push(data[i].account);
