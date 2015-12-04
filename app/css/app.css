@@ -11134,6 +11134,8 @@ img.logo{
 .create .tileCount{
   float: right;
   margin: 20px 0 10px;
+  font-size: 18px;
+  color: #333;
 }
 .create .products .offer{
   background:url('../img/pack1.png') no-repeat;
