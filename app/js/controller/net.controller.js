@@ -10,8 +10,11 @@
         .module('app.nets', ['ngAnimate', 'ui.bootstrap'])
         .controller('netController', netController);
 
-    function netController($scope, $http, $modal, $log, APP_APIS) {
-      $http.get(APP_APIS['viewer']+'/viewers/A10153DA-E739-4978-ADA4-B9765F7DFCEF/nets')
+    function netController($scope, $rootScope, $http, $modal, $log, APP_APIS) {
+      if(!$rootScope.user)
+        return;
+      
+      $http.get(APP_APIS['viewer']+'/viewers/'+$rootScope.user.externalId+'/nets')
         .success(function(data) {
             $scope.nets = data.viewerNets;
         });      

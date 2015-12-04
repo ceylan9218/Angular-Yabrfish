@@ -11,7 +11,6 @@
         .controller('tileController', tileController);
 
     function tileController($scope, $http, $rootScope, $location, RouteHelpers, APP_APIS, $timeout, $window, Upload) {
-      $scope.viewerId = 'B16EF381-81D1-4014-8BFA-AA7B082E0FD7';
       $scope.tiles = [];
       $scope.basepath = RouteHelpers.basepath;
       $scope.tileTypes = [];
@@ -73,8 +72,11 @@
         reader.readAsDataURL(element.files[0]);
       }
       
+      if(!$rootScope.user)
+        return;
+      
       // Get Current User's Roles
-      $http.get(APP_APIS['commerce']+'/viewers/'+$scope.viewerId+'/roles')
+      $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/roles')
         .success(function(data){
           for(var i in data){            
             $scope.accounts.push(data[i].account);
@@ -129,7 +131,7 @@
       $scope.createTile = function() {
         if(!$scope.newTile.description) $scope.newTile.description = '';
         if(!$scope.newTile.title) $scope.newTile.title = '';
-        if(!$scope.viewerId) $scope.viewerId = '';
+        if(!$rootScope.user.externalId) $rootScope.user.externalId = '';
         
         if(Object.keys($scope.tileType).length == 0) 
           $scope.newTile.tileType = '';
@@ -156,7 +158,7 @@
           "accountExternalId": $scope.newTile.accountExternalId,
           "tileType": $scope.newTile.tileType,
           "organizationExternalId": $scope.newTile.organizationExternalId,
-          "viewerExternalId": $scope.viewerId,
+          "viewerExternalId": $rootScope.user.externalId,
           "isDeleted": false
         };
 
@@ -192,7 +194,7 @@ console.log(resp);
       }
 
       $scope.getTiles = function() {
-        $http.get(APP_APIS['tile']+'/tiles/owners?viewerExternalId='+ $scope.viewerId)
+        $http.get(APP_APIS['tile']+'/tiles/owners?viewerExternalId='+ $rootScope.user.externalId)
           .success(function(tiles){
             $scope.tiles = tiles.tileList;
 console.log($scope.tiles);
