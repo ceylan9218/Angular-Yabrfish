@@ -28,6 +28,7 @@
       $scope.organizations = [];
       $scope.organization = {};
       $scope.diffInstances = 0;
+      $scope.enablement = true;
 
       // Get Tile Types
       $http.get(APP_APIS['lookup']+'/tiletypes')
@@ -82,47 +83,47 @@
 
         // Get Enablements.
 //        $http.get(APP_APIS['commerce']+'/accounts/'+accountId+'/enablements?productType=Tiles')
-      $http.get(APP_APIS['commerce']+'/accounts/AEC6B13D-4ABF-478D-BC72-DDFE26E85E11/enablements?productType=Tiles')
-        .success(function(data){
-          var enablements = data;
-          var maxInstances = 0;
-          var instanceCounts = 0;
+      // $http.get(APP_APIS['commerce']+'/accounts/AEC6B13D-4ABF-478D-BC72-DDFE26E85E11/enablements?productType=Tiles')
+      //   .success(function(data){
+      //     var enablements = data;
+      //     var maxInstances = 0;
+      //     var instanceCounts = 0;
 
-          for(var i in enablements){
-            maxInstances += enablements[i].maximumInstances;
-            instanceCounts += enablements[i].instanceCount;
-          }
+      //     for(var i in enablements){
+      //       maxInstances += enablements[i].maximumInstances;
+      //       instanceCounts += enablements[i].instanceCount;
+      //     }
 
-          $scope.diffInstances = maxInstances - instanceCounts;
-          if($scope.diffInstances <= 0)
-            $scope.enablement = false;
-          else
-            $scope.enablement = true;
-        })
+      //     $scope.diffInstances = maxInstances - instanceCounts;
+      //     if($scope.diffInstances <= 0)
+      //       $scope.enablement = false;
+      //     else
+      //       $scope.enablement = true;
+      //   })
 
       $scope.changeAccount = function(item){
         $scope.organizations = item.organizations;
         var accountId = item.externalId;
 
-//         // Get Enablements.
-// //        $http.get(APP_APIS['commerce']+'/accounts/'+accountId+'/enablements?productType=Tiles')
-//         $http.get(APP_APIS['commerce']+'/accounts/AEC6B13D-4ABF-478D-BC72-DDFE26E85E11/enablements?productType=Tiles')
-//           .success(function(data){
-//             var enablements = data;
-//             var maxInstances = 0;
-//             var instanceCounts = 0;
+        // Get Enablements.
+        $http.get(APP_APIS['commerce']+'/accounts/'+accountId+'/enablements?productType=Tiles')
+//        $http.get(APP_APIS['commerce']+'/accounts/AEC6B13D-4ABF-478D-BC72-DDFE26E85E11/enablements?productType=Tiles')
+          .success(function(data){
+            var enablements = data;
+            var maxInstances = 0;
+            var instanceCounts = 0;
 
-//             for(var i in enablements){
-//               maxInstances += enablements[i].maximumInstances;
-//               instanceCounts += enablements[i].instanceCount;
-//             }
+            for(var i in enablements){
+              maxInstances += enablements[i].maximumInstances;
+              instanceCounts += enablements[i].instanceCount;
+            }
 
-//             $scope.diffInstances = maxInstances - instanceCounts;
-//             if($scope.diffInstances <= 0)
-//               $scope.enablement = false;
-//             else
-//               $scope.enablement = true;
-//           })
+            $scope.diffInstances = maxInstances - instanceCounts;
+            if($scope.diffInstances <= 0)
+              $scope.enablement = false;
+            else
+              $scope.enablement = true;
+          });
       }
 
       $scope.createTile = function() {
