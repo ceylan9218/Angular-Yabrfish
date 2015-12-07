@@ -11,7 +11,7 @@
         .module('app.topnavbar', ['facebook'])        
         .controller('topnavbarController', topnavbarController);
 
-    function topnavbarController($rootScope, $scope, $http, $location, Facebook, APP_APIS) {
+    function topnavbarController($scope, $http, $location, Facebook, APP_APIS, AuthenticationService) {
       $scope.toggleItem = function() {
         if($('.dropdown').hasClass('open'))
           $('.dropdown').removeClass('open');
@@ -21,31 +21,16 @@
       $scope.hideMenu = function() {
         angular.element('.open').removeClass('open');
       }
+      
+      // Initial checking if user logged in.
+      AuthenticationService.getUser();
 
-      Facebook.getLoginStatus(function(response) {
-        if (response.status == 'connected') {
-          $rootScope.user = response;
-          $rootScope.logged = true;
-          $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.authResponse.userID+'?ident=facebook')
-            .success(function(data) {
-              $rootScope.user = data;
-            })
-        }else{
-          $rootScope.user = {};
-        }
-      });
       /**
        * Logout
        */
-      $rootScope.logout = function() {
+      $scope.logout = function() {
         angular.element('.open').removeClass('open');
-        Facebook.logout(function() {
-          $rootScope.$apply(function() {
-            $rootScope.user = {};
-            $rootScope.logged = false;
-            $location.path('app/login');
-          });
-        });
+        AuthenticationService.logout();
       }
     }
 })();
