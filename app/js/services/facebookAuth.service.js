@@ -1,7 +1,7 @@
 /**=========================================================
- * Module: Authentication module.
+ * Module: Facebook Authentication module.
  * Author: Marcin - 2015.12.4
- * Account Login.
+ * used in Facebook Authentication.
  =========================================================*/
 (function() {
     'use strict';

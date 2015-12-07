@@ -1,7 +1,7 @@
 /**=========================================================
- * Module: Facebook Login
- * Author: Marcin - 2015.12.4 - Changed
- * Login Via Facebook Account
+ * Module: Login Controller.
+ * used in Login page.
+ * Author: Ryan - 2015.12.4 - Updated by Marcin.
  =========================================================*/
 (function() {
     'use strict';
