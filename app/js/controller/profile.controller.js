@@ -24,7 +24,7 @@
         .success(function(data) {
           $scope.attrs = data;
         });
-      
+
       // Get profile infos
       $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/attributes')
         .success(function(data) {

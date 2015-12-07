@@ -39,7 +39,8 @@
             'app.tiles',
             'app.profile-accounts',
             'app.profile-clubs',
-            'app.facebook-auth'
+            'app.facebook-auth',
+            'app.tile'
         ])
         .constant('APP_APIS', {
           'base':                 'http://data.yabrfish.com/yfapi',
@@ -57,6 +58,12 @@
 
     angular
         .module('app.facebook-auth', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.tile', []);
 })();
 (function() {
     'use strict';
