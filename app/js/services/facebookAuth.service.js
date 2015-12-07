@@ -26,6 +26,7 @@
 
         function AuthenticationService($http, $location, $q, Facebook, $rootScope, APP_APIS){
           $rootScope.logged = false;
+          $rootScope.user = {};
 
           var me = function(response) {
             var deferred = $q.defer();
@@ -59,9 +60,10 @@ console.log($rootScope.user);
                   if (response.status == 'connected') {
                     me(response);
                   }else{
-                    $location.path('app/login');
+//                    $location.path('app/login');
                   }
                 }, {scope: 'email, user_birthday, user_friends, user_likes'});
+                $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; // Just For testing.
               },
 
               login: function() {
