@@ -21,7 +21,22 @@
             <button class="create-tile-btn btn" ng-click="createAccount()">Create</button>
          </div>
          <div id="step3" class="steps" ng-style="{'width': stepWidth}">
-            <label>Packs:</label>
+            <div class="products-wrap">
+               <div class="products" ng-repeat="product in products track by $index">
+                  <div class="offer" ng-repeat="offer in product.offers" ng-click="selectOffer(offer)">
+                     <div class="names">
+                        <img class="selected" ng-show="isSelected(offer)" src="app/img/check-w.png">
+                        <span class="product-name">{{product.productName}}</span>
+                        <span class="offer-name">{{offer.name}}</span>
+                     </div>
+                     <div class="offer-infos">
+                        <span class="description">{{offer.description}}</span>
+                        <span class="price">&#xA3;{{offer.grossPrice | number: 2}}</span>
+                     </div>
+                  </div>
+               </div>   
+            </div>
+            <button ng-if="index == 2" class="create-tile-btn btn" stripe-checkout="doCheckout()" data-key="pk_test_hEVPAufqTlToDGSTUokAK3bs" data-name="{{offerName}}" data-description="{{offerDescription}}" data-amount="{{offerAmount}}" data-currency="GBP">Purchase</button>
          </div>
       </div>
       <button ng-if="index != 2" class="next-btn btn" ng-click="slideWrap('next')"><i class="fa fa-angle-right fg-lg"></i></button>
