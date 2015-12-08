@@ -40,7 +40,7 @@
         })
         .controller('accountController', accountController);
 
-    function accountController($scope, $rootScope, $http, RouteHelpers, APP_APIS, Flash) {
+    function accountController($scope, $rootScope, $http, RouteHelpers, APP_APIS, Flash, productService) {
       if(!$rootScope.user)
         return;
 
