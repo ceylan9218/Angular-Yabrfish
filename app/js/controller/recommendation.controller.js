@@ -1,6 +1,6 @@
 /**=========================================================
- * recommendationController: Controller for data of Radar page
- * used in Radar page.
+ * Module: recommendationController
+ * Description: Controller for Radar page
  * Author: Ryan - 2015.9.21
  =========================================================*/
 (function() {
@@ -8,60 +8,9 @@
 
     angular
         .module('app.recommendations', ["ngSanitize", "com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'ngMap', 'flash', 'ngAnimate', 'infinite-scroll'])
-        .controller('recommendationController', recommendationController)
-        .directive('sycovideo', function(){
-            return {
-              restrict: 'E',
-              template: '<div id="{{id}}" class="player"></div>',
-              scope: {
-                hls_source: "=hls",
-                id: "=id"
-              },
-              link: function(scope, elm, attr) {
-                scope.$on('linkChanged', function(event, val, id) {
-                  if(scope.id == id) {
-                    angular.element('.player').each(function(){
-                      var vid = angular.element(this).attr('id');
-                      bitdash(vid).destroy();                      
-                    });
-                    if(val) {
-                      var conf = {
-                          key:       '9dfc435e221ba94fd0cdbacda4c656cf',
-                          playback: {
-                            autoplay : true
-                          },
-                          source: {
-                            hls: val,
-                          },
-                          events: {
-                            onReady : function(data) {
-                            }                          
-                          }
-                      };
-                      bitdash(scope.id).setup(conf);
-                    }
-                  }
-                });
-              }
-            }
-        })
-        .directive('loading', function () {
-            return {
-              restrict: 'E',
-              replace:true,
-              template: '<div class="loading"><img src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif" width="20" height="20" />LOADING...</div>',
-              link: function (scope, element, attr) {
-                  scope.$watch('loading', function (val) {
-                      if (val)
-                          $(element).show();
-                      else
-                          $(element).hide();
-                  });
-              }
-            }
-        });        
+        .controller('recommendationController', recommendationController);
 
-    function recommendationController($rootScope, $scope, $http, $sce, RouteHelpers, $timeout, $q, Flash, APP_APIS) {
+    function recommendationController($rootScope, $scope, $http, $sce, RouteHelpers, $timeout, $q, Flash, APP_APIS, TileService) {
         $scope.basepath = RouteHelpers.basepath;
         $scope.tiles = [];
         $scope.showVideo = false;
@@ -93,33 +42,12 @@
             $scope.tiles = resolve.tiles;
             for (var i in $scope.tiles) {
               $scope.tiles[i].events = [];
-              var uid = $scope.tiles[i].externalId;         // Tile ExternalId.
 
               //Get and change lowercase Tile Type.              
               $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
 
               // Get Time Difference
-              $scope.tiles[i].publishedDate = getTimeDiff($scope.tiles[i].publishedDate);
-
-              // Show Google Map
-              if(!$scope.tiles[i].location){
-                $scope.tiles[i].location = [ {"lat": 51.50013, "lon":-0.126305} ];
-              }
-              
-              var marker, map;               
-              $scope.$on('mapInitialized', function(evt, evtMap) {
-                  map = evtMap; 
-                  marker = map.markers[0]; 
-              }); 
-              // $scope.centerChanged = function(event) {
-              //     $timeout(function() { 
-              //         map.panTo(marker.getPosition()); 
-              //     }, 100); 
-              // } 
-              // $scope.click = function(event) {
-              //     map.setZoom(8); 
-              //     map.setCenter(marker.getPosition());
-              // }
+              $scope.tiles[i].publishedDate = TileService.getTimeDiff($scope.tiles[i].publishedDate);
             }
         }, function(reject){
           console.log(reject);
@@ -237,7 +165,7 @@
             ribbon[0].style.display = 'none';
         }
 
-        $scope.hideVideo = function(element) {          
+        $scope.hideVideo = function(element) {
           $rootScope.$broadcast( "linkChanged", element.hls_source, element.externalId);
           $rootScope.youtubePlay = false;
 
@@ -499,67 +427,6 @@
                 }
               })
           }
-        }
-
-        $scope.filterFeeds = function() {
-        }
-
-        function getTimeDiff(date){
-            var curDate = new Date();
-            var tilePublishedDate = new Date(date);
-            var timeDiff = '';
-
-            if( tilePublishedDate.getFullYear() == curDate.getFullYear() ){
-              if(tilePublishedDate.getMonth() == curDate.getMonth()){
-                if(tilePublishedDate.getDate() == curDate.getDate()){
-                  if(tilePublishedDate.getHours() == curDate.getHours()){
-                    if(tilePublishedDate.getMinutes() == curDate.getMinutes()){
-                      if(tilePublishedDate.getSeconds() - curDate.getSeconds()){
-                        timeDiff = 'now';
-                      }else{
-                        var secDiff = curDate.getSeconds() - tilePublishedDate.getSeconds();
-                        if(secDiff == 1)
-                          timeDiff = secDiff + ' second ago';
-                        else
-                          timeDiff = secDiff + ' seconds ago';
-                      }
-                    }else{
-                      var minDiff = curDate.getMinutes() - tilePublishedDate.getMinutes();
-                      if(minDiff == 1)
-                        timeDiff = minDiff + ' minute ago';
-                      else
-                        timeDiff = minDiff + ' minutes ago';
-                    }
-                  }else{
-                    var hoursDiff = curDate.getHours() - tilePublishedDate.getHours();
-                    if(hoursDiff == 1)
-                      timeDiff = hoursDiff + ' hour ago';
-                    else
-                      timeDiff = hoursDiff + ' hours ago';
-                  }
-                }else{
-                  var dateDiff = curDate.getDate() - tilePublishedDate.getDate();
-                  if(dateDiff == 1)
-                    timeDiff = dateDiff + ' day ago';
-                  else
-                    timeDiff = dateDiff + ' days ago';
-                }
-              }else{
-                var monthDiff = curDate.getMonth() - tilePublishedDate.getMonth();
-                if(monthDiff == 1)
-                  timeDiff = monthDiff + ' month ago';
-                else
-                  timeDiff = monthDiff + ' months ago';
-              }
-            }else{
-              var yearDiff = curDate.getFullYear() - tilePublishedDate.getFullYear();
-              if(yearDiff == 1)
-                timeDiff = yearDiff + ' year ago';
-              else
-                timeDiff = yearDiff + ' years ago';
-            }
-
-            return timeDiff;
         }
     }
 })();

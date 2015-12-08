@@ -1608,7 +1608,7 @@ _:-ms-lang(x),
 .sign-out a span{
   margin-left: 10px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1023px) {
   .sign-out{
     position: relative;
     bottom: 0;

@@ -1,6 +1,6 @@
 /**=========================================================
- * netTileController: Controller for a Net Tiles page
- * used in Net Tiles page.
+ * Module: netTileController
+ * Description: Controller for a Net Tiles page
  * Author: Ryan - 2015.10.20
  =========================================================*/
 (function() {

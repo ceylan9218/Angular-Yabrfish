@@ -1,6 +1,6 @@
 /**=========================================================
- * clubController: Controller for a Profile Club Page
- * used in Profile Club page.
+ * Module: clubController
+ * Description: Controller for Club item in Profile menu.
  * Author: Marcin - 2015-11-19
  =========================================================*/
 (function() {

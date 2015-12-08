@@ -1,6 +1,6 @@
 /**=========================================================
- * signupController: Controller for a Sign Up page
- * used in Sign Up page.
+ * Module: signupController
+ * Description: Controller for a Sign Up page
  * Author: Ryan - 2015.11.15
  =========================================================*/
 (function() {

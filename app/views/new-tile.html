@@ -51,12 +51,11 @@
                </div>
             </div>
          </div>
-         <button ng-show="index == 1 && !enablement" class="create-tile-btn btn" ng-click="createTile()">Create</button>
-         <button ng-show="index == 2 && selected" class="create-tile-btn btn" stripe-checkout="doCheckout()" data-key="pk_test_hEVPAufqTlToDGSTUokAK3bs" data-name="{{offerName}}" data-description="{{offerDescription}}" data-amount="{{offerAmount}}" data-currency="GBP">Purchase</button>
-         <button ng-show="index != 2 && enablement" class="next-btn btn" ng-click="slideWrap('next')"><i class="fa fa-angle-right fg-lg"></i></button>
-         <span ng-show="index == 1" class="tileCount">{{diffInstances}} Tiles</span>
-         <button ng-show="index != 0" class="prev-btn btn" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i></button>      
+         <button ng-if="index != 0" class="prev-btn btn" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i></button>
+         <button ng-if="index != 2 && enablement" class="next-btn btn" ng-click="slideWrap('next')"><i class="fa fa-angle-right fg-lg"></i></button>
+         <button ng-if="index == 1 && !enablement" class="create-tile-btn btn" ng-click="createTile()">Create</button>
+         <span ng-if="index == 1" class="tileCount">{{diffInstances}} Tiles</span>
+         <button ng-if="index == 2" class="create-tile-btn btn" stripe-checkout="doCheckout()" data-key="pk_test_hEVPAufqTlToDGSTUokAK3bs" data-name="{{offerName}}" data-description="{{offerDescription}}" data-amount="{{offerAmount}}" data-currency="GBP">Purchase</button>
       </div>
    </div>   
 </div>
-

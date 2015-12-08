@@ -1,6 +1,6 @@
 /**=========================================================
- * accountController: Controller for a Profile Accounts page
- * used in Profile Accounts page.
+ * Module: accountController
+ * Description: Controller for Accounts item in Profile menu.
  * Author: Marcin - 2015.11.23
  =========================================================*/
  (function() {
