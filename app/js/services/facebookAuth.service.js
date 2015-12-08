@@ -1,7 +1,7 @@
 /**=========================================================
- * Module: Facebook Authentication module.
+ * Module: FacebookAuthService.
+ * Description: Service for facebook authentication.
  * Author: Marcin - 2015.12.4
- * used in Facebook Authentication.
  =========================================================*/
 (function() {
     'use strict';
@@ -22,9 +22,9 @@
             FacebookProvider.init(myAppId);
           }
         ])
-        .service('AuthenticationService', AuthenticationService);
+        .service('FacebookAuthService', FacebookAuthService);
 
-        function AuthenticationService($http, $location, $q, Facebook, $rootScope, APP_APIS){
+        function FacebookAuthService($http, $location, $q, Facebook, $rootScope, APP_APIS){
           $rootScope.logged = false;
           $rootScope.user = {};
 

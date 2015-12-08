@@ -1,6 +1,6 @@
 /**=========================================================
- * Module: Login Controller.
- * used in Login page.
+ * Module: loginController
+ * Description: Controller for Login page.
  * Author: Ryan - 2015.12.4 - Updated by Marcin.
  =========================================================*/
 (function() {
@@ -10,11 +10,11 @@
         .module('app.login', [])
         .controller('loginController', loginController);
     
-    function loginController($scope, $rootScope, $location, $http, APP_APIS, AuthenticationService) {
+    function loginController($scope, $http, FacebookAuthService) {
     	
     	// Facebook login.
 		$scope.FBLogin = function() {
-			AuthenticationService.login();
+			FacebookAuthService.login();
 		}
     }
 })();

@@ -1,6 +1,6 @@
 /**=========================================================
- * profileController: Controller for a Profile page
- * used in Profile page.
+ * Module: profileController
+ * Description: Controller for About item in Profile menu.
  * Author: Marcin - 2015.11.11
  =========================================================*/
 (function() {

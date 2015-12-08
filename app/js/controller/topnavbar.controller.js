@@ -1,17 +1,17 @@
 /**=========================================================
  * Module: topnavbarController
+ * Description: Controller for top nav bar.
  * Author: Ryan - 2015.9.21
- * Handle topnavbar collapsible elements
  =========================================================*/
 
 (function() {
     'use strict';
 
     angular
-        .module('app.topnavbar', ['facebook'])        
+        .module('app.topnavbar', [])        
         .controller('topnavbarController', topnavbarController);
 
-    function topnavbarController($scope, $http, $location, Facebook, APP_APIS, AuthenticationService) {
+    function topnavbarController($scope, FacebookAuthService) {
       $scope.toggleItem = function() {
         if($('.dropdown').hasClass('open'))
           $('.dropdown').removeClass('open');
@@ -23,14 +23,14 @@
       }
       
       // Initial checking if user logged in.
-      AuthenticationService.getUser();
+      FacebookAuthService.getUser();
 
       /**
        * Logout
        */
       $scope.logout = function() {
         angular.element('.open').removeClass('open');
-        AuthenticationService.logout();
+        FacebookAuthService.logout();
       }
     }
 })();

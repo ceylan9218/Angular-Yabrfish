@@ -258,8 +258,7 @@
          <accordion-group is-open="card.location.open" class="location-group">
             <accordion-heading>
                <img src="app/img/location.png">Location <i class="pull-right fa" ng-class="{'fa-angle-up': location.open, 'fa-angle-down': !location.open}"></i>
-            </accordion-heading>
-            <map zoom="8" center="{{card.location[0].lat}}, {{card.location[0].lon}}" on-center-changed="centerChanged()"> <marker position="{{card.location[0].lat}}, {{card.location[0].lon}}" on-click="click()" title="Click to zoom"></marker> </map>
+            </accordion-heading>            
          </accordion-group>
          <accordion-group is-open="card.attend.open" class="attend-group">
             <accordion-heading>

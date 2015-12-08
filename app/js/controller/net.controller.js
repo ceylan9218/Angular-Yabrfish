@@ -1,6 +1,6 @@
 /**=========================================================
- * netController: Controller for My Net Page
- * used in My Nets page.
+ * Module: netController
+ * Description: Controller for My Net Page
  * Author: Ryan - 2015.10.9
  =========================================================*/
 (function() {

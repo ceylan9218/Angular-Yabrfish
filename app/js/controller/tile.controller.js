@@ -1,6 +1,6 @@
 /**=========================================================
- * tileController: Controller for My Tiles
- * used in My Tiles
+ * Module: tileController
+ * Description: Controller for My Tiles
  * Author: Ryan - 2015.11.20
  =========================================================*/
 (function() {
@@ -10,7 +10,7 @@
         .module('app.tiles', ['ngAnimate', 'ui.bootstrap', 'ui.select', 'ngFileUpload', 'stripe.checkout'])
         .controller('tileController', tileController);
 
-    function tileController($scope, $http, $rootScope, $location, RouteHelpers, APP_APIS, $timeout, $window, Upload) {
+    function tileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService) {
       $scope.tiles = [];
       $scope.basepath = RouteHelpers.basepath;
       $scope.tileTypes = [];
@@ -56,6 +56,12 @@
           translate += $scope.stepWidth;
           $scope.transform = "translate("+translate+"px, 0px)";
         }
+
+        if($scope.index == 0)
+          $scope.enablement = true;
+
+        if($scope.index == 1 && $scope.diffInstances == 0)
+          $scope.enablement = false;
       }
       
       // Preview upload Image.
@@ -170,6 +176,7 @@
         });        
       }
 
+      // Get My Tiles.
       $scope.getTiles = function() {
         $http.get(APP_APIS['tile']+'/tiles/owners?viewerExternalId='+ $rootScope.user.externalId)
           .success(function(tiles){
@@ -177,6 +184,7 @@
             for(var i in $scope.tiles){
               //Get and change lowercase Tile Type.              
               $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
+              $scope.tiles[i].publishedDate = TileService.getTimeDiff($scope.tiles[i].publishedDate);
             }
             console.log(tiles);
           })
