@@ -7,58 +7,7 @@
     'use strict';
     
     angular
-        .module('app.tile', [])
-        .directive('sycovideo', function(){
-            return {
-              restrict: 'E',
-              template: '<div id="{{id}}" class="player"></div>',
-              scope: {
-                hls_source: "=hls",
-                id: "=id"
-              },
-              link: function(scope, elm, attr) {
-                scope.$on('linkChanged', function(event, val, id) {
-                  if(scope.id == id) {
-                    angular.element('.player').each(function(){
-                      var vid = angular.element(this).attr('id');
-                      bitdash(vid).destroy();                      
-                    });
-                    if(val) {
-                      var conf = {
-                          key:       '9dfc435e221ba94fd0cdbacda4c656cf',
-                          playback: {
-                            autoplay : true
-                          },
-                          source: {
-                            hls: val,
-                          },
-                          events: {
-                            onReady : function(data) {
-                            }                          
-                          }
-                      };
-                      bitdash(scope.id).setup(conf);
-                    }
-                  }
-                });
-              }
-            }
-        })
-		.directive('loading', function () {
-            return {
-              restrict: 'E',
-              replace:true,
-              template: '<div class="loading"><img src="http://www.nasa.gov/multimedia/videogallery/ajax-loader.gif" width="20" height="20" />LOADING...</div>',
-              link: function (scope, element, attr) {
-                  scope.$watch('loading', function (val) {
-                      if (val)
-                          $(element).show();
-                      else
-                          $(element).hide();
-                  });
-              }
-            }
-        })
+        .module('app.tile', [])        
         .service('TileService', TileService);
 
         function TileService(){

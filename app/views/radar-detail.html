@@ -29,7 +29,6 @@
          <a class="close-btn" ng-click="hideVideo(card)"><img src="app/img/video-close.png" ng-if="card.showYoutube"></a>
       </div>
       <div class="tileVideo">
-         <!-- <loading></loading> -->
          <sycovideo hls="card.hls_source" id="card.externalId"></sycovideo>
          <a class="close-btn" ng-click="hideVideo(card)"><img src="app/img/video-close.png" ng-if="card.hls_source"></a>
       </div>
@@ -47,7 +46,9 @@
             <img ng-if="!card.extendWrap" src="app/img/more.png">
          </a>
       </div>
-      <loading></loading>
+      <div ng-if="loading" class="ball-clip-rotate loading">
+         <div></div>
+      </div>      
       <div class="video-list" ng-if="card.videoList">
          <h4>Play List</h4>
          <ul ng-if="card.videoType == 'syco'">

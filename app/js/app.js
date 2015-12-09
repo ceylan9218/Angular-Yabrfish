@@ -41,7 +41,8 @@
             'app.profile-clubs',
             'app.facebook-auth',
             'app.tile',
-            'app.product'
+            'app.product',
+            'app.file'
         ])
         .constant('APP_APIS', {
           'base':                 'http://data.yabrfish.com/yfapi',
@@ -71,6 +72,12 @@
 
     angular
         .module('app.product', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.file', []);
 })();
 (function() {
     'use strict';
@@ -445,6 +452,7 @@
 
              'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
                                    'vendor/simple-line-icons/css/simple-line-icons.css'],
+             'loaders.css':        ['vendor/loaders.css/loaders.css'],
              'spinkit':            ['vendor/spinkit/css/spinkit.css']
           },
           // Angular based script (use the right module name)
@@ -452,7 +460,8 @@
               {name: 'akoenig.deckgrid',          files: ['vendor/angular-deckgrid/angular-deckgrid.js']},
               {name: 'ngImgCrop',                 files: ['vendor/ng-img-crop/compile/unminified/ng-img-crop.js',
                                                         'vendor/ng-img-crop/compile/unminified/ng-img-crop.css']},
-              {name: 'angularFileUpload',         files: ['vendor/angular-file-upload/angular-file-upload.js']}
+              {name: 'angularFileUpload',         files: ['vendor/angular-file-upload/angular-file-upload.js']},
+              {name: 'infinite-scroll',           files: ['vendor/ngInfiniteScroll/build/ng-infinite-scroll.js']}
           ]
         })
         ;
@@ -832,7 +841,7 @@
                 title: 'Radar',
                 templateUrl: helper.basepath('radar.html'),
                 controller: 'recommendationController',
-                resolve: helper.resolveFor('spinkit', 'akoenig.deckgrid')
+                resolve: helper.resolveFor('spinkit','loaders.css', 'akoenig.deckgrid', 'infinite-scroll')
             })
             .state('app.radar-detail', {
                 url: '/radar-detail',

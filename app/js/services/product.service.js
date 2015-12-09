@@ -1,5 +1,5 @@
 /**=========================================================
- * Module: productService.
+ * Module: ProductService.
  * Description: Service for Product managements.
  * Author: Ryan - 2015.12.8
  =========================================================*/
@@ -8,17 +8,24 @@
     
     angular
         .module('app.product', [])
-        .service('productService', productService)
+        .service('ProductService', ProductService)
 
-        function productService($http, APP_APIS) {
+        function ProductService($http, APP_APIS, $q) {
+        	var products = [];
         	return {
         		getProducts: function(type){
         			var type = type.toUpperCase();
+        			var deferred = $q.defer();
+
         			$http.get(APP_APIS['commerce']+'/products?type='+type)
 				        .success(function(data){
-				        	var products = data;
+				        	deferred.resolve(data);
 				        })
-				    return products;
+				        .error(function(data, status){
+				        	deferred.resolve(status);
+				        })
+
+				    return deferred.promise;
         		}
         	}
         }
