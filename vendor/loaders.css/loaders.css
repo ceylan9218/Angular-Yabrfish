@@ -55,7 +55,7 @@
   -webkit-animation: scale 0.75s 0s infinite cubic-bezier(.2, .68, .18, 1.08);
           animation: scale 0.75s 0s infinite cubic-bezier(.2, .68, .18, 1.08); }
 .ball-pulse > div {
-  background-color: #fff;
+  background-color: #3ABEEF;
   width: 15px;
   height: 15px;
   border-radius: 100%;
