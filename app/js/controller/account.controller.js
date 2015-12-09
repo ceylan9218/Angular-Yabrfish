@@ -40,7 +40,7 @@
         })
         .controller('accountController', accountController);
 
-    function accountController($scope, $rootScope, $http, RouteHelpers, APP_APIS, Flash, productService) {
+    function accountController($scope, $rootScope, $http, RouteHelpers, APP_APIS, Flash, ProductService) {
       if(!$rootScope.user)
         return;
 
@@ -308,6 +308,26 @@
           .error(function(status){
             console.log(status);
           })
+      }
+
+      // Get Products of type = Account
+      ProductService.getProducts('account').then(function(products){
+        $scope.products = products;
+      })
+
+      $scope.selectOffer = function(offer) {
+        $scope.selected = offer;
+        $scope.offerDescription = offer.description;
+        $scope.offerAmount = offer.grossPrice * 100;
+        $scope.offerName = offer.name;
+      }
+
+      $scope.isSelected = function(offer) {
+        return $scope.selected === offer;
+      }
+
+      $scope.doCheckout = function(token) {
+        console.log(token.id);
       }
     }
 })();

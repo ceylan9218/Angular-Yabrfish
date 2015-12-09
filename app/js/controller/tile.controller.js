@@ -10,7 +10,7 @@
         .module('app.tiles', ['ngAnimate', 'ui.bootstrap', 'ui.select', 'ngFileUpload', 'stripe.checkout'])
         .controller('tileController', tileController);
 
-    function tileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService) {
+    function tileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService, ProductService) {
       $scope.tiles = [];
       $scope.basepath = RouteHelpers.basepath;
       $scope.tileTypes = [];
@@ -27,7 +27,7 @@
       $scope.organizations = [];
       $scope.organization = {};
       $scope.diffInstances = 0;
-      $scope.enablement = true;
+      $scope.enablement = false;
 
       // Get Tile Types
       $http.get(APP_APIS['lookup']+'/tiletypes')
@@ -56,12 +56,6 @@
           translate += $scope.stepWidth;
           $scope.transform = "translate("+translate+"px, 0px)";
         }
-
-        if($scope.index == 0)
-          $scope.enablement = true;
-
-        if($scope.index == 1 && $scope.diffInstances == 0)
-          $scope.enablement = false;
       }
       
       // Preview upload Image.
@@ -190,11 +184,10 @@
           })
       }
 
-      // Get Packs of type = Tile
-      $http.get(APP_APIS['commerce']+'/products?type=TILES')
-        .success(function(data){
-          $scope.products = data;
-        })
+      // Get Products of type = Tiles
+      ProductService.getProducts('tiles').then(function(products){
+        $scope.products = products;
+      })
 
       $scope.selectOffer = function(offer) {
         $scope.selected = offer;

@@ -9577,7 +9577,7 @@ flot .legend .legendColorBox > div > div {
 }
 .loading{
   margin: 0 auto;
-  width: 100px;
+  width: 10px;
 }
 .video-list{
   border-top: 1px solid #C1C1C1;
@@ -11022,7 +11022,13 @@ img.logo{
   float: left;
   display: inline-block;
   padding: 0 2px;
+  position: relative;
+  height: 450px;
 }
+/*.create-tile-slider .steps .btn{
+  position: absolute;
+  bottom: 0;
+}*/
 .create-tile-slider #step2 label, .create-tile-slider #step3 label{
   font-size: 16px;
   font-weight: normal;
@@ -11060,7 +11066,6 @@ img.logo{
 }
 .create .new-tile-wrap label{
   width: 100%;
-  height: 100%;
 }
 .create .new-tile-wrap img{
   width: 100%;
@@ -11085,40 +11090,49 @@ img.logo{
   -moz-appearance:none;
   appearance:none;
 }
+.create .button-wrap{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.create .button-wrap .buttons{
+  width: 180px;
+  margin: 0 auto;  
+}
 .create .create-tile-btn{
-  background: #0d6c8f;
-  color: #fff;
-  font-size: 18px;
-  padding: 5px 15px;
-  width: 130px;
+  background: transparent;
+  color: #0d6c8f;
+  font-size: 16px;
+  padding: 7px 0px;
+  width: 85px;
   display: block;  
-  border-radius: 20px;
-  margin: 10px;
+  border: 1px solid #0d6c8f;
+  margin: 10px 0;
   float: right;
 }
 .next-btn{
-  background: #0d6c8f;
-  width: 40px;
+  background: transparent;
+  width: 85px;
   height: 40px;
   float: right;
-  color: #fff;
+  color: #0d6c8f;
+  border: 1px solid #0d6c8f;
   font-size: 16px;
-  border-radius: 50%;
-  margin: 10px;
+  margin: 10px 0;
 }
 .prev-btn{
-  background: #0d6c8f;
-  width: 40px;
+  background: transparent;
+  width: 85px;
   height: 40px;
   float: left;
-  color: #fff;
+  color: #0d6c8f;
+  border: 1px solid #0d6c8f;
   font-size: 16px;
-  border-radius: 50%;
-  margin: 10px;
+  margin: 10px 0;
 }
 .next-btn:hover, .next-btn:focus, .next-btn.focus,
 .prev-btn:hover, .prev-btn:focus, .prev-btn.focus{
-  color: #fff;
+  color: #0d6c8f;
 }
 
 .img-container {
@@ -11132,10 +11146,12 @@ img.logo{
   max-width: 304px;
 }
 .create .tileCount{
-  float: right;
   margin: 20px 0 10px;
   font-size: 18px;
   color: #333;
+  position: absolute;
+  bottom: 5px;
+  left: 0px;
 }
 .create .products .offer{
   background:url('../img/pack1.png') no-repeat;
@@ -11230,8 +11246,10 @@ img.logo{
     font-size: 14px;
   }
   .create .create-tile-btn{
-    width: 120px;
-    font-size: 16px;
+    width: 70px;
+    font-size: 14px;
+    height: 35px;
+    padding: 0;
   }
   .create .products .offer img.selected{
     width: 14px;
@@ -11257,6 +11275,21 @@ img.logo{
   }
   .create .products .offer .offer-infos .price {
     font-size: 22px;
+  }
+  .create-tile-slider .steps{
+    height: 400px;
+  }
+  .create .button-wrap .buttons{
+    width: 150px;
+  }
+  .prev-btn, .next-btn{
+    width: 70px;
+    height: 35px;
+    font-size: 14px;
+    padding: 0;
+  }
+  .create .tileCount{
+    font-size: 14px;
   }
 }
 /* ========================================================================

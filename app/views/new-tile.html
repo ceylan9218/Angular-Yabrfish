@@ -16,6 +16,12 @@
                </ui-select>               
                <input type="text" class="form-control" ng-model="newTile.title" placeholder="The title...">
                <textarea class="form-control" ng-model="newTile.description" placeholder="Description..."></textarea>
+               <div class="button-wrap">
+                  <div class="buttons">
+                     <button class="prev-btn btn btn-pill-left" disabled="disabled"><i class="fa fa-angle-left fg-lg"></i>&nbsp;&nbsp;Prev</button>   
+                     <button class="next-btn btn btn-pill-right" ng-click="slideWrap('next')">Next&nbsp;&nbsp;<i class="fa fa-angle-right fg-lg"></i></button>
+                  </div>
+               </div>
             </div>
             <div id="step2" class="steps" ng-style="{'width': stepWidth}">
                <label for="accounts">Accounts:</label>
@@ -32,6 +38,14 @@
                      <div ng-bind-html="organization.name | highlight: $select.search"></div>               
                   </ui-select-choices>
                </ui-select>
+               <div class="button-wrap">
+                  <div class="buttons">
+                     <button class="prev-btn btn btn-pill-left" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i>&nbsp;&nbsp;Prev</button>   
+                     <button ng-show="enablement" class="next-btn btn btn-pill-right" ng-click="slideWrap('next')">Next&nbsp;&nbsp;<i class="fa fa-angle-right fg-lg"></i></button>
+                     <button ng-show="!enablement" class="create-tile-btn btn btn-pill-right" ng-click="createTile()">Create</button>
+                  </div>
+               </div>
+               <span class="tileCount">{{diffInstances}} Tiles</span>               
             </div>
             <div id="step3" class="steps" ng-style="{'width': stepWidth}">
                <div class="products-wrap">
@@ -49,13 +63,14 @@
                      </div>
                   </div>   
                </div>
-            </div>
-         </div>
-         <button ng-if="index != 0" class="prev-btn btn" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i></button>
-         <button ng-if="index != 2 && enablement" class="next-btn btn" ng-click="slideWrap('next')"><i class="fa fa-angle-right fg-lg"></i></button>
-         <button ng-if="index == 1 && !enablement" class="create-tile-btn btn" ng-click="createTile()">Create</button>
-         <span ng-if="index == 1" class="tileCount">{{diffInstances}} Tiles</span>
-         <button ng-if="index == 2" class="create-tile-btn btn" stripe-checkout="doCheckout()" data-key="pk_test_hEVPAufqTlToDGSTUokAK3bs" data-name="{{offerName}}" data-description="{{offerDescription}}" data-amount="{{offerAmount}}" data-currency="GBP">Purchase</button>
+               <div class="button-wrap">
+                  <div class="buttons">
+                     <button class="prev-btn btn btn-pill-left" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i>&nbsp;&nbsp;Prev</button>   
+                     <button class="create-tile-btn btn btn-pill-right" stripe-checkout="doCheckout()" data-key="pk_test_hEVPAufqTlToDGSTUokAK3bs" data-name="{{offerName}}" data-description="{{offerDescription}}" data-amount="{{offerAmount}}" data-currency="GBP">Purchase</button>
+                  </div>
+               </div>               
+            </div>            
+         </div>         
       </div>
    </div>   
 </div>
