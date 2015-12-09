@@ -15,10 +15,20 @@
             </ui-select>         
          	<input type="text" class="form-control" ng-model="newAccount.title" placeholder="The title...">
          	<textarea class="form-control" ng-model="newAccount.description" placeholder="Description..."></textarea>
+            <div class="button-wrap">
+               <div class="buttons">
+                  <button class="prev-btn btn btn-pill-left" disabled="disabled"><i class="fa fa-angle-left fg-lg"></i>&nbsp;&nbsp;Prev</button>   
+                  <button class="next-btn btn btn-pill-right" ng-click="slideWrap('next')">Next&nbsp;&nbsp;<i class="fa fa-angle-right fg-lg"></i></button>
+               </div>
+            </div>
          </div>
          <div id="step2" class="steps" ng-style="{'width': stepWidth}">            
-            
-            <button class="create-tile-btn btn" ng-click="createAccount()">Create</button>
+            <div class="button-wrap">
+               <div class="buttons">
+                  <button class="prev-btn btn btn-pill-left" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i>&nbsp;&nbsp;Prev</button>   
+                  <button class="next-btn btn btn-pill-right" ng-click="slideWrap('next')">Next&nbsp;&nbsp;<i class="fa fa-angle-right fg-lg"></i></button>
+               </div>
+            </div>
          </div>
          <div id="step3" class="steps" ng-style="{'width': stepWidth}">
             <div class="products-wrap">
@@ -36,10 +46,13 @@
                   </div>
                </div>   
             </div>
-            <button ng-if="index == 2" class="create-tile-btn btn" stripe-checkout="doCheckout()" data-key="pk_test_hEVPAufqTlToDGSTUokAK3bs" data-name="{{offerName}}" data-description="{{offerDescription}}" data-amount="{{offerAmount}}" data-currency="GBP">Purchase</button>
+            <div class="button-wrap">
+               <div class="buttons">
+                  <button class="prev-btn btn btn-pill-left" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i>&nbsp;&nbsp;Prev</button>   
+                  <button class="create-tile-btn btn btn-pill-right" stripe-checkout="doCheckout()" data-key="pk_test_hEVPAufqTlToDGSTUokAK3bs" data-name="{{offerName}}" data-description="{{offerDescription}}" data-amount="{{offerAmount}}" data-currency="GBP">Purchase</button>
+               </div>
+            </div> 
          </div>
       </div>
-      <button ng-if="index != 2" class="next-btn btn" ng-click="slideWrap('next')"><i class="fa fa-angle-right fg-lg"></i></button>
-      <button ng-if="index != 0" class="prev-btn btn" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i></button>
 	</div>
 </div>

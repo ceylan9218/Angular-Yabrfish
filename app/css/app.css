@@ -11018,7 +11018,7 @@ img.logo{
   -webkit-transition:0.1s;
   -moz-transition:0.1s;
 }
-.create-tile-slider .steps{
+.create .steps{
   float: left;
   display: inline-block;
   padding: 0 2px;
@@ -11276,7 +11276,7 @@ img.logo{
   .create .products .offer .offer-infos .price {
     font-size: 22px;
   }
-  .create-tile-slider .steps{
+  .create .steps{
     height: 400px;
   }
   .create .button-wrap .buttons{
