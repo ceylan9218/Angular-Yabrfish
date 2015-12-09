@@ -30,10 +30,11 @@
 
           var me = function(response) {
             var deferred = $q.defer();
-            Facebook.api('/me?fields=name,email,birthday,gender,sports,taggable_friends', function(response) {
+            Facebook.api('/me?fields=name, first_name, last_name, email, birthday, gender, sports, taggable_friends', function(response) {
                 if (!response || response.error) {
                     deferred.reject('Error occured');
                 } else {
+console.log(response.id);
                   $http.get(APP_APIS['commerce']+'/viewers/'+response.id+'?ident=facebook')
                     .success(function(data) {
                       deferred.resolve(data);
@@ -47,7 +48,29 @@
 console.log($rootScope.user);
                     })
                     .error(function(data, status){
-                      deferred.resolve(status);
+                      if(status == 404){
+                        var params = {
+                          "forename": response.first_name,
+                          "nickname": response.name,
+                          "surname": response.last_name,
+                          "viewerIdentities": [{
+                            "isExternalAuth": true,
+                            "identityService": "FACEBOOK",
+                            "identityId": response.id
+                          }]
+                        }
+                        $http({
+                          method: 'POST',
+                          url: APP_APIS['commerce']+'/viewers',
+                          data: JSON.stringify(params),
+                          headers: {'Content-Type': 'application/json'}
+                        }).success(function (data, status, headers, config){
+                          console.log(data);
+                        }).error(function (data, status, headers, config){
+                          console.log(status);
+                        })
+                      }
+                      deferred.resolve(status);                        
                     });
                 }
             });
