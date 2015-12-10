@@ -3,13 +3,19 @@
    <a id="{{bannerId}}" href="{{bannerUrl}}" target="{{target}}" alt="{{alt}}"><img src="{{bannerImg}}" /></a>
 </div>
 <!-- START row-->
-<div class="row yabrTile-wrap">
+<div class="row yabrTile-wrap" infinite-scroll="loadMore()" infinite-scroll-distance="5">
    <!-- START widget-->
    <div class="container-fluid">
       <div deckgrid source="tiles" cardtemplate="{{basepath('radar-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
    </div>
    <!-- END widget-->
 </div>
-
+<div ng-if="loading" class="panel-body loader-demo">
+	<div class="ball-pulse">
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+</div>
 <!-- Alert message-->
 <div flash-message="2000" class="alert-message" ng-show="$root.hasFlash"></div>

@@ -49,6 +49,7 @@
     function recommendationController($rootScope, $scope, $http, $sce, RouteHelpers, $timeout, $q, Flash, APP_APIS, TileService) {
         $scope.basepath = RouteHelpers.basepath;
         $scope.tiles = [];
+        $scope.totalTiles = [];
         $scope.showVideo = false;
         $scope.hideImg = false;
         $scope.filter = {
@@ -56,6 +57,7 @@
         };
         $scope.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         $rootScope.youtubePlay = false;
+        var tileCountPerPage = 6;
 
         $scope.loadBanner = function(){
           // Get Banner Image.
@@ -87,19 +89,42 @@
 
         var recommendations = $scope.getRecommendations();
         recommendations.then(function(resolve){
-            $scope.tiles = resolve.tiles;
-            for (var i in $scope.tiles) {
-              $scope.tiles[i].events = [];
+            $scope.totalTiles = resolve.tiles;
+            for (var i in $scope.totalTiles) {
+              $scope.totalTiles[i].events = [];
 
               //Get and change lowercase Tile Type.              
-              $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
+              $scope.totalTiles[i].tileType = $scope.totalTiles[i].tileType.toLowerCase();
 
               // Get Time Difference
-              $scope.tiles[i].publishedDate = TileService.getTimeDiff($scope.tiles[i].publishedDate);
+              $scope.totalTiles[i].publishedDate = TileService.getTimeDiff($scope.totalTiles[i].publishedDate);
+
+              if( i < tileCountPerPage ){
+                $scope.tiles[i] = $scope.totalTiles[i];
+              }
             }
         }, function(reject){
           console.log(reject);
         })       
+
+        $scope.loadMore = function() {
+          var currentCount = $scope.tiles.length;
+          
+          if(currentCount > 0)
+            $scope.loading = true;
+
+          if( currentCount > 0 && currentCount < $scope.totalTiles.length ){
+            $timeout(function(){
+              $scope.loading = false;
+              for(var i = 0; i < tileCountPerPage; i++){
+                if($scope.totalTiles[currentCount + i])
+                  $scope.tiles[currentCount + i] = $scope.totalTiles[currentCount + i];                
+              }
+            }, 2000);
+          }else{
+            $scope.loading = false;
+          }
+        }
 
         $scope.getVideoList = function(element){
           var uid = element.externalId;
