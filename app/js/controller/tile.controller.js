@@ -7,10 +7,10 @@
     'use strict';
 
     angular
-        .module('app.tiles', ['ngAnimate', 'ui.bootstrap', 'ui.select', 'ngFileUpload', 'stripe.checkout'])
+        .module('app.tiles', ['ngAnimate', 'ui.bootstrap', 'ui.select', 'ngFileUpload', 'stripe.checkout', 'flash'])
         .controller('tileController', tileController);
 
-    function tileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService, ProductService) {
+    function tileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService, ProductService, Flash) {
       $scope.tiles = [];
       $scope.basepath = RouteHelpers.basepath;
       $scope.tileTypes = [];
@@ -28,6 +28,7 @@
       $scope.organization = {};
       $scope.diffInstances = 0;
       $scope.enablement = false;
+      $scope.enableCreate = true;
 
       // Get Tile Types
       $http.get(APP_APIS['lookup']+'/tiletypes')
@@ -81,41 +82,71 @@
           for(var i in data){            
             $scope.accounts.push(data[i].account);
           }
+          $scope.accounts.unshift({
+            externalId: 'just-for-me',
+            name: 'Just For Me'
+          });
         });
 
-      $scope.changeAccount = function(item){
+      $scope.changeAccount = function(item){        
         $scope.organizations = item.organizations;
         var accountId = item.externalId;
 
-        // Get Enablements.
-        $http.get(APP_APIS['commerce']+'/accounts/'+accountId+'/enablements?productType=Tiles')
-          .success(function(data){
-            var enablements = data;
-            var maxInstances = 0;
-            var instanceCounts = 0;
+        if (accountId == 'just-for-me'){
+          $scope.enablement = true;
+        }else{
+          // Get Enablements.
+          $http.get(APP_APIS['commerce']+'/accounts/'+accountId+'/enablements?productType=Tiles')
+            .success(function(data){
+              var enablements = data;
+              var maxInstances = 0;
+              var instanceCounts = 0;
 
-            for(var i in enablements){
-              maxInstances += enablements[i].maximumInstances;
-              instanceCounts += enablements[i].instanceCount;
-            }
+              for(var i in enablements){
+                maxInstances += enablements[i].maximumInstances;
+                instanceCounts += enablements[i].instanceCount;
+              }
 
-            $scope.diffInstances = maxInstances - instanceCounts;
-            if($scope.diffInstances <= 0)
-              $scope.enablement = false;
-            else
-              $scope.enablement = true;
-          });
+              $scope.diffInstances = maxInstances - instanceCounts;
+              if($scope.diffInstances > 0)
+                $scope.enablement = true;
+              else
+                $scope.enablement = false;
+            });
+        }        
       }
 
       $scope.createTile = function() {
-        if(!$scope.newTile.description) $scope.newTile.description = '';
-        if(!$scope.newTile.title) $scope.newTile.title = '';
+        $scope.enableCreate = false;
+        if(!$scope.currentFile){
+          Flash.create('danger', 'Please select an image.');
+          $scope.slideWrap('prev');
+          return;
+        }
+
+        if(Object.keys($scope.tileType).length == 0){
+          Flash.create('danger', 'Please select tile type.');
+          $scope.slideWrap('prev');
+          return;
+        } 
+        else{
+          $scope.newTile.tileType = $scope.tileType.selected.shortCode;
+          $scope.newTile.tileType = $scope.newTile.tileType.toUpperCase();
+        }
+
+        if(!$scope.newTile.title || $scope.newTile.title == ''){
+          Flash.create('danger', 'Please input title.');
+          $scope.slideWrap('prev');
+          return;
+        }
+
+        if(!$scope.newTile.description || $scope.newTile.description == ''){
+          Flash.create('danger', 'Please input description.');
+          $scope.slideWrap('prev');
+          return;
+        }
         if(!$rootScope.user.externalId) $rootScope.user.externalId = '';
         
-        if(Object.keys($scope.tileType).length == 0) 
-          $scope.newTile.tileType = '';
-        else
-          $scope.newTile.tileType = $scope.tileType.selected.shortCode;
 
         if(Object.keys($scope.account).length == 0) 
           $scope.newTile.accountExternalId = '';
@@ -126,8 +157,6 @@
           $scope.newTile.organizationExternalId = '';
         else
           $scope.newTile.organizationExternalId = $scope.organization.selected.externalId;
-
-        $scope.newTile.tileType = $scope.newTile.tileType.toUpperCase();       
 
         // File Upload
         var creativesExternalId = '';
@@ -140,10 +169,10 @@
           "viewerExternalId": $rootScope.user.externalId,
           "isDeleted": false
         };
-
         Upload.upload({
             url: APP_APIS['media'] + '/images',
-            data: {file: $scope.currentFile}
+            data: {file: $scope.currentFile},
+            headers: {'Content-Range': 'bytes 42-1233/*'}
         }).then(function (resp) {
             creativesExternalId = resp.data.externalId;
             $http({
@@ -153,17 +182,21 @@
               headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config){
               var tileId = data.externalId;
-
               // Add Creatives to Given Tile
               $http.post(APP_APIS['tile'] + '/tiles/' + tileId + '/creatives/' + creativesExternalId)
                 .success(function(response){
-                  console.log(response);
+                  Flash.create('success', 'Successfully created new tile.');
+                  $scope.enableCreate = true;
                 });
             }).error(function (data, status, headers, config){
-              console.log(status);
+              console.log('Error status: ' + resp.status);
+              Flash.create('danger', 'Error! Cannot create new tile.');
+              $scope.enableCreate = true;
             })
         }, function (resp) {
             console.log('Error status: ' + resp.status);
+            Flash.create('danger', 'Error! Cannot create new tile.');
+            $scope.enableCreate = true;
         }, function (evt) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
