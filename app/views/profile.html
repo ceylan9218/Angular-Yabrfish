@@ -16,10 +16,14 @@
       <h4><img src="app/img/info.png" style="width: 20px;"><span style="margin-left: 10px;">Bio</span></h4>
     </div>
     <div class="infos">
-      <a editable-textarea="bio">{{bio}}</a>
+      <a editable-textarea="bio">{{bio || 'No Bio'}}</a>
     </div>
   </div>
   <div class="buttons">
     <button class="update-profile btn pull-right" ng-click="updateProfile();">Save</button>
   </div>
 </div>
+
+<!-- Alert message-->
+<div flash-message="3000" class="alert-message" ng-show="$root.hasFlash"></div>
+

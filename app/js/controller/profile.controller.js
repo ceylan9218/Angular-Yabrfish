@@ -13,7 +13,7 @@
         })
         .controller('profileController', profileController);
 
-    function profileController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS) {
+    function profileController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS, FacebookAuthService) {
       if(!$rootScope.user)
         return;
 
@@ -26,120 +26,160 @@
         });
 
       // Get profile infos
-      $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/attributes')
-        .success(function(data) {
-          $scope.infos = data;
-          // Get Birthday          
-          $scope.birthday = new Date($scope.infos[0].attributeValueDate);
-          var birth_date = $scope.birthday.getDate();
-          if(birth_date>3 && birth_date<21){
-            birth_date = birth_date + 'th';
-          }else{
-            switch (birth_date % 10) {
-                case 1:  birth_date = birth_date + "st";
-                case 2:  birth_date = birth_date + "nd";
-                case 3:  birth_date = birth_date + "rd";
-                default: birth_date = birth_date + "th";
+      FacebookAuthService.getUser().then(function(user){
+        $http.get(APP_APIS['commerce']+'/viewers/'+user.externalId+'/attributes')
+          .success(function(data) {
+            $scope.infos = data;
+  
+            for(var i in $scope.infos){
+              if( $scope.infos[i].attribute == 1 ){
+                // Get Birthday
+                $scope.birthday = new Date($scope.infos[i].attributeValueDate);
+                var birth_date = $scope.birthday.getDate();
+
+                if(birth_date>3 && birth_date<21){
+                  birth_date = birth_date + 'th';
+                }else{
+                  switch (birth_date % 10) {
+                      case 1:  birth_date = birth_date + "st";
+                      case 2:  birth_date = birth_date + "nd";
+                      case 3:  birth_date = birth_date + "rd";
+                      default: birth_date = birth_date + "th";
+                  }
+                }
+                var birth_month = $scope.monthNames[$scope.birthday.getMonth()];
+                var birth_year = $scope.birthday.getFullYear();
+                $scope.birthday = birth_date + " " + birth_month + " " + birth_year;
+              }else if( $scope.infos[i].attribute == 2 ){
+                // Get Job
+                $scope.job = $scope.infos[i].attributeValueText;
+              }else if( $scope.infos[i].attribute == 3 ){
+                // Get Sex
+                $scope.sex = $scope.infos[i].attributeValueText;
+              }else if( $scope.infos[i].attribute == 4 ){
+                // Get Location
+                $scope.location = $scope.infos[i].attributeValueText;
+              }else if( $scope.infos[i].attribute == 5 ){
+                // Get Bio Text
+                $scope.bio = $scope.infos[i].attributeValueText;
+              }
             }
-          }
-          var birth_month = $scope.monthNames[$scope.birthday.getMonth()];
-          var birth_year = $scope.birthday.getFullYear();
-          $scope.birthday = birth_date + " " + birth_month + " " + birth_year;
-
-          // Get Sex
-          $scope.sex = $scope.infos[2].attributeValueText;
-
-          // Get Job
-          $scope.job = $scope.infos[1].attributeValueText;
-
-          // Get Location
-          $scope.location = $scope.infos[3].attributeValueText;
-
-          // Get Bio Text
-          $scope.bio = $scope.infos[4].attributeValueText;
-        });
+          });
+      })      
 
       // Update profile infos
       $scope.updateProfile = function(){
-        var data = {};
-        // Update Job.
-        if($scope.job != $scope.infos[1].attributeValueText){
-          var params = {
-              "attribute": 2,
-              "attributeValueDate": 0,
-              "attributeValueText": $scope.job
-            };
-          $http({
-              method: 'PUT',
-              url: APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/attributes/2',
-              data: JSON.stringify(params),
-              headers: {'Content-type': 'application/json'}
-            }).success(function (data, status, headers, config) {
-                console.log(data);
-            }).error(function (data, status, headers, config) {
-                console.log(data, status, headers, config);
-            });
-        }
+        FacebookAuthService.getUser().then(function(user){
+            // Update Birthday.
+            var birthday = $scope.birthday;
+            var dateAry = birthday.split(' ');
+            var date = parseInt(dateAry[0].substring(0, dateAry[0].length-2));
+            var month = $scope.monthNames.indexOf(dateAry[1]) + 1;
+            
+            if(date < 10)
+              date = '0' + date;
 
-        // Update Sex.
-        if($scope.sex != $scope.infos[2].attributeValueText){
-          data = $.param({
-            attributeType: 0,
-            attributeValueDate: 0,
-            attributeValueText: $scope.sex,
-            externalId: 'string'
-          });
-          $http({
-              method: 'PUT',
-              url: APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/attributes/3',
-              data: JSON.stringify(params),
-              headers: {'Content-type': 'application/json'}
-            }).success(function (data, status, headers, config) {
-                console.log(data);
-            }).error(function (data, status, headers, config) {
-                console.log(data, status, headers, config);
-            });
-        }
+            if(month < 10)
+              month = '0' + month;
 
-        // Update Location.
-        if($scope.location != $scope.infos[3].attributeValueText){
-          data = $.param({
-            attributeType: 0,
-            attributeValueDate: 0,
-            attributeValueText: $scope.location,
-            externalId: 'string'
-          });
-          $http({
-              method: 'PUT',
-              url: APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/attributes/4',
-              data: JSON.stringify(params),
-              headers: {'Content-type': 'application/json'}
-            }).success(function (data, status, headers, config) {
-                console.log(data);
-            }).error(function (data, status, headers, config) {
-                console.log(data, status, headers, config);
-            });
-        }
+            var newDate = Number(new Date(dateAry[2] + '-' + month + '-' + date));
 
-        // Update Bio.
-        if($scope.bio != $scope.infos[4].attributeValueText){
-          data = $.param({
-            attributeType: 0,
-            attributeValueDate: 0,
-            attributeValueText: $scope.bio,
-            externalId: 'string'
-          });
-          $http({
-              method: 'PUT',
-              url: APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/attributes/5',
-              data: JSON.stringify(params),
-              headers: {'Content-type': 'application/json'}
-            }).success(function (data, status, headers, config) {
-                console.log(data);
-            }).error(function (data, status, headers, config) {
-                console.log(data, status, headers, config);
-            });
-        }
+            if(!newDate){
+              Flash.create('danger', 'Date Format Error!');
+              return;
+            }else{
+              var params = {
+                "attribute": 1,
+                "attributeValueDate": newDate
+              };
+              $http({
+                  method: 'PUT',
+                  url: APP_APIS['commerce']+'/viewers/'+user.externalId+'/attributes/1',
+                  data: JSON.stringify(params),
+                  headers: {'Content-type': 'application/json'}
+                }).success(function (data, status, headers, config) {
+                    console.log(data);
+                }).error(function (data, status, headers, config) {
+                    console.log(status);
+                });
+            }
+
+            // Update Job.
+            if($scope.job){
+              var params = {
+                "attribute": 2,
+                "attributeValueDate": 0,
+                "attributeValueText": $scope.job
+              };
+              $http({
+                  method: 'PUT',
+                  url: APP_APIS['commerce']+'/viewers/'+user.externalId+'/attributes/2',
+                  data: JSON.stringify(params),
+                  headers: {'Content-type': 'application/json'}
+                }).success(function (data, status, headers, config) {
+                    console.log(data);
+                }).error(function (data, status, headers, config) {
+                    console.log(status);
+                });
+            }
+
+            // Update Sex.
+            if($scope.sex){
+              var params = {
+                "attribute": 3,
+                "attributeValueDate": 0,
+                "attributeValueText": $scope.sex
+              };
+              $http({
+                  method: 'PUT',
+                  url: APP_APIS['commerce']+'/viewers/'+user.externalId+'/attributes/3',
+                  data: JSON.stringify(params),
+                  headers: {'Content-type': 'application/json'}
+                }).success(function (data, status, headers, config) {
+                    console.log(data);
+                }).error(function (data, status, headers, config) {
+                    console.log(status);
+                });
+            }
+
+            // Update Location.
+            if($scope.location){
+              var params = {
+                "attribute": 4,
+                "attributeValueDate": 0,
+                "attributeValueText": $scope.location
+              };
+              $http({
+                  method: 'PUT',
+                  url: APP_APIS['commerce']+'/viewers/'+user.externalId+'/attributes/4',
+                  data: JSON.stringify(params),
+                  headers: {'Content-type': 'application/json'}
+                }).success(function (data, status, headers, config) {
+                    console.log(data);
+                }).error(function (data, status, headers, config) {
+                    console.log(status);
+                });
+            }
+
+            // Update Bio.
+            if($scope.bio){
+              var params = {
+                "attribute": 5,
+                "attributeValueDate": 0,
+                "attributeValueText": $scope.bio
+              };
+              $http({
+                  method: 'PUT',
+                  url: APP_APIS['commerce']+'/viewers/'+user.externalId+'/attributes/5',
+                  data: JSON.stringify(params),
+                  headers: {'Content-type': 'application/json'}
+                }).success(function (data, status, headers, config) {
+                    console.log(data);
+                }).error(function (data, status, headers, config) {
+                    console.log(status);
+                });
+            }
+        })
       }      
     }
 })();
