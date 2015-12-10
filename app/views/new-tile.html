@@ -28,7 +28,7 @@
                <ui-select ng-model="account.selected" theme="select2" on-select="changeAccount($item, $model)">
                   <ui-select-match placeholder="Select Account...">{{$select.selected.name}}</ui-select-match>
                   <ui-select-choices repeat="account in accounts | propsFilter: {name: $select.search}">
-                     <div ng-bind-html="account.name | highlight: $select.search"></div>               
+                     <div ng-bind-html="account.name | highlight: $select.search"></div>
                   </ui-select-choices>
                </ui-select>               
                <label for="accounts">Organizations:</label>
@@ -41,8 +41,8 @@
                <div class="button-wrap">
                   <div class="buttons">
                      <button class="prev-btn btn btn-pill-left" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i>&nbsp;&nbsp;Prev</button>   
-                     <button ng-show="enablement" class="next-btn btn btn-pill-right" ng-click="slideWrap('next')">Next&nbsp;&nbsp;<i class="fa fa-angle-right fg-lg"></i></button>
-                     <button ng-show="!enablement" class="create-tile-btn btn btn-pill-right" ng-click="createTile()">Create</button>
+                     <button ng-show="!enablement" class="next-btn btn btn-pill-right" ng-click="slideWrap('next')">Next&nbsp;&nbsp;<i class="fa fa-angle-right fg-lg"></i></button>
+                     <button ng-show="enablement" class="create-tile-btn btn btn-pill-right" ng-click="createTile()" ng-disabled="!enableCreate">Create</button>
                   </div>
                </div>
                <span class="tileCount">{{diffInstances}} Tiles</span>               
@@ -74,3 +74,5 @@
       </div>
    </div>   
 </div>
+<!-- Alert message-->
+<div flash-message="2000" class="alert-message" ng-show="$root.hasFlash"></div>
