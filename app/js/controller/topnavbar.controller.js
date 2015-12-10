@@ -23,7 +23,9 @@
       }
       
       // Initial checking if user logged in.
-      FacebookAuthService.getUser();
+      FacebookAuthService.getUser().then(function(user){
+//        console.log(user);
+      });
 
       /**
        * Logout
