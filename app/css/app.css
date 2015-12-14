@@ -10376,6 +10376,30 @@ img.logo{
   height: 50px;
   border-radius: 50%;
 }
+.signup-content .input-group{
+  width: 100%;
+}
+.signup-content .dropdown-menu{
+  position: relative;
+  top: 5px !important;
+}
+.signup-content .user-img{
+  width: 40px;
+  border-radius: 50%;
+}
+.signup-content input.file{
+  display: none;
+}
+.signup-content .upload-photo.btn{
+  background: transparent;
+  border: 1px solid #3abeef;
+  border-radius: 20px;
+  color: #3abeef;
+  float: right;
+}
+.signup-content .file-upload span{
+  margin-left: 10px;
+}
 /* ========================================================================
    title: My Net page
    author: Ryan
