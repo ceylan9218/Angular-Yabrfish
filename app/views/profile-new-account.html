@@ -6,7 +6,7 @@
          	<label for="file-input">
            	   <img src="app/img/upload-photo.png"/ ng-src="{{image_source}}">
          	</label>
-         	<input id="file-input" class="file" type="file" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>         
+         	<input id="file-input" class="file" type="file" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
             <ui-select ng-model="accountType.selected" theme="select2">
                <ui-select-match placeholder="Select Type...">{{$select.selected.fullName}}</ui-select-match>
                <ui-select-choices repeat="accountType in accountTypes | propsFilter: {fullName: $select.search}">
