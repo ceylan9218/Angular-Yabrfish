@@ -83,7 +83,6 @@
             $scope.accounts.push(data[i].account);
           }
           $scope.accounts.unshift({
-            externalId: 'just-for-me',
             name: 'Just For Me'
           });
         });
@@ -91,8 +90,9 @@
       $scope.changeAccount = function(item){        
         $scope.organizations = item.organizations;
         var accountId = item.externalId;
+        var accountName = item.name;
 
-        if (accountId == 'just-for-me'){
+        if (accountName == 'Just For Me'){
           $scope.enablement = true;
         }else{
           // Get Enablements.
@@ -149,12 +149,12 @@
         
 
         if(Object.keys($scope.account).length == 0) 
-          $scope.newTile.accountExternalId = '';
+          $scope.newTile.accountExternalId = null;
         else
           $scope.newTile.accountExternalId = $scope.account.selected.externalId;
 
         if(Object.keys($scope.organization).length == 0) 
-          $scope.newTile.organizationExternalId = '';
+          $scope.newTile.organizationExternalId = null;
         else
           $scope.newTile.organizationExternalId = $scope.organization.selected.externalId;
 
@@ -166,8 +166,7 @@
           "accountExternalId": $scope.newTile.accountExternalId,
           "tileType": $scope.newTile.tileType,
           "organizationExternalId": $scope.newTile.organizationExternalId,
-          "viewerExternalId": $rootScope.user.externalId,
-          "isDeleted": false
+          "viewerExternalId": $rootScope.user.externalId
         };
         Upload.upload({
             url: APP_APIS['media'] + '/images',
