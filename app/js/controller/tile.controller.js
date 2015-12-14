@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-        .module('app.tiles', ['ngAnimate', 'ui.bootstrap', 'ui.select', 'ngFileUpload', 'stripe.checkout', 'flash'])
+        .module('app.tiles', ['ngAnimate', 'ui.bootstrap', 'ui.select', 'ngFileUpload', 'stripe.checkout', 'flash', 'angular-datepicker'])
         .controller('tileController', tileController);
 
     function tileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService, ProductService, Flash) {
@@ -29,6 +29,7 @@
       $scope.diffInstances = 0;
       $scope.enablement = false;
       $scope.enableCreate = true;
+      $scope.showNewTile = false;
 
       // Get Tile Types
       $http.get(APP_APIS['lookup']+'/tiletypes')
@@ -145,8 +146,8 @@
           $scope.slideWrap('prev');
           return;
         }
-        if(!$rootScope.user.externalId) $rootScope.user.externalId = '';
         
+        if(!$rootScope.user.externalId) $rootScope.user.externalId = '';        
 
         if(Object.keys($scope.account).length == 0) 
           $scope.newTile.accountExternalId = null;
@@ -181,9 +182,16 @@
               headers: {'Content-Type': 'application/json'}
             }).success(function (data, status, headers, config){
               var tileId = data.externalId;
+              $scope.newTile = data;
+console.log($scope.newTile);              
+              $scope.newTile.creatives = [];
               // Add Creatives to Given Tile
               $http.post(APP_APIS['tile'] + '/tiles/' + tileId + '/creatives/' + creativesExternalId)
                 .success(function(response){
+                  $scope.showNewTile = true;
+                  $scope.newTile.creatives.push(response);
+                  $scope.newTile.publishedDate = TileService.getTimeDiff($scope.newTile.publishedDate);
+                  $scope.slideWrap('next');                  
                   Flash.create('success', 'Successfully created new tile.');
                   $scope.enableCreate = true;
                 });
@@ -212,7 +220,7 @@
               $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
               $scope.tiles[i].publishedDate = TileService.getTimeDiff($scope.tiles[i].publishedDate);
             }
-            console.log(tiles);
+            console.log($scope.tiles);
           })
       }
 
@@ -234,6 +242,19 @@
 
       $scope.doCheckout = function(token) {
         console.log(token.id);
+      }
+
+      // Get Event Tile Type
+      $http.get(APP_APIS['lookup']+'/eventtypes')
+        .success(function(eventtypes){
+          $scope.eventtypes = eventtypes;
+        });
+
+      $scope.options = {
+        format: 'yyyy-mm-dd', // ISO formatted date
+        onClose: function(e) {
+          // do something when the picker closes   
+        }
       }
     }
 })();
