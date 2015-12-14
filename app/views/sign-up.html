@@ -1,7 +1,73 @@
 <div class="signup-wrap">
   <h4 class="title">Sign up</h4>  
   <div class="signup-content">
-    <div class="signup" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform}">
+    <form name="registerForm" novalidate="" class="form-validate">
+      <!-- START panel-->
+      <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="form-group">
+              <input type="text" placeholder="Username" name="username" required="" ng-model="register.username" class="form-control" />
+              <span ng-show="registerForm.username.$dirty &amp;&amp; registerForm.username.$error.required" class="text-danger">This field is required</span>
+            </div>
+            <div class="form-group">
+              <input id="id-password" type="password" name="password1" ng-model="register.password1" ng-pattern="/^[a-zA-Z0-9]{6,10}$/" class="form-control" placeholder="Password" />
+              <span ng-show="registerForm.password1.$dirty &amp;&amp; registerForm.password1.$error.pattern" class="text-danger">Input should match 'a-zA-Z0-9' and 6-10 length</span>
+            </div>
+            <div class="form-group">
+              <input type="password" name="confirm_match" required="" ng-model="register.password2" ui-validate="'$value==register.password1'" ui-validate-watch="'register.password1'" class="form-control" placeholder="Re-type Password"/>
+              <span ng-show="registerForm.confirm_match.$dirty &amp;&amp; registerForm.confirm_match.$error.validator" class="text-danger">Password does Not match</span>
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="First name" name="firstname" required="" ng-model="register.firstname" class="form-control" />
+              <span ng-show="registerForm.firstname.$dirty &amp;&amp; registerForm.firstname.$error.required" class="text-danger">This field is required</span>
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Surname" name="surname" required="" ng-model="register.surname" class="form-control" />
+              <span ng-show="registerForm.surname.$dirty &amp;&amp; registerForm.surname.$error.required" class="text-danger">This field is required</span>
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="mail@example.com" name="email" required="" ng-model="register.email" class="form-control" />
+              <span ng-show="registerForm.email.$dirty &amp;&amp; registerForm.email.$error.required" class="text-danger">This field is required</span>
+              <span ng-show="registerForm.email.$dirty &amp;&amp; registerForm.email.$error.email" class="text-danger">This field must be a valid email address</span>
+            </div>
+            <div class="form-group">
+              <p class="input-group">
+                <input type="text" name="date" required="" uib-datepicker-popup="{{format}}" ng-model="register.date" is-open="opened" min-date="minDate" max-date="'2019-12-22'" uib-datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
+                  close-text="Close" class="form-control" ng-click="open($event)" placeholder="Date of birth DD/MM/YYYY"/>
+              </p>
+              <span ng-show="form.validateInput('date', 'required')" class="text-danger">This field is required</span>
+            </div>
+            <div class="form-group file-upload">
+              <label for="file-input">
+                <img class="user-img" src="app/img/user/default.png" ng-src="{{image_source}}">
+              </label>
+              <input id="file-input" class="file" type="file" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
+              <span>Upload profile picture</span>
+              <button class="upload-photo btn" ng-click="uploadPhoto()">Upload photo</button>
+            </div>            
+            <div class="required">* Required fields</div>
+         </div>
+         <div class="panel-footer">
+            <div class="clearfix">
+               <div class="pull-left">
+                  <div class="checkbox c-checkbox">
+                     <label>
+                        <input type="checkbox" name="agreements" required="" ng-model="register.agreements" />
+                        <!-- <span class="fa fa-check"></span> -->I agree with the <a href="#">terms</a>
+                     </label>
+                  </div>
+                  <span ng-show="registerForm.agreements.$dirty &amp;&amp; registerForm.agreements.$error.required" class="text-danger">Please read and agree the terms</span>
+               </div>
+               <div class="pull-right">
+                  <button type="submit" class="btn btn-primary" ng-click="createUser()">Register</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- END panel-->
+    </form>
+    
+    <!-- <div class="signup" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform}">
       <div class="signup-form first">
         <input class="form-control" type="text" placeholder="Username">
         <input class="form-control" type="password" placeholder="Password">
@@ -28,6 +94,8 @@
     <div class="buttons">
       <button class="back btn" ng-click="slideSignup('back')"><i class="fa fa-angle-left"></i>Back</button>
       <button class="next btn" ng-click="slideSignup('next')">Next<i class="fa fa-angle-right"></i></button>
-    </div>
+    </div> -->
   </div>
 </div>
+<!-- Alert message-->
+<div flash-message="2000" class="alert-message" ng-show="$root.hasFlash"></div>

@@ -40,13 +40,13 @@
                       // Get Viewer Informations with Facebook ID.
                       deferred.resolve(data);
                       
-                      // $rootScope.logged = true;
-                      // $rootScope.user = data;
-                      // $rootScope.user.email = FBUser.email;
-                      // $rootScope.user.birthday = FBUser.birthday;
-                      // $rootScope.user.gender = FBUser.gender;
-                      // $rootScope.user.taggable_friends = FBUser.taggable_friends;
-//console.log($rootScope.user);
+                      $rootScope.logged = true;
+                      $rootScope.user = data;
+                      $rootScope.user.email = FBUser.email;
+                      $rootScope.user.birthday = FBUser.birthday;
+                      $rootScope.user.gender = FBUser.gender;
+                      $rootScope.user.taggable_friends = FBUser.taggable_friends;
+console.log($rootScope.user);
                     })
                     .error(function(data, status){
                       // If this Facebook user not signin to app, this viewer will be created automatically.
@@ -77,12 +77,12 @@
                             headers: {'Content-Type': 'application/json'}
                           }).success(function (data, status, headers, config){
                             var viewer = data;
-                            // $rootScope.logged = true;
-                            // $rootScope.user = viewer;
-                            // $rootScope.user.email = FBUser.email;
-                            // $rootScope.user.birthday = FBUser.birthday;
-                            // $rootScope.user.gender = FBUser.gender;
-                            // $rootScope.user.taggable_friends = FBUser.taggable_friends;
+                            $rootScope.logged = true;
+                            $rootScope.user = viewer;
+                            $rootScope.user.email = FBUser.email;
+                            $rootScope.user.birthday = FBUser.birthday;
+                            $rootScope.user.gender = FBUser.gender;
+                            $rootScope.user.taggable_friends = FBUser.taggable_friends;
 
                             // Add attributes to new viewer.
                             var attr_params = [
@@ -134,11 +134,11 @@
                 }, {scope: 'email, user_birthday, user_friends, user_likes'});
                 
                 // Just For testing.
-                $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; 
-                var user = {
-                  externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
-                }
-                deferred.resolve(user);
+                // $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; 
+                // var user = {
+                //   externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
+                // }
+                // deferred.resolve(user);
 
                 return deferred.promise;
               },
