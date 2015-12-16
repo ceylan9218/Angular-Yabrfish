@@ -11,7 +11,7 @@
   },
   {
       "text": "My Equipment",
-      "sref": "",
+      "sref": "app.equipment",
       "label": "label label-info"
   },
   {
