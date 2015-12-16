@@ -48,28 +48,144 @@
                <span class="tileCount">{{diffInstances}} Tiles</span>               
             </div>
             <div id="step3" class="steps" ng-style="{'width': stepWidth}">
-               <div class="products-wrap">
-                  <div class="products" ng-repeat="product in products track by $index">
-                     <div class="offer" ng-repeat="offer in product.offers" ng-click="selectOffer(offer)">
-                        <div class="names">
-                           <img class="selected" ng-show="isSelected(offer)" src="app/img/check-w.png">
-                           <span class="product-name">{{product.productName}}</span>
-                           <span class="offer-name">{{offer.name}}</span>
-                        </div>
-                        <div class="offer-infos">
-                           <span class="description">{{offer.description}}</span>
-                           <span class="price">&#xA3;{{offer.grossPrice | number: 2}}</span>
+               <div class="purchase-wrap" ng-show="showNewTile">
+                  <div class="products-wrap">
+                     <div class="products" ng-repeat="product in products track by $index">
+                        <div class="offer" ng-repeat="offer in product.offers" ng-click="selectOffer(offer)">
+                           <div class="names">
+                              <img class="selected" ng-show="isSelected(offer)" src="app/img/check-w.png">
+                              <span class="product-name">{{product.productName}}</span>
+                              <span class="offer-name">{{offer.name}}</span>
+                           </div>
+                           <div class="offer-infos">
+                              <span class="description">{{offer.description}}</span>
+                              <span class="price">&#xA3;{{offer.grossPrice | number: 2}}</span>
+                           </div>
                         </div>
                      </div>
-                  </div>   
-               </div>
-               <div class="button-wrap">
-                  <div class="buttons">
-                     <button class="prev-btn btn btn-pill-left" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i>&nbsp;&nbsp;Prev</button>   
-                     <button class="create-tile-btn btn btn-pill-right" stripe-checkout="doCheckout()" data-key="pk_test_hEVPAufqTlToDGSTUokAK3bs" data-name="{{offerName}}" data-description="{{offerDescription}}" data-amount="{{offerAmount}}" data-currency="GBP">Purchase</button>
                   </div>
-               </div>               
-            </div>            
+                  <div class="button-wrap">
+                     <div class="buttons">
+                        <button class="prev-btn btn btn-pill-left" ng-click="slideWrap('prev')"><i class="fa fa-angle-left fg-lg"></i>&nbsp;&nbsp;Prev</button>
+                        <button class="create-tile-btn btn btn-pill-right" stripe-checkout="doCheckout()" data-key="pk_test_hEVPAufqTlToDGSTUokAK3bs" data-name="{{offerName}}" data-description="{{offerDescription}}" data-amount="{{offerAmount}}" data-currency="GBP">Purchase</button>
+                     </div>
+                  </div>
+               </div>
+               <div class="newTile-body" ng-show="!showNewTile">
+                  <div class="yabrTile">
+                     <div class="img-video-wrap">
+                        <div class="tileImg">
+                           <img src="{{newTile.creatives[0].url}}" alt="tile" class="" />                           
+                        </div>
+                     </div>
+                     <div class="tile-infos">
+                        <h4 class="title">{{newTile.name}}<i class="fa fa-angle-right fg-lg"></i></h4>
+                        <p class="date"><span>{{newTile.publishedDate}}</span></p>
+                        <div class="icons">
+                           <a class="check-btn"><img src="app/img/check.png"></a>
+                           <a class="net-btn"><img src="app/img/fish-net.png"></a>
+                           <a class="share-btn"><img src="app/img/share-alt.png"></a>
+                           <a class="comment-btn"><img src="app/img/comment.png"></a>
+                           <a class="more pull-right" ng-click="extendWrap = !extendWrap">
+                              <img ng-if="extendWrap" src="app/img/less.png">
+                              <img ng-if="!extendWrap" src="app/img/more.png">
+                           </a>
+                        </div>
+                        <div ng-if="loading" class="ball-clip-rotate loading">
+                           <div></div>
+                        </div>
+                        <accordion ng-if="extendWrap" class="extend-wrap" close-others="false">
+                           <accordion-group is-open="showEvents">
+                              <accordion-heading class="event-header">
+                                 <img src="app/img/event.png">Events
+                                 <i class="pull-right fa" ng-class="{'fa-angle-up': showEvents, 'fa-angle-down': !showEvents}"></i>
+                              </accordion-heading>
+                              <div class="event-wrap">
+                                 <div class="event-type option">
+                                    <label>Event Type</label>
+                                    <ui-select ng-model="eventtype.selected" theme="select2">
+                                       <ui-select-match placeholder="Select Event Type...">{{$select.selected.description}}</ui-select-match>
+                                       <ui-select-choices repeat="eventtype in eventtypes | propsFilter: {description: $select.search}">
+                                          <div ng-bind-html="eventtype.description | highlight: $select.search"></div>               
+                                       </ui-select-choices>
+                                    </ui-select>   
+                                 </div>
+                                 <div class="name option">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control input-name">
+                                 </div>
+                                 <div class="main-event option">
+                                    <label>Main Event</label>
+                                    <input type="text" class="form-control input-main-event">
+                                 </div>
+                                 <div class="multiple option">
+                                    <label>Multiple</label>
+                                    <input type="number" class="form-control input-multiple">
+                                 </div>
+                                 <div class="multi-check option checkbox c-checkbox">
+                                    <label><input checked="" type="checkbox">Sat<span class="fa fa-times"></span></label>
+                                    <label><input type="checkbox">Sun<span class="fa fa-times"></span></label>
+                                    <label><input type="checkbox">Mon<span class="fa fa-times"></span></label>
+                                    <label><input type="checkbox">Tue<span class="fa fa-times"></span></label>
+                                    <br></br>
+                                    <label><input type="checkbox">Wed<span class="fa fa-times"></span></label>
+                                    <label><input type="checkbox">Thu<span class="fa fa-times"></span></label>
+                                    <label><input type="checkbox">Fri<span class="fa fa-times"></span></label>
+                                    <label><input type="checkbox">All<span class="fa fa-times"></span></label>
+                                 </div>
+                                 <div class="date-control">
+                                    <p class="input-group">
+                                       <input type="text" pick-a-date="date" placeholder="Select Date" pick-a-date-options="options" />
+                                    </p>
+                                    <div class="col-sm-6">
+                                       <uib-timepicker name="timepickr" required="" ng-model="tpick.mytime" ng-change="tpick.changed()" hour-step="tpick.hstep" minute-step="tpick.mstep" show-meridian="tpick.ismeridian"></uib-timepicker>
+                                       <span ng-show="form.validateInput('timepickr', 'required')" class="text-danger">This field is invalid</span>
+                                    </div>
+                                 </div>
+                              </div>
+                           </accordion-group>
+                           <accordion-group is-open="showRaces" is-disabled="isRace">
+                              <accordion-heading class="races-header">
+                                 <img src="app/img/results.png">Races<i class="pull-right fa" ng-class="{'fa-angle-up': showRaces, 'fa-angle-down': !showRaces}"></i>
+                              </accordion-heading>
+                           </accordion-group>
+                           <accordion-group is-open="showEnter">
+                              <accordion-heading class="enter-header">
+                                 <img src="app/img/enter.png">Enter<i class="pull-right fa" ng-class="{'fa-angle-up': showEnter, 'fa-angle-down': !showEnter}"></i>
+                              </accordion-heading>
+                              <div>
+                                 Enter
+                              </div>
+                           </accordion-group>
+                           <accordion-group is-open="showParticipants">
+                              <accordion-heading class="participant-header">
+                                 <img src="app/img/participants.png">Participants<i class="pull-right fa" ng-class="{'fa-angle-up': showParticipants, 'fa-angle-down': !showParticipants}"></i>
+                              </accordion-heading>
+                              <div>
+                                 Participants
+                              </div>
+                           </accordion-group>
+                           <accordion-group is-open="showCrew">
+                              <accordion-heading class="crew-header">
+                                 <img src="app/img/crew.png">Crew<i class="pull-right fa" ng-class="{'fa-angle-up': showCrew, 'fa-angle-down': !showCrew}"></i>
+                              </accordion-heading>
+                              <div>
+                                 Crew
+                              </div>
+                           </accordion-group>
+                           <accordion-group is-open="showActionReplay">
+                              <accordion-heading class="actionReplay-header">
+                                 <img src="app/img/action-replay.png">Action Replay<i class="pull-right fa" ng-class="{'fa-angle-up': showActionReplay, 'fa-angle-down': !showActionReplay}"></i>
+                              </accordion-heading>
+                              <div>
+                                 Action Replay
+                              </div>
+                           </accordion-group>
+                        </accordion>
+                     </div>
+                  </div>
+               </div>
+            </div>
          </div>         
       </div>
    </div>   
