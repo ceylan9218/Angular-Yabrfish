@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-        .module('app.signup', ['ngAnimate', 'ui.bootstrap', 'ng-bootstrap-datepicker', 'ngFileUpload', 'flash'])
+        .module('app.signup', ['ngAnimate', 'ui.bootstrap', 'ngFileUpload', 'flash'])
         .controller('signupController', signupController);
 
     function signupController($scope, $http, APP_APIS, Upload, Flash) {
