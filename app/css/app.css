@@ -9284,7 +9284,7 @@ flot .legend .legendColorBox > div > div {
 }
 .c-checkbox:hover span,
 .c-radio:hover span {
-  border-color: #5d9cec;
+  border-color: #3ABEEF;
 }
 .form-inline .c-checkbox span,
 .form-inline .c-radio span {
@@ -9333,8 +9333,8 @@ flot .legend .legendColorBox > div > div {
 .c-radio input[type=checkbox]:checked + span,
 .c-checkbox input[type=radio]:checked + span,
 .c-radio input[type=radio]:checked + span {
-  border-color: #5d9cec;
-  background-color: #5d9cec;
+  border-color: #3ABEEF;
+  background-color: #3ABEEF;
 }
 .c-checkbox input[type=radio]:checked + span,
 .c-radio input[type=radio]:checked + span {
@@ -11535,7 +11535,7 @@ img.logo{
   float: left;
 }
 .create  #step3 .newTile-body .event-wrap label{
-  width: 80px;
+  width: 70px;
   float: left;
   font-size: 14px;
   padding: 0;
@@ -11543,30 +11543,69 @@ img.logo{
 }
 .create .newTile-body .select2-container{
   height: 35px;
-  width: calc(100% - 80px);
+  width: 100%;
   float: left;
   margin: 0;
 }
 .create .newTile-body .select2-container .select2-choice{
-  height: 35px;
+  height: 37px;
   line-height: 35px;
-  background: transparent;
-  border: 1px solid #ebebeb;
-  border-bottom: 1px solid #0D6C8F;
+  background: #f6f6f6;
+  border: 1px solid #f6f6f6;
+  border-bottom: 1px solid #3ABEEF;
 }
 .create .newTile-body input.form-control{
   float: left;
   height: 35px;
-  width: calc(100% - 80px);
+  width: 100%;
   margin: 0;
+  font-size: 14px;
   padding: 0 5px;
-  background: transparent;
+  background: #f6f6f6;
+  border-color: #f6f6f6;
+  border-bottom: 1px solid #3ABEEF;
+}
+.create .newTile-body input::-webkit-input-placeholder {
+   color: #838383;
+   font-size: 14px;
+}
+.create .newTile-body input:-moz-placeholder { /* Firefox 18- */
+   color: #838383;  
+   font-size: 14px;
+}
+.create .newTile-body input::-moz-placeholder {  /* Firefox 19+ */
+   color: #838383;  
+   font-size: 14px;
+}
+.create .newTile-body input:-ms-input-placeholder {  
+   color: #838383;  
+   font-size: 14px;
+}
+.create .newTile-body input.form-control.input-multiple{
+  width: 70px;
+  float: left;
 }
 .create .newTile-body .event-wrap .option{
   display: inline-block;
   width: 100%;
   float: left;
   margin: 10px auto 0;
+}
+.create .newTile-body .event-wrap .save-btn{
+  background: transparent;
+  border: 1px solid #3ABEEF;
+  color: #3ABEEF;
+  border-radius: 20px;
+  padding: 3px 15px;
+  float: left;
+  margin-top: 5px;
+  width: 23%;
+  margin-left: 2%;
+}
+.create .newTile-body .event-wrap .calendar-btn{
+  background: transparent;
+  border: 1px solid #3ABEEF;
+  color: #3ABEEF;
 }
 .create .newTile-body .select2-container .select2-drop-active{
   border-color: #ebebeb;
@@ -11590,9 +11629,67 @@ img.logo{
   display: inline-block;
   float: left;
   margin-top: 10px;
-  border: 1px solid rgb(93, 156, 236);
-  border-radius: 5px;
-  padding: 10px;
+  width: 100%;
+}
+.create #step3 .newTile-body .event-wrap .date-control label{
+  width: 50px;
+}
+.create #step3 .newTile-body .event-wrap .date-control p.input-group{
+  width: calc(100% - 50px);
+  float: left;
+}
+.create .newTile-body .event-wrap .date-control .datetime-picker-dropdown{
+  padding: 5px;
+  left: -50px !important;
+}
+.create .newTile-body .event-wrap .date-control .datetime-picker-dropdown .btn-sm{
+  padding: 5px 6px;
+}
+.create .newTile-body .event-wrap .date-control .datetime-picker-dropdown .btn-sm.active span.text-info{
+  color: #fff;
+}
+.create .newTile-body .tile-infos .event-wrap .date-control ul li a{
+  margin: 5px auto;
+  color: #3ABEEF;
+  padding: 0 16px;
+  background: transparent;
+  float: none;
+}
+.create .newTile-body .panel .panel-heading a.accordion-toggle span.ng-binding{
+  width: 100%;
+}
+.create .event-buttons{
+  display: inline-block;
+  float: left;
+  width: 100%;
+}
+.create .newTile-body input.form-control.event-step{
+  font-size: 14px;
+  padding: 0px 5px;
+  background: #F6F6F6 none repeat scroll 0% 0%;
+  border-color: #F6F6F6 #F6F6F6 #3ABEEF;
+  border-bottom: 1px solid #3ABEEF;
+  width: 40px;
+  height: 35px;
+  margin-right: 5px;
+  text-align: center;
+}
+.create .event-buttons .btn{
+  background: transparent none repeat scroll 0% 0%;
+  border: 1px solid #3ABEEF;
+  border-radius: 20px;
+  color: #3ABEEF;
+  padding: 3px 15px;
+  margin-top: 5px;
+  width: 23%;
+  margin-left: 2%;
+  float: left;
+}
+.create .newTile-body .event-wrap .date-control .datetime-picker-dropdown .btn{
+  padding: 5px 6px;
+}
+.create .newTile-body .event-wrap .date-control .datetime-picker-dropdown .btn.active .text-info{
+  color: white;
 }
 @media only screen and (max-width: 767px) {
   .create{
