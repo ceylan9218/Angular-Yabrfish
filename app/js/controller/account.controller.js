@@ -40,10 +40,7 @@
         })
         .controller('accountController', accountController);
 
-    function accountController($scope, $rootScope, $http, RouteHelpers, APP_APIS, Flash, ProductService) {
-      if(!$rootScope.user)
-        return;
-
+    function accountController($scope, $rootScope, $http, RouteHelpers, APP_APIS, Flash, ProductService, FacebookAuthService) {
       $scope.basepath = RouteHelpers.basepath;
       $scope.accounts = [];
       $scope.accountTypes = [];
@@ -81,13 +78,16 @@
       }
       
       $scope.getAccounts = function() {
-        // Get Roles by viewer.
-        $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/roles')
-          .success(function(data){
-            for(var i in data){
-              $scope.accounts.push(data[i].account);
-            }
-          });        
+        FacebookAuthService.getUser().then(function(user){
+          $rootScope.user = user;
+          // Get Roles by viewer.
+          $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/roles')
+            .success(function(data){
+              for(var i in data){
+                $scope.accounts.push(data[i].account);
+              }
+            });
+        })        
       }
 
       $scope.createAccount = function() {
@@ -199,8 +199,10 @@
               map.fitBounds(bounds);
 
               // Get Country, County, Postal/Zipcode, Lat, Lon using address
+console.log(element.places[0].formatted_address);              
               $http.get('https://maps.googleapis.com/maps/api/geocode/json?address='+element.places[0].formatted_address)
                 .success(function(data){
+console.log(data);                  
                   element.places[0].address_components = data.results[0].address_components;
                   element.places[0].geometry = data.results[0].geometry;
                 })
