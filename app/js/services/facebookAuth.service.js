@@ -46,7 +46,7 @@
                       $rootScope.user.birthday = FBUser.birthday;
                       $rootScope.user.gender = FBUser.gender;
                       $rootScope.user.taggable_friends = FBUser.taggable_friends;
-console.log($rootScope.user);
+//console.log($rootScope.user);
                     })
                     .error(function(data, status){
                       // If this Facebook user not signin to app, this viewer will be created automatically.
@@ -129,7 +129,7 @@ console.log($rootScope.user);
                       deferred.resolve(user);
                     });
                   }else{
-                    $location.path('app/login');
+//                    $location.path('app/login');
                   }
                 }, {scope: 'email, user_birthday, user_friends, user_likes'});
                 
