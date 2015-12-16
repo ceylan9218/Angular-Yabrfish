@@ -913,6 +913,13 @@
                 templateUrl: helper.basepath('new-tile.html'),
                 resolve: helper.resolveFor('angularFileUpload')
             })
+            .state('app.equipment', {
+                url: '/profile/equipment',
+                title: 'My Equipment',
+                controller: 'equipmentController',
+                templateUrl: helper.basepath('equipment.html'),
+                resolve: helper.resolveFor('angularFileUpload')
+            })
           ;
 
     } // routesConfig

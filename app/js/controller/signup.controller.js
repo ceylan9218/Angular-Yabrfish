@@ -119,7 +119,7 @@
             {
               identityService: "EMAIL",
               identityId: $scope.register.email,
-              passwordSalt: $scope.register.password2
+              identityAuth: $scope.register.password2
             }
           ]
         }
