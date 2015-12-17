@@ -11899,3 +11899,136 @@ p.title{
     width: 180px;
   }
 }
+
+/* ========================================================================
+   title: My Equipment Page Style
+   author: Marcin
+   date: 2015.12.16
+ ========================================================================== */
+.create.equip{
+  width: auto;
+}
+.create .new-equip-wrap {
+  width: 90%;
+  margin: 20px auto;
+  overflow: hidden;
+}
+.new-equip-wrap label {
+  width: 100%;
+}
+.new-equip-wrap img {
+  width: 100%;
+  cursor: pointer;
+  height: 171px;
+}
+.equip textarea{
+  margin-top: 10px;
+}
+.equip .create-equip{
+  background: none repeat scroll 0% 0% transparent;
+  color: #0D6C8F;
+  border: 1px solid #0D6C8F;
+  margin: 0 auto;
+  display: table;
+  border-radius: 20px;
+  font-size: 16px;
+  padding: 5px 30px;
+}
+.equipTitle{
+  padding: 10px 20px;
+  display: inline-block;
+  width: 100%;
+  border-bottom: 1px solid #C1C1C1;
+}
+.equipTitle img{
+  width: 30px;
+  float: left;
+}
+.equipTitle h4{
+  color: #333;
+  width: calc(100% - 40px);
+  float: left;
+  margin: 5px 0px 0px 10px;
+}
+.equip-infos h4.title{
+  margin: 10px 0px 0px;
+  padding: 0px 20px;
+  color: #333;
+  font-weight: normal;
+  font-size: 18px;
+}
+.equip-infos h4.title i{
+  color: #3ABEEF;
+  margin-left: 30px;
+}
+.equip-infos p.equip-type{
+  padding: 0px 20px;
+  color: #A3A3A3;
+}
+.equip-infos .icons{
+  border-top: 1px solid #C1C1C1;
+  padding: 15px;
+}
+.equip-infos .icons a{
+  margin-right: 10px;
+}
+.equip-infos .icons a.more{
+  margin-right: 0;
+}
+.equip-infos .icons a.edit{
+  background: #3ABEEF;
+  color: #fff;
+  border-radius: 20px;
+  width: 40px;
+  padding: 0px 10px;
+}
+.equip-infos .icons a img{
+  width: 15px;
+}
+.equip-infos .icons a.more img{
+  width: 70px;
+}
+.equip-infos .panel-group .panel {
+  border-width: 1px medium medium;
+  border-style: solid none none;
+  border-color: #E4E4E4;
+  border-radius: 0px;
+  margin-top: 0px;
+  box-shadow: none;
+}
+.equip-infos .panel-group .panel .panel-heading {
+  padding: 10px 15px;
+  display: inline-block;
+  width: 100%;
+}
+.equip-infos .panel-group .panel .panel-body {
+    margin: 0px 15px;
+    padding: 0px;
+    border-top: 1px solid #E4E4E4;
+}
+.equip-infos .content div{
+  margin: 15px auto 5px;
+  font-size: 14px;
+  color: #333;
+}
+.equip-infos .content div h5{
+  color: #3ABEEF;
+  margin: 0;
+}
+.expand-equip input.search {
+  background: url("../img/search.png") no-repeat scroll right 15px center / 20px auto transparent;
+  background-color: #EBEBEB;
+}
+.expand-equip .manufacturer-list {
+  list-style: outside none none;
+  margin: 0px auto;
+  padding: 0px;
+  height: 150px;
+  overflow: auto;
+}
+.expand-equip .manufacturer-list li {
+  background: none repeat scroll 0% 0% #EBEBEB;
+  border-bottom: 1px solid #0D6C8F;
+  padding: 5px 10px;
+  cursor: pointer;
+}
