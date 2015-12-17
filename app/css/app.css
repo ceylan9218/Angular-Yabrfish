@@ -11691,6 +11691,10 @@ img.logo{
 .create .newTile-body .event-wrap .date-control .datetime-picker-dropdown .btn.active .text-info{
   color: white;
 }
+.multiple span{
+  float: left;
+  margin: 10px 5px 0 20px;
+}
 @media only screen and (max-width: 767px) {
   .create{
     border: 2px dashed #0d6c8f;
