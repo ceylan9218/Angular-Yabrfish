@@ -1,0 +1,72 @@
+<div ng-controller="equipmentController" class="yabrTile-body create equip" ng-if="card=='addEquip'">
+   	<h4><img class="add-icon" src="app/img/add-green.png">Add Equipment</h4>
+   	<div class="new-equip-wrap">
+      	<label for="file-input">
+	    	<img src="app/img/upload-photo.png"/ ng-src="{{image_source}}">
+	   	</label>
+	   	<input id="file-input" class="file" type="file" uploader="form.uploader" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
+      	<input type="text" class="form-control" ng-model="equip.name" placeholder="Name" my-enter="expandFields()">
+      	<div class="expand-equip" ng-show="extendView">
+      		<ui-select ng-model="equipType.selected" theme="select2">
+              	<ui-select-match placeholder="Select Type...">{{$select.selected.name}}</ui-select-match>
+              	<ui-select-choices repeat="equipType in equipTypes | propsFilter: {name: $select.search}">
+                	<div ng-bind-html="equipType.name | highlight: $select.search"></div>               
+              	</ui-select-choices>
+           	</ui-select>
+           	<textarea class="form-control" ng-model="equip.desc" placeholder="Description..."></textarea>
+           	<input type="text" class="form-control" ng-model="equip.idNum" placeholder="ID Number">
+           	<input class="search form-control" ng-model="search_manufacturer" placeholder="Manufacturer...">
+           	<ul class="manufacturer-list" ng-if="manufacturers.length != 0">
+				<li ng-repeat="manufacturer in manufacturers" ng-click="selectManu(manufacturer.externalId, manufacturer.name)">{{manufacturer.name}}</li>
+			</ul>
+           	<!-- <input type="text" class="form-control" ng-model="equip.manufacturer" placeholder="Manufacturer"> -->
+           	<input type="text" class="form-control" ng-model="equip.classInfo" placeholder="Class info">
+           	<button class="btn btn-default create-equip" ng-click="createEquip()">Create</button>
+      	</div>
+   	</div>
+</div>
+<div ng-controller="equipmentController" class="yabrTile-body equip" ng-if="card!='addEquip'">
+  	<div class="equipImg" ng-if="card.creatives[0].url">
+    	<img src="{{card.creatives[0].url}}" alt="tile" class="" />
+  	</div>
+  	<div class="equipTitle" ng-if="!card.creatives[0].url">
+    	<img src="app/img/My equipment-icon.png">
+    	<h4>My Equipment</h4>
+  	</div>
+  	<div class="equip-infos">
+  		<h4 class="title">{{card.name}}<i class="fa fa-angle-right fg-lg"></i></h4>
+  		<p class="equip-type"><span>{{equipTypes[card.equipmentType - 1].name}}</span></p>
+	  	<div class="icons">
+	  		<a class="edit">EDIT</a>
+			<a class="share-btn"><img src="app/img/share-alt.png"></a>
+			<a class="comment-btn"><img src="app/img/comment.png"></a>
+			<a class="more pull-right" ng-click="card.extendWrap = !card.extendWrap">
+				<img ng-if="card.extendWrap" src="app/img/less.png">
+				<img ng-if="!card.extendWrap" src="app/img/more.png">
+			</a>
+		</div>
+		<accordion class="extend-wrap" ng-if="card.extendWrap" close-others="false">
+			<accordion-group is-open="card.showInfo">
+	            <accordion-heading class="enter-header">
+	               <img src="app/img/info-icon.png">Info<i class="pull-right fa" ng-class="{'fa-angle-up': card.showInfo, 'fa-angle-down': !card.showInfo}"></i>
+	            </accordion-heading>
+	            <div class="content">
+	               <div class="description">{{card.description}}</div>
+	               <div><h5>ID Number</h5>{{card.identificationNumber}}</div>
+	               <div><h5>Manufacturer</h5>{{card.manufacturerAccountExternalID}}</div>
+	               <div><h5>Class</h5>{{card.classID}}</div>
+	            </div>
+	        </accordion-group>
+	        <accordion-group is-open="card.showServices">
+	            <accordion-heading class="enter-header">
+	               <img src="app/img/service-icon.png">Services<i class="pull-right fa" ng-class="{'fa-angle-up': card.showServices, 'fa-angle-down': !card.showServices}"></i>
+	            </accordion-heading>
+	            <div class="content">
+	               <div><h5>Insurance</h5></div>
+	               <div><h5>Marina Berth</h5></div>
+	               <div><h5>Valet</h5></div>
+	            </div>
+	        </accordion-group>
+		</accordion>
+  	</div>
+</div>
