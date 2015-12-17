@@ -42,7 +42,8 @@
             'app.facebook-auth',
             'app.tile',
             'app.product',
-            'app.file'
+            'app.file',
+            'app.equipment'
         ])
         .constant('APP_APIS', {
           'base':                 'http://data.yabrfish.com/yfapi',
@@ -918,7 +919,7 @@
                 title: 'My Equipment',
                 controller: 'equipmentController',
                 templateUrl: helper.basepath('equipment.html'),
-                resolve: helper.resolveFor('angularFileUpload')
+                resolve: helper.resolveFor('angularFileUpload', 'akoenig.deckgrid')
             })
           ;
 
