@@ -3,11 +3,11 @@
     <img class="logo" src="app/img/logo-fish.png">
     <h4 class="title">Login</h4>
     <div class="login-form">
-      <input class="form-control" type="text" placeholder="Username">
-      <input class="form-control" type="password" placeholder="Password">
+      <input class="form-control" type="email" ng-model="email" placeholder="mail@example.com">
+      <input class="form-control" type="password" ng-model="password" placeholder="Password">
       <div class="login-btn-wrap">
         <span>Forgotten Password</span>
-        <a href="" class="login-btn btn">Login</a>
+        <a href="" class="login-btn btn" ng-click="login()">Login</a>
       </div>
       <div class="signup-btn-wrap">
         <span>Not yet a member?</span>
@@ -22,3 +22,5 @@
     </div>
   </div>
 </div>
+<!-- Alert message-->
+<div flash-message="2000" class="alert-message" ng-show="$root.hasFlash"></div>
