@@ -43,7 +43,35 @@
                 });
               }
             }
-        })        
+        })
+        .directive("checkboxGroup", function() {
+            return {
+                restrict: "A",
+                link: function(scope, elem, attrs) {
+                    // Determine initial checked boxes
+                    if (scope.checkedWeekDays.indexOf(scope.day.id) !== -1) {
+                        elem[0].checked = true;
+                    }
+
+                    // Update array on click
+                    elem.bind('click', function() {
+                        var index = scope.checkedWeekDays.indexOf(scope.day.id);
+                        // Add if checked
+                        if (elem[0].checked) {
+                            if (index === -1) scope.checkedWeekDays.push(scope.day.id);
+                        }
+                        // Remove if unchecked
+                        else {
+                            if (index !== -1) scope.checkedWeekDays.splice(index, 1);
+                        }
+                        // Sort and update DOM display
+                        scope.$apply(scope.checkedWeekDays.sort(function(a, b) {
+                            return a - b
+                        }));
+                    });
+                }
+            }
+        })
         .controller('recommendationController', recommendationController);
 
     function recommendationController($rootScope, $scope, $http, $sce, $location, RouteHelpers, $timeout, $q, Flash, APP_APIS, TileService) {
@@ -65,6 +93,54 @@
           $scope.enableEvent = true;
         else
           $scope.enableEvent = false;
+
+        $scope.checkedWeekDays = [1,2];
+        var days = $scope.checkedWeekDays.length - 1;
+
+        $scope.weekDays = [{
+          "id": 1,
+          "value": 'Sat'
+        }, {
+          "id": 2,
+          "value": 'Sun'
+        }, {
+          "id": 3,
+          "value": 'Mon'
+        }, {
+          "id": 4,
+          "value": 'Tue'
+        }, {
+          "id": 5,
+          "value": 'Wed'
+        }, {
+          "id": 6,
+          "value": 'Thu'
+        }, {
+          "id": 7,
+          "value": 'Fri'
+        }];
+
+        // Initial Checked boxes
+        angular.forEach($scope.weekDays, function (item) {
+            angular.forEach($scope.checkedWeekDays, function (day) {
+              if(item.id == day){
+                item.Selected = true;
+              }
+            });
+        });
+
+        $scope.checkAll = function() {
+          if ($scope.events.selectedAll) {
+              $scope.events.selectedAll = true;
+              $scope.checkedWeekDays = [1,2,3,4,5,6,7];
+          } else {
+              $scope.events.selectedAll = false;
+              $scope.checkedWeekDays = [];
+          }
+          angular.forEach($scope.weekDays, function (item) {
+              item.Selected = $scope.events.selectedAll;
+          });
+        }
 
         $scope.loadBanner = function(){
           // Get Banner Image.
@@ -271,6 +347,7 @@
             // Get Events if tile type is 'Event'
             if( element.tileType == 'event' ){
               element.event_cals = [];
+              element.eventsAry = [];
               element.classes = [];
               element.isRace = true;
 
@@ -285,7 +362,9 @@
                       eventId: element.events[i].externalId,
                       month: month,
                       date: date,
-                      name: element.events[i].name
+                      name: element.events[i].name,
+                      startDate: startDate,
+                      endDate: new Date(element.events[i].endDate)
                     });
                   }
                   
@@ -407,8 +486,28 @@
             }
         }
 
-        $scope.getClasses = function(element, eventId, eventName){
+        $scope.selectEvent = function(element, event, event_length){
+console.log(event);
+          element.eventEdit = true;
+
+          if (event == 'addEvent') {
+            var eventId = '';
+            element.eventName = '';
+            element.eventCount = event_length - 1;
+            element.startDate = new Date();
+            element.endDate = new Date(element.startDate.getTime() + 24 * 60 * 60 * 1000);
+          }else{
+            var eventId = event.eventId;
+            element.eventName = event.name;
+            element.eventCount = event_length - 1;
+            element.startDate = event.startDate;
+            element.endDate = event.endDate;            
+          }
+
           element.selectedEvent = eventId;
+
+          if(!eventId || eventId == '')
+            return;
 
           // Get Classes for Event.
           $http.get(APP_APIS['tile']+'/events/'+ eventId +'/classes')
@@ -427,11 +526,23 @@
                   eventId: eventId,
                   classId: element.classes_data[i].externalId,
                   flag: flag,
-                  eventName: eventName,
+                  eventName: element.eventName,
                   name: element.classes_data[i].name
                 });
               }
             });
+        }
+
+        // Set finish Date when change start Date or check week days.
+        $scope.setEndDate = function(element) {
+          element.endDate = new Date(element.startDate.getTime() + 24 * 60 * 60 * 1000);
+        }
+
+        $scope.checkEvtCount = function(element){
+          if(!element.eventCount || eventCount < 0){
+            Flash.create('danger', 'Please input positive number!');
+            return;
+          }
         }
 
         $scope.getRaces = function(element, classElm){
@@ -513,5 +624,98 @@
               })
           }
         }
+
+        /*-------------------------------------Add / Save Event - Ryan(12.15)--------------------------------------------*/
+         // Get Event Tile Type
+        $http.get(APP_APIS['lookup']+'/eventtypes')
+          .success(function(eventtypes){
+            $scope.eventtypes = eventtypes;
+          });
+       
+        $scope.open = {
+          startDate: false,
+          finishDate: false
+        };
+        
+        // Disable weekend selection
+        $scope.disabled = function(date, mode) {
+          return (mode === 'day' && (new Date().toDateString() == date.toDateString()));
+        };
+
+        $scope.dateOptions = {
+          showWeeks: false,
+          startingDay: 1
+        };
+        
+        $scope.timeOptions = {
+          readonlyInput: false,
+          showMeridian: false
+        };
+        
+        $scope.dateModeOptions = {
+          minMode: 'year',
+          maxMode: 'year'
+        };
+        
+        $scope.openCalendar = function(e, date) {
+            $scope.open[date] = true;
+        };
+
+        $scope.events = {
+          name: '',
+          count: 1,
+          selectedAll: false,
+          eventsAry: []
+        };
+        $scope.eventStep = 1;
+             
+        // Click Next button of Event.
+        var tempStartDate = '';    
+        $scope.addEvent = function(element) {
+          if(element.eventStep >= element.eventCount)
+            return;
+
+          if(tempStartDate == element.startDate){
+            Flash.create('danger', 'Please select different start date.');
+            return;
+          }
+
+          tempStartDate = element.startDate;
+          element.startDate = new Date(element.startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+          element.eventName = element.eventName.replace(element.eventStep, '');
+          element.eventName = element.eventName + parseInt(element.eventStep + 1);
+
+          element.eventsAry.push({
+            id: element.eventStep,
+            name: element.eventName,
+            startDate: element.startDate,
+            finishDate: element.endDate
+          })
+
+          element.eventStep++;
+        }
+
+        // Click Prev button of Event.
+        $scope.popEvent = function(element) {
+          if(element.eventStep <= 1)
+            return;
+          
+          tempStartDate = '';
+          element.startDate = new Date(element.startDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+          element.eventsAry.pop();
+          element.eventStep--;
+        }
+
+        // Click Skip Date button of Event.
+        $scope.skipDate = function(element) {
+          element.startDate = new Date(element.startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+  //        $scope.dates.finishDate = new Date($scope.dates.startDate.getTime() + 24 * 60 * 60 * 1000);
+        }
+
+        $scope.save = function(element) {
+          Flash.create('success', 'Successfully saved.');
+        }
+        /*-------------------------------------Add / Save Event End--------------------------------------------*/
     }
 })();
