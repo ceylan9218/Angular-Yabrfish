@@ -107,7 +107,7 @@
                                  <div class="multiple option">
                                     <label>How Many</label>
                                     <input type="number" class="form-control input-multiple" ng-model="events.count">
-                                    <input type="text" class="event-step form-control" ng-model="eventStep" disabled="" />
+                                    <span>Current</span><input type="text" class="event-step form-control" ng-model="eventStep" disabled="" />
                                  </div>
                                  <div class="multi-check option checkbox c-checkbox">
                                     <label ng-repeat="day in weekDays"><input type="checkbox" class="week-day" checkbox-group ng-model="day.Selected">{{day.value}}<span class="fa fa-times"></span></label>
