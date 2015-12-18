@@ -493,5 +493,16 @@
         Flash.create('success', 'Successfully saved.');
       }
       /*-------------------------------------Add / Save Event End--------------------------------------------*/
+
+
+      // Add Tags in top search bar.
+      $scope.tags = [];
+      $scope.addTags = function(tag) {
+        if($scope.tags.indexOf(tag) == -1){
+          $scope.tags.push(tag);
+        }else{
+          $scope.tags.splice($scope.tags.indexOf(tag), 1);
+        }
+      }
     }
 })();

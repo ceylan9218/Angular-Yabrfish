@@ -1,6 +1,34 @@
 <div class="tiles-wrap" ng-init="getTiles()">
 	<div class="tiles-filter">
-		
+		<div class="filter-wrap">
+			<div class="new-tile"><img src="app/img/add.png"><span>New</span></div>
+			<div class="filter-img"><img src="app/img/filter-icon.png"></div>			
+			<div class="tags">
+				<span ng-repeat="tag in tags" class="tag">{{tag}}</span>
+			</div>
+			<div class="more" ng-click="showOption = !showOption">
+				<img src="app/img/dots.png">
+				<i class="fa ng-scope fa-angle-down" ng-if="!showOption"></i>
+				<i class="fa ng-scope fa-angle-up" ng-if="showOption"></i>
+			</div>
+		</div>
+		<div class="filter-options" ng-show="showOption">
+			<div class="tile-types">
+				<h4>Tile Type</h4>
+				<div class="options">
+					<label><input type="checkbox" ng-model="event" ng-click="addTags('event')"><span>Event</span></label>
+					<label><input type="checkbox" ng-model="content" ng-click="addTags('content')"><span>Content</span></label>
+					<label><input type="checkbox" ng-model="sale" ng-click="addTags('sale')"><span>For Sale</span></label>					
+				</div>
+			</div>
+			<div class="accounts">
+				<h4>Your Accounts</h4>
+				<div class="options">
+					<label><input type="checkbox" ng-model="account1" ng-click="addTags('account1')"><span>Warsash Sailing Club</span></label>
+					<label><input type="checkbox" ng-model="account2" ng-click="addTags('account2')"><span>Newport Rowing Club</span></label>
+				</div>
+			</div>
+		</div>
 	</div>
 	<!-- START row-->
 	<div class="row yabrTile-wrap">
