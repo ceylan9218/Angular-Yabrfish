@@ -30,93 +30,116 @@
 
           var me = function(response) {
             var deferred = $q.defer();
-            Facebook.api('/me?fields=name, first_name, last_name, email, birthday, gender, sports, taggable_friends', function(response) {
-                var FBUser = response;
-                if (!FBUser || FBUser.error) {
-                    deferred.reject('Error occured');
-                } else {
-                  $http.get(APP_APIS['commerce']+'/viewers/'+FBUser.id+'?ident=facebook')
-                    .success(function(data) {
-                      // Get Viewer Informations with Facebook ID.
-                      deferred.resolve(data);
-                      
-                      $rootScope.logged = true;
-                      $rootScope.user = data;
-                      $rootScope.user.email = FBUser.email;
-                      $rootScope.user.birthday = FBUser.birthday;
-                      $rootScope.user.gender = FBUser.gender;
-                      $rootScope.user.taggable_friends = FBUser.taggable_friends;
-//console.log($rootScope.user);
-                    })
-                    .error(function(data, status){
-                      // If this Facebook user not signin to app, this viewer will be created automatically.
-                      if(status == 404){
-                        Facebook.api('/'+FBUser.id+'/picture', function(data){
-                          var avatarUrl = data.data.url;
-                          var params = {
-                            "avatarUrl": avatarUrl,
-                            "forename": FBUser.first_name,
-                            "nickname": FBUser.name,
-                            "surname": FBUser.last_name,
-                            "viewerIdentities": [
-                              {
-                                "identityService": "FACEBOOK",
-                                "identityId": FBUser.id
-                              },
-                              {
-                                "identityService": "EMAIL",
-                                "identityId": FBUser.email
-                              }
-                            ]
-                          }
-
-                          $http({
-                            method: 'POST',
-                            url: APP_APIS['commerce']+'/viewers',
-                            data: JSON.stringify(params),
-                            headers: {'Content-Type': 'application/json'}
-                          }).success(function (data, status, headers, config){
-                            var viewer = data;
-                            $rootScope.logged = true;
-                            $rootScope.user = viewer;
-                            $rootScope.user.email = FBUser.email;
-                            $rootScope.user.birthday = FBUser.birthday;
-                            $rootScope.user.gender = FBUser.gender;
-                            $rootScope.user.taggable_friends = FBUser.taggable_friends;
-
-                            // Add attributes to new viewer.
-                            var attr_params = [
-                              {
-                                "attribute": 1,
-                                "attributeValueDate": Number(new Date(FBUser.birthday))
-                              },
-                              {
-                                "attribute": 3,
-                                "attributeValueText": FBUser.gender
-                              }
-                            ];
-
-                            $http({
-                              method: 'POST',
-                              url: APP_APIS['commerce']+'/viewers/'+viewer.externalId+'/attributes',
-                              data: JSON.stringify(attr_params),
-                              headers: {'Content-Type': 'application/json'}
-                            }).success(function (data, status, headers, config){
-                              console.log(data)
-                            }).error(function (data, status, headers, config){
-                              console.log(status);
-                            })                            
-
-                            console.log(viewer);
-                          }).error(function (data, status, headers, config){
-                            console.log(status);
-                          })
-                        })                      
-                      }
+            
+            var tokenId = response.authResponse.accessToken;
+            var params = {
+              "regType" : "Facebook",
+              "accessToken": tokenId
+            }
+            $http.post(APP_APIS['commerce']+'/auth', params)
+              .success(function(response){
+                // If this FB user was not registered, will be registered.
+                if(response == ''){
+                  $http.post(APP_APIS['commerce']+'/registration', params)
+                    .success(function(user){
+                      deferred.resolve(user);
+                    }).error(function(status){
                       deferred.resolve(status);
-                    });
+                    })
+                }else{
+                  deferred.resolve(response);
                 }
-            });
+              }).error(function(status){
+                deferred.resolve(status);
+              })
+
+// Old version  - FB Auth
+            // Facebook.api('/me?fields=name, first_name, last_name, email, birthday, gender, sports, taggable_friends', function(response) {
+            //     var FBUser = response;
+            //     if (!FBUser || FBUser.error) {
+            //         deferred.reject('Error occured');
+            //     } else {                 
+            //       $http.get(APP_APIS['commerce']+'/viewers/'+FBUser.id+'?ident=facebook')
+            //         .success(function(data) {
+            //           // Get Viewer Informations with Facebook ID.
+            //           deferred.resolve(data);
+                      
+            //           $rootScope.logged = true;
+            //           $rootScope.user = data;
+            //           $rootScope.user.email = FBUser.email;
+            //           $rootScope.user.birthday = FBUser.birthday;
+            //           $rootScope.user.gender = FBUser.gender;
+            //           $rootScope.user.taggable_friends = FBUser.taggable_friends;
+            //         })
+            //         .error(function(data, status){
+            //           If this Facebook user not signin to app, this viewer will be created automatically.
+            //           if(status == 404){
+            //             Facebook.api('/'+FBUser.id+'/picture', function(data){
+            //               var avatarUrl = data.data.url;
+            //               var params = {
+            //                 "avatarUrl": avatarUrl,
+            //                 "forename": FBUser.first_name,
+            //                 "nickname": FBUser.name,
+            //                 "surname": FBUser.last_name,
+            //                 "viewerIdentities": [
+            //                   {
+            //                     "identityService": "FACEBOOK",
+            //                     "identityId": FBUser.id
+            //                   },
+            //                   {
+            //                     "identityService": "EMAIL",
+            //                     "identityId": FBUser.email
+            //                   }
+            //                 ]
+            //               }
+
+            //               $http({
+            //                 method: 'POST',
+            //                 url: APP_APIS['commerce']+'/viewers',
+            //                 data: JSON.stringify(params),
+            //                 headers: {'Content-Type': 'application/json'}
+            //               }).success(function (data, status, headers, config){
+            //                 var viewer = data;
+            //                 $rootScope.logged = true;
+            //                 $rootScope.user = viewer;
+            //                 $rootScope.user.email = FBUser.email;
+            //                 $rootScope.user.birthday = FBUser.birthday;
+            //                 $rootScope.user.gender = FBUser.gender;
+            //                 $rootScope.user.taggable_friends = FBUser.taggable_friends;
+
+            //                 // Add attributes to new viewer.
+            //                 var attr_params = [
+            //                   {
+            //                     "attribute": 1,
+            //                     "attributeValueDate": Number(new Date(FBUser.birthday))
+            //                   },
+            //                   {
+            //                     "attribute": 3,
+            //                     "attributeValueText": FBUser.gender
+            //                   }
+            //                 ];
+
+            //                 $http({
+            //                   method: 'POST',
+            //                   url: APP_APIS['commerce']+'/viewers/'+viewer.externalId+'/attributes',
+            //                   data: JSON.stringify(attr_params),
+            //                   headers: {'Content-Type': 'application/json'}
+            //                 }).success(function (data, status, headers, config){
+            //                   console.log(data)
+            //                 }).error(function (data, status, headers, config){
+            //                   console.log(status);
+            //                 })                            
+
+            //                 console.log(viewer);
+            //               }).error(function (data, status, headers, config){
+            //                 console.log(status);
+            //               })
+            //             })
+            //           }
+            //           deferred.resolve(status);
+            //         });
+            //     }
+            // });
             return deferred.promise;
           };
 
@@ -127,18 +150,21 @@
                   if (response.status == 'connected') {
                     me(response).then(function(user){
                       deferred.resolve(user);
+
+                      $rootScope.logged = true;
+                      $rootScope.user = user;
                     });
                   }else{
-//                    $location.path('app/login');
+                    $location.path('app/login');
                   }
-                }, {scope: 'email, user_birthday, user_friends, user_likes'});
+                  }/*, {scope: 'email, user_birthday, user_friends, user_likes'}*/ );
                 
                 // Just For testing.
-                // $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; 
-                // var user = {
-                //   externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
-                // }
-                // deferred.resolve(user);
+                $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; 
+                var user = {
+                  externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
+                }
+                deferred.resolve(user);
 
                 return deferred.promise;
               },

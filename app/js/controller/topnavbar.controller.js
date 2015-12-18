@@ -33,6 +33,9 @@
       $scope.logout = function() {
         angular.element('.open').removeClass('open');
         FacebookAuthService.logout();
+
+        if(userCookie)
+          $cookieStore.remove('user');
       }
     }
 })();

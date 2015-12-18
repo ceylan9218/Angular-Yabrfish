@@ -34,8 +34,8 @@
          </div>
       </div>
       <div class="user-profile">
-      	<img ng-if="!$root.logged" src="app/img/user/default.png"></img>
-         <img ng-if="$root.logged" src="{{$root.user.avatarUrl}}"></img>
+      	<img ng-if="!$root.logged || $root.user.avatarUrl==null" src="app/img/user/default.png"></img>
+         <img ng-if="$root.logged && $root.user.avatarUrl" src="{{$root.user.avatarUrl}}"></img>
       	<div class="info">
 	      	<span ng-if="$root.logged" class="username">{{$root.user.forename}}&nbsp;{{$root.user.surname}}</span>
 	      	<a ng-href="#/app/profile" class="profile-link">View Profile</a>      		
