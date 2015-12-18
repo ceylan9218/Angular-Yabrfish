@@ -459,6 +459,8 @@
 
         tempStartDate = $scope.dates.startDate;
         $scope.dates.startDate = new Date($scope.dates.startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+        $scope.events.name = $scope.events.name.replace($scope.eventStep, '');
         $scope.events.name = $scope.events.name + parseInt($scope.eventStep + 1);
 
         $scope.events.eventsAry.push({

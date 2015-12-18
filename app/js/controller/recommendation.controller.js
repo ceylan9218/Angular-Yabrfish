@@ -46,7 +46,7 @@
         })        
         .controller('recommendationController', recommendationController);
 
-    function recommendationController($rootScope, $scope, $http, $sce, RouteHelpers, $timeout, $q, Flash, APP_APIS, TileService) {
+    function recommendationController($rootScope, $scope, $http, $sce, $location, RouteHelpers, $timeout, $q, Flash, APP_APIS, TileService) {
         $scope.basepath = RouteHelpers.basepath;
         $scope.tiles = [];
         $scope.totalTiles = [];
@@ -58,6 +58,13 @@
         $scope.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         $rootScope.youtubePlay = false;
         var tileCountPerPage = 6;
+
+        var path = $location.path();
+        // Enable/Disable Edit Event.
+        if(path.indexOf('/app/tiles') != -1)
+          $scope.enableEvent = true;
+        else
+          $scope.enableEvent = false;
 
         $scope.loadBanner = function(){
           // Get Banner Image.
@@ -281,6 +288,10 @@
                       name: element.events[i].name
                     });
                   }
+                  // If current page is My Tiles page, we will add Add Event button.
+                  if(enableEvent)
+                    element.event_cals.push('addEvent');
+                  
                   element.eventWidth = angular.element('#tile_'+element.externalId+' .events').width() / 3;
                   element.eventSliderWidth = element.eventWidth * element.event_cals.length;
                   element.showEventSlider = true;
