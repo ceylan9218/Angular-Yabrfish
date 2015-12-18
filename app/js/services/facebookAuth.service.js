@@ -24,7 +24,7 @@
         ])
         .service('FacebookAuthService', FacebookAuthService);
 
-        function FacebookAuthService($http, $location, $q, Facebook, $rootScope, APP_APIS){
+        function FacebookAuthService($http, $location, $q, Facebook, $rootScope, $cookieStore, APP_APIS){
           $rootScope.logged = false;
           $rootScope.user = {};
 
@@ -144,27 +144,35 @@
           };
 
           return {              
-              getUser: function() {
+              getUser: function() {                
                 var deferred = $q.defer();
-                Facebook.getLoginStatus(function(response) {
-                  if (response.status == 'connected') {
-                    me(response).then(function(user){
-                      deferred.resolve(user);
+                var userCookie = $cookieStore.get('user');
+                if(userCookie){
+                  $rootScope.logged = true;
+                  $rootScope.user = userCookie;
+                  deferred.resolve(userCookie);
+          console.log($rootScope.user);        
+                }else{
+                  Facebook.getLoginStatus(function(response) {
+                    if (response.status == 'connected') {
+                      me(response).then(function(user){
+                        deferred.resolve(user);
 
-                      $rootScope.logged = true;
-                      $rootScope.user = user;
-                    });
-                  }else{
-                    $location.path('app/login');
-                  }
-                  }/*, {scope: 'email, user_birthday, user_friends, user_likes'}*/ );
+                        $rootScope.logged = true;
+                        $rootScope.user = user;
+                      });
+                    }else{
+                      $location.path('app/login');
+                    }
+                    }/*, {scope: 'email, user_birthday, user_friends, user_likes'}*/ );
+                }                
                 
                 // Just For testing.
-                $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; 
-                var user = {
-                  externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
-                }
-                deferred.resolve(user);
+                // $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; 
+                // var user = {
+                //   externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
+                // }
+                // deferred.resolve(user);
 
                 return deferred.promise;
               },
@@ -178,12 +186,20 @@
                 }, {scope: 'email, user_birthday, user_friends, user_likes'});
               },
 
-              logout: function() {
-                Facebook.logout(function() {
+              logout: function() {                
+                var userCookie = $cookieStore.get('user');
+                if(userCookie){
+                  $cookieStore.remove('user');
                   $rootScope.user = {};
                   $rootScope.logged = false;
                   $location.path('app/login');
-                });
+                }else{
+                  Facebook.logout(function() {
+                    $rootScope.user = {};
+                    $rootScope.logged = false;
+                    $location.path('app/login');
+                  });
+                }
               }
           }
         }
