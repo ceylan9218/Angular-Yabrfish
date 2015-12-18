@@ -32,8 +32,7 @@
             </div>
             <div class="form-group">
               <p class="input-group">
-                <input type="text" name="date" required="" uib-datepicker-popup="{{format}}" ng-model="register.date" is-open="opened" min-date="minDate" max-date="'2019-12-22'" uib-datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
-                  close-text="Close" class="form-control" ng-click="open($event)" placeholder="Date of birth DD/MM/YYYY"/>
+                <input type="text" class="form-control" datetime-picker="mediumDate" ng-model="register.date" is-open="opened" enable-time="false" datepicker-options="ctrl.dateOptions" date-disabled="ctrl.disabled(date, mode)" close-on-date-selection="false" datepicker-append-to-body="true" clear-text="Remove" ng-click="open($event)" placeholder="Date of birth DD/MM/YYYY"/>                
               </p>
               <span ng-show="form.validateInput('date', 'required')" class="text-danger">This field is required</span>
             </div>
@@ -53,7 +52,7 @@
                   <div class="checkbox c-checkbox">
                      <label>
                         <input type="checkbox" name="agreements" required="" ng-model="register.agreements" />
-                        <!-- <span class="fa fa-check"></span> -->I agree with the <a href="#">terms</a>
+                        <span class="fa fa-check"></span>I agree with the <a href="#">terms</a>
                      </label>
                   </div>
                   <span ng-show="registerForm.agreements.$dirty &amp;&amp; registerForm.agreements.$error.required" class="text-danger">Please read and agree the terms</span>

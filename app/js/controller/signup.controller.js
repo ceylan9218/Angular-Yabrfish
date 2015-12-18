@@ -10,7 +10,7 @@
         .module('app.signup', ['ngAnimate', 'ui.bootstrap', 'ngFileUpload', 'flash'])
         .controller('signupController', signupController);
 
-    function signupController($scope, $http, APP_APIS, Upload, Flash) {
+    function signupController($scope, $http, $location, APP_APIS, Upload, Flash) {
       $scope.register = {
         avatarUrl: '',
         username: '',
@@ -105,35 +105,54 @@
       }
 
       $scope.createUser = function(){
-        if(!$scope.register.agreements){
-          Flash.create('danger', 'Error! Please read and agree the terms!');
-          return;
-        }
+        // if(!$scope.register.agreements){
+        //   Flash.create('danger', 'Error! Please read and agree the terms!');
+        //   return;
+        // }
 
         var params = {
-          avatarUrl: $scope.register.avatarUrl,
+          email: $scope.register.email,
+          password: $scope.register.password2,
           forename: $scope.register.firstname,
-          nickname: $scope.register.username,
           surname: $scope.register.surname,
-          viewerIdentities: [
-            {
-              identityService: "EMAIL",
-              identityId: $scope.register.email,
-              identityAuth: $scope.register.password2
-            }
-          ]
+          nickname: $scope.register.username,
+          regType: "EMAIL"
         }
-console.log(params);        
-        $http({
-          method: 'POST',
-          url: APP_APIS['commerce'] + '/viewers',
-          data: JSON.stringify(params),
-          headers: {'Content-Type': 'application/json'}
-        }).success(function (data, status, headers, config){
-          console.log(data);
-        }).error(function(data, status, headers, config){
-          console.log(status);
-        })
+
+        $http.post(APP_APIS['commerce']+'/registration', params)
+          .success(function(user){
+            console.log(user);
+            Flash.create('success', 'Successfully registered new user.');
+            $location.path('/app/login');
+          }).error(function(status){
+            console.log(status);
+            Flash.create('danger', 'Failed registration.');
+          });
+
+//         var params = {
+//           avatarUrl: $scope.register.avatarUrl,
+//           forename: $scope.register.firstname,
+//           nickname: $scope.register.username,
+//           surname: $scope.register.surname,
+//           viewerIdentities: [
+//             {
+//               identityService: "EMAIL",
+//               identityId: $scope.register.email,
+//               identityAuth: $scope.register.password2
+//             }
+//           ]
+//         }
+// console.log(params);
+//         $http({
+//           method: 'POST',
+//           url: APP_APIS['commerce'] + '/viewers',
+//           data: JSON.stringify(params),
+//           headers: {'Content-Type': 'application/json'}
+//         }).success(function (data, status, headers, config){
+//           console.log(data);
+//         }).error(function(data, status, headers, config){
+//           console.log(status);
+//         })
       }
     }
 })();
