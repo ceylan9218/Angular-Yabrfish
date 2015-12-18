@@ -1,4 +1,4 @@
-<div ng-controller="recommendationController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer' || card.tileType == 'business' || card.tileType == 'job' || card.tileType == 'swap'" class="yabrTile-body">
+<div ng-controller="recommendationController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer' || card.tileType == 'business' || card.tileType == 'job' || card.tileType == 'swap' || card.tileType == 'article'" class="yabrTile-body">
    <div class="ribbon" ng-if="card.segmentations[0].reason != ''"><span>{{card.segmentations[0].reason}}</span></div>
    <div class="img-video-wrap">
       <div class="tileImg">
@@ -93,12 +93,18 @@
                   <div class="events">
                      <div class="event-slider" ng-style="{'transform': card.transform, '-webkit-transform': card.transform, '-ms-transform': card.transform, '-moz-transform': card.transform, '-o-transform': card.transform, 'width': card.eventSliderWidth}" ng-show="card.showEventSlider">
                         <div class="slide animation" ng-repeat="event in card.event_cals" ng-style="{'width': card.eventWidth}" ng-click="getClasses(card, event.eventId, event.name)" ng-class="{'selected': card.selectedEvent == event.eventId}">
-                           <div class="calendar-wrap">
-                              <img class="calendar" src="app/img/cal-icon.png" alt="">
-                              <span class="month">{{event.month}}</span>
-                              <span class="date">{{event.date}}</span>
+                           <div ng-if="event != 'addEvent'">
+                              <div class="calendar-wrap">
+                                 <img class="calendar" src="app/img/cal-icon.png" alt="">
+                                 <span class="month">{{event.month}}</span>
+                                 <span class="date">{{event.date}}</span>
+                              </div>
+                              <h4 class="event-name">{{event.name}}</h4>
                            </div>
-                           <h4 class="event-name">{{event.name}}</h4>                     
+                           <div ng-if="event == 'addEvent'">
+                              <img class="add-event" src="app/img/add-rec.png">
+                              <h4 class="event-name">Add Event</h4>
+                           </div>
                         </div>
                      </div>
                   </div>
