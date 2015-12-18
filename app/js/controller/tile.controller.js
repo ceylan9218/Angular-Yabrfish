@@ -255,7 +255,6 @@
               $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
               $scope.tiles[i].publishedDate = TileService.getTimeDiff($scope.tiles[i].publishedDate);
             }
-            console.log($scope.tiles);
           })
       }
 

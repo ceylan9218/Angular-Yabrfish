@@ -288,10 +288,11 @@
                       name: element.events[i].name
                     });
                   }
-                  // If current page is My Tiles page, we will add Add Event button.
-                  if(enableEvent)
-                    element.event_cals.push('addEvent');
                   
+                  // If current page is My Tiles page, we will add Add Event button.
+                  if($scope.enableEvent)
+                    element.event_cals.push('addEvent');
+
                   element.eventWidth = angular.element('#tile_'+element.externalId+' .events').width() / 3;
                   element.eventSliderWidth = element.eventWidth * element.event_cals.length;
                   element.showEventSlider = true;
