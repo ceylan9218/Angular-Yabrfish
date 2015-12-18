@@ -408,7 +408,6 @@
       })
 
       $scope.$watch('checkedWeekDays', function(newVal){
-console.log(newVal);        
         angular.forEach($scope.weekDays, function (weekday) {
           if(weekday.id == $scope.checkedWeekDays[0]){
             var diffDay = '';
@@ -448,7 +447,7 @@ console.log(newVal);
       })
       
       // Click Next button of Event.
-      var tempStartDate = '';
+      var tempStartDate = '';    
       $scope.addEvent = function() {
         if($scope.eventStep >= $scope.events.count)
           return;
@@ -460,10 +459,11 @@ console.log(newVal);
 
         tempStartDate = $scope.dates.startDate;
         $scope.dates.startDate = new Date($scope.dates.startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+        $scope.events.name = $scope.events.name + parseInt($scope.eventStep + 1);
 
         $scope.events.eventsAry.push({
           id: $scope.eventStep,
-          name: $scope.events.name + $scope.eventStep,
+          name: $scope.events.name,
           startDate: $scope.dates.startDate,
           finishDate: $scope.dates.finishDate
         })
