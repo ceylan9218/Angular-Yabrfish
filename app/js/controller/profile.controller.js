@@ -64,6 +64,8 @@
                 $scope.bio = $scope.infos[i].attributeValueText;
               }
             }
+          }).error(function(status){
+            console.log(status);
           });
       })      
 

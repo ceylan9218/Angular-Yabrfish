@@ -10,8 +10,8 @@
               <span ng-show="registerForm.username.$dirty &amp;&amp; registerForm.username.$error.required" class="text-danger">This field is required</span>
             </div>
             <div class="form-group">
-              <input id="id-password" type="password" name="password1" ng-model="register.password1" ng-pattern="/^[a-zA-Z0-9]{6,10}$/" class="form-control" placeholder="Password" />
-              <span ng-show="registerForm.password1.$dirty &amp;&amp; registerForm.password1.$error.pattern" class="text-danger">Input should match 'a-zA-Z0-9' and 6-10 length</span>
+              <input id="id-password" type="password" name="password1" ng-model="register.password1" class="form-control" placeholder="Password" />
+              <span ng-show="registerForm.password1.$dirty &amp;&amp; registerForm.password1.$error.pattern" class="text-danger">Input should have 6-10 letters</span>
             </div>
             <div class="form-group">
               <input type="password" name="confirm_match" required="" ng-model="register.password2" ui-validate="'$value==register.password1'" ui-validate-watch="'register.password1'" class="form-control" placeholder="Re-type Password"/>

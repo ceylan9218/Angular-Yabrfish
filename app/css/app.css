@@ -10453,6 +10453,18 @@ img.logo{
   color: #838383;
   font-size: 16px;
 }
+.facebook-twitter{
+  height: 50px;
+  width: 100%;
+  margin-bottom: 10px;
+  display: table;
+}
+.facebook-twitter span{
+  display: table-cell;
+  vertical-align: middle;
+  color: #838383;
+  font-size: 16px;
+}
 .login-btn{
   background: #3ABEEF none repeat scroll 0% 0%;
   font-size: 16px;
@@ -10485,9 +10497,10 @@ img.logo{
   font-size: 16px;
 }
 .facebook-twitter button{
-  width: 40%;
   border-radius: 20px;
   padding: 8px 16px;
+  float: right;
+  margin-top: 5px;
 }
 .facebook-twitter button img{
   width: 20px;
