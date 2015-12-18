@@ -7,7 +7,7 @@
                <label for="file-input">
                   <img src="app/img/upload-photo.png"/ ng-src="{{image_source}}">
                </label>
-               <input id="file-input" class="file" type="file" uploader="form.uploader" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>               
+               <input id="file-input" class="file" type="file" uploader="form.uploader" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
                <ui-select ng-model="tileType.selected" theme="select2">
                   <ui-select-match placeholder="Select Type...">{{$select.selected.description}}</ui-select-match>
                   <ui-select-choices repeat="tileType in tileTypes | propsFilter: {description: $select.search}">
