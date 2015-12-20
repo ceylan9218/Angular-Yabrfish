@@ -11841,6 +11841,12 @@ img.logo{
   margin-left: 5px;
   float: left;
 }
+.tags .tag i{
+  font-size: 16px;
+  margin-left: 8px;
+  padding-left: 5px;
+  border-left: 1px solid #fff;
+}
 @media only screen and (max-width: 767px) {
   .create{
     border: 2px dashed #0d6c8f;
