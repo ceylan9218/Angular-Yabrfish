@@ -504,5 +504,29 @@
           $scope.tags.splice($scope.tags.indexOf(tag), 1);
         }
       }
+
+      $scope.removeTag = function(tag){
+        $scope.tags.splice($scope.tags.indexOf(tag), 1);
+        
+        switch(tag){
+          case 'event':
+            $scope.event = false;
+            break;
+          case 'content':
+            $scope.content = false;
+            break;
+          case 'sale':
+            $scope.sale = false;
+            break;
+          case 'account1':
+            $scope.account1 = false;
+            break;
+          case 'account2':
+            $scope.account2 = false;
+            break;
+          default:
+            $scope.event = false;
+        }
+      }
     }
 })();

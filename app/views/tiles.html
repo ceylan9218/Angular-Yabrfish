@@ -4,7 +4,7 @@
 			<div class="new-tile"><img src="app/img/add.png"><span>New</span></div>
 			<div class="filter-img"><img src="app/img/filter-icon.png"></div>			
 			<div class="tags">
-				<span ng-repeat="tag in tags" class="tag">{{tag}}</span>
+				<span ng-repeat="tag in tags" class="tag">{{tag}}<i class="fa fa-times" ng-click="removeTag(tag)"></i></span>
 			</div>
 			<div class="more" ng-click="showOption = !showOption">
 				<img src="app/img/dots.png">
