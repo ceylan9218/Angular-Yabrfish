@@ -11106,22 +11106,6 @@ img.logo{
    author: Marcin
    date: 2015.11.16
  ========================================================================== */
-.club-header{
-  width: 100%;
-  display: inline-block;
-  background: #fff;
-  padding: 20px 30px;
-}
-.club-header h4{
-  font-weight: normal;
-  color: #333;
-  border-bottom: 1px solid #CBCBCB;  
-  margin: 0;
-  padding-bottom: 10px;
-}
-.club-header p{
-  padding: 10px 0;
-}
 .clubs{
   display: inline-block;
   margin-top: 20px;
@@ -11226,6 +11210,63 @@ img.logo{
 .modal-header.addClub h4{
   font-size: 20px;
 }
+.club-search{
+  display: inline-block;
+  width: 100%;
+  float: left;
+  background: #fff;
+  margin-top: 20px;
+  border: 1px solid #d2d2d2;
+  height: 60px;
+}
+.club-search .keep{
+  width: 100px;
+  text-align: center;
+  color: red;
+  height: 100%;
+  line-height: 60px;
+  font-size: 16px;
+  border-right: 1px solid #D2D2D2;
+  float: left;
+}
+.club-search .search-img{
+  width: 60px;
+  float: left;
+  border-right: 1px solid #D2D2D2;
+  height: 100%;
+}
+.club-search .search-img img{
+  width: 25px;
+  margin: 16px auto 0;
+  display: table;
+}
+.club-search .more{
+  float: right;
+  width: 100px;
+  height: 100%;
+  padding: 20px;
+  cursor: pointer;
+}
+.club-search .more img{
+  width: 30px;
+}
+.club-search .more i {
+  margin-left: 10px;
+  color: #ccc;
+}
+.club-search .search-input{
+  width: calc(100% - 260px);
+  float: left;
+  border-right: 1px solid #d2d2d2;
+  height: 100%;
+}
+.club-search .search-input input{
+  width: 100%;
+  border: medium none;
+  padding: 10px 20px;
+  height: 100%;
+  font-size: 16px;
+}
 @media only screen and (min-width: 1200px) {
   .club-content{
     width: 24%;
@@ -11273,6 +11314,39 @@ img.logo{
   .club-content:nth-child(2n){
     float: right;
     margin-right: 0;
+  }
+  .club-search{
+    height: 50px;
+  }
+  .club-search .keep{
+    width: 60px;
+    line-height: 50px;
+    font-size: 14px;
+  }
+  .club-search .search-img{
+    width: 40px;
+    display: none;
+  }
+  .club-search .search-img img{
+    width: 18px;
+    margin-top: 15px;
+  }
+  .club-search .search-input{
+    width: calc(100% - 120px);
+
+  }
+  .club-search .search-input input{
+    padding: 10px 15px;
+  }
+  .club-search .more{
+    width: 60px;
+    padding: 12px 8px;
+  }
+  .club-search .more img{
+    width: 29px;
+  }
+  .club-search .more i{
+    margin-left: 2px;
   }
 }
 @media only screen and (max-width: 479px) {

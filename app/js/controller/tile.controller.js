@@ -38,7 +38,7 @@
         })
         .controller('tileController', tileController);
 
-    function tileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService, ProductService, Flash, FacebookAuthService) {
+    function tileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService, ProductService, Flash, AuthService) {
       $scope.tiles = [];
       $scope.basepath = RouteHelpers.basepath;
       $scope.tileTypes = [];
@@ -60,7 +60,7 @@
       $scope.showNewTile = false;
 
       $scope.getUser = function() {
-        FacebookAuthService.getUser().then(function(user){
+        AuthService.getUser().then(function(user){
           $rootScope.user = user;
           // Get Current User's Roles
           $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/roles')

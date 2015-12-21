@@ -10,11 +10,11 @@
         .module('app.login', ['flash'])
         .controller('loginController', loginController);
     
-    function loginController($scope, $rootScope, $http, $location, $cookieStore, FacebookAuthService, Flash, APP_APIS) {
+    function loginController($scope, $rootScope, $http, $location, $cookieStore, AuthService, Flash, APP_APIS) {
     	
     	// Facebook login.
 		$scope.FBLogin = function() {
-			FacebookAuthService.login();
+			AuthService.FBLogin();
 		}
 
         $scope.login = function() {
@@ -28,32 +28,14 @@
                 return;
             }
 
-            // Check if this user has already registered.
-            var params = {
-                email: $scope.email,
-                password: $scope.password,
-                regType: 'email'
-            }
-            
-            $http.post(APP_APIS['commerce']+'/auth', params)
-                .success(function(user){
-                    if(user == ''){
-                        Flash.create('danger', 'Failed Login!');
-                        return;
-                    }else{
-                        Flash.create('success', 'Successfully Login!');
-
-                        $rootScope.logged = true;
-                        $rootScope.user = user;
-                        $location.path('/');
-
-                        $cookieStore.put('user', user);
-                        var userCookie = $cookieStore.get('user');
-                    }
-//                    console.log(user);
-                }).error(function(status){
-                    console.log(status);
-                })
+            AuthService.login($scope.email, $scope.password).then(function(user){
+                if(user == ''){
+                    Flash.create('danger', 'Failed Login!');
+                    return;
+                }else{
+                    Flash.create('success', 'Successfully Login!');
+                }
+            });            
         }
     }
 })();
