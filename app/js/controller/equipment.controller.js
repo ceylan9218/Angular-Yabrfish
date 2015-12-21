@@ -23,7 +23,7 @@
 		})
         .controller('equipmentController', equipmentController);
 
-    function equipmentController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, FacebookAuthService) {
+    function equipmentController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, AuthService) {
     	$scope.basepath = RouteHelpers.basepath;
     	$scope.equipments = [];
     	$scope.manufacturers = [];
@@ -81,7 +81,7 @@
 	    }
 
 	    $scope.getUser = function() {
-	        FacebookAuthService.getUser().then(function(user){
+	        AuthService.getUser().then(function(user){
 	        	$rootScope.user = user;
 	        })
 	    }

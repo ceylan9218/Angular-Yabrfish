@@ -11,7 +11,7 @@
         .module('app.topnavbar', [])        
         .controller('topnavbarController', topnavbarController);
 
-    function topnavbarController($scope, $cookieStore, FacebookAuthService) {
+    function topnavbarController($scope, $cookieStore, AuthService) {
       $scope.toggleItem = function() {
         if($('.dropdown').hasClass('open'))
           $('.dropdown').removeClass('open');
@@ -23,16 +23,14 @@
       }
       
       // Initial checking if user logged in.
-      FacebookAuthService.getUser().then(function(user){
-//        console.log(user);
-      });
+      AuthService.getUser();
 
       /**
        * Logout
        */
       $scope.logout = function() {
         angular.element('.open').removeClass('open');
-        FacebookAuthService.logout();
+        AuthService.logout();
       }
     }
 })();

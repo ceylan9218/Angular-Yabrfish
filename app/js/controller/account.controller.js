@@ -40,7 +40,7 @@
         })
         .controller('accountController', accountController);
 
-    function accountController($scope, $rootScope, $http, RouteHelpers, APP_APIS, Flash, ProductService, FacebookAuthService) {
+    function accountController($scope, $rootScope, $http, RouteHelpers, APP_APIS, Flash, ProductService, AuthService) {
       $scope.basepath = RouteHelpers.basepath;
       $scope.accounts = [];
       $scope.accountTypes = [];
@@ -78,7 +78,7 @@
       }
       
       $scope.getAccounts = function() {
-        FacebookAuthService.getUser().then(function(user){
+        AuthService.getUser().then(function(user){
           $rootScope.user = user;
           // Get Roles by viewer.
           $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/roles')

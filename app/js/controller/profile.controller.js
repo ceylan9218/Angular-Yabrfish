@@ -13,7 +13,7 @@
         })
         .controller('profileController', profileController);
 
-    function profileController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS, FacebookAuthService) {
+    function profileController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS, AuthService) {
       if(!$rootScope.user)
         return;
 
@@ -26,7 +26,7 @@
         });
 
       // Get profile infos
-      FacebookAuthService.getUser().then(function(user){
+      AuthService.getUser().then(function(user){
         $http.get(APP_APIS['commerce']+'/viewers/'+user.externalId+'/attributes')
           .success(function(data) {
             $scope.infos = data;
@@ -71,7 +71,7 @@
 
       // Update profile infos
       $scope.updateProfile = function(){
-        FacebookAuthService.getUser().then(function(user){
+        AuthService.getUser().then(function(user){
             // Update Birthday.
             var birthday = $scope.birthday;
             var dateAry = birthday.split(' ');
