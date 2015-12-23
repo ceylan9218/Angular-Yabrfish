@@ -43,7 +43,9 @@
             'app.tile',
             'app.product',
             'app.file',
-            'app.equipment'
+            'app.equipment',
+            'app.viewer',
+            'app.lookup'
         ])
         .constant('APP_APIS', {
           'base':                 'http://data.yabrfish.com/yfapi',
@@ -844,10 +846,10 @@
                 controller: 'recommendationController',
                 resolve: helper.resolveFor('spinkit','loaders.css', 'akoenig.deckgrid', 'infinite-scroll')
             })
-            .state('app.radar-detail', {
-                url: '/radar-detail',
-                title: 'Radar Detail',
-                templateUrl: helper.basepath('radar-detail.html'),
+            .state('app.tile-detail', {
+                url: '/tile-detail',
+                title: 'Tile Detail',
+                templateUrl: helper.basepath('tile-detail.html'),
                 controller: 'recommendationController',
             })        
             .state('app.signup', {
