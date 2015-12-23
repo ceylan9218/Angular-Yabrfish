@@ -43,11 +43,15 @@
                 if(response == ''){
                   $http.post(APP_APIS['commerce']+'/registration', params)
                     .success(function(user){
+                      $rootScope.user = user;
+                      $rootScope.logged = true;
                       deferred.resolve(user);
                     }).error(function(status){
                       deferred.resolve(status);
                     })
                 }else{
+                  // $rootScope.user = response;
+                  // $rootScope.logged = true;
                   deferred.resolve(response);
                 }
               }).error(function(status){
