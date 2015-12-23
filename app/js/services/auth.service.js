@@ -43,6 +43,8 @@
                 if(response == ''){
                   $http.post(APP_APIS['commerce']+'/registration', params)
                     .success(function(user){
+                      $rootScope.user = user;
+                      $rootScope.logged = true;
                       deferred.resolve(user);
                     }).error(function(status){
                       deferred.resolve(status);
@@ -80,11 +82,11 @@
                 }                
                 
                 // Just For testing.
-                $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; 
-                var user = {
-                  externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
-                }
-                deferred.resolve(user);
+                // $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; 
+                // var user = {
+                //   externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
+                // }
+                // deferred.resolve(user);
 
                 return deferred.promise;
               },
