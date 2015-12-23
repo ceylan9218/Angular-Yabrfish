@@ -74,7 +74,7 @@
         })
         .controller('recommendationController', recommendationController);
 
-    function recommendationController($rootScope, $scope, $http, $sce, $location, RouteHelpers, $timeout, $q, Flash, APP_APIS, TileService) {
+    function recommendationController($rootScope, $scope, $http, $sce, $location, RouteHelpers, $timeout, $q, Flash, APP_APIS, TileService, LookupService) {
         $scope.basepath = RouteHelpers.basepath;
         $scope.tiles = [];
         $scope.totalTiles = [];
@@ -627,10 +627,12 @@ console.log(event);
 
         /*-------------------------------------Add / Save Event - Ryan(12.15)--------------------------------------------*/
          // Get Event Tile Type
-        $http.get(APP_APIS['lookup']+'/eventtypes')
-          .success(function(eventtypes){
-            $scope.eventtypes = eventtypes;
-          });
+        LookupService.getEventTypes().then(function(eventtypes){
+          $scope.eventtypes = eventtypes;
+        }, function(error){
+          console.log(error);
+          return;
+        })
        
         $scope.open = {
           startDate: false,

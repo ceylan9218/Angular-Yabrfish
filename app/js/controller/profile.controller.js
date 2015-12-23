@@ -13,61 +13,62 @@
         })
         .controller('profileController', profileController);
 
-    function profileController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS, AuthService) {
+    function profileController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS, AuthService, LookupService) {
       if(!$rootScope.user)
         return;
 
       $scope.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
       // Get profile Attributes
-      $http.get(APP_APIS['lookup']+'/viewerattributes')
-        .success(function(data) {
-          $scope.attrs = data;
-        });
+      LookupService.getViewerAttrs().then(function(attrs){
+        $scope.attrs = attrs;
+      }, function(error){
+        console.log(error);
+        return;
+      })
 
       // Get profile infos
-      AuthService.getUser().then(function(user){
-        $http.get(APP_APIS['commerce']+'/viewers/'+user.externalId+'/attributes')
-          .success(function(data) {
-            $scope.infos = data;
-  
-            for(var i in $scope.infos){
-              if( $scope.infos[i].attribute == 1 ){
-                // Get Birthday
-                $scope.birthday = new Date($scope.infos[i].attributeValueDate);
-                var birth_date = $scope.birthday.getDate();
+      $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/attributes')
+        .success(function(data) {
+          $scope.infos = data;
 
-                if(birth_date>3 && birth_date<21){
-                  birth_date = birth_date + 'th';
-                }else{
-                  switch (birth_date % 10) {
-                      case 1:  birth_date = birth_date + "st";
-                      case 2:  birth_date = birth_date + "nd";
-                      case 3:  birth_date = birth_date + "rd";
-                      default: birth_date = birth_date + "th";
-                  }
+          for(var i in $scope.infos){
+            if( $scope.infos[i].attribute == 1 ){
+              // Get Birthday
+              $scope.birthday = new Date($scope.infos[i].attributeValueDate);
+              var birth_date = $scope.birthday.getDate();
+
+              if(birth_date>3 && birth_date<21){
+                birth_date = birth_date + 'th';
+              }else{
+                switch (birth_date % 10) {
+                    case 1:  birth_date = birth_date + "st";
+                    case 2:  birth_date = birth_date + "nd";
+                    case 3:  birth_date = birth_date + "rd";
+                    default: birth_date = birth_date + "th";
                 }
-                var birth_month = $scope.monthNames[$scope.birthday.getMonth()];
-                var birth_year = $scope.birthday.getFullYear();
-                $scope.birthday = birth_date + " " + birth_month + " " + birth_year;
-              }else if( $scope.infos[i].attribute == 2 ){
-                // Get Job
-                $scope.job = $scope.infos[i].attributeValueText;
-              }else if( $scope.infos[i].attribute == 3 ){
-                // Get Sex
-                $scope.sex = $scope.infos[i].attributeValueText;
-              }else if( $scope.infos[i].attribute == 4 ){
-                // Get Location
-                $scope.location = $scope.infos[i].attributeValueText;
-              }else if( $scope.infos[i].attribute == 5 ){
-                // Get Bio Text
-                $scope.bio = $scope.infos[i].attributeValueText;
               }
+              var birth_month = $scope.monthNames[$scope.birthday.getMonth()];
+              var birth_year = $scope.birthday.getFullYear();
+              $scope.birthday = birth_date + " " + birth_month + " " + birth_year;
+            }else if( $scope.infos[i].attribute == 2 ){
+              // Get Job
+              $scope.job = $scope.infos[i].attributeValueText;
+            }else if( $scope.infos[i].attribute == 3 ){
+              // Get Sex
+              $scope.sex = $scope.infos[i].attributeValueText;
+            }else if( $scope.infos[i].attribute == 4 ){
+              // Get Location
+              $scope.location = $scope.infos[i].attributeValueText;
+            }else if( $scope.infos[i].attribute == 5 ){
+              // Get Bio Text
+              $scope.bio = $scope.infos[i].attributeValueText;
             }
-          }).error(function(status){
-            console.log(status);
-          });
-      })      
+          }
+        }).error(function(status){
+          console.log(status);
+        });
+
 
       // Update profile infos
       $scope.updateProfile = function(){

@@ -38,7 +38,7 @@
         })
         .controller('tileController', tileController);
 
-    function tileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService, ProductService, Flash, AuthService) {
+    function tileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService, ProductService, Flash, AuthService, LookupService) {
       $scope.tiles = [];
       $scope.basepath = RouteHelpers.basepath;
       $scope.tileTypes = [];
@@ -79,18 +79,18 @@
         return;
 
       // Get Tile Types
-      $http.get(APP_APIS['lookup']+'/tiletypes')
-        .success(function(data){
-          $scope.tileTypes = data;
-        })
-        .error(function(status){
-          console.log(status);
-        })
+      LookupService.getTileTypes().then(function(tiletypes){
+        $scope.tileTypes = tiletypes;
+      }, function(error){
+        console.log(error);
+        return;
+      })
 
       // Slide Tile Creation Steps.
       var step_count = 3;
-      $scope.stepWidth = angular.element('.new-tile-wrap').width();
-      $scope.sliderWidth = angular.element('.new-tile-wrap').width() * step_count;
+      var width = 322;
+      $scope.stepWidth = width+'px';
+      $scope.sliderWidth = width * step_count + 'px';
       $scope.transform = '';
       var translate = 0;
       $scope.index = 0;
@@ -98,11 +98,11 @@
       $scope.slideWrap = function(dir){
         if(dir === 'next'){
           $scope.index ++;
-          translate -= $scope.stepWidth;
+          translate -= width;
           $scope.transform = "translate("+translate+"px, 0px)";
         }else{
           $scope.index --;
-          translate += $scope.stepWidth;
+          translate += width;
           $scope.transform = "translate("+translate+"px, 0px)";
         }
       }
@@ -279,10 +279,12 @@
       }
 
       // Get Event Tile Type
-      $http.get(APP_APIS['lookup']+'/eventtypes')
-        .success(function(eventtypes){
-          $scope.eventtypes = eventtypes;
-        });
+      LookupService.getEventTypes().then(function(eventtypes){
+        $scope.eventtypes = eventtypes;
+      }, function(error){
+        console.log(error);
+        return;
+      })
 
       // Calendar Controller
       var in10Days = new Date();
@@ -527,6 +529,10 @@
           default:
             $scope.event = false;
         }
+      }
+
+      $scope.showNewTile = function() {
+        $scope.tiles.unshift('newTile');
       }
     }
 })();

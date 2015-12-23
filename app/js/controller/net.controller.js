@@ -10,15 +10,20 @@
         .module('app.nets', ['ngAnimate', 'ui.bootstrap'])
         .controller('netController', netController);
 
-    function netController($scope, $rootScope, $http, $modal, $log, APP_APIS) {
-      if(!$rootScope.user)
-        return;
-      
-      $http.get(APP_APIS['viewer']+'/viewers/'+$rootScope.user.externalId+'/nets')
-        .success(function(data) {
-            $scope.nets = data.viewerNets;
-        });      
+    function netController($scope, $rootScope, $http, $modal, $log, APP_APIS, AuthService, ViewerService) {
 
+      AuthService.getUser().then(function(user){
+        ViewerService.getNets(user.externalId).then(function(nets){
+          $scope.nets = nets;
+        }, function(error){
+          console.log(error);
+          return;
+        });
+      }, function(error){
+        console.log(error);
+        return;
+      });
+      
       $scope.items = ['item1', 'item2', 'item3'];
       $scope.animationsEnabled = true;
       $scope.openCreateNet = function () {
