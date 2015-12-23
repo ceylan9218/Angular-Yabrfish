@@ -1,7 +1,7 @@
 <div class="tiles-wrap" ng-init="getTiles()">
 	<div class="tiles-filter">
 		<div class="filter-wrap">
-			<div class="new-tile"><img src="app/img/add.png"><span>New</span></div>
+			<div class="new-tile" ng-click="showNewTile()"><img src="app/img/add.png"><span>New</span></div>
 			<div class="filter-img"><img src="app/img/filter-icon.png"></div>			
 			<div class="tags">
 				<span ng-repeat="tag in tags" class="tag">{{tag}}<i class="fa fa-times" ng-click="removeTag(tag)"></i></span>
@@ -34,7 +34,7 @@
 	<div class="row yabrTile-wrap">
 	   	<!-- START widget-->
 	   	<div class="container-fluid">
-	    	<div deckgrid="" source="tiles" cardtemplate="{{basepath('radar-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
+	    	<div deckgrid="" source="tiles" cardtemplate="{{basepath('tile-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
 	   	</div>
 	   	<!-- END widget-->      
 	</div>

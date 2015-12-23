@@ -40,7 +40,7 @@
         })
         .controller('accountController', accountController);
 
-    function accountController($scope, $rootScope, $http, RouteHelpers, APP_APIS, Flash, ProductService, AuthService) {
+    function accountController($scope, $rootScope, $http, RouteHelpers, APP_APIS, Flash, ProductService, AuthService, ViewerService, LookupService) {
       $scope.basepath = RouteHelpers.basepath;
       $scope.accounts = [];
       $scope.accountTypes = [];
@@ -79,15 +79,16 @@
       
       $scope.getAccounts = function() {
         AuthService.getUser().then(function(user){
-          $rootScope.user = user;
           // Get Roles by viewer.
-          $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/roles')
-            .success(function(data){
-              for(var i in data){
-                $scope.accounts.push(data[i].account);
-              }
-            });
-        })        
+          ViewerService.getAccounts(user.externalId).then(function(data){
+            for(var i in data){
+              $scope.accounts.push(data[i].account);
+            }
+          }, function(error){
+            console.log(error);
+            return;
+          });
+        })
       }
 
       $scope.createAccount = function() {
@@ -95,13 +96,15 @@
       }
 
       // Get Account Type
-      $http.get(APP_APIS['lookup']+'/accounttypes')
-        .success(function(data){
-          $scope.accountTypes = data;
-        });
+      LookupService.getAccountTypes().then(function(types){
+        $scope.accountTypes = types;
+      }, function(error){
+        console.log(error);
+        return;
+      });
 
       // Show/Hide extend wrap.
-      $scope.extendAccount = function(element){
+      $scope.extendAccount = function(element) {
         var accountId = element.externalId;
         var zoomVal = 17;
         var defaultMapPos = {lat: 51.50013, lng: -0.126305};
