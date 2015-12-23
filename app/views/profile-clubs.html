@@ -1,20 +1,5 @@
 <div class="profile-club-wrap">
-	<div class="input-group">
-		<div dropdown="" class="input-group-btn">
-			<button type="button" dropdown-toggle="" class="btn btn-default">Action
-				<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu">
-				<li><a href="">Action</a></li>
-				<li><a href="">Another action</a></li>
-				<li><a href="">Something else here</a></li>
-				<li class="divider"></li>
-				<li><a href="">Separated link</a></li>
-			</ul>
-		</div>
-	</div>
 	<div class="club-search">
-		<div class="keep">Keep</div>
 		<div class="search-img">
 			<img class="" src="app/img/search-blue.png">
 		</div>
@@ -42,10 +27,24 @@
 				<div class="no-image" ng-if="!myclub.image">
 					<img src="app/img/grey-bg.png">
 					<!-- <span>+Sign In</span> -->
-				</div>
+				</div>				
 				<div class="club-info">
 					<h4><a>{{myclub.name}}</a></h4>
 					<span>X Yabrfish Member&nbsp;<i class="fa fa-angle-right"></i></span>
+					<div class="input-group">
+						<div dropdown="" class="input-group-btn">
+							<button type="button" dropdown-toggle="" class="btn btn-default">Action
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="">Action</a></li>
+								<li><a href="">Another action</a></li>
+								<li><a href="">Something else here</a></li>
+								<li class="divider"></li>
+								<li><a href="">Separated link</a></li>
+							</ul>
+						</div>
+					</div>
 				</div>				
 			</div>
 		</div>		

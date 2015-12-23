@@ -10555,7 +10555,6 @@ img.logo{
     font-size: 14px;
   }
   .facebook-twitter button, .facebook-twitter button{
-    width: 45%;
     padding: 5px 16px;
   }
   .facebook-twitter button img, .facebook-twitter button img{
@@ -10672,6 +10671,15 @@ img.logo{
 }
 .signup-content .file-upload span{
   margin-left: 10px;
+}
+@media only screen and (max-width: 767px) {
+  .signup-wrap{
+    width: 100%;
+    display: block;
+  }
+  .signup-content{
+    width: 100%;
+  }
 }
 /* ========================================================================
    title: My Net page
@@ -11112,7 +11120,7 @@ img.logo{
   width: 100%;
 }
 .club-content{
-  height: 220px;
+  height: 260px;
 }
 .club-content.add{
   background: #e4e4e4;
@@ -11219,16 +11227,6 @@ img.logo{
   border: 1px solid #d2d2d2;
   height: 60px;
 }
-.club-search .keep{
-  width: 100px;
-  text-align: center;
-  color: red;
-  height: 100%;
-  line-height: 60px;
-  font-size: 16px;
-  border-right: 1px solid #D2D2D2;
-  float: left;
-}
 .club-search .search-img{
   width: 60px;
   float: left;
@@ -11255,7 +11253,7 @@ img.logo{
   color: #ccc;
 }
 .club-search .search-input{
-  width: calc(100% - 260px);
+  width: calc(100% - 160px);
   float: left;
   border-right: 1px solid #d2d2d2;
   height: 100%;
@@ -11318,22 +11316,15 @@ img.logo{
   .club-search{
     height: 50px;
   }
-  .club-search .keep{
-    width: 60px;
-    line-height: 50px;
-    font-size: 14px;
-  }
   .club-search .search-img{
-    width: 40px;
-    display: none;
+    width: 40px;    
   }
   .club-search .search-img img{
     width: 18px;
     margin-top: 15px;
   }
   .club-search .search-input{
-    width: calc(100% - 120px);
-
+    width: calc(100% - 100px);
   }
   .club-search .search-input input{
     padding: 10px 15px;
