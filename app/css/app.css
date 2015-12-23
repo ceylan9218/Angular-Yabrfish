@@ -11369,8 +11369,9 @@ img.logo{
   border: 4px dashed #0d6c8f;
   border-radius: 0 0 15px 0;
   display: block;
-  width: 350px;
-  margin: 0 auto;
+  margin: 0 15px 30px 0;
+  /*width: 350px;
+  margin: 0 auto;*/
 }
 .create img.add-icon{
   width: 20px;
@@ -11686,6 +11687,33 @@ img.logo{
   width: 100%;
   float: left;
   margin: 10px auto 0;
+}
+.weekdays-wrap{
+  background: #f6f6f6;
+  border-bottom: 1px solid #3ABEEF;
+  height: 35px;
+}
+.weekdays-wrap .weekdays{
+  width: calc(100% - 45px);
+  float: left;
+}
+.weekdays-wrap .weekdays .day{
+  color: #fff;
+  background: #3ABEEF;
+  border-radius: 20px;
+  padding:  0px 10px;
+  margin: 7px 0 0 5px;
+  float: left;
+}
+.weekdays-wrap .more{
+  width: 45px;
+  float: right;
+  line-height: 35px;
+  border-left: 1px solid #3ABEEF;
+  padding-left: 10px;
+}
+.weekdays-wrap .more img{
+  width: 25px;
 }
 .create .newTile-body .event-wrap .save-btn{
   background: transparent;

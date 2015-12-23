@@ -1,3 +1,4 @@
+<div ng-controller="tileController" ng-if="card == 'newTile'" ng-include="'app/views/new-tile.html'"></div>
 <div ng-controller="recommendationController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer' || card.tileType == 'business' || card.tileType == 'job' || card.tileType == 'swap' || card.tileType == 'article'" class="yabrTile-body">
    <div class="ribbon" ng-if="card.segmentations[0].reason != ''"><span>{{card.segmentations[0].reason}}</span></div>
    <div class="img-video-wrap">
@@ -124,15 +125,23 @@
                   <div class="name option">
                      <input type="text" class="form-control input-name" placeholder="Name" ng-model="card.eventName">
                   </div>
-                  <div class="main-event option">
+                  <!-- <div class="main-event option">
                      <input type="text" class="form-control input-main-event" placeholder="Main Event">
-                  </div>
+                  </div> -->
                   <div class="multiple option">
-                     <label>How Many</label>
+                     <label>Repeats</label>
                      <input type="number" class="form-control input-multiple" ng-model="card.eventCount" ng-change="checkEvtCount(card)">
                      <span>Current</span><input type="text" class="event-step form-control" ng-model="eventStep" disabled="" />
                   </div>
-                  <div class="multi-check option checkbox c-checkbox">
+                  <div class="weekdays-wrap option">
+                     <div class="weekdays">
+                        <span ng-repeat="day in weekDays" ng-if="day.Selected" class="day">{{day.value}}</span>                        
+                     </div>
+                     <div class="more" ng-click="showWeekDays = !showWeekDays">
+                        <img src="app/img/dots.png">
+                     </div>
+                  </div>
+                  <div class="multi-check option checkbox c-checkbox" ng-if="showWeekDays">
                      <label ng-repeat="day in weekDays"><input type="checkbox" class="week-day" checkbox-group ng-model="day.Selected">{{day.value}}<span class="fa fa-times"></span></label>
                      <label><input type="checkbox" ng-model="events.selectedAll" ng-click="checkAll()">All<span class="fa fa-times"></span></label>
                   </div>

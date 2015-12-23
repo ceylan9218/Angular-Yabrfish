@@ -13,7 +13,7 @@
         })
         .controller('clubController', clubController);
 
-    function clubController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS) {
+    function clubController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS, AuthService, ViewerService) {      
       if(!$rootScope.user)
         return;
       
@@ -36,10 +36,12 @@
       $scope.addMember = function(aid) {
         $http.post(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/membership/'+aid)
           .success(function(data){
-            $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/membership?type=6')
-              .success(function(data){
-                $scope.myClubs = data;
-              });
+            ViewerService.getClubs($rootScope.user.externalId).then(function(clubs){
+              $scope.myClubs = clubs;
+            }, function(error){
+              console.log(error);
+              return;
+            })
             
             var message = "Successfully Added!";
             Flash.create('success', message);
@@ -59,9 +61,12 @@
       }
 
       // Get My Clubs
-      $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/membership?type=6')
-        .success(function(data){
-          $scope.myClubs = data;
-        });
+      ViewerService.getClubs($rootScope.user.externalId).then(function(clubs){
+        $scope.myClubs = clubs;
+      }, function(error){
+        console.log(error);
+        return;
+      })
+
     }
 })();
