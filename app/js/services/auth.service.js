@@ -50,6 +50,8 @@
                       deferred.resolve(status);
                     })
                 }else{
+                  // $rootScope.user = response;
+                  // $rootScope.logged = true;
                   deferred.resolve(response);
                 }
               }).error(function(status){
