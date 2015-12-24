@@ -1,0 +1,55 @@
+<div class="event-edit" ng-if="editable && enableEvent">
+   <div class="event-type option">
+      <ui-select ng-model="eventtype.selected" theme="select2">
+         <ui-select-match placeholder="Event Type">{{$select.selected.description}}</ui-select-match>
+         <ui-select-choices repeat="eventtype in eventtypes | propsFilter: {description: $select.search}">
+            <div ng-bind-html="eventtype.description | highlight: $select.search"></div>               
+         </ui-select-choices>
+      </ui-select>   
+   </div>
+   <div class="name option">
+      <input type="text" class="form-control input-name" placeholder="Name" ng-model="eventName">
+   </div>
+   <!-- <div class="main-event option">
+      <input type="text" class="form-control input-main-event" placeholder="Main Event">
+   </div> -->
+   <div class="multiple option">
+      <label>Repeats</label>
+      <input type="number" class="form-control input-multiple" ng-model="eventCount" ng-change="checkEvtCount()">
+      <span>Current</span><input type="text" class="event-step form-control" ng-model="eventStep" disabled="" />
+   </div>
+   <div class="weekdays-wrap option">
+      <div class="weekdays">
+         <span ng-repeat="day in weekDays" ng-if="day.Selected" class="day">{{day.value}}</span>                        
+      </div>
+      <div class="more" ng-click="showWeekDays = !showWeekDays">
+         <img src="app/img/dots.png">
+      </div>
+   </div>
+   <div class="multi-check option checkbox c-checkbox" ng-if="showWeekDays">
+      <label ng-repeat="day in weekDays"><input type="checkbox" class="week-day" checkbox-group ng-model="day.Selected">{{day.value}}<span class="fa fa-times"></span></label>
+      <label><input type="checkbox" ng-model="events.selectedAll" ng-click="checkAll()">All<span class="fa fa-times"></span></label>
+   </div>
+   <div class="date-control">
+      <label class="date-label">Starts</label>
+      <p class="input-group">
+         <input type="text" class="form-control" datetime-picker ng-model="startDate" ng-change="setEndDate()" is-open="open.startDate" />
+         <span class="input-group-btn">
+            <button type="button" class="btn btn-default calendar-btn" ng-click="openCalendar($event, 'startDate')"><i class="fa fa-calendar"></i></button>
+         </span>
+      </p>
+      <label class="date-label">Finish</label>
+      <p class="input-group">
+         <input type="text" class="form-control" datetime-picker ng-model="endDate" is-open="open.finishDate"  disabled/>
+         <!-- <span class="input-group-btn">
+            <button type="button" class="btn btn-default calendar-btn" ng-click="openCalendar($event, 'finishDate')"><i class="fa fa-calendar"></i></button>
+         </span> -->
+      </p>
+   </div>
+   <div class="event-buttons">                                    
+      <button class="btn btn-default prev-event" ng-click="popEvent()">Prev</button>
+      <button class="btn btn-default next-event" ng-click="addEvent()">Next</button>
+      <button class="btn btn-default skip-date" ng-click="skipDate()">Skip</button>
+      <button class="save-btn btn" ng-click="save()">Save</button>
+   </div>
+</div>
