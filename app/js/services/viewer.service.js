@@ -53,7 +53,7 @@
 
         		getClubs: function(viewerId){
         			var deferred = $q.defer();
-        			$http.get(APP_APIS['commerce']+'/viewers/'+viewerId+'/membership?type=6')
+        			$http.get(APP_APIS['commerce']+'/viewers/'+viewerId+'/clubs')
 			            .success(function(data){
 			            	deferred.resolve(data);
 			            })
@@ -62,6 +62,45 @@
 			            });
 
 					return deferred.promise;	
+        		},
+
+        		updateRelation: function(viewerId, accountId, relationId){
+        			var deferred = $q.defer();
+        			$http.post(APP_APIS['commerce']+'/viewers/'+viewerId+'/clubs/'+accountId+'/relation/'+relationId)
+			            .success(function(data){
+			            	deferred.resolve(data);
+			            })
+			            .error(function(status){
+			            	deferred.resolve(status);
+			            });
+
+					return deferred.promise;	
+        		},
+
+        		removeMembership: function(viewerId, accountId) {
+        			var deferred = $q.defer();
+        			$http.delete(APP_APIS['commerce']+'/viewers/'+viewerId+'/membership/'+accountId)
+			            .success(function(data){
+			            	deferred.resolve(data);
+			            })
+			            .error(function(status){
+			            	deferred.resolve(status);
+			            });
+
+					return deferred.promise;
+        		},
+
+        		removeRelation: function(viewerId, accountId) {
+        			var deferred = $q.defer();
+        			$http.delete(APP_APIS['commerce']+'/viewers/'+viewerId+'/clubs/'+accountId)
+			            .success(function(data){
+			            	deferred.resolve(data);
+			            })
+			            .error(function(status){
+			            	deferred.resolve(status);
+			            });
+
+					return deferred.promise;
         		}
         	}
         }

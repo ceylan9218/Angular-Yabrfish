@@ -1,17 +1,29 @@
-<div class="profile-club-wrap">
+<div class="profile-club-wrap" ng-init="getMyClubs()">
 	<div class="club-search">
 		<div class="search-img">
 			<img class="" src="app/img/search-blue.png">
 		</div>
 		<div class="search-input">
-			<input type="text" placeholder="Search..." />			
+			<input type="text" placeholder="Search..." ng-model="search_club" />			
 		</div>
 		<div class="more">
 			<img src="app/img/dots.png">
 			<i class="fa ng-scope fa-angle-down"></i>
 		</div>
 	</div>
-	<div class="clubs">
+	<ul class="club-list" ng-if="clubs.length != 0">
+		<li ng-repeat="club in clubs" ng-click="selectClub(club)">{{club.name}}</li>
+	</ul>
+	<!-- START row-->
+	<div class="row yabrTile-wrap clubs" ng-init="getClubs()">
+	   	<!-- START widget-->
+	   	<div class="container-fluid">
+	    	<div deckgrid source="myClubs" cardtemplate="{{basepath('club-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
+	   	</div>
+	   	<!-- END widget-->
+	</div>
+
+	<!-- <div class="clubs">
 		<div class="club-content add">
 			<div class="add-club">				
 				<a ng-click="addMember(aid)"><img class="add-icon" src="app/img/add-green.png">Member</a>
@@ -23,10 +35,8 @@
 		</div>
 		<div class="club-content" ng-repeat="myclub in myClubs">
 			<div class="club-detail">
-				<!-- <img src="app/img/clubs/club1.png"> -->
 				<div class="no-image" ng-if="!myclub.image">
 					<img src="app/img/grey-bg.png">
-					<!-- <span>+Sign In</span> -->
 				</div>				
 				<div class="club-info">
 					<h4><a>{{myclub.name}}</a></h4>
@@ -46,7 +56,7 @@
 				</div>				
 			</div>
 		</div>		
-	</div>
+	</div> -->
 </div>
 <!-- Alert message-->
 <div flash-message="2000" class="alert-message"></div>

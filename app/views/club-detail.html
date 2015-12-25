@@ -1,0 +1,74 @@
+<div class="club-content yabrTile-body">
+	<div class="img-video-wrap">
+		<div class="tileImg">
+			<img ng-if="card.account.accountLogoUrl" src="{{card.account.accountLogoUrl}}" alt="tile" class="" />
+			<img ng-if="!card.account.accountLogoUrl" src="app/img/grey-bg.png" alt="tile" class="" />
+		</div>      
+	</div>   
+	<div class="tile-infos">
+		<h4 class="title">{{card.account.name}}<i class="fa fa-angle-right fg-lg"></i></h4>
+		<div class="icons">
+			<a class="check-btn"><img src="app/img/check.png"></a>
+			<a class="net-btn"><img src="app/img/fish-net.png"></a>
+			<a class="share-btn"><img src="app/img/share-alt.png"></a>
+			<a class="comment-btn"><img src="app/img/comment.png"></a>
+			<a class="more pull-right" ng-click="extendWrap = !extendWrap">
+				<img ng-if="extendWrap" src="app/img/less.png">
+				<img ng-if="!extendWrap" src="app/img/more.png">
+			</a>
+			<member-action account-id="card.account.externalId" action-type="card.relationshipType"></member-action>
+		</div>
+		<accordion class="extend-wrap" ng-if="extendWrap" close-others="false">         
+			<accordion-group is-open="card.showContacts">
+				<accordion-heading class="enter-header">
+					<img src="app/img/event.png">Contacts<i class="pull-right fa" ng-class="{'fa-angle-up': card.showContacts, 'fa-angle-down': !card.showContacts}"></i>
+				</accordion-heading>
+				<div>
+					Contacts
+				</div>
+			</accordion-group>
+			<accordion-group is-open="card.showLocations">
+				<accordion-heading class="participant-header">
+					<img src="app/img/location.png">Locations<i class="pull-right fa" ng-class="{'fa-angle-up': card.showLocations, 'fa-angle-down': !card.showLocations}"></i>
+				</accordion-heading>
+				<div class="location-content">
+					<!-- <map zoom="8" center="{{card.location[0].lat}}, {{card.location[0].lon}}" on-center-changed="centerChanged()"> <marker position="{{card.location[0].lat}}, {{card.location[0].lon}}" on-click="click()" title="Click to zoom"></marker> </map> -->
+					<p class="full-address" ng-if="card.hasLocations">{{card.locations[0].fullAddress}}</p>
+					<input id="{{'pacInput_'+card.externalId}}" class="controls pac-input" type="text" placeholder="Search Box">
+					<div id="{{'map_'+card.externalId}}" class="map-content" map></div>
+					<div>
+						<input type="text" class="short-address form-control" ng-model="card.location_name" placeholder="{{card.locations[0].name}}" />
+						<button ng-if="!card.hasLocations" class="add-location btn" ng-click="addLocation(card)">Add</button>
+						<button ng-if="card.hasLocations" class="add-location btn" ng-click="updateLocation(card)">Update</button>                  
+					</div>
+				</div>
+			</accordion-group>
+			<accordion-group is-open="card.showServices">
+				<accordion-heading class="crew-header">
+					<img src="app/img/enter.png">Services<i class="pull-right fa" ng-class="{'fa-angle-up': card.showServices, 'fa-angle-down': !card.showServices}"></i>
+				</accordion-heading>
+				<div>
+					Services
+				</div>
+			</accordion-group>
+			<accordion-group is-open="card.showFollowTags">
+				<accordion-heading class="actionReplay-header">
+					<img src="app/img/participants.png">Follow Tags<i class="pull-right fa" ng-class="{'fa-angle-up': card.showFollowTags, 'fa-angle-down': !card.showFollowTags}"></i>
+				</accordion-heading>
+				<div>
+					Follow Tags
+				</div>
+			</accordion-group>
+			<accordion-group is-open="card.showOrganizations">
+				<accordion-heading class="actionReplay-header">
+					<img src="app/img/crew.png">Organizations<i class="pull-right fa" ng-class="{'fa-angle-up': card.showOrganizations, 'fa-angle-down': !card.showOrganizations}"></i>
+				</accordion-heading>
+				<div>
+					<ul>
+						<li ng-repeat="organization in card.organizations">{{organization.name}}</li>
+					</ul>
+				</div>
+			</accordion-group>
+		</accordion>      
+	</div>
+</div>	

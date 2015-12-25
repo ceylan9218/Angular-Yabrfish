@@ -1,0 +1,8 @@
+<div dropdown="" class="relationship input-group-btn">
+	<button type="button" dropdown-toggle="" class="btn btn-default">{{actionType.shortCode}}
+		<span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu">
+		<li ng-repeat="type in relationshipTypes"><a ng-click="updateRelation(type.id)">{{type.shortCode}}</a></li>
+	</ul>
+</div>
