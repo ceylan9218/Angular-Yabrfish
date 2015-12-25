@@ -889,7 +889,8 @@
                 url: '/profile/clubs',
                 title: 'Profile Clubs',
                 controller: 'clubController',
-                templateUrl: helper.basepath('profile-clubs.html')
+                templateUrl: helper.basepath('profile-clubs.html'),
+                resolve: helper.resolveFor('akoenig.deckgrid')
             })
             .state('app.profile-accounts', {
                 url: '/profile/accounts',

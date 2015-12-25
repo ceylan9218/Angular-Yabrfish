@@ -11116,107 +11116,7 @@ img.logo{
  ========================================================================== */
 .clubs{
   display: inline-block;
-  margin-top: 20px;
-  width: 100%;
-}
-.club-content{
-  height: 260px;
-}
-.club-content.add{
-  background: #e4e4e4;
-  border: 4px dashed #0d6c8f;
-  border-radius: 0 0 15px 0;
-  display: table;
-}
-.add-club{
-}
-.add-club img.add-icon{
-  width: 20px;
-  margin-right: 10px;
-}
-.add-club a{
-  font-weight: normal;
-  color: #11748C;
-  font-size: 16px;
-  text-align: center;
-  margin: 20px 0 10px;
-  width: 100%;
-  display: inline-block;
-  cursor: pointer;
-  text-decoration: none;
-}
-.add-club input.search{
-  background: url(../img/search.png) no-repeat right 15px center;
-  background-size: 20px;
-}
-.add-club input.form-control{
-  background-color: #ebebeb;
-  width: 90%;
-  border-radius: 0;
-  border-bottom: 1px solid #0d6c8f;
-  margin: 0 auto;
-  padding: 10px 15px;
-  height: 45px;
-  font-size: 16px;
-  color: #838383;
-}
-.add-club input::-webkit-input-placeholder {
-   color: #838383;
-}
-.add-club input:-moz-placeholder { /* Firefox 18- */
-   color: #838383;  
-}
-.add-club input::-moz-placeholder {  /* Firefox 19+ */
-   color: #838383;  
-}
-.add-club input:-ms-input-placeholder {  
-   color: #838383;  
-}
-.add-club .club-list{
-  list-style: none;
-  width: 90%;
-  margin: 0 auto;
-  padding: 0;
-}
-.add-club .club-list li{
-  background: #EBEBEB;
-  border-bottom: 1px solid #0D6C8F;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-.club-content .club-detail {
-  background: none repeat scroll 0% 0% #FFF;
-  border: 1px solid #CBCBCB;
-  border-radius: 0px 0px 15px;
-  height: 100%;
-}
-.club-content .club-detail img {
-  width: 100%;
-  height: 150px;
-}
-.club-content .club-detail .club-info {
-  padding: 10px;
-  font-size: 16px;
-}
-.club-info h4{
-  margin: 0; 
-  font-weight: normal; 
-}
-.club-info h4 a{
-  color: #333;
-  text-decoration: none;
-}
-.club-info span{
-  color: #a3a2a2;
-}
-.club-info span i{
-  color: #55b9dc;
-}
-.modal-header.addClub img{
-  width: 30px;
-}
-.modal-header.addClub h4{
-  font-size: 20px;
+  margin-top: 10px;
 }
 .club-search{
   display: inline-block;
@@ -11265,54 +11165,22 @@ img.logo{
   height: 100%;
   font-size: 16px;
 }
-@media only screen and (min-width: 1200px) {
-  .club-content{
-    width: 24%;
-    float: left;
-    margin-right: 1.33%;
-    margin-bottom: 20px;
-  }
-  .club-content:nth-child(4n+1){
-    float: left;
-  }
-  .club-content:nth-child(4n){
-    float: right;
-    margin-right: 0;
-  }
+.relationship{
+  width: auto;
+  float: right;
+  margin-right: 10px;
+  margin-top: 2px;
 }
-@media only screen and (max-width: 1199px) {
-  .btn.create-net-button img{
-    width: 50px;
-  }
-  .club-content{
-    width: 32%;
-    float: left;
-    margin-right: 2%;
-    margin-bottom: 20px;
-  }
-  .club-content:nth-child(3n+1){
-    float: left;
-  }
-  .club-content:nth-child(3n){
-    float: right;
-    margin-right: 0;
-  }
+.relationship.input-group-btn .btn{
+  padding: 0 10px;
+  color: #3ABEEF;
+  border-color: #3ABEEF;
+  border-radius: 10px;
+}
+.relationship .btn span.caret{
+  margin: 0;
 }
 @media only screen and (max-width: 767px) {
-  .btn.create-net-button img{
-    width: 40px;
-  }
-  .club-content{
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  .club-content:nth-child(2n+1){
-    float: left;
-  }
-  .club-content:nth-child(2n){
-    float: right;
-    margin-right: 0;
-  }
   .club-search{
     height: 50px;
   }
@@ -11340,16 +11208,7 @@ img.logo{
     margin-left: 2px;
   }
 }
-@media only screen and (max-width: 479px) {
-  .btn.create-net-button img{
-    width: 30px;
-  }
-  .club-content{
-    width: 100%;
-    float: left;
-    margin-bottom: 20px;
-  }  
-}
+
 /* ========================================================================
    title: My Tiles Page Style
    author: Ryan

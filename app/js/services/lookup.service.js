@@ -62,6 +62,24 @@
                         });
 
                     return deferred.promise;    
+                },
+
+                getRelationshipTypes: function() {
+                    var deferred = $q.defer();
+                    $http.get(APP_APIS['lookup']+'/relationshiptypes')
+                        .success(function(data){
+                            data.unshift({
+                                id: 0,
+                                shortCode: "Remove",
+                                fullName: "Remove"
+                            })
+                            deferred.resolve(data);
+                        })
+                        .error(function(status){
+                            deferred.resolve(status);
+                        });
+
+                    return deferred.promise;
                 }
         	}
 		}
