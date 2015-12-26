@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-        .module('app.recommendations', ["ngSanitize", "com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'ngMap', 'flash', 'ngAnimate', 'infinite-scroll'])
+        .module('app.recommendations1', ["ngSanitize", "com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'ngMap', 'flash', 'ngAnimate', 'infinite-scroll'])
         .directive('sycovideo', function(){
             return {
               restrict: 'E',
@@ -46,7 +46,7 @@
         })
         .controller('recommendationController', recommendationController);
 
-    function recommendationController($rootScope, $scope, $http, $sce, $location, RouteHelpers, $timeout, $q, Flash, APP_APIS, TileService, LookupService) {
+    function recommendationControllerOld($rootScope, $scope, $http, $sce, $location, RouteHelpers, $timeout, $q, Flash, APP_APIS, TileService, LookupService) {
         $scope.basepath = RouteHelpers.basepath;
         $scope.tiles = [];
         $scope.totalTiles = [];
@@ -88,6 +88,7 @@
         }
 
         var recommendations = $scope.getRecommendations();
+
         recommendations.then(function(resolve){
             $scope.totalTiles = resolve.tiles;
             for (var i in $scope.totalTiles) {

@@ -65,6 +65,7 @@
         .controller('clubController', clubController);
 
     function clubController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, ViewerService) {      
+
       if(!$rootScope.user)
         return;
       
