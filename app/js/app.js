@@ -47,7 +47,10 @@
             'app.viewer',
             'app.lookup',
             'app.event-list',
-            'app.event-edit'
+            'app.event-edit',
+            'app.location',
+            'app.locations',
+            'app.account'
         ])
         .constant('APP_APIS', {
           'base':                 'http://data.yabrfish.com/yfapi',
