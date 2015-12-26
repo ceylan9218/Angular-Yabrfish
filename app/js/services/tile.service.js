@@ -10,8 +10,39 @@
         .module('app.tile', [])        
         .service('TileService', TileService);
 
-        function TileService(){
-        	return {
+        function TileService($http, $q, APP_APIS){
+
+			var cacheTile = [];
+			var currPage = 0;
+
+			return {
+
+				//--------------------------------------------------------------------------------------------
+				// Get Recommendations for Radar Screen in the Future we wil use tghe Viewer ID to Personalise
+				// The response to a specific user.
+				// Use Paging Params
+				//
+				// "pageNumber": 0,
+				// "pageSize": 0,
+				//--------------------------------------------------------------------------------------------
+
+				getRadar: function(viewerId){
+					var deferred = $q.defer();
+					$http.get(APP_APIS['reco']+'/recommendations?PageNumber='+currPage+'pageSize=6')
+						.success(function(data){
+							deferred.resolve(data);
+						})
+						.error(function(status){
+							deferred.resolve(status);
+						});
+
+					return deferred.promise;
+				},
+
+				//--------------------------------------------------------------------------------------------
+				//Time Difference form Now to Creation Date
+				//--------------------------------------------------------------------------------------------
+
         		getTimeDiff: function(date){
 		            var curDate = new Date();
 		            var tilePublishedDate = new Date(date);
