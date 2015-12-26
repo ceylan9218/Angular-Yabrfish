@@ -1,4 +1,4 @@
-<div class="profile-club-wrap" ng-init="getMyClubs()">
+<div class="profile-club-wrap" ng-init="getClubs()">
 	<div class="club-search">
 		<div class="search-img">
 			<img class="" src="app/img/search-blue.png">
@@ -15,48 +15,13 @@
 		<li ng-repeat="club in clubs" ng-click="selectClub(club)">{{club.name}}</li>
 	</ul>
 	<!-- START row-->
-	<div class="row yabrTile-wrap clubs" ng-init="getClubs()">
+	<div class="row yabrTile-wrap clubs">
 	   	<!-- START widget-->
 	   	<div class="container-fluid">
 	    	<div deckgrid source="myClubs" cardtemplate="{{basepath('club-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
 	   	</div>
 	   	<!-- END widget-->
 	</div>
-
-	<!-- <div class="clubs">
-		<div class="club-content add">
-			<div class="add-club">				
-				<a ng-click="addMember(aid)"><img class="add-icon" src="app/img/add-green.png">Member</a>
-				<input class="search form-control" ng-model="search_club" placeholder="Search for club...">
-				<ul class="club-list" ng-if="clubs.length != 0">
-					<li ng-repeat="club in clubs" ng-click="selectClub(club.externalId, club.name)">{{club.name}}</li>
-				</ul>
-			</div>
-		</div>
-		<div class="club-content" ng-repeat="myclub in myClubs">
-			<div class="club-detail">
-				<div class="no-image" ng-if="!myclub.image">
-					<img src="app/img/grey-bg.png">
-				</div>				
-				<div class="club-info">
-					<h4><a>{{myclub.name}}</a></h4>
-					<span>X Yabrfish Member&nbsp;<i class="fa fa-angle-right"></i></span>
-					<div class="input-group">
-						<div dropdown="" class="input-group-btn">
-							<button type="button" dropdown-toggle="" class="btn btn-default">Keep
-								<span class="caret"></span>
-							</button>
-							<ul class="dropdown-menu">
-								<li><a href="">Member</a></li>
-								<li><a href="">Visit</a></li>
-								<li><a href="">Join</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>				
-			</div>
-		</div>		
-	</div> -->
 </div>
 <!-- Alert message-->
 <div flash-message="2000" class="alert-message"></div>

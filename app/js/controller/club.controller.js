@@ -7,10 +7,7 @@
     'use strict';
 
     angular
-        .module('app.profile-clubs', ['ngAnimate', 'ui.bootstrap','flash', 'xeditable'])
-        .run(function(editableOptions) {
-          editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
-        })
+        .module('app.profile-clubs', ['ngAnimate', 'ui.bootstrap','flash'])
         .directive('memberAction', function($rootScope, LookupService, ViewerService){
           return {
             restrict: 'E',
@@ -104,8 +101,8 @@
         });
       }
 
-      $scope.getMyClubs = function() {
-        // Get My Clubs
+      // Get my Clubs initially.
+      $scope.getClubs = function() {
         ViewerService.getClubs($rootScope.user.externalId).then(function(clubs){
           $scope.myClubs = clubs;      
         }, function(error){
