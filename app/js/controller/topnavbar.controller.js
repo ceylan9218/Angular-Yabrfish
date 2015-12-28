@@ -11,17 +11,7 @@
         .module('app.topnavbar', [])        
         .controller('topnavbarController', topnavbarController);
 
-    function topnavbarController($scope, $cookieStore, AuthService) {
-      $scope.toggleItem = function() {
-        if($('.dropdown').hasClass('open'))
-          $('.dropdown').removeClass('open');
-        else
-          $('.dropdown').addClass('open');
-      }
-      $scope.hideMenu = function() {
-        angular.element('.open').removeClass('open');
-      }
-      
+    function topnavbarController($scope, $cookieStore, AuthService) {      
       // Initial checking if user logged in.
       AuthService.getUser();
 
