@@ -14,16 +14,19 @@
 
 			var cacheTile = [];
 			var cacheSize = 0;
-			var currPage = 1;
-			var pageSize = 20;
-
-			var cacheRadar = $cacheFactory('radarCache');
+			var currPage = 0;
+			var pageItems = 2;
+			//------------------------------------------------
+			// Initialize Page Parameters of REST Call
+			//------------------------------------------------
+			var totalElements = -1;
+			var totalPages = -1;
 
 			//--------------------------------------------------------------------------------------------
 			// Process Response and cache tiles from Recommendations Service
 			//--------------------------------------------------------------------------------------------
 
-			var cacheReco = function(response) {
+			var cacheReco = function(pageNumber, pageSize, response) {
 
 				var reco = [];
 
@@ -40,9 +43,12 @@
 					// Get Time Difference
 					reco[i].publishedDate = getTimeDiff(reco[i].publishedDate);
 
-				}
+					//-------------------------------------------------------------//
+					// Add Tiles to Cache
+					//------------------------------------------------------------//
+					cacheTile[cacheSize++] = reco[i];
 
-				cacheSize += reco.length;
+				}
 
 				return reco;
 
@@ -115,32 +121,43 @@
 
 				//--------------------------------------------------------------------------------------------
 				// Get Recommendations for Radar Screen in the Future we wil use the Viewer ID to Personalise
-				// The response to a specific user.
-				// Use Paging Params
 				//
-				// "pageNumber": 0,
-				// "pageSize": 0,
+				// "page": 0,
+				// "size": 2,
 				//--------------------------------------------------------------------------------------------
+
+				cacheSize : function() {
+					return cacheSize;
+				},
+
+				totalElements : function() {
+					return totalElements;
+				},
 
 				getRadar: function(viewerId){
 
 					var deferred = $q.defer();
 
-					//if (Cache[id]) {
+					if ( cacheSize == totalElements ) {
 						// Resolve the deferred $q object before returning the promise
-					//	deferred.resolve(Cache[id]);
-					//	return deferred.promise;
-					//}
+						deferred.resolve(cacheTile);
+						return deferred.promise;
+					}
 
-					var promise = $http.get(APP_APIS['reco']+'/recommendations?PageNumber='+currPage+'&pageSize='+pageSize)
+					var promise = $http.get(APP_APIS['reco']+'/recommendations?page='+currPage+'&size='+pageItems)
 						.then(function(response){
 
-							var reco = cacheReco(response);
-							if ( currPage == 1 ) {
-								// --------------------------------
-								// Set Cache Details
-								// ---------------------------------
+							if ( currPage == 0 ) {
+								//---------------------------------------------//
+								//Check Total Number of Pages in the Response //
+								//---------------------------------------------//
+								totalElements = response.data.totalElements;
+								totalPages = response.data.totalPages;
 							}
+
+							var reco = cacheReco(currPage,pageItems,response);
+							currPage++;
+
 							deferred.resolve(reco);
 						});
 

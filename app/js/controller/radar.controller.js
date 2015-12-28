@@ -78,36 +78,45 @@
         //----------------------------------------
         // Get Radar Tiles from Recommendation
         //----------------------------------------
-        $scope.getRadar = function() {
-            TileService.getRadar($rootScope.user.externalId).then(function(radar){
-                $scope.tiles = radar;
-            }, function(error){
-                console.log(error);
-                return;
-            })
-        }
+        //$scope.getRadar = function() {
+        //    $scope.loading = true;
+        //    TileService.getRadar($rootScope.user.externalId).then(function(radar){
+        //        $scope.tiles = radar;
+        //    }, function(error){
+        //        console.log(error);
+        //        return;
+        //    })
+        //}
 
         //-----------------------------------------------------------
         // Need to utilise the Paging from the Recommendation API
         //-----------------------------------------------------------
 
-        $scope.radarPage = function() {
+        $scope.getRadar = function() {
 
-            var currentCount = $scope.tiles.length;
-            //currentCount = TileService.cacheSize;
+            //---------------------------------------------------------//
+            // Load Next Page of Tiles
+            //--------------------------------------------------------//
+            var currentCount = TileService.cacheSize();
+            var totalElements = TileService.totalElements();
+            var pageItems = $scope.tiles.length();
 
-            if(currentCount > 0)
+            console.log("count " + currentCount + " total " + totalElements);
+
+            if (currentCount > 0)
                 $scope.loading = true;
 
-            if( currentCount > 0 && currentCount < $scope.totalTiles.length ){
-                $timeout(function(){
+            if (currentCount >= totalElements && totalElements != -1) {
+                $scope.loading = false;
+            } else {
+                TileService.getRadar($rootScope.user.externalId).then(function (radar) {
+                    $scope.tiles = $scope.tiles.concat(radar);
+                    console.log("after Then count " + currentCount + " total " + totalElements);
                     $scope.loading = false;
-                    for(var i = 0; i < tileCountPerPage; i++){
-                        if($scope.totalTiles[currentCount + i])
-                        $scope.tiles[currentCount + i] = $scope.totalTiles[currentCount + i];
-                }
-                }, 2000);
-            }else{
+                }, function (error) {
+                    console.log(error);
+                    return;
+                })
                 $scope.loading = false;
             }
         }
