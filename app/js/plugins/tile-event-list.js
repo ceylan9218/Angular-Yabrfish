@@ -17,6 +17,7 @@
                 templateUrl: "app/views/partials/event-list.html",
                 link: function(scope, elem, attrs) {
                     var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
                     scope.events = [];
                     scope.classes = [];
 
@@ -27,9 +28,14 @@
                     else
                       scope.enableEvent = false;
 
+                    //--------------------------------------------------------------------------
+                    // Get List of Events from Tile Service,
+                    // Use lazy loading to only visible Events in Panel;
+                    //--------------------------------------------------------------------------
                     $http.get(APP_APIS['tile']+'/tiles/'+ scope.tile.externalId +'/events')
                     .success(function(data) {
                         var events = data.eventList;
+
                         for(var i in events) {
                             var startDate = new Date(events[i].startDate);
                             var month = monthNames[startDate.getMonth()];

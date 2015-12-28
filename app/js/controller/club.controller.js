@@ -74,7 +74,10 @@
       $scope.myClubs = [];
       $scope.search_club = '';
 
+      //------------------------------------------------
+      // Use Account Search
       // Search Clubs
+      //------------------------------------------------
       $scope.$watch('search_club', function(newVal){
         if(newVal != ''){
           $http.get(APP_APIS['commerce']+'/accounts?name='+newVal+'&type=6')

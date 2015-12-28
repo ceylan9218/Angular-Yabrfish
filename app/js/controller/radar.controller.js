@@ -59,8 +59,10 @@
         };
         $scope.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         $rootScope.youtubePlay = false;
-        var tileCountPerPage = 6;        
 
+        var tileCountPerPage = 6;
+
+        var radarPromise =
         $scope.loadBanner = function(){
           // Get Banner Image.
           $http.get('http://ab167293.adbutler-boson.com/adserve/;ID=167293;size=1838x227;setID=196632;type=json')
@@ -78,7 +80,7 @@
         //----------------------------------------
         $scope.getRadar = function() {
             TileService.getRadar($rootScope.user.externalId).then(function(radar){
-                $scope.tiles = radar.recommendations;
+                $scope.tiles = radar;
             }, function(error){
                 console.log(error);
                 return;
@@ -89,25 +91,26 @@
         // Need to utilise the Paging from the Recommendation API
         //-----------------------------------------------------------
 
-        $scope.loadMore = function() {
-          var currentCount = $scope.tiles.length;
-          
-          if(currentCount > 0)
-            $scope.loading = true;
+        $scope.radarPage = function() {
 
-          if( currentCount > 0 && currentCount < $scope.totalTiles.length ){
-            $timeout(function(){
-              $scope.loading = false;
-              for(var i = 0; i < tileCountPerPage; i++){
-                if($scope.totalTiles[currentCount + i])
-                  $scope.tiles[currentCount + i] = $scope.totalTiles[currentCount + i];                
-              }
-            }, 2000);
-          }else{
-            $scope.loading = false;
-          }
+            var currentCount = $scope.tiles.length;
+            //currentCount = TileService.cacheSize;
+
+            if(currentCount > 0)
+                $scope.loading = true;
+
+            if( currentCount > 0 && currentCount < $scope.totalTiles.length ){
+                $timeout(function(){
+                    $scope.loading = false;
+                    for(var i = 0; i < tileCountPerPage; i++){
+                        if($scope.totalTiles[currentCount + i])
+                        $scope.tiles[currentCount + i] = $scope.totalTiles[currentCount + i];
+                }
+                }, 2000);
+            }else{
+                $scope.loading = false;
+            }
         }
-
-
     }
+
 })();

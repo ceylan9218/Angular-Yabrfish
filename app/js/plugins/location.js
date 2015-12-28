@@ -103,7 +103,10 @@
 							});
 							map.fitBounds(bounds);
 
+							//-----------------------------------------------------------------
 							// Get Country, County, Postal/Zipcode, Lat, Lon using address
+							// Use Location Service
+							//-----------------------------------------------------------------
 							console.log(scope.places[0].formatted_address);              
 							$http.get('https://maps.googleapis.com/maps/api/geocode/json?address='+scope.places[0].formatted_address)
 								.success(function(data){
