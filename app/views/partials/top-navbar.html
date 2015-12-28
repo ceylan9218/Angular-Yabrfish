@@ -47,17 +47,17 @@
             </a>
          </li> -->
          <!-- User -->
-         <li class="user dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="toggleItem()">
+         <li class="user dropdown" dropdown="">
+            <a class="dropdown-toggle" dropdown-toggle="">
                <img ng-if="!$root.logged || $root.user.avatarUrl==null" src="app/img/user/default.png" class="img-circle" />
                <img ng-if="$root.logged && $root.user.avatarUrl" src="{{$root.user.avatarUrl}}" class="img-circle" />
             </a>
-            <ul class="dropdown-menu" role="menu">
+            <ul class="dropdown-menu">
                <li><a ng-href="{{'#/app/profile'}}" ng-click="hideMenu()">Profile</a></li>
                <li><a href="app/views/messages.html" ng-click="hideMenu()">Messages</a></li>
                <li><a ng-href="{{'#/app/login'}}" ng-if="!$root.logged" ng-click="hideMenu()">Login</a></li>
                <li><a ng-if="$root.logged" ng-click="logout()">Logout</a></li>
-            </ul>
+            </ul>            
          </li>
       </ul>
       <!-- END Right Navbar-->
