@@ -49,6 +49,8 @@
     function recommendationController($rootScope, $scope, $http, $sce, $location, RouteHelpers, $timeout, $q,
                                             Flash, APP_APIS, TileService, LookupService) {
 
+        $scope.inMotion = false;
+        $scope.InMotionPage = 0;
         $scope.basepath = RouteHelpers.basepath;
         $scope.tiles = [];
         $scope.totalTiles = [];
@@ -60,9 +62,7 @@
         $scope.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         $rootScope.youtubePlay = false;
 
-        var tileCountPerPage = 6;
 
-        var radarPromise =
         $scope.loadBanner = function(){
           // Get Banner Image.
           $http.get('http://ab167293.adbutler-boson.com/adserve/;ID=167293;size=1838x227;setID=196632;type=json')
@@ -75,18 +75,6 @@
             })          
         }
 
-        //----------------------------------------
-        // Get Radar Tiles from Recommendation
-        //----------------------------------------
-        //$scope.getRadar = function() {
-        //    $scope.loading = true;
-        //    TileService.getRadar($rootScope.user.externalId).then(function(radar){
-        //        $scope.tiles = radar;
-        //    }, function(error){
-        //        console.log(error);
-        //        return;
-        //    })
-        //}
 
         //-----------------------------------------------------------
         // Need to utilise the Paging from the Recommendation API
@@ -95,29 +83,31 @@
         $scope.getRadar = function() {
 
             //---------------------------------------------------------//
-            // Load Next Page of Tiles
+            // Load Single Page of Tiles
             //--------------------------------------------------------//
-            var currentCount = TileService.cacheSize();
-            var totalElements = TileService.totalElements();
-            var pageItems = $scope.tiles.length();
 
-            console.log("count " + currentCount + " total " + totalElements);
+            var currPage = TileService.currPage();
+            var totalPages = TileService.totalPages();
 
-            if (currentCount > 0)
-                $scope.loading = true;
 
-            if (currentCount >= totalElements && totalElements != -1) {
+            if ( $scope.inMotion ) {
+                return;
+            }
+
+            $scope.inMotion = true;
+            $scope.loading = true;
+
+            if (totalPages != 0 && currPage >= totalPages ) {
                 $scope.loading = false;
+                $scope.inMotion = true;
             } else {
                 TileService.getRadar($rootScope.user.externalId).then(function (radar) {
                     $scope.tiles = $scope.tiles.concat(radar);
-                    console.log("after Then count " + currentCount + " total " + totalElements);
                     $scope.loading = false;
+                    $scope.inMotion = false;
                 }, function (error) {
-                    console.log(error);
                     return;
                 })
-                $scope.loading = false;
             }
         }
     }

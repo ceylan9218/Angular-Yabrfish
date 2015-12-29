@@ -15,12 +15,12 @@
 			var cacheTile = [];
 			var cacheSize = 0;
 			var currPage = 0;
-			var pageItems = 2;
+			var pageItems = 6;
 			//------------------------------------------------
 			// Initialize Page Parameters of REST Call
 			//------------------------------------------------
-			var totalElements = -1;
-			var totalPages = -1;
+			var totalElements = 0;
+			var totalPages = 0;
 
 			//--------------------------------------------------------------------------------------------
 			// Process Response and cache tiles from Recommendations Service
@@ -44,7 +44,8 @@
 					reco[i].publishedDate = getTimeDiff(reco[i].publishedDate);
 
 					//-------------------------------------------------------------//
-					// Add Tiles to Cache
+					// Add Tiles to Cache Not being used in this Current Version
+					//  Controller is building Cache as well
 					//------------------------------------------------------------//
 					cacheTile[cacheSize++] = reco[i];
 
@@ -119,28 +120,23 @@
 
 		return {
 
-				//--------------------------------------------------------------------------------------------
-				// Get Recommendations for Radar Screen in the Future we wil use the Viewer ID to Personalise
-				//
-				// "page": 0,
-				// "size": 2,
-				//--------------------------------------------------------------------------------------------
+				cacheSize : cacheSize,
 
-				cacheSize : function() {
-					return cacheSize;
-				},
+				totalElements : totalElements,
 
-				totalElements : function() {
-					return totalElements;
-				},
+				currPage: function () { return currPage },
+
+				totalPages: function () { return totalPages },
 
 				getRadar: function(viewerId){
 
+					console.log("SERVICE Page " + currPage + " count " + cacheSize + " total " + totalElements);
+
 					var deferred = $q.defer();
 
-					if ( cacheSize == totalElements ) {
+					if ( currPage !=0 && currPage  >= totalPages ) {
 						// Resolve the deferred $q object before returning the promise
-						deferred.resolve(cacheTile);
+						deferred.resolve([]);
 						return deferred.promise;
 					}
 
@@ -157,6 +153,8 @@
 
 							var reco = cacheReco(currPage,pageItems,response);
 							currPage++;
+
+							console.log("SERVICE THEN count " + cacheSize + " total " + totalElements);
 
 							deferred.resolve(reco);
 						});

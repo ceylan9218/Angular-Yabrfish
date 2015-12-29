@@ -57,7 +57,8 @@
         };
         $scope.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         $rootScope.youtubePlay = false;
-        var tileCountPerPage = 6;        
+
+        var tileCountPerPage = 6;
 
         $scope.loadBanner = function(){
           // Get Banner Image.
