@@ -14,6 +14,8 @@
 
             var tileCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
 			var eventCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, events:[]};
+            var netTilesCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
+
 			var currTile = [];
 
 			//--------------------------------------------------------------------------------------------
@@ -45,6 +47,32 @@
 				return reco;
 
 			};
+
+            var cacheNetTiles = function(response) {
+
+                var tiles = [];
+
+                tiles = response.data.tileList;
+
+                for (var i in tiles) {
+
+                    //Get and change lowercase Tile Type.
+                    tiles[i].tileType = tiles[i].tileType.toLowerCase();
+
+                    // Get Time Difference
+                    tiles[i].publishedDate = getTimeDiff(tiles[i].publishedDate);
+
+                    //-------------------------------------------------------------//
+                    // Add Tiles to Cache Not being used in this Current Version
+                    //  Controller is building Cache as well
+                    //------------------------------------------------------------//
+                    netTilesCache.tiles[netTilesCache.cacheSize++] = tiles[i];
+
+                }
+
+                return tiles;
+
+            };
 
 			var cacheEvents = function(externalId, response) {
 
@@ -132,6 +160,8 @@
 
 				cacheSize : function () { return tileCache.cacheSize },
 
+                cacheNetTileSize: function() { return netTilesCache.cacheSize },
+
 				totalElements: tileCache.totalItems,
 
 				currPage: function () { return tileCache.page },
@@ -139,6 +169,8 @@
 				totalPages: function () { return tileCache.totalPages },
 
 				cacheTiles: function () { return tileCache.tiles},
+
+                cacheNetTiles: function () { return netTilesCache.tiles},
 
                 currTile: function(externalId) {
 
@@ -191,6 +223,41 @@
                         return deferred.promise;
                 },
 
+                getNetTiles: function(externalId){
+
+                    console.log("SERVICE Page " + netTilesCache.page + " count " + netTilesCache.totalPages + " total " + netTilesCache.cacheSize);
+
+                    var deferred = $q.defer();
+
+                    if ( netTilesCache.page !=0 && netTilesCache.page  >= netTilesCache.totalPages ) {
+                        // Resolve the deferred $q object before returning the promise
+                        deferred.resolve([]);
+                        return deferred.promise;
+                    }
+
+                    var promise = $http.get(APP_APIS['viewer']+'/nets/'+ externalId +'/tiles?page='+netTilesCache.page+'&size='+netTilesCache.pageSize)
+                        .then(function(response){
+
+                            if ( tileCache.page == 0 ) {
+                                //---------------------------------------------//
+                                //Check Total Number of Pages in the Response //
+                                //---------------------------------------------//
+                                netTilesCache.totalItems = response.data.totalElements;
+                                netTilesCache.totalPages = response.data.totalPages;
+                            }
+
+                            var tiles = cacheNetTiles(response);
+                            netTilesCache.page++;
+
+                            console.log("SERVICE THEN count " + netTilesCache.totalItems + " total " + netTilesCache.totalItems);
+
+                            deferred.resolve(tiles);
+                        });
+
+                    return deferred.promise;
+               },
+
+
                 getTileEvents: function(externalId) {
 
                         //--------------------------------------------------------------------------
@@ -228,6 +295,11 @@
 
                     return  ( ( tileCache.cacheSize < tileCache.totalItems ) || tileCache.page == 0 )
 
+                },
+
+                moreNetTiles: function() {
+
+                    return ( ( netTilesCache.cacheSize < netTilesCache.totalItems ) ||  netTilesCache.page == 0  )
                 },
 
                 moreEvents: function() {

@@ -10,39 +10,63 @@
         .module('app.net-tiles', ['ngAnimate', 'ui.bootstrap'])
         .controller('netTileController', netTileController);        
 
-    function netTileController($scope, $rootScope, $http, $state, RouteHelpers, $modal, $log, APP_APIS, TileService, ViewerService, AuthService) {      
-      $scope.basepath = RouteHelpers.basepath;
-      $scope.tiles = [];
-      $scope.netName = '';
+    function netTileController($scope, $rootScope, $state, RouteHelpers, $modal, $log,  TileService, ViewerService, AuthService) {
 
-      var netId = $state.params.id;
+        $scope.basepath = RouteHelpers.basepath;
+        $scope.netTiles = [];
+        $scope.netName = '';
+        $scope.loading = false;
+        $scope.inMotion = false;
 
-      ViewerService.getTilesByNetId(netId).then(function(tiles){
-        $scope.tiles = tiles;
-        for ( var i in $scope.tiles ){
-          $scope.tiles[i].publishedDate = TileService.getTimeDiff($scope.tiles[i].publishedDate);
-          $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
-        }
-      }, function(error){
-        console.log(error);
-        return;
-      });
+        var netId = $state.params.id;
 
-      AuthService.getUser().then(function(user){
-        ViewerService.getNets(user.externalId).then(function(nets){
-          $scope.nets = nets;
-          for (var i in $scope.nets){
-            if( $scope.nets[i].externalId == netId ){
-              $scope.netName = $scope.nets[i].name;
+        $scope.getNetTiles = function() {
+
+
+            if ( $scope.inMotion || ! TileService.moreNetTiles() ) {
+                //---------------------------------------------------------------
+                // Check Cache Size of Controller if navigation has left the View
+                //---------------------------------------------------------------
+                if ( $scope.netTiles.length < TileService.cacheNetTileSize() ) {
+                    $scope.netTiles = TileService.cacheNetTiles();
+                }
+                return;
             }
-          }
+
+            $scope.inMotion = true;
+            $scope.loading = true;
+
+            if ( ! TileService.moreNetTiles() ) {
+                $scope.loading = false;
+                $scope.inMotion = true;
+            } else {
+                TileService.getNetTiles(netId).then(function (netTiles) {
+                    $scope.netTiles = TileService.cacheNetTiles();
+                    $scope.loading = false;
+                    $scope.inMotion = false;
+                }, function (error) {
+                    console.log(error);
+                    return;
+                })
+            }
+        }
+
+        AuthService.getUser().then(function(user){
+            ViewerService.getNets(user.externalId).then(function(nets){
+                $scope.nets = nets;
+                for (var i in $scope.nets){
+                    if( $scope.nets[i].externalId == netId ){
+                        $scope.netName = $scope.nets[i].name;
+                    }
+                }
+            }, function(error){
+                console.log(error);
+                return;
+            });
         }, function(error){
-          console.log(error);
-          return;
+            console.log(error);
+            return;
         });
-      }, function(error){
-        console.log(error);
-        return;
-      });
     }
+
 })();

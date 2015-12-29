@@ -11,7 +11,10 @@
         .service('ViewerService', ViewerService);
 
         function ViewerService($http, $q, APP_APIS){
+
+
         	return{
+
         		getNets: function(viewerId){
         			var deferred = $q.defer();
 					$http.get(APP_APIS['viewer']+'/viewers/'+viewerId+'/nets')
