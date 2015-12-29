@@ -53,6 +53,7 @@
         $scope.InMotionPage = 0;
         $scope.basepath = RouteHelpers.basepath;
         $scope.tiles = [];
+        $scope.CurrTile = [];
         $scope.totalTiles = [];
         $scope.showVideo = false;
         $scope.hideImg = false;
@@ -75,6 +76,21 @@
             })          
         }
 
+
+        //-------------------------------------------------------------------------------
+        // Test harness
+        //-------------------------------------------------------------------------------
+        $scope.test = function(){
+            $scope.currTile = TileService.currTile('28650A0A-071A-44C2-BE43-7C5A517B9B39');
+            TileService.getTileEvents('28650A0A-071A-44C2-BE43-7C5A517B9B39').then(function (events) {
+                $scope.currTile = TileService.currTile('28650A0A-071A-44C2-BE43-7C5A517B9B39');
+            }, function (error) {
+                console.log(error);
+                return;
+            })
+
+
+        }
 
         //-----------------------------------------------------------
         // Need to utilise the Paging from the Recommendation API
@@ -111,7 +127,6 @@
                 $scope.inMotion = true;
             } else {
                 TileService.getRadar($rootScope.user.externalId).then(function (radar) {
-                    //$scope.tiles = $scope.tiles.concat(radar);
                     $scope.tiles = TileService.cacheTiles();
                     $scope.loading = false;
                     $scope.inMotion = false;

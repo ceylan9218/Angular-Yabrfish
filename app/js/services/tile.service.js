@@ -12,30 +12,22 @@
 
         function TileService($http, $q, APP_APIS){
 
-			var cacheTile = [];
-			var cacheSize = 0;
-			var currPage = 0;
-			var pageItems = 6;
-			//------------------------------------------------
-			// Initialize Page Parameters of REST Call
-			//------------------------------------------------
-			var totalElements = 0;
-			var totalPages = 0;
+			var tileCacheX = [];
+            var tileCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
+			var eventCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, events:[]};
+			var currTile = [];
 
 			//--------------------------------------------------------------------------------------------
 			// Process Response and cache tiles from Recommendations Service
 			//--------------------------------------------------------------------------------------------
 
-			var cacheReco = function(pageNumber, pageSize, response) {
+			var cacheReco = function(response) {
 
 				var reco = [];
 
 				reco = response.data.recommendations;
 
 				for (var i in reco) {
-
-					// Add Empty Events Object.
-					reco[i].events = [];
 
 					//Get and change lowercase Tile Type.
 					reco[i].tileType = reco[i].tileType.toLowerCase();
@@ -47,7 +39,7 @@
 					// Add Tiles to Cache Not being used in this Current Version
 					//  Controller is building Cache as well
 					//------------------------------------------------------------//
-					cacheTile[cacheSize++] = reco[i];
+					tileCache.tiles[tileCache.cacheSize++] = reco[i];
 
 				}
 
@@ -55,8 +47,25 @@
 
 			};
 
+			var cacheEvents = function(externalId, response) {
+
+				var events = [];
+				var eventSize = eventCache.events.length;
+
+				events = response.data.eventList;
+
+				for (var i in events) {
+                    eventCache.events.unshift(events[i])
+               }
+
+                if (currTile.externalId == externalId) {
+                    currTile.events = eventCache.events;
+                }
+
+            }
+
 			//--------------------------------------------------------------------------------------------
-			// Time Difference form Now to Creation Date
+			// Time Difference from Now to Creation Date
 			//--------------------------------------------------------------------------------------------
 
 			var getTimeDiff = function(date){
@@ -120,65 +129,100 @@
 
 		return {
 
-				cacheSize : function () { return cacheSize },
+				cacheSize : function () { return tileCache.cacheSize },
 
-				totalElements : totalElements,
+				totalElements: tileCache.totalItems,
 
-				currPage: function () { return currPage },
+				currPage: function () { return tileCache.page },
 
-				totalPages: function () { return totalPages },
+				totalPages: function () { return tileCache.totalPages },
 
-				cacheTiles: function () { return cacheTile},
+				cacheTiles: function () { return tileCache.tiles},
 
-				getRadar: function(viewerId){
+                currTile: function(externalId) {
 
-					console.log("SERVICE Page " + currPage + " count " + cacheSize + " total " + totalElements);
+                    //-----------------------------------------------------------------------//
+                    // Select Current Tile from Cache and set it to currTile Object
+                    //----------------------------------------------------------------------//
 
-					var deferred = $q.defer();
+                    for ( var i in tileCache.tiles ) {
+                        if ( tileCache.tiles[i].externalId == externalId ) {
+                            currTile = tileCache.tiles[i];
+                            return currTile;
+                        }
+                    }
 
-					if ( currPage !=0 && currPage  >= totalPages ) {
-						// Resolve the deferred $q object before returning the promise
-						deferred.resolve([]);
-						return deferred.promise;
-					}
+                    // Empty Tile
+                    return [];
+            },
 
-					var promise = $http.get(APP_APIS['reco']+'/recommendations?page='+currPage+'&size='+pageItems)
-						.then(function(response){
 
-							if ( currPage == 0 ) {
-								//---------------------------------------------//
-								//Check Total Number of Pages in the Response //
-								//---------------------------------------------//
-								totalElements = response.data.totalElements;
-								totalPages = response.data.totalPages;
-							}
+            getRadar: function(viewerId){
 
-							var reco = cacheReco(currPage,pageItems,response);
-							currPage++;
+                    console.log("SERVICE Page " + tileCache.page + " count " + tileCache.totalPages + " total " + tileCache.cacheSize);
 
-							console.log("SERVICE THEN count " + cacheSize + " total " + totalElements);
+                    var deferred = $q.defer();
 
-							deferred.resolve(reco);
-						});
+                    if ( tileCache.page !=0 && tileCache.page  >= tileCache.totalPages ) {
+                        // Resolve the deferred $q object before returning the promise
+                        deferred.resolve([]);
+                        return deferred.promise;
+                    }
 
-					return deferred.promise;
-				},
+                    var promise = $http.get(APP_APIS['reco']+'/recommendations?page='+tileCache.page+'&size='+tileCache.pageSize)
+                        .then(function(response){
 
-				//--------------------------------------------------------------------------
-				// Get List of Events from Tile Service.
-				//--------------------------------------------------------------------------
-				getTileEvents: function(externalId) {
+                            if ( tileCache.page == 0 ) {
+                                //---------------------------------------------//
+                                //Check Total Number of Pages in the Response //
+                                //---------------------------------------------//
+                                tileCache.totalItems = response.data.totalElements;
+                                tileCache.totalPages = response.data.totalPages;
+                            }
 
-					var deferred = $q.defer();
+                            var reco = cacheReco(response);
+                            tileCache.page++;
 
-					var promise = $http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/events')
-						.then(function(response){
-							var reco = cacheReco(response);
-							deferred.resolve(reco);
-						});
+                            console.log("SERVICE THEN count " + tileCache.totalItems + " total " + tileCache.totalItems);
 
-					return deferred.promise;
-				}
-        	}
-        }
+                            deferred.resolve(reco);
+                        });
+
+                    return deferred.promise;
+            },
+
+            getTileEvents: function(externalId) {
+
+                    //--------------------------------------------------------------------------
+                    // Get List of Events from Tile Service.
+                    //--------------------------------------------------------------------------
+
+                   var deferred = $q.defer();
+
+                    if ( eventCache.page !=0 && eventCache.page  >= eventCache.totalPages ) {
+                        // Resolve the deferred $q object before returning the promise
+                        deferred.resolve([]);
+                        return deferred.promise;
+                    }
+
+                    var promise = $http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/events?page='+eventCache.page+'&size='+eventCache.pageSize)
+                        .then(function(response){
+
+                            if ( eventCache.page == 0 ) {
+                                //---------------------------------------------//
+                                //Check Total Number of Pages in the Response //
+                                //---------------------------------------------//
+                                eventCache.totalItems = response.data.totalElements;
+                                eventCache.totalPages = response.data.totalPages;
+                            }
+
+                            var events = cacheEvents(externalId, response);
+                            eventCache.page++;
+                            deferred.resolve(response);
+                        });
+
+                    return deferred.promise;
+                }
+            }
+    }
 })();
