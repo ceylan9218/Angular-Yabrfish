@@ -120,13 +120,15 @@
 
 		return {
 
-				cacheSize : cacheSize,
+				cacheSize : function () { return cacheSize },
 
 				totalElements : totalElements,
 
 				currPage: function () { return currPage },
 
 				totalPages: function () { return totalPages },
+
+				cacheTiles: function () { return cacheTile},
 
 				getRadar: function(viewerId){
 

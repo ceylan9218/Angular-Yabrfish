@@ -89,23 +89,35 @@
             var currPage = TileService.currPage();
             var totalPages = TileService.totalPages();
 
+            console.log("CONTROLLER BEFORE Scroll " + $scope.inMotion +  " count " + currPage + " total " + totalPages);
 
             if ( $scope.inMotion ) {
+                //---------------------------------------------------------------
+                // Check Cache Size of Controller if navigation has left the View
+                //---------------------------------------------------------------
+                if ( $scope.tiles.length < TileService.cacheSize() ) {
+                    $scope.tiles = TileService.cacheTiles();
+                }
                 return;
             }
 
             $scope.inMotion = true;
             $scope.loading = true;
 
+            console.log("CONTROLLER Scroll " + $scope.inMotion +  " count " + currPage + " total " + totalPages);
+
             if (totalPages != 0 && currPage >= totalPages ) {
                 $scope.loading = false;
                 $scope.inMotion = true;
             } else {
                 TileService.getRadar($rootScope.user.externalId).then(function (radar) {
-                    $scope.tiles = $scope.tiles.concat(radar);
+                    //$scope.tiles = $scope.tiles.concat(radar);
+                    $scope.tiles = TileService.cacheTiles();
                     $scope.loading = false;
                     $scope.inMotion = false;
+                    console.log("CONTROLLER THEN count " + TileService.currPage() + " total " + TileService.totalPages());
                 }, function (error) {
+                    console.log(error);
                     return;
                 })
             }
