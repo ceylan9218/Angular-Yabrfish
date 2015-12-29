@@ -105,12 +105,7 @@
             // Load Single Page of Tiles
             //--------------------------------------------------------//
 
-            var currPage = TileService.currPage();
-            var totalPages = TileService.totalPages();
-
-            console.log("CONTROLLER BEFORE Scroll " + $scope.inMotion +  " More " + TileService.moreRadar());
-
-            if ( $scope.inMotion ) {
+            if ( $scope.inMotion || ! TileService.moreRadar() ) {
                 //---------------------------------------------------------------
                 // Check Cache Size of Controller if navigation has left the View
                 //---------------------------------------------------------------
@@ -123,8 +118,6 @@
             $scope.inMotion = true;
             $scope.loading = true;
 
-            console.log("CONTROLLER Scroll " + $scope.inMotion +  " More " + TileService.moreRadar());
-
             if ( ! TileService.moreRadar() ) {
                 $scope.loading = false;
                 $scope.inMotion = true;
@@ -133,7 +126,6 @@
                     $scope.tiles = TileService.cacheTiles();
                     $scope.loading = false;
                     $scope.inMotion = false;
-                    console.log("CONTROLLER THEN count " + TileService.currPage() + " total " + TileService.totalPages());
                 }, function (error) {
                     console.log(error);
                     return;
