@@ -82,13 +82,16 @@
         //-------------------------------------------------------------------------------
         $scope.test = function(){
             $scope.currTile = TileService.currTile('28650A0A-071A-44C2-BE43-7C5A517B9B39');
-            TileService.getTileEvents('28650A0A-071A-44C2-BE43-7C5A517B9B39').then(function (events) {
-                $scope.currTile = TileService.currTile('28650A0A-071A-44C2-BE43-7C5A517B9B39');
-            }, function (error) {
-                console.log(error);
-                return;
-            })
 
+            console.log ("Events More " + TileService.moreEvents())
+            if ( TileService.moreEvents() ) {
+                TileService.getTileEvents('28650A0A-071A-44C2-BE43-7C5A517B9B39').then(function (events) {
+                    $scope.currTile = TileService.currTile('28650A0A-071A-44C2-BE43-7C5A517B9B39');
+                }, function (error) {
+                    console.log(error);
+                    return;
+                })
+            }
 
         }
 
@@ -105,7 +108,7 @@
             var currPage = TileService.currPage();
             var totalPages = TileService.totalPages();
 
-            console.log("CONTROLLER BEFORE Scroll " + $scope.inMotion +  " count " + currPage + " total " + totalPages);
+            console.log("CONTROLLER BEFORE Scroll " + $scope.inMotion +  " More " + TileService.moreRadar());
 
             if ( $scope.inMotion ) {
                 //---------------------------------------------------------------
@@ -120,9 +123,9 @@
             $scope.inMotion = true;
             $scope.loading = true;
 
-            console.log("CONTROLLER Scroll " + $scope.inMotion +  " count " + currPage + " total " + totalPages);
+            console.log("CONTROLLER Scroll " + $scope.inMotion +  " More " + TileService.moreRadar());
 
-            if (totalPages != 0 && currPage >= totalPages ) {
+            if ( ! TileService.moreRadar() ) {
                 $scope.loading = false;
                 $scope.inMotion = true;
             } else {
