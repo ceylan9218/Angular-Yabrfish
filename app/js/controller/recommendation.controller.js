@@ -263,110 +263,110 @@
           }
         }
 
-        $scope.slideClasses = function(dir, element){
-            var classWidth = angular.element('.classes').width() / 3;
-            var endTranslate = (element.classes.length - 3) * classWidth * -1;
+        // $scope.slideClasses = function(dir, element){
+        //     var classWidth = angular.element('.classes').width() / 3;
+        //     var endTranslate = (element.classes.length - 3) * classWidth * -1;
 
-            if(!element.classTranslate)
-              element.classTranslate = 0;
+        //     if(!element.classTranslate)
+        //       element.classTranslate = 0;
 
-            if (dir === 'left') {
-              element.classTranslate += classWidth;
-              if(element.classTranslate <= 0)
-                element.classTransform = "translate("+element.classTranslate+"px, 0px)";
-              else
-                element.classTranslate = 0;
-            } else {
-              if(element.classes.length > 3){
-                element.classTranslate -= classWidth;
-                if(element.classTranslate >= endTranslate)
-                  element.classTransform = "translate("+element.classTranslate+"px, 0px)";
-                else{
-                  element.classTransform = "translate("+endTranslate+"px, 0px)";
-                  element.classTranslate = endTranslate;
-                }
-              }
-            }
-        }
+        //     if (dir === 'left') {
+        //       element.classTranslate += classWidth;
+        //       if(element.classTranslate <= 0)
+        //         element.classTransform = "translate("+element.classTranslate+"px, 0px)";
+        //       else
+        //         element.classTranslate = 0;
+        //     } else {
+        //       if(element.classes.length > 3){
+        //         element.classTranslate -= classWidth;
+        //         if(element.classTranslate >= endTranslate)
+        //           element.classTransform = "translate("+element.classTranslate+"px, 0px)";
+        //         else{
+        //           element.classTransform = "translate("+endTranslate+"px, 0px)";
+        //           element.classTranslate = endTranslate;
+        //         }
+        //       }
+        //     }
+        // }
 
-        $scope.getRaces = function(element, classElm){
-          element.selectedClass = classElm;
-          element.eventName = classElm.eventName;
-          element.className = classElm.name;
+        // $scope.getRaces = function(element, classElm){
+        //   element.selectedClass = classElm;
+        //   element.eventName = classElm.eventName;
+        //   element.className = classElm.name;
 
-          var eventId = classElm.eventId;
-          var classId = classElm.classId;
-          element.races = [];
+        //   var eventId = classElm.eventId;
+        //   var classId = classElm.classId;
+        //   element.races = [];
 
-          // Get Races for a class
-          $http.get(APP_APIS['tile']+'/events/'+ eventId +'/classes/'+classId+'/races')
-            .success(function(data){
-              element.races = data;
+        //   // Get Races for a class
+        //   $http.get(APP_APIS['tile']+'/events/'+ eventId +'/classes/'+classId+'/races')
+        //     .success(function(data){
+        //       element.races = data;
               
-              if(element.races.length == 0){
-                element.isRace = true;
-                element.showRaces = false;
-                var message = 'No Races!';
-                Flash.create('danger', message);
-              }else{
-                element.isRace = false;
-              }
+        //       if(element.races.length == 0){
+        //         element.isRace = true;
+        //         element.showRaces = false;
+        //         var message = 'No Races!';
+        //         Flash.create('danger', message);
+        //       }else{
+        //         element.isRace = false;
+        //       }
 
-              for(var i in element.races){
-                // Get Date of Race
-                var race_date = new Date(element.races[i].startdate);
-                var race_day = race_date.getDate();
-                if(race_day>3 && race_day<21){
-                  race_day = race_day + 'th';
-                }else{
-                  switch (race_day % 10) {
-                      case 1:  race_day = race_day + "st";
-                      case 2:  race_day = race_day + "nd";
-                      case 3:  race_day = race_day + "rd";
-                      default: race_day = race_day + "th";
-                  }
-                }
-                var race_month = $scope.monthNames[race_date.getMonth()];
-                var race_hours = race_date.getHours();
-                var race_min = race_date.getMinutes();
-                element.races[i].race_date = race_day + " " + race_month + " " + race_hours + ":" + race_min;
+        //       for(var i in element.races){
+        //         // Get Date of Race
+        //         var race_date = new Date(element.races[i].startdate);
+        //         var race_day = race_date.getDate();
+        //         if(race_day>3 && race_day<21){
+        //           race_day = race_day + 'th';
+        //         }else{
+        //           switch (race_day % 10) {
+        //               case 1:  race_day = race_day + "st";
+        //               case 2:  race_day = race_day + "nd";
+        //               case 3:  race_day = race_day + "rd";
+        //               default: race_day = race_day + "th";
+        //           }
+        //         }
+        //         var race_month = $scope.monthNames[race_date.getMonth()];
+        //         var race_hours = race_date.getHours();
+        //         var race_min = race_date.getMinutes();
+        //         element.races[i].race_date = race_day + " " + race_month + " " + race_hours + ":" + race_min;
 
-                // Set Event ID and Class ID to Races.
-                element.races[i].eventId = eventId;
-                element.races[i].classId = classId;
-              }
-            });
-        }
+        //         // Set Event ID and Class ID to Races.
+        //         element.races[i].eventId = eventId;
+        //         element.races[i].classId = classId;
+        //       }
+        //     });
+        // }
 
-        $scope.getResult = function(race){
-          if(race.showResult)
-            race.showResult = false;
-          else{
-            race.showResult = true;
+        // $scope.getResult = function(race){
+        //   if(race.showResult)
+        //     race.showResult = false;
+        //   else{
+        //     race.showResult = true;
             
-            var eventId = race.eventId;
-            var classId = race.classId;
-            var raceId = race.externalId;
+        //     var eventId = race.eventId;
+        //     var classId = race.classId;
+        //     var raceId = race.externalId;
 
-            $http.get(APP_APIS['tile']+'/events/'+eventId+'/classes/'+classId+'/races/'+raceId+'/results')
-              .success(function(data){
-                race.results = data;
+        //     $http.get(APP_APIS['tile']+'/events/'+eventId+'/classes/'+classId+'/races/'+raceId+'/results')
+        //       .success(function(data){
+        //         race.results = data;
 
-                if(race.results.length == 0){
-                  var message = 'No Results!';
-                  Flash.create('danger', message);
-                }
+        //         if(race.results.length == 0){
+        //           var message = 'No Results!';
+        //           Flash.create('danger', message);
+        //         }
                 
-                for(var i in race.results){
-                  if(isNaN(race.results[i].positionDesc))
-                    race.results[i].positionDesc = "DNC";
+        //         for(var i in race.results){
+        //           if(isNaN(race.results[i].positionDesc))
+        //             race.results[i].positionDesc = "DNC";
 
-                  // Get finishCorrected
-                  if(race.results[i].finishCorrected)
-                    race.results[i].finishCorrected = race.results[i].finishCorrected.split('.')[0].split(':');
-                }
-              })
-          }
-        }
-    }
+        //           // Get finishCorrected
+        //           if(race.results[i].finishCorrected)
+        //             race.results[i].finishCorrected = race.results[i].finishCorrected.split('.')[0].split(':');
+        //         }
+        //       })
+        //   }
+        // }
+      }
 })();

@@ -8,7 +8,7 @@
 
     angular
         .module('app.event-list', [])
-        .directive("eventList", ['$http', '$location', 'APP_APIS', function($http, $location, APP_APIS) {
+        .directive("eventList", ['$http', '$location', 'APP_APIS', 'TileService', function($http, $location, APP_APIS, TileService) {
             return {
                 restrict: "E",
                 scope: {
@@ -16,7 +16,8 @@
                 },
                 templateUrl: "app/views/partials/event-list.html",
                 link: function(scope, elem, attrs) {
-                    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    var monthNames = TileService.getMonthNames();
+
                     scope.events = [];
                     scope.classes = [];
 
@@ -27,9 +28,7 @@
                     else
                       scope.enableEvent = false;
 
-                    $http.get(APP_APIS['tile']+'/tiles/'+ scope.tile.externalId +'/events')
-                    .success(function(data) {
-                        var events = data.eventList;
+                    TileService.getTileEvents(scope.tile.externalId).then(function(events){
                         for(var i in events) {
                             var startDate = new Date(events[i].startDate);
                             var month = monthNames[startDate.getMonth()];
@@ -50,8 +49,7 @@
 
                         scope.eventWidth = angular.element('#tile_'+scope.tile.externalId+' .events').width() / 3;
                         scope.eventSliderWidth = scope.eventWidth * scope.events.length;
-//console.log(scope.events);
-                    });
+                    })
                     
                     scope.slideEvents = function(dir) {
                         var eventWidth = angular.element('.events').width() / 3;
@@ -78,6 +76,7 @@
                             }
                         }
                     }
+
                     scope.selectEvent = function(event, length) {
                         var eventData = {
                             event: event,

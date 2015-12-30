@@ -11,22 +11,44 @@
         .controller('netTileController', netTileController);        
 
     function netTileController($scope, $rootScope, $http, $state, RouteHelpers, $modal, $log, APP_APIS, TileService, ViewerService, AuthService) {      
-      $scope.basepath = RouteHelpers.basepath;
-      $scope.tiles = [];
-      $scope.netName = '';
 
+      $scope.basepath = RouteHelpers.basepath;
+      $scope.netTiles = [];
+      $scope.netName = '';
+      $scope.loading = false;
+      $scope.inMotion = false;
+      
       var netId = $state.params.id;
 
-      ViewerService.getTilesByNetId(netId).then(function(tiles){
-        $scope.tiles = tiles;
-        for ( var i in $scope.tiles ){
-          $scope.tiles[i].publishedDate = TileService.getTimeDiff($scope.tiles[i].publishedDate);
-          $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
-        }
-      }, function(error){
-        console.log(error);
-        return;
-      });
+      $scope.getNetTiles = function() {
+
+          if ( $scope.inMotion || ! TileService.moreNetTiles() ) {
+              //---------------------------------------------------------------
+              // Check Cache Size of Controller if navigation has left the View
+              //---------------------------------------------------------------
+              if ( $scope.netTiles.length < TileService.cacheNetTileSize() ) {
+                  $scope.netTiles = TileService.cacheNetTiles();
+              }
+              return;
+          }
+
+          $scope.inMotion = true;
+          $scope.loading = true;
+
+          if ( ! TileService.moreNetTiles() ) {
+              $scope.loading = false;
+              $scope.inMotion = true;
+          } else {
+              TileService.getNetTiles(netId).then(function (netTiles) {
+                  $scope.netTiles = TileService.cacheNetTiles();
+                  $scope.loading = false;
+                  $scope.inMotion = false;
+              }, function (error) {
+                  console.log(error);
+                  return;
+              })
+          }
+      }      
 
       AuthService.getUser().then(function(user){
         ViewerService.getNets(user.externalId).then(function(nets){

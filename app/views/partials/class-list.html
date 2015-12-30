@@ -1,0 +1,23 @@
+<div class="class-content">
+   <div class="class-heading">
+      <img class="ng-scope" src="app/img/event.png"><span class="ng-scope">Class </span>
+   </div>
+   <div class="class-wrap">
+      <div class="left-arrow arrow">
+         <a href ng-click="slideClasses('left')"><i class="pull-left fa fa-angle-left"></i></a>
+      </div>
+      <div class="classes">
+         <div class="class-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': classSliderWidth}">
+            <div class="class-slide animation" ng-repeat="class in classes" ng-style="{'width': classWidth}" ng-click="selectClass(class)" ng-class="{'selected': selectedClass == class}">
+               <div class="class-img">
+                  <img src="{{class.flag}}" alt="">
+                  <span class="class-name">{{class.name}}</span>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="right-arrow arrow">
+         <a href ng-click="slideClasses('right')"><i class="pull-right fa fa-angle-right"></i></a>
+      </div>
+   </div>               
+</div>

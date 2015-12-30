@@ -253,7 +253,7 @@
             for(var i in $scope.tiles){
               //Get and change lowercase Tile Type.              
               $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
-              $scope.tiles[i].publishedDate = TileService.getTimeDiff($scope.tiles[i].publishedDate);
+//              $scope.tiles[i].publishedDate = TileService.getTimeDiff($scope.tiles[i].publishedDate);
             }
           })
       }
