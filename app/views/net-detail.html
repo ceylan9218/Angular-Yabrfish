@@ -1,4 +1,4 @@
-<div class="tile-infos yabrTile-body">
+<div class="net-list yabrTile-body">
 	<div class="img-video-wrap">
 		<div class="tileImg">
 			<img ng-if="card.creatives[0].url" src="{{card.creatives[0].url}}" alt="tile" class="" />
@@ -15,6 +15,8 @@
 			<a class="more pull-right" ng-click="extendWrap = !extendWrap">
 				<img ng-if="extendWrap" src="app/img/less.png">
 				<img ng-if="!extendWrap" src="app/img/more.png">
+			</a>
+			<member-action account-id="card.account.externalId" action-type="card.relationshipType"></member-action
 		</div>
 		<accordion class="extend-wrap" ng-if="extendWrap" close-others="false">
 			<accordion-group is-open="card.showFollowTags">
