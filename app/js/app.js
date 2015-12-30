@@ -52,8 +52,7 @@
             'app.locations',
             'app.account',
             'app.class-list',
-            'app.race-list'
-            'app.account',
+            'app.race-list',
             'app.img-upload',
             'app.equip'
         ])
