@@ -50,7 +50,9 @@
             'app.event-edit',
             'app.location',
             'app.locations',
-            'app.account'
+            'app.account',
+            'app.img-upload',
+            'app.equip'
         ])
         .constant('APP_APIS', {
           'base':                 'http://data.yabrfish.com/yfapi',

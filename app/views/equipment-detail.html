@@ -1,16 +1,13 @@
 <div ng-controller="equipmentController" class="yabrTile-body create equip" ng-if="card=='addEquip'">
    	<h4><img class="add-icon" src="app/img/add-green.png">Add Equipment</h4>
    	<div class="new-equip-wrap">
-      	<label for="file-input">
-	    	<img src="app/img/upload-photo.png"/ ng-src="{{image_source}}">
-	   	</label>
-	   	<input id="file-input" class="file" type="file" uploader="form.uploader" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
-      	<input type="text" class="form-control" ng-model="equip.name" placeholder="Name" my-enter="expandFields()">
+   		<img-upload></img-upload>      	
+      	<input type="text" class="form-control" ng-model="equip.name" placeholder="Name">
       	<div class="expand-equip" ng-show="extendView">
       		<ui-select ng-model="equipType.selected" theme="select2">
-              	<ui-select-match placeholder="Select Type...">{{$select.selected.name}}</ui-select-match>
-              	<ui-select-choices repeat="equipType in equipTypes | propsFilter: {name: $select.search}">
-                	<div ng-bind-html="equipType.name | highlight: $select.search"></div>               
+              	<ui-select-match placeholder="Select Type...">{{$select.selected.fullName}}</ui-select-match>
+              	<ui-select-choices repeat="equipType in equipTypes | propsFilter: {fullName: $select.search}">
+                	<div ng-bind-html="equipType.fullName | highlight: $select.search"></div>               
               	</ui-select-choices>
            	</ui-select>
            	<textarea class="form-control" ng-model="equip.desc" placeholder="Description..."></textarea>

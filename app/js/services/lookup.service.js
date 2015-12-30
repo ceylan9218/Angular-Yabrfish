@@ -61,7 +61,7 @@
                             deferred.resolve(status);
                         });
 
-                    return deferred.promise;    
+                    return deferred.promise;
                 },
 
                 getRelationshipTypes: function() {
@@ -73,6 +73,19 @@
                                 shortCode: "Remove",
                                 fullName: "Remove"
                             })
+                            deferred.resolve(data);
+                        })
+                        .error(function(status){
+                            deferred.resolve(status);
+                        });
+
+                    return deferred.promise;
+                },
+
+                getEquipmentTypes: function() {
+                    var deferred = $q.defer();
+                    $http.get(APP_APIS['lookup']+'/equipmenttypes')
+                        .success(function(data){
                             deferred.resolve(data);
                         })
                         .error(function(status){

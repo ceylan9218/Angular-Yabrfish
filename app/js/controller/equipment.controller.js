@@ -7,27 +7,18 @@
     'use strict';
 
     angular
-        .module('app.equipment', ['ngAnimate', 'ui.bootstrap','flash'])
-        .directive('myEnter', function () {
-		    return function (scope, element, attrs) {
-		        element.bind("keydown keypress", function (event) {
-		            if(event.which === 13) {
-//		                scope.$apply(function (){
-		                    scope.$eval(attrs.myEnter);
-//		                });
-
-		                event.preventDefault();
-		            }
-		        });
-		    };
-		})
+        .module('app.equipment', ['ngAnimate', 'ui.bootstrap'])
         .controller('equipmentController', equipmentController);
 
-    function equipmentController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, AuthService) {
+    function equipmentController($scope, $rootScope, $http, RouteHelpers, APP_APIS, LookupService, EquipmentService) {
+    	if(!$rootScope.user)
+    		return;
+
     	$scope.basepath = RouteHelpers.basepath;
     	$scope.equipments = [];
     	$scope.manufacturers = [];
     	$scope.equipments.unshift('addEquip');
+    	$scope.equipType = {};
 
     	$scope.equip = {
     		name: '',
@@ -36,65 +27,35 @@
     		idNum: ''
     	}
 
-    	$scope.equipTypes = [
-    		{
-    			id: 1,
-    			name: "Sail Sailing Boat"    			
-    		},
-    		{
-    			id: 2,
-    			name: "Power Power Boat"    			
-    		},
-    		{
-    			id: 3,
-    			name: "Dinghy Sailing Dinghy"    			
-    		},
-    		{
-    			id: 4,
-    			name: "Paddle Board Paddle Board"    			
-    		}
-    	];
+    	// Get Equipment Types
+    	LookupService.getEquipmentTypes().then(function(data){
+    		$scope.equipTypes = data;
+    	}, function(error){
+    		console.log(error);
+    		return;
+    	});
 
-    	$scope.equipType = {};
+    	$scope.$on('file', function(e, data){
+    		$scope.currentFile = data;
+    	})
 
-    	$scope.setFile = function(element) {
-	        $scope.currentFile = element.files[0];
-	        var reader = new FileReader();
-
-	        reader.onload = function(event) {
-	          $scope.image_source = event.target.result;
-	          $scope.$apply();
-	        }
-
-	        // when the file is read it triggers the onload event above.
-	        reader.readAsDataURL(element.files[0]);
-	    }
-
-	    $scope.expandFields = function() {
-	    	if($scope.equip.name != ''){	    		
+	    $scope.$watch('equip.name', function(newVal){
+	    	if(newVal != ''){	    		
 	    		$scope.extendView = true;
-	    		$scope.$apply();
 	    	}else{
 	    		$scope.extendView = false;
-	    		$scope.$apply();
 	    	}
-	    }
-
-	    $scope.getUser = function() {
-	        AuthService.getUser().then(function(user){
-	        	$rootScope.user = user;
-	        })
-	    }
+	    })
 	    
 	    // Get Equipments via ViewerID
-	    $http.get(APP_APIS['viewer']+'/viewer/'+$rootScope.user.externalId+'/equipment')
-	    	.success(function(equipments){
-	    		for(var i in equipments){
-	    			$scope.equipments.push(equipments[i]);
-	    		}
-	    	}).error(function(status){
-	    		console.log(status);
-	    	})
+	    EquipmentService.getEquipments($rootScope.user.externalId).then(function(data){
+	    	for(var i in data){
+	    		$scope.equipments.push(data[i]);
+	    	}
+	    }, function(error){
+	    	console.log(error);
+	    	return;
+	    })
 
 	    $scope.search_manufacturer = '';
 		// Search Manufacturers
@@ -128,22 +89,17 @@
 	    		name: $scope.equip.name
 	    	};
 
-	    	$http({
-              method: 'POST',
-              url: APP_APIS['viewer'] + '/equipment',
-              data: JSON.stringify(params),
-              headers: {'Content-Type': 'application/json'}
-            }).success(function (data, status, headers, config){
-            	$http.post(APP_APIS['viewer'] + '/viewer/' + $rootScope.user.externalId + '/equipment/' + data.externalId)
-            		.success(function(data){
-	            		$scope.equipments.push(data);
-//console.log($scope.equipments);
-            		}).error(function(status){
-            			console.log(status);
-            		})
-            }).error(function (data, status, headers, config){
-            	console.log('Error status: ' + status);
-            });
-	    }
+	    	EquipmentService.createEquipment(params).then(function(data){
+	    		EquipmentService.setEquipToViewer(data.externalId, $rootScope.user.externalId).then(function(data){
+	    			$scope.equipments.push(data);
+	    		}, function(error){
+	    			console.log(error);
+	    			return;
+	    		})
+	    	}, function(error){
+	    		console.log(error);
+	    		return;
+	    	});
+ 	    }
     }
 })();
