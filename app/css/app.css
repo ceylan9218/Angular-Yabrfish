@@ -11180,6 +11180,21 @@ img.logo{
 .relationship .btn span.caret{
   margin: 0;
 }
+.club-list{
+  background: #fff;
+  display: inline-block;
+  list-style: none;
+  width: 100%;
+  padding: 0;
+  border-left: 1px solid #d2d2d2;
+  border-right: 1px solid #d2d2d2;
+}
+.club-list li{
+  border-bottom: 1px solid #D2D2D2;
+  padding-left: 80px;
+  height: 30px;
+  line-height: 30px;
+}
 @media only screen and (max-width: 767px) {
   .club-search{
     height: 50px;
@@ -11206,6 +11221,9 @@ img.logo{
   }
   .club-search .more i{
     margin-left: 2px;
+  }
+  .club-list li{
+    padding-left: 50px;
   }
 }
 
