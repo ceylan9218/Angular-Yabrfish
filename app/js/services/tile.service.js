@@ -14,7 +14,7 @@
 
             var tileCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
 			var eventCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, events:[]};
-            var netTilesCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
+            var netTilesCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
 
 			var currTile = [];
 
@@ -22,7 +22,7 @@
 			// Process Response and cache tiles from Recommendations Service
 			//--------------------------------------------------------------------------------------------
 
-			var cacheReco = function(response) {
+			var cacheReco = function( response) {
 
 				var reco = [];
 
@@ -63,8 +63,7 @@
                     tiles[i].publishedDate = getTimeDiff(tiles[i].publishedDate);
 
                     //-------------------------------------------------------------//
-                    // Add Tiles to Cache Not being used in this Current Version
-                    //  Controller is building Cache as well
+                    // Add Tiles to Cache
                     //------------------------------------------------------------//
                     netTilesCache.tiles[netTilesCache.cacheSize++] = tiles[i];
 
@@ -229,6 +228,20 @@
 
                     var deferred = $q.defer();
 
+                    //------------------------------------------------------------------------//
+                    // Check we are using the correct Cache and the User has Not Changed the Net
+                    //------------------------------------------------------------------------//
+
+                    if ( netTilesCache.cacheId != externalId ) {
+                        netTilesCache.cacheId = externalId
+                        netTilesCache.cacheSize =  0;
+                        netTilesCache.page = 0;
+                        netTilesCache.pageSize = 6;
+                        netTilesCache.totalPages = 0;
+                        netTilesCache.totalItems = 0;
+                        netTilesCache.tiles.length = 0;
+                    }
+
                     if ( netTilesCache.page !=0 && netTilesCache.page  >= netTilesCache.totalPages ) {
                         // Resolve the deferred $q object before returning the promise
                         deferred.resolve([]);
@@ -256,7 +269,6 @@
 
                     return deferred.promise;
                },
-
 
                 getTileEvents: function(externalId) {
 
@@ -297,8 +309,9 @@
 
                 },
 
-                moreNetTiles: function() {
+                moreNetTiles: function(externalId) {
 
+                    if ( netTilesCache.cacheId != externalId  ) return true;
                     return ( ( netTilesCache.cacheSize < netTilesCache.totalItems ) ||  netTilesCache.page == 0  )
                 },
 

@@ -11,6 +11,7 @@
         .controller('signupController', signupController);
 
     function signupController($scope, $http, $location, APP_APIS, Upload, Flash) {
+
       $scope.register = {
         avatarUrl: '',
         username: '',

@@ -1,53 +1,18 @@
-<div class="nets-wrap">
-	<!-- <div class="create-net">
-		<button class="create-net-button btn btn-default" ng-click="openCreateNet()">
-			<img src="app/img/create-net.png">
-			<span>Create New Net</span>
-		</button>
-		<script type="text/ng-template" id="createNet.html">
-	        <div class="modal-header">
-	            <img src="app/img/fish-net.png">
-	            <h4>Create Net</h4>
-	        </div>	        
-	        <div class="modal-body">
-	        	<div class="modal-body-content">
-		        	<p>Enter the name or category of your net and start to catch!</p>
-		        	<input type="text" class="form-control" placeholder="Net Name">
-		            <button class="btn create-btn" type="button" ng-click="ok()">Create</button>	            
-		            <button class="btn cancel-btn" type="button" ng-click="cancel()">Cancel</button>
-	        	</div>
-	        </div>
-	    </script>
-	</div> -->
-	<div class="nets">
-		<div class="net-content create-net">
-			<img src="app/img/create-net.png" ng-click="openCreateNet()">
-		</div>
-		<div ng-repeat="net in nets track by $index" class="net-content">
-			<div class="net-detail">
-				<img ng-if="net.creatives[0].url" src="{{net.creatives[0].url}}">
-				<div class="no-image" ng-if="!net.creatives[0].url">
-					<img src="app/img/grey-bg.png">
-					<span>+Upload</span>
-				</div>
-				<div class="net-info">
-					<h4><a ng-href="{{'#/app/net-tiles/'+net.externalId}}">{{net.name}}<i class="fa fa-angle-right"></i></a></h4>
-				</div>				
-			</div>
-		</div>
+<!--ROW-->
+<!-- START row-->
+<div class="row yabrTile-wrap" infinite-scroll="getNets()"  infinite-scroll-distance="2">
+   <!-- START widget-->
+   <div class="container-fluid">
+      <div deckgrid source="nets" ng-init="getNets()" cardtemplate="{{basepath('net-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
+   </div>
+   <!-- END widget-->
+</div>
+<div ng-if="loading" class="panel-body loader-demo">
+	<div class="ball-pulse">
+		<div></div>
+		<div></div>
+		<div></div>
 	</div>
 </div>
-<script type="text/ng-template" id="createNet.html">
-    <div class="modal-header">
-        <img src="app/img/fish-net.png">
-        <h4>Create Net</h4>
-    </div>	        
-    <div class="modal-body">
-    	<div class="modal-body-content">
-        	<p>Enter the name or category of your net and start to catch!</p>
-        	<input type="text" class="form-control" placeholder="Net Name">
-            <button class="btn create-btn" type="button" ng-click="ok()">Create</button>	            
-            <button class="btn cancel-btn" type="button" ng-click="cancel()">Cancel</button>
-    	</div>
-    </div>
-</script>
+<!-- Alert message-->
+<div flash-message="2000" class="alert-message" ng-show="$root.hasFlash"></div>
