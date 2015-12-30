@@ -64,7 +64,6 @@
                     })
 
                     scope.getResult = function(race){
-console.log(race, scope.eventId, scope.classId);                        
                         if(race.showResult)
                             race.showResult = false;
                         else{

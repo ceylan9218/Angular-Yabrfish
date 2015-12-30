@@ -30,7 +30,7 @@
             'app.utils',
             'app.elements',
             'app.topnavbar',
-            'app.recommendations',
+            'app.radar',
             'app.nets',
             'app.net-tiles',
             'app.profile',
@@ -848,18 +848,18 @@
                 templateUrl: helper.basepath('app.html'),
                 resolve: helper.resolveFor('modernizr', 'icons', 'classyloader', 'sparklines')
             })
-            .state('app.recommendations', {
+            .state('app.radar', {
                 url: '/radar',
                 title: 'Radar',
                 templateUrl: helper.basepath('radar.html'),
-                controller: 'recommendationController',
+                controller: 'radarController',
                 resolve: helper.resolveFor('spinkit','loaders.css', 'akoenig.deckgrid', 'infinite-scroll')
             })
             .state('app.tile-detail', {
                 url: '/tile-detail',
                 title: 'Tile Detail',
                 templateUrl: helper.basepath('tile-detail.html'),
-                controller: 'recommendationController',
+                controller: 'radarController',
             })        
             .state('app.signup', {
                 url: '/signup',
