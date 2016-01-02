@@ -1,0 +1,21 @@
+<div class="content-list">
+   <ul>
+      <li ng-repeat="content in contentList track by $index">
+         <a class="content" ng-click="videoPlay(card, video);" ng-if="content.videoType == 'syco'">
+            <div class="videoImage-wrap">
+               <img class="videoImg" src="{{content.videoImages[$index]}}">
+               <img class="videoIcon" src="app/img/tv-icon.png">
+            </div>
+            <div class="video-infos">
+               <span>{{content.videoTitles[$index]}}</span>
+               <span class="videoType">Sail TV</span>
+            </div>
+         </a>
+         <a class="content" ng-click="youtubeVideoPlay(card)" ng-if="content.videoType == 'youtube'">
+            <img src="{{card.videoImages[$index]}}">
+            <span>{{card.videoTitles[$index]}}</span>
+            <span>YouTube</span>
+         </a>
+      </li>
+   </ul>
+</div>

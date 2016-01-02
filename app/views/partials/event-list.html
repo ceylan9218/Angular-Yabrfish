@@ -1,10 +1,12 @@
 <div class="event-wrap">
+   <div class="left-arrow arrow">1</div>
    <div class="left-arrow arrow">
       <a href ng-click="slideEvents('left')"><i class="pull-left fa fa-angle-left"></i></a>               
    </div>
    <div class="events">
       <div class="event-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': eventSliderWidth}">
-         <div class="slide animation" ng-repeat="event in events" ng-style="{'width': eventWidth}" ng-click="selectEvent(event, events.length)" ng-class="{'selected': selectedEvent == event.eventId}">
+         <div class="slide animation" ng-repeat="event in events" ng-style="{'width': eventWidth}"
+                     ng-click="selectEvent(event, events.length)" ng-class="{'selected': selectedEvent == event.eventId}">
             <div ng-if="event != 'addEvent'">
                <div class="calendar-wrap">
                   <img class="calendar" src="app/img/cal-icon.png" alt="">

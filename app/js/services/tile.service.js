@@ -232,7 +232,7 @@
 						netTilesCache.pageSize = 6;
 						netTilesCache.totalPages = 0;
 						netTilesCache.totalItems = 0;
-						netTilesCache.tiles.length = 0;
+						if ( netTilesCache.tiles != undefined ) eventCache.tiles.length = 0;
 					}
 
 					if ( netTilesCache.page !=0 && netTilesCache.page  >= netTilesCache.totalPages ) {

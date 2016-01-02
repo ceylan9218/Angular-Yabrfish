@@ -8,7 +8,7 @@
 
     angular
         .module('app.event-list', [])
-        .directive("eventList", ['$http', '$location', 'APP_APIS', 'TileService', function($http, $location, APP_APIS, TileService) {
+        .directive("eventList", ['$location', 'APP_APIS', 'TileService', function($location, APP_APIS, TileService) {
             return {
                 restrict: "E",
                 scope: {
@@ -20,6 +20,7 @@
 
                     scope.events = [];
                     scope.classes = [];
+                    scope.eventPerSlide = 1;
 
                     var path = $location.path();
                     // Enable/Disable Edit Event.
@@ -29,6 +30,7 @@
                       scope.enableEvent = false;
 
                     TileService.getTileEvents(scope.tile.externalId).then(function(events){
+
                         for(var i in events) {
                             var startDate = new Date(events[i].startDate);
                             var month = monthNames[startDate.getMonth()];
@@ -47,13 +49,14 @@
                         if(scope.enableEvent)
                             scope.events.push('addEvent');
 
-                        scope.eventWidth = angular.element('#tile_'+scope.tile.externalId+' .events').width() / 3;
+                        scope.eventWidth = angular.element('#tile_'+scope.tile.externalId+' .events').width() / scope.eventPerSlide;
                         scope.eventSliderWidth = scope.eventWidth * scope.events.length;
                     })
-                    
+
                     scope.slideEvents = function(dir) {
-                        var eventWidth = angular.element('.events').width() / 3;
-                        var endTranslate = (scope.events.length - 3) * eventWidth * -1;
+
+                        var eventWidth = angular.element('.events').width() / scope.eventPerSlide;
+                        var endTranslate = (scope.events.length - scope.eventPerSlide) * eventWidth * -1;
 
                         if(!scope.translate)
                             scope.translate = 0;
@@ -65,7 +68,7 @@
                             else
                                 scope.translate = 0;
                         } else {
-                            if(scope.events.length > 3) {
+                            if(scope.events.length > scope.eventPerSlide) {
                                 scope.translate -= eventWidth;
                                 if(scope.translate >= endTranslate)
                                     scope.transform = "translate("+scope.translate+"px, 0px)";

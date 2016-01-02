@@ -109,8 +109,10 @@
             <div class="section">
                <event-list tile="card"></event-list>
                <event-edit></event-edit>
-               <class-list tile="card"></class-list>
-               <race-list></race-list>
+               <div ng-if="true">
+                  <class-list tile="card"></class-list>
+                  <race-list></race-list>
+               </div>
             </div>
          </accordion-group>
          <accordion-group is-open="card.showEnter">

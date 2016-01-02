@@ -100,6 +100,7 @@
 
                     // Click Next button of Event.
                     var tempStartDate = '';    
+
                     scope.addEvent = function() {
                         if(scope.eventStep >= scope.eventCount)
                             return;
