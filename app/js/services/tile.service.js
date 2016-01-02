@@ -14,7 +14,8 @@
 
         	var tileCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
         	var eventCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, events:[]};
-        	var netTilesCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
+			var contentCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, content:[]};
+			var netTilesCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
 
         	var currTile = [];
         	
@@ -31,8 +32,8 @@
 					// Get Time Difference
 					reco[i].publishedDate = getTimeDiff(reco[i].publishedDate);
 					//-------------------------------------------------------------//
-					// Add Tiles to Cache Not being used in this Current Version
-					//  Controller is building Cache as well
+					// Add Tiles to Cache
+					// Controller is building Cache as well
 					//------------------------------------------------------------//
 					tileCache.tiles[tileCache.cacheSize++] = reco[i];
 				}
@@ -268,6 +269,16 @@
                     // Get List of Events from Tile Service.
                     //--------------------------------------------------------------------------
 
+					if ( eventCache.cacheId != externalId ) {
+						eventCache.cacheId = externalId
+						eventCache.cacheSize =  0;
+						eventCache.page = 0;
+						eventCache.pageSize = 6;
+						eventCache.totalPages = 0;
+						eventCache.totalItems = 0;
+						if ( eventCache.tiles != undefined ) eventCache.tiles.length = 0;
+					}
+
                     var deferred = $q.defer();
 
 					if ( eventCache.page !=0 && eventCache.page  >= eventCache.totalPages ) {
@@ -296,6 +307,12 @@
 				},
 
 				getFirstEvent: function(tileId) {
+
+					if ( eventCache.cacheSize > 0 )
+					{
+						return eventCache.events[0];
+
+					}
 					var deferred = $q.defer();
 					$http.get(APP_APIS['tile']+'/tiles/'+ tileId +'/events')
 						.success(function(response){	
