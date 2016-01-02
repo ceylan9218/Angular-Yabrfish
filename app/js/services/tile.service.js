@@ -12,9 +12,9 @@
 
         function TileService($http, $q, APP_APIS){
 
-        	var tileCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
-        	var eventCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, events:[]};
-        	var netTilesCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
+        	var tileCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
+        	var eventCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, events:[]};
+        	var netTilesCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
 
         	var currTile = [];
         	
@@ -41,8 +41,10 @@
 			};
 	
 			var cacheNetTiles = function(response) {
+
                 var tiles = [];
                 tiles = response.data.tileList;
+
                 for (var i in tiles) {
                     //Get and change lowercase Tile Type.
                     tiles[i].tileType = tiles[i].tileType.toLowerCase();
@@ -60,6 +62,7 @@
             };
 
             var cacheEvents = function(externalId, response) {
+
 				var events = [];
 				var eventSize = eventCache.events.length;
 				events = response.data.eventList;
@@ -72,7 +75,10 @@
                 if (currTile.externalId == externalId) {
                     currTile.events = eventCache.events;
                 }
-            }
+
+				return events;
+
+			}
 
             var getTimeDiff = function(date){
                 //--------------------------------------------------------------------------------------------
@@ -200,7 +206,7 @@
                                 var reco = cacheReco(response);
                                 tileCache.page++;
 
-                                console.log("SERVICE THEN count " + tileCache.totalItems + " total " + tileCache.totalItems);
+                                console.log("RECO THEN count " + tileCache.totalItems + " total " + tileCache.totalItems);
 
                                 deferred.resolve(reco);
                             });
@@ -210,79 +216,84 @@
 
 				getNetTiles: function(externalId){
 
-                    console.log("SERVICE Page " + netTilesCache.page + " count " + netTilesCache.totalPages + " total " + netTilesCache.cacheSize);
+					console.log("SERVICE Page " + netTilesCache.page + " count " + netTilesCache.totalPages + " total " + netTilesCache.cacheSize);
 
-                    var deferred = $q.defer();
+					var deferred = $q.defer();
 
-                    if ( netTilesCache.page !=0 && netTilesCache.page  >= netTilesCache.totalPages ) {
-                        // Resolve the deferred $q object before returning the promise
-                        deferred.resolve([]);
-                        return deferred.promise;
-                    }
+					//------------------------------------------------------------------------//
+					// Check we are using the correct Cache and the User has Not Changed the Net
+					//------------------------------------------------------------------------//
 
-                    var promise = $http.get(APP_APIS['viewer']+'/nets/'+ externalId +'/tiles?page='+netTilesCache.page+'&size='+netTilesCache.pageSize)
-                        .then(function(response){
+					if ( netTilesCache.cacheId != externalId ) {
+						netTilesCache.cacheId = externalId
+						netTilesCache.cacheSize =  0;
+						netTilesCache.page = 0;
+						netTilesCache.pageSize = 6;
+						netTilesCache.totalPages = 0;
+						netTilesCache.totalItems = 0;
+						netTilesCache.tiles.length = 0;
+					}
 
-                            if ( tileCache.page == 0 ) {
-                                //---------------------------------------------//
-                                //Check Total Number of Pages in the Response //
-                                //---------------------------------------------//
-                                netTilesCache.totalItems = response.data.totalElements;
-                                netTilesCache.totalPages = response.data.totalPages;
-                            }
+					if ( netTilesCache.page !=0 && netTilesCache.page  >= netTilesCache.totalPages ) {
+						// Resolve the deferred $q object before returning the promise
+						deferred.resolve([]);
+						return deferred.promise;
+					}
 
-                            var tiles = cacheNetTiles(response);
-                            netTilesCache.page++;
+					var promise = $http.get(APP_APIS['viewer']+'/nets/'+ externalId +'/tiles?page='+netTilesCache.page+'&size='+netTilesCache.pageSize)
+						.then(function(response){
 
-                            console.log("SERVICE THEN count " + netTilesCache.totalItems + " total " + netTilesCache.totalItems);
+							if ( tileCache.page == 0 ) {
+								//---------------------------------------------//
+								//Check Total Number of Pages in the Response //
+								//---------------------------------------------//
+								netTilesCache.totalItems = response.data.totalElements;
+								netTilesCache.totalPages = response.data.totalPages;
+							}
 
-                            deferred.resolve(tiles);
-                        });
+							var tiles = cacheNetTiles(response);
+							netTilesCache.page++;
 
-                    return deferred.promise;
-              	},
+							console.log("SERVICE THEN count " + netTilesCache.totalItems + " total " + netTilesCache.totalItems);
+
+							deferred.resolve(tiles);
+						});
+
+					return deferred.promise;
+				},
 
 		        getTileEvents: function(externalId) {
-                    var deferred = $q.defer();
-                    $http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/events')
-                        .success(function(response){    
-                            deferred.resolve(response.eventList);
-                        })
-                        .error(function(status){
-                            deferred.resolve(status);
-                        })
 
-                    return deferred.promise;
-                    
                     //--------------------------------------------------------------------------
                     // Get List of Events from Tile Service.
                     //--------------------------------------------------------------------------
 
-                   // var deferred = $q.defer();
+                    var deferred = $q.defer();
 
-                   //  if ( eventCache.page !=0 && eventCache.page  >= eventCache.totalPages ) {
-                   //      // Resolve the deferred $q object before returning the promise
-                   //      deferred.resolve([]);
-                   //      return deferred.promise;
-                   //  }
+					if ( eventCache.page !=0 && eventCache.page  >= eventCache.totalPages ) {
+						// Resolve the deferred $q object before returning the promise
+						deferred.resolve([]);
+						return deferred.promise;
+					}
 
-                   //  var promise = $http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/events?page='+eventCache.page+'&size='+eventCache.pageSize)
-                   //      .then(function(response){
-                   //          if ( eventCache.page == 0 ) {
-                   //              //---------------------------------------------//
-                   //              //Check Total Number of Pages in the Response //
-                   //              //---------------------------------------------//
-                   //              eventCache.totalItems = response.data.totalElements;
-                   //              eventCache.totalPages = response.data.totalPages;
-                   //          }
+					var promise = $http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/events?page='+eventCache.page+'&size='+eventCache.pageSize)
+						.then(function(response){
 
-                   //          var events = cacheEvents(externalId, response);
-                   //          eventCache.page++;
-                   //          deferred.resolve(response);
-                   //      });
+							if ( eventCache.page == 0 ) {
+								//---------------------------------------------//
+								//Check Total Number of Pages in the Response //
+								//---------------------------------------------//
+								eventCache.totalItems = response.data.totalElements;
+								eventCache.totalPages = response.data.totalPages;
+							}
 
-                   //  return deferred.promise;
-                },
+							var events = cacheEvents(externalId, response);
+							eventCache.page++;
+							deferred.resolve(events);
+						});
+
+					return deferred.promise;
+				},
 
 				getFirstEvent: function(tileId) {
 					var deferred = $q.defer();
@@ -334,6 +345,36 @@
 						});
 
 			        return deferred.promise;
+				},
+
+				getTileContent: function(externalID) {
+
+					$http.get(APP_APIS['tile']+'/tiles/' + externalId + '/content')
+					.success(function(data){
+						if(data.contentList && data.contentList.length>0){
+							element.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
+							if(element.videoType == 'youtube'){
+								element.vid = data.contentList[0].externalRefs[0].externalContentId;
+								for( var i in data.contentList ){
+									element.videoTitles[i] = data.contentList[i].title;
+								}
+							}else if (element.videoType == 'syco') {
+								for( var i = 0; i < data.contentList.length; i++ ){
+									var vid = data.contentList[i].externalRefs[0].externalContentId;
+									$http.get('http://api1.syndicatecontent.com/Sc.Content.Api.External/ScContentExt/inventory/'+vid+'?mediaformatid=9&vendortoken=B9C333B9-54F3-40B6-8C34-7A6512955B98')
+										.success(function(data) {
+											if(data.resources[0].medias[0].hostId){
+												element.videoList.push(data.resources[0].medias[0]);
+											}
+										});
+									element.videoTitles.push(data.contentList[i].title);
+									element.videoImages.push(data.contentList[i].creatives[0].url);
+								}
+							}
+						}
+
+				});
+
 				},
 
 				moreRadar: function() {
