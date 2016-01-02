@@ -243,36 +243,45 @@
               	},
 
 		        getTileEvents: function(externalId) {
+                    var deferred = $q.defer();
+                    $http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/events')
+                        .success(function(response){    
+                            deferred.resolve(response.eventList);
+                        })
+                        .error(function(status){
+                            deferred.resolve(status);
+                        })
 
+                    return deferred.promise;
+                    
                     //--------------------------------------------------------------------------
                     // Get List of Events from Tile Service.
                     //--------------------------------------------------------------------------
 
-                   var deferred = $q.defer();
+                   // var deferred = $q.defer();
 
-                    if ( eventCache.page !=0 && eventCache.page  >= eventCache.totalPages ) {
-                        // Resolve the deferred $q object before returning the promise
-                        deferred.resolve([]);
-                        return deferred.promise;
-                    }
+                   //  if ( eventCache.page !=0 && eventCache.page  >= eventCache.totalPages ) {
+                   //      // Resolve the deferred $q object before returning the promise
+                   //      deferred.resolve([]);
+                   //      return deferred.promise;
+                   //  }
 
-                    var promise = $http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/events?page='+eventCache.page+'&size='+eventCache.pageSize)
-                        .then(function(response){
+                   //  var promise = $http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/events?page='+eventCache.page+'&size='+eventCache.pageSize)
+                   //      .then(function(response){
+                   //          if ( eventCache.page == 0 ) {
+                   //              //---------------------------------------------//
+                   //              //Check Total Number of Pages in the Response //
+                   //              //---------------------------------------------//
+                   //              eventCache.totalItems = response.data.totalElements;
+                   //              eventCache.totalPages = response.data.totalPages;
+                   //          }
 
-                            if ( eventCache.page == 0 ) {
-                                //---------------------------------------------//
-                                //Check Total Number of Pages in the Response //
-                                //---------------------------------------------//
-                                eventCache.totalItems = response.data.totalElements;
-                                eventCache.totalPages = response.data.totalPages;
-                            }
+                   //          var events = cacheEvents(externalId, response);
+                   //          eventCache.page++;
+                   //          deferred.resolve(response);
+                   //      });
 
-                            var events = cacheEvents(externalId, response);
-                            eventCache.page++;
-                            deferred.resolve(response);
-                        });
-
-                    return deferred.promise;
+                   //  return deferred.promise;
                 },
 
 				getFirstEvent: function(tileId) {
