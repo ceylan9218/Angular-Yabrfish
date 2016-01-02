@@ -21,6 +21,7 @@
                     scope.events = [];
                     scope.classes = [];
                     scope.eventPerSlide = 1;
+                    scope.currEvent = 0;
 
                     var path = $location.path();
                     // Enable/Disable Edit Event.
@@ -29,6 +30,9 @@
                     else
                       scope.enableEvent = false;
 
+                    //------------------------------------------------------------------------------
+                    // Need to put into a function to support infinite scroll and paging of events.
+                    //------------------------------------------------------------------------------
                     TileService.getTileEvents(scope.tile.externalId).then(function(events){
 
                         for(var i in events) {
@@ -37,6 +41,7 @@
                             var date = startDate.getDate();
                             scope.events.push({
                                 eventId: events[i].externalId,
+                                isRace: events[i].eventType == 'REGATTA',
                                 month: month,
                                 date: date,
                                 name: events[i].name,
@@ -51,6 +56,11 @@
 
                         scope.eventWidth = angular.element('#tile_'+scope.tile.externalId+' .events').width() / scope.eventPerSlide;
                         scope.eventSliderWidth = scope.eventWidth * scope.events.length;
+
+                        //------------------------------------------------/
+                        // Set the initial Event
+                        scope.currEvent = 0;
+
                     })
 
                     scope.slideEvents = function(dir) {
@@ -60,6 +70,14 @@
 
                         if(!scope.translate)
                             scope.translate = 0;
+
+                        if ( dir === 'left' && scope.currEvent > 0) {
+                            scope.currEvent--
+                        }
+
+                        if ( dir === 'right' && scope.currEvent < scope.events.length) {
+                            scope.currEvent++
+                        }
 
                         if (dir === 'left') {
                             scope.translate += eventWidth;

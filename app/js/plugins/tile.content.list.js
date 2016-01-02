@@ -41,6 +41,11 @@
 
                         scope.eventWidth = angular.element('#tile_'+scope.tile.externalId+' .events').width() / 3;
                         scope.eventSliderWidth = scope.eventWidth * scope.events.length;
+
+                        //---------------------------------------------------------------------//
+                        //Set to the current
+                        scope.currTile=0;
+
                     })
                     
 
