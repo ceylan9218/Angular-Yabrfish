@@ -76,6 +76,26 @@
             </li>
          </ul>
       </div>
+      <accordion class="extend-wrap" ng-if="card.extendWrap && card.tileType == 'article'" close-others="false">
+         <accordion-group is-open="card.showActionReplay">
+            <accordion-heading class="actionReplay-header">
+               <img src="app/img/action-replay.png">Action Replay<i class="pull-right fa" ng-class="{'fa-angle-up': card.showActionReplay, 'fa-angle-down': !card.showActionReplay}"></i>
+            </accordion-heading>
+            <div>
+               Action Replay
+            </div>
+         </accordion-group>
+      </accordion>
+      <accordion class="extend-wrap" ng-if="card.extendWrap && card.tileType == 'content'" close-others="false">
+         <accordion-group is-open="card.showActionReplay">
+            <accordion-heading class="actionReplay-header">
+               <img src="app/img/action-replay.png">Action Replay<i class="pull-right fa" ng-class="{'fa-angle-up': card.showActionReplay, 'fa-angle-down': !card.showActionReplay}"></i>
+            </accordion-heading>
+            <div>
+               Action Replay
+            </div>
+         </accordion-group>
+      </accordion>
       <accordion class="extend-wrap" ng-if="card.extendWrap && card.tileType == 'event'" close-others="false">
          <accordion-group is-open="card.showEvents">
             <accordion-heading class="event-header">
@@ -84,19 +104,14 @@
                <p ng-if="card.eventName && card.className && card.showEvents">
                   <span>{{card.eventName}}</span>
                   <span>/{{card.className}}</span>
-               </p>               
+               </p>
             </accordion-heading>
             <div class="section">
                <event-list tile="card"></event-list>
                <event-edit></event-edit>
                <class-list tile="card"></class-list>
+               <race-list></race-list>
             </div>
-         </accordion-group>
-         <accordion-group is-open="card.showRaces" is-disabled="card.isRace">
-            <accordion-heading class="races-header">
-               <img src="app/img/results.png">Races<i class="pull-right fa" ng-class="{'fa-angle-up': card.showRaces, 'fa-angle-down': !card.showRaces}"></i>
-            </accordion-heading>
-            <race-list></race-list>
          </accordion-group>
          <accordion-group is-open="card.showEnter">
             <accordion-heading class="enter-header">
