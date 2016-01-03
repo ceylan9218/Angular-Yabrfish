@@ -9900,6 +9900,12 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 /* Events Slider Style */
 .events {
   border: 1px solid #D2D2D2;
+  width: 100%;
+  display: inline-block;
+}
+.events ul.carousel{
+  width: calc(100% - 70px);
+  float: left;
 }
 .events .rn-carousel-control{
   display: none;
@@ -9948,7 +9954,7 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   text-align: center;
   margin: 0;
   line-height: 80px;
-  width: calc(100% - 130px);
+  width: calc(100% - 50px);
   float: left;
 }
 .class-slide .class-name{

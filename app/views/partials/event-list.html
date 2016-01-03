@@ -1,9 +1,9 @@
 <div class="event-wrap">
    <div class="events">
-      <ul rn-carousel="" rn-carousel-controls="" rn-carousel-index="0" rn-carousel-buffered="" class="list-unstyled carousel1">
+      <div class="index">{{carouselIndex + 1}}</div>
+      <ul rn-carousel="" rn-carousel-controls="" rn-carousel-index="carouselIndex" rn-carousel-buffered="" class="list-unstyled carousel">
          <li class="slide animation" ng-repeat="event in events">
-            <div ng-if="event != 'addEvent'">
-               <div class="index">{{$index + 1}}</div>
+            <div ng-if="event != 'addEvent'">               
                <div class="calendar-wrap">
                   <img class="calendar" src="app/img/cal-icon.png" alt="">
                   <span class="month">{{event.month}}</span>
