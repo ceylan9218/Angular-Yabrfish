@@ -223,6 +223,7 @@ angular.module('angular-carousel').run(['$templateCache', function($templateCach
                 restrict: 'A',
                 scope: true,
                 compile: function(tElement, tAttributes) {
+
                     // use the compile phase to customize the DOM
                     var firstChild = tElement[0].querySelector('li'),
                         firstChildAttributes = (firstChild) ? firstChild.attributes : [],

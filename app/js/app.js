@@ -473,7 +473,9 @@
               {name: 'ngImgCrop',                 files: ['vendor/ng-img-crop/compile/unminified/ng-img-crop.js',
                                                         'vendor/ng-img-crop/compile/unminified/ng-img-crop.css']},
               {name: 'angularFileUpload',         files: ['vendor/angular-file-upload/angular-file-upload.js']},
-              {name: 'infinite-scroll',           files: ['vendor/ngInfiniteScroll/build/ng-infinite-scroll.js']}
+              {name: 'infinite-scroll',           files: ['vendor/ngInfiniteScroll/build/ng-infinite-scroll.js']},
+              {name: 'angular-carousel',          files: ['vendor/angular-carousel/dist/angular-carousel.css',
+                                                        'vendor/angular-carousel/dist/angular-carousel.js']},
           ]
         })
         ;
@@ -853,13 +855,13 @@
                 title: 'Radar',
                 templateUrl: helper.basepath('radar.html'),
                 controller: 'radarController',
-                resolve: helper.resolveFor('spinkit','loaders.css', 'akoenig.deckgrid', 'infinite-scroll')
+                resolve: helper.resolveFor('spinkit','loaders.css', 'akoenig.deckgrid', 'infinite-scroll', 'angular-carousel')
             })
             .state('app.tile-detail', {
                 url: '/tile-detail',
                 title: 'Tile Detail',
                 templateUrl: helper.basepath('tile-detail.html'),
-                controller: 'radarController',
+                controller: 'radarController'
             })        
             .state('app.signup', {
                 url: '/signup',
@@ -917,7 +919,7 @@
                 title: 'My Tiles',
                 controller: 'tileController',
                 templateUrl: helper.basepath('tiles.html'),
-                resolve: helper.resolveFor('akoenig.deckgrid')
+                resolve: helper.resolveFor('akoenig.deckgrid', 'angular-carousel')
             })
             .state('app.new-tile', {
                 url: '/tiles/new',

@@ -1,5 +1,25 @@
 <div class="event-wrap">
-   <div class="left-arrow arrow">{{currEvent+1}}</div>
+   <div class="events">
+      <ul rn-carousel="" rn-carousel-controls="" rn-carousel-index="0" rn-carousel-buffered="" class="list-unstyled carousel1">
+         <li class="slide animation" ng-repeat="event in events">
+            <div ng-if="event != 'addEvent'">
+               <div class="index">{{$index + 1}}</div>
+               <div class="calendar-wrap">
+                  <img class="calendar" src="app/img/cal-icon.png" alt="">
+                  <span class="month">{{event.month}}</span>
+                  <span class="date">{{event.date}}</span>
+               </div>
+               <h4 class="event-name">{{event.name}}</h4>
+            </div>
+            <div ng-if="event == 'addEvent'">
+               <img class="add-event" src="app/img/add-rec.png">
+               <h4 class="event-name">Add Event</h4>
+            </div>
+         </li>
+      </ul>
+   </div>   
+
+   <!-- <div class="left-arrow arrow">{{currEvent+1}}</div>
    <div class="left-arrow arrow">
       <a href ng-click="slideEvents('left')"><i class="pull-left fa fa-angle-left"></i></a>               
    </div>
@@ -24,5 +44,5 @@
    </div>
    <div class="right-arrow arrow">
       <a href ng-click="slideEvents('right')"><i class="pull-right fa fa-angle-right"></i></a>               
-   </div>
+   </div> -->
 </div>

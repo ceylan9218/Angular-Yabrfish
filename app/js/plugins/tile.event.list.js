@@ -16,6 +16,36 @@
                 },
                 templateUrl: "app/views/partials/event-list.html",
                 link: function(scope, elem, attrs) {
+
+                    // scope.colors = ['#fc0003', '#f70008', '#f2000d', '#ed0012', '#e80017', '#e3001c'];
+                    // function getSlide(target, style) {
+                    //     var i = target.length;
+                    //     return {
+                    //         id: (i + 1),
+                    //         label: 'slide #' + (i + 1),
+                    //         img: 'http://lorempixel.com/1200/500/' + style + '/' + ((i + 1) % 10) ,
+                    //         color: scope.colors[ (i*10) % scope.colors.length],
+                    //         odd: (i % 2 === 0)
+                    //     };
+                    // }
+
+                    // function addSlide(target, style) {
+                    //     target.push(getSlide(target, style));
+                    // }
+
+                    // scope.carouselIndex = 3;
+
+                    // function addSlides(target, style, qty) {
+                    //     for (var i=0; i < qty; i++) {
+                    //         addSlide(target, style);
+                    //     }
+                    // }
+
+                    // // 1st ngRepeat demo
+                    // scope.slides = [];
+                    // addSlides(scope.slides, 'sports', 5);
+
+
                     var monthNames = TileService.getMonthNames();
 
                     scope.events = [];
