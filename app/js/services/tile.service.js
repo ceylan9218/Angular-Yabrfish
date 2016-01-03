@@ -65,7 +65,6 @@
             var cacheEvents = function(externalId, response) {
 
 				var events = [];
-				var eventSize = eventCache.events.length;
 				events = response.data.eventList;
 
 				for (var i in events) {

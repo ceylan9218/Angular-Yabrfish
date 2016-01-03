@@ -10209,11 +10209,11 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
     width: 40px;
   }
   .events .calendar-wrap .month{
-    top: 2px;
+    top: 15px;
     font-size: 14px;
   }
   .events .calendar-wrap .date{
-    top: 19px;
+    top: 36px;
     font-size: 18px;
   }
   .slide .event-name{
