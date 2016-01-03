@@ -1,0 +1,53 @@
+<div class="tiles-wrap" ng-init="getTiles()">
+	<div class="tiles-filter">
+		<div class="filter-wrap">
+			<div class="filter-img"><img src="app/img/filter-icon.png"></div>
+			<div class="tags">
+				<span ng-repeat="tag in tags" class="tag">{{tag}}<i class="fa fa-times" ng-click="removeTag(tag)"></i></span>
+			</div>
+			<div class="more" ng-click="showOption = !showOption">
+				<img src="app/img/dots.png">
+				<i class="fa ng-scope fa-angle-down" ng-if="!showOption"></i>
+				<i class="fa ng-scope fa-angle-up" ng-if="showOption"></i>
+			</div>
+		</div>
+		<div class="filter-options" ng-show="showOption">
+			<div class="tile-types">
+				<h4>Choose Sport</h4>
+				<div class="options">
+					<label><input type="checkbox" ng-model="event" ng-click="addTags('event')"><span>Sail</span></label>
+					<label><input type="checkbox" ng-model="power" ng-click="addTags('power')"><span>Power</span></label>
+					<label><input type="checkbox" ng-model="Boards" ng-click="addTags('Boards')"><span>Boards</span></label>
+					<label><input type="checkbox" ng-model="Rowing" ng-click="addTags('Rowing')"><span>Rowing</span></label>
+				</div>
+			</div>
+			<div class="accounts">
+				<h4>I Want To..</h4>
+				<div class="options">
+					<label><input type="checkbox" ng-model="account1" ng-click="addTags('account1')"><span>Buy</span></label>
+					<label><input type="checkbox" ng-model="account2" ng-click="addTags('account2')"><span>Learn</span></label>
+					<label><input type="checkbox" ng-model="account3" ng-click="addTags('account2')"><span>Join</span></label>
+					<label><input type="checkbox" ng-model="account3" ng-click="addTags('account2')"><span>Visit</span></label>
+					<label><input type="checkbox" ng-model="account3" ng-click="addTags('account2')"><span>Enter</span></label>
+				</div>
+			</div>
+			<div class="accounts">
+				<h4>In Particular.</h4>
+				<div class="options">
+					<label><input type="checkbox" ng-model="account1" ng-click="addTags('account1')"><span>Clothing</span></label>
+					<label><input type="checkbox" ng-model="account2" ng-click="addTags('account2')"><span>Equipment</span></label>
+					<label><input type="checkbox" ng-model="account3" ng-click="addTags('account2')"><span>Holidays</span></label>
+					<label><input type="checkbox" ng-model="account3" ng-click="addTags('account2')"><span>Events</span></label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- START row-->
+	<div class="row yabrTile-wrap">
+	   	<!-- START widget-->
+	   	<div class="container-fluid">
+	    	<div deckgrid="" source="tiles" cardtemplate="{{basepath('tile-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
+	   	</div>
+	   	<!-- END widget-->      
+	</div>
+</div>

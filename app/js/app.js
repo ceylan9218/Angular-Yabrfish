@@ -33,6 +33,7 @@
             'app.radar',
             'app.nets',
             'app.net-tiles',
+            'app.market',
             'app.profile',
             'app.signup',
             'app.login',
@@ -862,7 +863,14 @@
                 title: 'Tile Detail',
                 templateUrl: helper.basepath('tile-detail.html'),
                 controller: 'radarController'
-            })        
+            })
+            .state('app.market', {
+                url: '/market',
+                title: 'Market Place',
+                templateUrl: helper.basepath('market.html'),
+                controller: 'marketController',
+                resolve: helper.resolveFor('spinkit','loaders.css', 'akoenig.deckgrid', 'infinite-scroll', 'angular-carousel')
+            })
             .state('app.signup', {
                 url: '/signup',
                 title: 'Sign up',

@@ -1,14 +1,14 @@
 /**=========================================================
- * Module: radarController
- * Description: Controller for Radar page
+ * Module: marketController
+ * Description: Controller for Market page
  * Author: Ryan - 2015.9.21
  =========================================================*/
 (function() {
     'use strict';
 
     angular
-        .module('app.radar', ["ngSanitize", "com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'ngMap', 'ngAnimate', 'infinite-scroll'])
-        .directive('sycovideo', function(){
+        .module('app.market', ["ngSanitize", "com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'ngMap', 'ngAnimate', 'infinite-scroll'])
+        .directive('sycovideoRemove', function(){
             return {
               restrict: 'E',
               template: '<div id="{{id}}" class="player"></div>',
@@ -21,7 +21,7 @@
                   if(scope.id == id) {
                     angular.element('.player').each(function(){
                       var vid = angular.element(this).attr('id');
-                      bitdash(vid).destroy();                      
+                      bitdash(vid).destroy();
                     });
                     if(val) {
                       var conf = {
@@ -34,7 +34,7 @@
                           },
                           events: {
                             onReady : function(data) {
-                            }                          
+                            }
                           }
                       };
                       bitdash(scope.id).setup(conf);
@@ -44,9 +44,9 @@
               }
             }
         })
-        .controller('radarController', radarController);
+        .controller('marketController', marketController);
 
-    function radarController($rootScope, $scope, $http, $sce, RouteHelpers, APP_APIS, TileService) {
+    function marketController($rootScope, $scope, $http, $sce, RouteHelpers, APP_APIS, TileService) {
 
         $scope.inMotion = false;
         $scope.InMotionPage = 0;

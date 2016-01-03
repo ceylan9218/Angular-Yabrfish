@@ -22,7 +22,7 @@
   },
   {
       "text": "Market Place",
-      "sref": "app.video-test",
+      "sref": "app.market",
       "icon": "app/img/go-fish.png",
       "selicon": "app/img/go-fish-o.png",
       "label": "label label-info"
