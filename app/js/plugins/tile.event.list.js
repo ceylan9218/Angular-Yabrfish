@@ -65,41 +65,6 @@
 
                     })
 
-                    scope.slideEvents = function(dir) {
-
-                        var eventWidth = angular.element('.events').width() / scope.eventPerSlide;
-                        var endTranslate = (scope.events.length - scope.eventPerSlide) * eventWidth * -1;
-
-                        if(!scope.translate)
-                            scope.translate = 0;
-
-                        if ( dir === 'left' && scope.currEvent > 0) {
-                            scope.currEvent--
-                        }
-
-                        if ( dir === 'right' && scope.currEvent < scope.events.length) {
-                            scope.currEvent++
-                        }
-
-                        if (dir === 'left') {
-                            scope.translate += eventWidth;
-                            if(scope.translate <= 0)
-                                scope.transform = "translate("+scope.translate+"px, 0px)";
-                            else
-                                scope.translate = 0;
-                        } else {
-                            if(scope.events.length > scope.eventPerSlide) {
-                                scope.translate -= eventWidth;
-                                if(scope.translate >= endTranslate)
-                                    scope.transform = "translate("+scope.translate+"px, 0px)";
-                                else{
-                                    scope.transform = "translate("+endTranslate+"px, 0px)";
-                                    scope.translate = endTranslate;
-                                }
-                            }
-                        }
-                    }
-
                     scope.selectEvent = function(event, length) {
                         var eventData = {
                             event: event,
@@ -109,7 +74,7 @@
                         };
                         scope.$parent.$broadcast('event', eventData);
                     }
-                }                
+                }
             }
         }])        
 })();
