@@ -10,20 +10,73 @@
         .module('app.viewer', [])        
         .service('ViewerService', ViewerService);
 
+		var netsCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, nets:[]};
+
+		var cacheNets = function(response) {
+
+			var nets = [];
+
+			nets = response.data.viewerNets;
+
+			for (var i in nets) {
+				//-------------------------------------------------------------//
+				// Add Tiles to Cache
+				//------------------------------------------------------------//
+				netsCache.nets[netsCache.cacheSize++] = nets[i];
+			}
+
+			return nets;
+
+		};
+
         function ViewerService($http, $q, APP_APIS){
+
+
         	return{
-        		getNets: function(viewerId){
-        			var deferred = $q.defer();
-					$http.get(APP_APIS['viewer']+'/viewers/'+viewerId+'/nets')
-						.success(function(data) {
-							deferred.resolve(data.viewerNets);
-				        })
-				        .error(function(data, status){
-				        	deferred.resolve(status);
-				        })
-				   
+
+
+                cacheNetSize: function() { return netsCache.cacheSize },
+
+                cacheNets: function () { return netsCache.nets},
+
+                moreNets: function() {
+
+                    return  ( ( netsCache.cacheSize < netsCache.totalItems ) || netsCache.page == 0 )
+
+                },
+
+				getNets: function(viewerId){
+
+
+					var deferred = $q.defer();
+
+					if ( netsCache.page !=0 && netsCache.page  >= netsCache.totalPages ) {
+						// Resolve the deferred $q object before returning the promise
+						deferred.resolve([]);
+						return deferred.promise;
+					}
+
+					var promise = $http.get(APP_APIS['viewer']+'/viewers/'+viewerId+'/nets?page='+netsCache.page+'&size='+netsCache.pageSize)
+						.then(function(response){
+
+							if ( netsCache.page == 0 ) {
+								//---------------------------------------------//
+								//Check Total Number of Pages in the Response //
+								//---------------------------------------------//
+								netsCache.totalItems = response.data.totalElements;
+								netsCache.totalPages = response.data.totalPages;
+							}
+
+							var nets = cacheNets(response);
+							netsCache.page++;
+
+							console.log("NETS THEN count " + netsCache.totalItems + " total " + netsCache.totalItems);
+
+							deferred.resolve(nets);
+						});
+
 					return deferred.promise;
-        		},
+				},
 
         		getTilesByNetId: function(netId){
         			var deferred = $q.defer();
@@ -101,7 +154,7 @@
 			            });
 
 					return deferred.promise;
-        		}        		
+        		}
         	}
         }
 })();
