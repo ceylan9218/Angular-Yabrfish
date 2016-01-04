@@ -11771,6 +11771,9 @@ img.logo{
   border-right: 1px solid #D2D2D2;
   height: 100%;
 }
+.tags.market{
+  width: calc(100% - 180px);
+}
 .tiles-filter .more{
   float: right;
   width: 100px;
