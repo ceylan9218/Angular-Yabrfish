@@ -9748,7 +9748,7 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 }
 .tile-infos .panel-group .panel .panel-body ul li{
   list-style: none;
-  /*border-bottom: 1px solid #e4e4e4;*/
+  padding: 0 20px;
 }
 .tile-infos .panel-group .panel .panel-body ul li:last-child{
   border-bottom: none;
@@ -9899,16 +9899,32 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 }
 /* Events Slider Style */
 .events {
-  border: 1px solid #D2D2D2;
   width: 100%;
   display: inline-block;
 }
 .events ul.carousel{
-  width: calc(100% - 70px);
+  width: calc(100% - 55px);
   float: left;
+  cursor: unset;
 }
 .events .rn-carousel-control{
-  display: none;
+  top: 35%;
+}
+.events .rn-carousel-control.rn-carousel-control-prev{
+  left: 5px;
+}
+.events .rn-carousel-control.rn-carousel-control-next{
+  right: 5px;
+}
+.events .rn-carousel-control.rn-carousel-control-prev::before{
+  content:"\f104";
+  color: #3ABEEF;
+  font-family: fontawesome;
+}
+.events .rn-carousel-control.rn-carousel-control-next::before{
+  content:"\f105";
+  color: #3ABEEF;
+  font-family: fontawesome;
 }
 /*.events, .classes{*/
 .classes{  
@@ -9947,15 +9963,21 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   color: #3ABEEF;  
 }
 .slide .event-name{
+  width: calc(100% - 50px);
+  height: 80px;
+  float: left;
+  display: table;  
+}
+.slide .event-name h4{
   color: #333;
   font-weight: normal;
   font-size: 16px;
   white-space: normal;
   text-align: center;
   margin: 0;
-  line-height: 80px;
-  width: calc(100% - 50px);
-  float: left;
+  vertical-align: middle;
+  display: table-cell;
+  padding: 0 10px;
 }
 .class-slide .class-name{
   color: #333;
@@ -9979,7 +10001,13 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 .right-arrow{
   right: 0;
 }
-.event-wrap, .class-wrap{
+.event-wrap{
+  margin: 0;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
+.class-wrap{
   margin: 10px 0;
   display: inline-block;
   position: relative;
@@ -10016,12 +10044,18 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   width: 50px;
   height: 80px;
   background: #3ABEEF none repeat scroll 0% 0%;
-  margin-right: 20px;
+  margin-right: 5px;
   float: left;
   text-align: center;
   line-height: 80px;
   color: #fff;
   font-size: 24px;
+}
+.class-list{
+  margin-top: -6px;
+  position: relative;
+  display: inline-block;
+  width: 100%;
 }
 .class-content .class-heading{
   padding: 10px 0;
@@ -10317,8 +10351,14 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
     font-size: 14px;
     width: calc(100% - 30px);
   }
+  .events .rn-carousel-control{
+    display: none;
+  }
   .result-wrap .race-info{
     padding-left: 10px;
+  }
+  .tile-infos .panel-group .panel .panel-body ul li{
+    padding: 0 10px;
   }
 }
 
@@ -10389,6 +10429,12 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   }
   .yabrTile .tile-infos .icons a.more img{
     width: 60px;
+  }
+  .events .rn-carousel-control{
+    display: none;
+  }
+  .tile-infos .panel-group .panel .panel-body ul li{
+    padding: 0 10px;
   }
 }
 @media only screen and (min-width: 1200px) {
