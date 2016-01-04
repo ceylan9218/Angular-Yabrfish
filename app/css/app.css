@@ -10430,12 +10430,6 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   .yabrTile .tile-infos .icons a.more img{
     width: 60px;
   }
-  .events .rn-carousel-control{
-    display: none;
-  }
-  .tile-infos .panel-group .panel .panel-body ul li{
-    padding: 0 10px;
-  }
 }
 @media only screen and (min-width: 1200px) {
   .nav-wrapper{
