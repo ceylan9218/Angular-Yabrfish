@@ -9901,6 +9901,7 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 .events {
   width: 100%;
   display: inline-block;
+  border-bottom: 1px solid #E4E4E4;
 }
 .events ul.carousel{
   width: calc(100% - 55px);
@@ -10059,8 +10060,7 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 }
 .class-content .class-heading{
   padding: 10px 0;
-  border-top: 1px solid #cbcbcb;
-  border-bottom: 1px solid #cbcbcb;
+  border-bottom: 1px solid #E4E4E4;
 }
 .class-content .class-heading img{
   width: 20px;
