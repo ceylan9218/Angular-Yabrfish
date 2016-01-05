@@ -532,7 +532,8 @@
       }
 
       $scope.showNewTile = function() {
-        $scope.tiles.unshift('newTile');
+        if($scope.tiles.indexOf('newTile') < 0)
+          $scope.tiles.unshift('newTile');
       }
     }
 })();
