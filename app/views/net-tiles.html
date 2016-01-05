@@ -1,17 +1,17 @@
-<div class="tiles-wrap">
+<div class="tiles-wrap" ng-init="getNetInfo()">
 	<div class="tiles-header">
 		<a href="#/app/nets"><i class="fa fa-angle-left"></i>&nbsp;&nbsp;&nbsp;Back</a>
 		<h4>{{netName}}</h4> 
 		<p>
-			<span ng-if="tiles.length == 1">{{tiles.length}} Tile</span>
-			<span ng-if="tiles.length != 1">{{tiles.length}} Tiles</span>
+			<span ng-if="netTiles.length == 1">{{netTiles.length}} Tile</span>
+			<span ng-if="netTiles.length != 1">{{netTiles.length}} Tiles</span>
 		</p>
 	</div>	
 	<!-- START row-->
 	<div class="row yabrTile-wrap" infinite-scroll="getNetTiles()"  infinite-scroll-distance="2">
 	   <!-- START widget-->
 	   <div class="container-fluid">
-	      <div deckgrid="" source="netTiles" ng-init="getNetTiles()" cardtemplate="{{basepath('tile-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
+	      <div deckgrid="" source="netTiles" cardtemplate="{{basepath('tile-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
 	   </div>
 	   <!-- END widget-->
 	</div>

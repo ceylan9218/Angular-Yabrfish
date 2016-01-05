@@ -22,15 +22,22 @@
 
         $scope.getNetTiles = function() {
 
-
             if ( $scope.inMotion || ! TileService.moreNetTiles() ) {
                 //---------------------------------------------------------------
                 // Check Cache Size of Controller if navigation has left the View
                 //---------------------------------------------------------------
                 if ( $scope.netTiles.length < TileService.cacheNetTileSize() ) {
-                    $scope.netTiles = TileService.cacheNetTiles();
+                    //$scope.netTiles = TileService.cacheNetTiles();
+                    TileService.getNetTiles(netId).then(function (netTiles) {
+                        $scope.netTiles = TileService.cacheNetTiles();
+                        $scope.loading = false;
+                        $scope.inMotion = false;
+                    }, function (error) {
+                        console.log(error);
+                        return;
+                    })
+                    return;
                 }
-                return;
             }
 
             $scope.inMotion = true;
@@ -51,22 +58,14 @@
             }
         }
 
-        AuthService.getUser().then(function(user){
-            ViewerService.getNets(user.externalId).then(function(nets){
-                $scope.nets = nets;
-                for (var i in $scope.nets){
-                    if( $scope.nets[i].externalId == netId ){
-                        $scope.netName = $scope.nets[i].name;
-                    }
-                }
-            }, function(error){
-                console.log(error);
-                return;
-            });
-        }, function(error){
-            console.log(error);
-            return;
-        });
+        $scope.getNetInfo = function() {
+          $scope.cacheNets = ViewerService.cacheNets();
+          for (var i in $scope.cacheNets){
+              if( $scope.cacheNets[i].externalId == netId ){
+                  $scope.netName = $scope.cacheNets[i].name;
+              }
+          }   
+        }
     }
 
 })();

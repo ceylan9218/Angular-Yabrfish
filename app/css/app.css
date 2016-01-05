@@ -9547,6 +9547,13 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   font-weight: normal;
   font-size: 18px;
 }
+.yabrTile .tile-infos h4.title a{
+  color: #333;
+  text-decoration: none;  
+}
+.yabrTile .tile-infos h4.title a:hover{
+  color: #3ABEEF;
+}
 .yabrTile .tile-infos h4.title i{
   color: #3abeef;
   margin-left: 30px;

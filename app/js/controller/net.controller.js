@@ -19,19 +19,20 @@
       $scope.CurrNet = [];
 
       $scope.getNets = function() {
-
+        
           //---------------------------------------------------------//
           // Load Single Page of Nets
           //--------------------------------------------------------//
 
           if ( $scope.inMotion || ! ViewerService.moreNets() ) {
+
               //---------------------------------------------------------------
               // Check Cache Size of Controller if navigation has left the View
               //---------------------------------------------------------------
               if ( $scope.nets.length < ViewerService.cacheNetSize() ) {
-                  $scope.tiles = ViewerService.cacheNets();
+                  $scope.nets = ViewerService.cacheNets();
+                  return;
               }
-              return;
           }
 
           $scope.inMotion = true;
@@ -40,7 +41,7 @@
           if ( ! ViewerService.moreNets() ) {
               $scope.loading = false;
               $scope.inMotion = true;
-          } else {
+          } else {      
               ViewerService.getNets($rootScope.user.externalId).then(function (nets) {
                   $scope.nets = ViewerService.cacheNets();
                   $scope.loading = false;

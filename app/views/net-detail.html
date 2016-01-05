@@ -6,7 +6,7 @@
 		</div>
 	</div>
 	<div class="tile-infos">
-		<h4 class="title">{{card.name}}<i class="fa fa-angle-right fg-lg"></i></h4>
+		<h4 class="title"><a ng-href="{{'#/app/net-tiles/'+card.externalId}}">{{card.name}}<i class="fa fa-angle-right fg-lg"></i></a></h4>
 		<div class="icons">
 			<a class="check-btn"><img src="app/img/check.png"></a>
 			<a class="net-btn"><img src="app/img/fish-net.png"></a>
@@ -16,7 +16,7 @@
 				<img ng-if="extendWrap" src="app/img/less.png">
 				<img ng-if="!extendWrap" src="app/img/more.png">
 			</a>
-			<member-action account-id="card.account.externalId" action-type="card.relationshipType"></member-action
+			<member-action account-id="card.account.externalId" action-type="card.relationshipType"></member-action>
 		</div>
 		<accordion class="extend-wrap" ng-if="extendWrap" close-others="false">
 			<accordion-group is-open="card.showFollowTags">

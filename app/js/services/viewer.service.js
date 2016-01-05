@@ -58,7 +58,6 @@
 
 					var promise = $http.get(APP_APIS['viewer']+'/viewers/'+viewerId+'/nets?page='+netsCache.page+'&size='+netsCache.pageSize)
 						.then(function(response){
-
 							if ( netsCache.page == 0 ) {
 								//---------------------------------------------//
 								//Check Total Number of Pages in the Response //
