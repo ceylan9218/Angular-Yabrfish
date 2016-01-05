@@ -9743,45 +9743,6 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   display: block;
   overflow: hidden;
 }
-.tile-infos .panel-group .panel .panel-body ul {
-  padding: 0;
-}
-.tile-infos .panel-group .panel .panel-body ul li{
-  list-style: none;
-  padding: 0 20px;
-}
-.tile-infos .panel-group .panel .panel-body ul li:last-child{
-  border-bottom: none;
-}
-.tile-infos .panel-group .panel .panel-body ul li img{
-  width: 50px;
-  /*border-radius: 50%;*/
-  padding: 10px 0;
-  margin-right: 30px;
-}
-/*.tile-infos .panel-group .panel .panel-body ul li span{
-  color: #333;
-  font-size: 16px;
-}
-.tile-infos .panel-group .panel .panel-body ul li span.race-date{
-  font-size: 14px;
-  line-height: 2;
-}
-*/
-.tile-infos .panel-group .panel .panel-body ul li .alert-danger span{
-  color: #a94442;
-  font-size: 14px;
-}
-.tile-infos .panel-group .panel .panel-body ul li a{
-  background: #3abeef;
-  cursor: pointer;
-  float: right;
-  text-decoration: none;
-  color: white;
-  padding: 2px 10px;
-  border-radius: 20px;
-  margin-top: 20px;  
-}
 .attend-group .button{
   margin: 20px 0;
   width: 33.33%;
@@ -9908,6 +9869,9 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   float: left;
   cursor: unset;
 }
+.events ul.carousel li{
+  padding: 0 20px;
+}
 .events .rn-carousel-control{
   top: 35%;
 }
@@ -9980,6 +9944,12 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   display: table-cell;
   padding: 0 10px;
 }
+.slide .event-name h4:hover{
+  color: #3ABEEF;
+}
+.slide .event-name.selected h4{
+  color: #3ABEEF;
+}
 .class-slide .class-name{
   color: #333;
   font-weight: normal;
@@ -10023,6 +9993,7 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   width: 50px;
   display: table;
   margin: 0 auto;
+  padding: 10px 0;
 }
 .events .calendar-wrap span{
   width: 40px;
@@ -10088,8 +10059,13 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   border-bottom: 1px solid #e4e4e4;
   margin-bottom: 0;
 }
+ul.races{
+  list-style: none;
+  padding: 0;
+}
 .races-wrap ul li{
   padding: 5px 0;
+  border-top: 1px solid #e4e4e4;
 }
 .races-wrap ul li .race-btn{
   background: #3abeef;
@@ -10143,6 +10119,9 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   height: 300px;
   overflow: auto;
   width: 100%;
+}
+.result-wrap ul{
+  padding: 0;
 }
 .result-wrap ul li{
   display: inline-block;

@@ -43,8 +43,7 @@
          <a class="share-btn"><img src="app/img/share-alt.png"></a>
          <a class="comment-btn"><img src="app/img/comment.png"></a>
          <a class="more pull-right" ng-click="extendTile(card)">
-            <img ng-if="card.extendWrap" src="app/img/less.png">
-            <img ng-if="!card.extendWrap" src="app/img/more.png">
+            <img ng-src="{{card.moreImg}}">
          </a>
       </div>
       <div ng-if="loading" class="ball-clip-rotate loading">

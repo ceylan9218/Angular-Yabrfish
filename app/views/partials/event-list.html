@@ -9,7 +9,7 @@
                   <span class="month">{{event.month}}</span>
                   <span class="date">{{event.date}}</span>
                </div>
-               <div class="event-name">
+               <div class="event-name" ng-class="{'selected': selectedEvent == event.eventId}">
                   <h4 ng-click="selectEvent(event, events.length)">{{event.name}}</h4>                  
                </div>
             </div>
