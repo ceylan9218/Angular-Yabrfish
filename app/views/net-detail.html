@@ -1,0 +1,32 @@
+<div class="net-list yabrTile-body">
+	<div class="img-video-wrap">
+		<div class="tileImg">
+			<img ng-if="card.creatives[0].url" src="{{card.creatives[0].url}}" alt="tile" class="" />
+			<img ng-if="!card.creatives[0].url" src="app/img/grey-bg.png" alt="tile" class="" />
+		</div>
+	</div>
+	<div class="tile-infos">
+		<h4 class="title"><a ng-href="{{'#/app/net-tiles/'+card.externalId}}">{{card.name}}<i class="fa fa-angle-right fg-lg"></i></a></h4>
+		<div class="icons">
+			<a class="check-btn"><img src="app/img/check.png"></a>
+			<a class="net-btn"><img src="app/img/fish-net.png"></a>
+			<a class="share-btn"><img src="app/img/share-alt.png"></a>
+			<a class="comment-btn"><img src="app/img/comment.png"></a>
+			<a class="more pull-right" ng-click="extendWrap = !extendWrap">
+				<img ng-if="extendWrap" src="app/img/less.png">
+				<img ng-if="!extendWrap" src="app/img/more.png">
+			</a>
+			<member-action account-id="card.account.externalId" action-type="card.relationshipType"></member-action>
+		</div>
+		<accordion class="extend-wrap" ng-if="extendWrap" close-others="false">
+			<accordion-group is-open="card.showFollowTags">
+				<accordion-heading class="showFollowTags-header">
+					<img src="app/img/participants.png">Follow Tags<i class="pull-right fa" ng-class="{'fa-angle-up': card.showFollowTags, 'fa-angle-down': !card.showFollowTags}"></i>
+				</accordion-heading>
+				<div>
+					Follow Tags
+				</div>
+			</accordion-group>
+		</accordion>
+	</div>
+</div>

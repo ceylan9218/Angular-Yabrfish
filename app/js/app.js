@@ -887,7 +887,8 @@
               url: '/nets',
               title: 'My Nets',
               controller: 'netController',
-              templateUrl: helper.basepath('nets.html')
+              templateUrl: helper.basepath('nets.html'),
+              resolve: helper.resolveFor('spinkit','loaders.css', 'akoenig.deckgrid', 'infinite-scroll')
             })
             .state('app.net-tiles', {
               url: '/net-tiles/:id',
