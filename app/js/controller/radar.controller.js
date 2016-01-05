@@ -244,9 +244,11 @@
         $scope.extendTile = function(element){
           if(element.extendWrap){
             element.extendWrap = false;
+            element.moreImg = 'app/img/more.png';
           }
           else{
             element.extendWrap = true;
+            element.moreImg = 'app/img/less.png';
           }
         }
 

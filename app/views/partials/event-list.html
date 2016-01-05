@@ -9,7 +9,9 @@
                   <span class="month">{{event.month}}</span>
                   <span class="date">{{event.date}}</span>
                </div>
-               <h4 class="event-name">{{event.name}}</h4>
+               <div class="event-name" ng-class="{'selected': selectedEvent == event.eventId}">
+                  <h4 ng-click="selectEvent(event, events.length)">{{event.name}}</h4>                  
+               </div>
             </div>
             <div ng-if="event == 'addEvent'">
                <img class="add-event" src="app/img/add-rec.png">

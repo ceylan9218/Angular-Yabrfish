@@ -8,7 +8,7 @@
       </div>
       <div class="classes">
          <div class="class-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': classSliderWidth}">
-            <div class="class-slide animation" ng-repeat="class in classes" ng-style="{'width': classWidth}" ng-click="selectClass(class)" ng-class="{'selected': selectedClass == class}">
+            <div class="class-slide animation" ng-repeat="class in classes" ng-style="{'width': classWidth}" ng-click="selectClass(class)" ng-class="{'selected': selectedClass == class.externalId}">
                <div class="class-img">
                   <img src="{{class.flag}}" alt="">
                   <span class="class-name">{{class.name}}</span>

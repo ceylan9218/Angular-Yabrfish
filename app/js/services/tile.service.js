@@ -31,6 +31,7 @@
 					reco[i].tileType = reco[i].tileType.toLowerCase();
 					// Get Time Difference
 					reco[i].publishedDate = getTimeDiff(reco[i].publishedDate);
+					reco[i].moreImg = 'app/img/more.png';
 					//-------------------------------------------------------------//
 					// Add Tiles to Cache
 					// Controller is building Cache as well

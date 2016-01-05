@@ -15,6 +15,15 @@
                     tile:"="
                 },
                 templateUrl: "app/views/partials/event-list.html",
+//                 compile : function(scope, elem, attrs) {
+//                     scope.carouselIndex = 3;
+//                     return {
+//                         post: function (scope, elem, attrs){
+//                             console.log(scope, elem, attrs);
+//                         }
+//                     }
+//                 }
+// //                 ,
                 link: function(scope, elem, attrs) {
 
                     var monthNames = TileService.getMonthNames();
@@ -23,7 +32,7 @@
                     scope.classes = [];
                     scope.eventPerSlide = 1;
                     scope.currEvent = 0;
-                    scope.carouselIndex = 0;
+                    scope.carouselIndex = 3;
 
                     var path = $location.path();
                     // Enable/Disable Edit Event.
@@ -66,6 +75,8 @@
                     })
 
                     scope.selectEvent = function(event, length) {
+                        scope.selectedEvent = event.eventId;
+
                         var eventData = {
                             event: event,
                             length: length,

@@ -70,7 +70,9 @@
 						getClasses(data.event.eventId);
             		})
 
-            		scope.selectClass = function(classObj){
+            		scope.selectClass = function(classObj){                        
+                        scope.selectedClass = classObj.externalId;
+
             			var classData = {
             				classObj: classObj,
             				eventId: scope.eventId
