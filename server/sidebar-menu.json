@@ -8,7 +8,7 @@
   },
   {
       "text": "Radar",
-      "sref": "app.recommendations",
+      "sref": "app.radar",
       "icon": "app/img/radar.png",
       "selicon": "app/img/radar-o.png",
       "label": "label label-info"
