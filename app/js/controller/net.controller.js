@@ -19,7 +19,7 @@
       $scope.CurrNet = [];
 
       $scope.getNets = function() {
-        
+
           //---------------------------------------------------------//
           // Load Single Page of Nets
           //--------------------------------------------------------//
@@ -31,8 +31,8 @@
               //---------------------------------------------------------------
               if ( $scope.nets.length < ViewerService.cacheNetSize() ) {
                   $scope.nets = ViewerService.cacheNets();
-                  return;
               }
+              return;
           }
 
           $scope.inMotion = true;

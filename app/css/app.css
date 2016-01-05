@@ -11948,10 +11948,63 @@ img.logo{
   }
 }
 /* ========================================================================
-   title: Create Account Page Style
+   title: Account Page Style
    author: Marcin
    date: 2015.11.24
  ========================================================================== */
+.accounts{
+  margin: 10px auto;
+  display: inline-block;
+  width: 100%;
+  padding: 0;
+}
+.account-search {
+    display: inline-block;
+    width: 100%;
+    float: left;
+    background: none repeat scroll 0% 0% #FFF;
+    margin-top: 20px;
+    border: 1px solid #D2D2D2;
+    height: 60px;
+}
+.account-search .search-img {
+    width: 60px;
+    float: left;
+    border-right: 1px solid #D2D2D2;
+    height: 100%;
+}
+.account-search .search-img img {
+    width: 25px;
+    margin: 16px auto 0px;
+    display: table;
+}
+.account-search .search-input {
+    width: calc(100% - 160px);
+    float: left;
+    border-right: 1px solid #D2D2D2;
+    height: 100%;
+}
+.account-search .search-input input {
+    width: 100%;
+    border: medium none;
+    padding: 10px 20px;
+    height: 100%;
+    font-size: 16px;
+}
+.account-search .more {
+    float: right;
+    width: 100px;
+    height: 100%;
+    padding: 20px;
+    cursor: pointer;
+}
+.account-search .more img {
+    width: 30px;
+}
+.account-search .more i {
+    margin-left: 10px;
+    color: #CCC;
+}
 .create .new-account-wrap{
   width: 90%;
   margin: 0 auto;

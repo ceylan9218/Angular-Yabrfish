@@ -83,6 +83,7 @@
           ViewerService.getAccounts(user.externalId).then(function(data){
             for(var i in data){
               $scope.accounts.push(data[i].account);
+              $scope.accounts.unshift('new-account');
             }
           }, function(error){
             console.log(error);

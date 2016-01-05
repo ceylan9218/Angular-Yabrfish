@@ -1,10 +1,25 @@
-<!-- START row-->
-<div class="row yabrTile-wrap" ng-init="getAccounts()">
-   <!-- START widget-->
-   <div class="container-fluid">
-      <div deckgrid source="accounts" cardtemplate="{{basepath('account-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
-   </div>
-   <!-- END widget-->
+<div class="profile-account-wrap" ng-init="getAccounts()">
+	<div class="account-search">
+		<div class="search-img">
+			<img class="" src="app/img/search-blue.png">
+		</div>
+		<div class="search-input">
+			<input type="text" placeholder="Search..." ng-model="search_account" />
+		</div>
+		<div class="more">
+			<img src="app/img/dots.png">
+			<i class="fa ng-scope fa-angle-down"></i>
+		</div>
+	</div>	
+	<!-- START row-->
+	<div class="row yabrTile-wrap accounts">
+	   <!-- START widget-->
+	   <div class="container-fluid">
+	      <div deckgrid source="accounts" cardtemplate="{{basepath('account-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
+	   </div>
+	   <!-- END widget-->
+	</div>
 </div>
+
 <!-- Alert message-->
 <div flash-message="2000" class="alert-message" ng-show="$root.hasFlash"></div>
