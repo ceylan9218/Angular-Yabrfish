@@ -83,7 +83,6 @@
             //---------------------------------------------------------//
             // Load Single Page of Tiles
             //--------------------------------------------------------//
-
             if ( $scope.inMotion || ! TileService.moreRadar() ) {
                 //---------------------------------------------------------------
                 // Check Cache Size of Controller if navigation has left the View
