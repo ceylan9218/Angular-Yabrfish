@@ -64,42 +64,74 @@
         })
         .controller('clubController', clubController);
 
-    function clubController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, ViewerService) {      
+    function clubController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, ViewerService, AccountService) {
       if(!$rootScope.user)
         return;
       
-      $scope.basepath = RouteHelpers.basepath;
-      $scope.clubs = [];
-      $scope.myClubs = [];
-      $scope.search_club = '';
+        $scope.basepath = RouteHelpers.basepath;
+        $scope.inMotion = false;
+        $scope.clubs = [];
+        $scope.myClubs = [];
+        $scope.search_club = '';
+        $scope.searchToken = '';
 
-      // Search Clubs
-      $scope.$watch('search_club', function(newVal){
-        if(newVal != ''){
-          $http.get(APP_APIS['commerce']+'/accounts?name='+newVal+'&type=6')
-            .success(function(data){
-              $scope.clubs = data;              
-            })          
-        }else{
-          $scope.clubs = [];
-        }
-      });      
 
-      // // Set Club Name in Search box.
-      $scope.selectClub = function(club){
-        $scope.search_club = club.name;
+        $scope.searchClubs = function() {
 
-        for(var i in $scope.myClubs){
-          if($scope.myClubs[i].account.externalId == club.externalId){
-            Flash.create('danger', 'Already existed!');
+          //---------------------------------------------------------//
+          // Load Single Page Search
+          //--------------------------------------------------------//
+          if ( $scope.inMotion || ! AccountService.moreSearch() ) {
+            //---------------------------------------------------------------
+            // Check Cache Size of Controller if navigation has left the View
+            //---------------------------------------------------------------
+            if ( $scope.clubs.length < AccountService.SearchAccCache()) {
+              $scope.clubs.length = 0;
+              $scope.clubs = AccountService.cacheSearch();
+            }
             return;
+          }
+
+          $scope.inMotion = true;
+
+          if ( ! AccountService.moreSearch() ) {
+            $scope.inMotion = true;
+          } else {
+            AccountService.searchAccounts($scope.searchToken,1,$scope.search_club, '6').then(function (searchRes) {
+              $scope.clubs = AccountService.cacheSearch();
+              $scope.inMotion = false;
+            }, function (error) {
+              console.log(error);
+              return;
+            })
           }
         }
 
-        $scope.myClubs.push({
-          account: club
+
+        // Search Clubs
+        $scope.$watch('search_club', function(newVal){
+          if(newVal != '' && newVal.length > 3) {
+              $scope.searchToken='CLUB'+ new Date().getTime();
+              $scope.search_club=newVal;
+              $scope.searchClubs();
+          }
         });
-      }
+
+        // // Set Club Name in Search box.
+        $scope.selectClub = function(club){
+          $scope.search_club = club.name;
+
+          for(var i in $scope.myClubs){
+            if($scope.myClubs[i].account.externalId == club.externalId){
+              Flash.create('danger', 'Already existed!');
+              return;
+            }
+          }
+
+          $scope.myClubs.push({
+            account: club
+          });
+        }
 
       // Get my Clubs initially.
       $scope.getClubs = function() {

@@ -20,31 +20,42 @@
 
                 var searches = [];
 
-                searches = response.data.accounts;
+                searches = response.data;
 
                 for (var i in searches) {
-                    SearchAccCache.Accounts[tileCache.cacheSize++] = searches[i];
+                    SearchAccCache.Accounts[SearchAccCache.cacheSize++] = searches[i];
                 }
 
-                return reco;
+                return searches;
             };
 
         	return{
 
-            searchAccounts: function(cacheId, searchType, searchParams, accountTypes ) {
+                searchCacheSize : function () { return SearchAccCache.cacheSize },
+
+                cacheSearch: function () { return SearchAccCache.Accounts},
+
+                moreSearch: function() {
+
+                    return  ( ( SearchAccCache.cacheSize < SearchAccCache.totalItems ) || SearchAccCache.page == 0 )
+
+                },
+
+                searchAccounts: function(cacheId, searchType, searchParams, accountTypes ) {
+
 
                 //--------------------------------------------------------------------------
                 // Get List of Accounts Search
                 //--------------------------------------------------------------------------
 
-                if ( SearchAccCache.cacheId != cacheID ) {
-                    SearchAccCache.cacheId = externalId
+                if ( SearchAccCache.cacheId != cacheId ) {
+                    SearchAccCache.cacheId = cacheId
                     SearchAccCache.cacheSize =  0;
                     SearchAccCache.page = 0;
                     SearchAccCache.pageSize = 6;
                     SearchAccCache.totalPages = 0;
                     SearchAccCache.totalItems = 0;
-                    if ( SearchAccCache.Accounts != undefined ) eventCache.Accounts.length = 0;
+                    if ( SearchAccCache.Accounts != undefined ) SearchAccCache.Accounts.length = 0;
                 }
 
                 var deferred = $q.defer();
@@ -61,7 +72,7 @@
 
                 if ( searchType == 1 ) {
                     // Add Names To Search Filter
-                    var names = str.split(",");
+                    var names = searchParams.split(",");
                     for ( var i in names) {
                         searchFilter+=  searchSep + 'name='+names[i];
                         searchSep = '&'
@@ -79,9 +90,9 @@
                     searchFilter+=  searchSep + 'type='+accTypes[i];
                 }
 
-                var apiParms = searchFilter + 'page='+SearchAccCache.page+'&size='+SearchAccCache.pageSize;
+                var apiParms = searchFilter + '&page='+SearchAccCache.page+'&size='+SearchAccCache.pageSize;
 
-                var promise = $http.get(APP_APIS['commerce']+'/accounts?'+apiParms)
+                var promise = $http.get(APP_APIS['commerce']+'/accounts'+apiParms)
                     .then(function(response){
 
                         if ( SearchAccCache.page == 0 ) {
