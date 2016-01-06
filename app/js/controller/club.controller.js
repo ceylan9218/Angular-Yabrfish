@@ -97,7 +97,7 @@
           if ( ! AccountService.moreSearch() ) {
             $scope.inMotion = true;
           } else {
-            AccountService.searchAccounts($scope.searchToken,2,$scope.search_club, '1').then(function (searchRes) {
+            AccountService.searchAccounts($scope.searchToken,1,$scope.search_club, '6').then(function (searchRes) {
               $scope.clubs = AccountService.cacheSearch();
               $scope.inMotion = false;
             }, function (error) {

@@ -43,7 +43,8 @@
 
 
                 //--------------------------------------------------------------------------
-                // Get List of Accounts Search
+                // Get List of Accounts Search - Initialise Cache based on the cacheID
+                // CacheID based on Controller generated token
                 //--------------------------------------------------------------------------
 
                 if ( SearchAccCache.cacheId != cacheId ) {
@@ -63,6 +64,10 @@
                     deferred.resolve([]);
                     return deferred.promise;
                 }
+
+                //------------------------------------------------------------------------------------------------
+                // Search Type = 1 = Name 2 = Services use this to determine what params are created for the URL
+                //------------------------------------------------------------------------------------------------
 
                 var searchFilter = '';
                 var searchSep = '?';
