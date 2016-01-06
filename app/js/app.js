@@ -41,7 +41,7 @@
             'app.profile-accounts',
             'app.profile-clubs',
             'app.facebook-auth',
-            'app.tile',
+            'app.tileSrv',
             'app.product',
             'app.file',
             'app.equipment',
@@ -55,7 +55,8 @@
             'app.class-list',
             'app.race-list',
             'app.img-upload',
-            'app.equip'
+            'app.equip',
+            'app.tile'
         ])
         .constant('APP_APIS', {
           'base':                 'http://data.yabrfish.com/yfapi',
@@ -78,7 +79,7 @@
     'use strict';
 
     angular
-        .module('app.tile', []);
+        .module('app.tileSrv', []);
 })();
 (function() {
     'use strict';
@@ -926,14 +927,14 @@
             .state('app.tiles', {
                 url: '/tiles',
                 title: 'My Tiles',
-                controller: 'tileController',
+                controller: 'myTileController',
                 templateUrl: helper.basepath('tiles.html'),
                 resolve: helper.resolveFor('akoenig.deckgrid', 'angular-carousel')
             })
             .state('app.new-tile', {
                 url: '/tiles/new',
                 title: 'New Tile',
-                controller: 'tileController',
+                controller: 'myTileController',
                 templateUrl: helper.basepath('new-tile.html'),
                 resolve: helper.resolveFor('angularFileUpload')
             })

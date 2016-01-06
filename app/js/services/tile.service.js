@@ -7,7 +7,7 @@
     'use strict';
     
     angular
-        .module('app.tile', [])        
+        .module('app.tileSrv', [])        
         .service('TileService', TileService);
 
         function TileService($http, $q, APP_APIS){
