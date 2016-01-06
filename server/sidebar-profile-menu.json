@@ -31,17 +31,7 @@
   },
   {
       "text": "Accounts",
-      "sref": "",
-      "label": "label label-info",
-      "submenu": [
-          {
-            "text": "My Accounts", 
-            "sref": "app.profile-accounts" 
-          },
-          {
-            "text": "New Account", 
-            "sref": "app.profile-new-account" 
-          }    
-      ]
+      "sref": "app.profile-accounts",
+      "label": "label label-info"      
   }
 ]

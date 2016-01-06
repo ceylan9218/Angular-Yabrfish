@@ -11,9 +11,18 @@
 			<i class="fa ng-scope fa-angle-down"></i>
 		</div>
 	</div>
-	<ul class="club-list" ng-if="clubs.length != 0">
-		<li ng-repeat="club in clubs" ng-click="selectClub(club)">{{club.name}}</li>
-	</ul>
+	<div class="search-content" ng-if="clubs.length != 0">
+		<ul class="club-list" infinite-scroll="searchClubs()" infinite-scroll-parent="true" infinite-scroll-distance="2">
+			<li ng-repeat="club in clubs" ng-click="selectClub(club)">{{club.name}}</li>
+		</ul>
+		<div ng-if="loading" class="panel-body loader-demo">
+		   <div class="ball-pulse">
+		      <div></div>
+		      <div></div>
+		      <div></div>
+		   </div>
+		</div>
+	</div>
 	<!-- START row-->
 	<div class="row yabrTile-wrap clubs">
 	   	<!-- START widget-->

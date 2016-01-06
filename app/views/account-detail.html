@@ -1,4 +1,5 @@
-<div ng-controller="accountController" id="{{'account_'+card.externalId}}" class="yabrTile-body">
+<div ng-if="card == 'new-account'" ng-include="'app/views/profile-new-account.html'"></div>
+<div ng-controller="accountController" ng-if="card != 'new-account'" id="{{'account_'+card.externalId}}" class="yabrTile-body">
    <div class="img-video-wrap">
       <div class="tileImg">
          <img ng-if="card.accountLogoUrl" src="{{card.accountLogoUrl}}" alt="tile" class="" />

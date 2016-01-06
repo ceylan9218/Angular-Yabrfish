@@ -1,10 +1,38 @@
-<!-- START row-->
-<div class="row yabrTile-wrap" ng-init="getAccounts()">
-   <!-- START widget-->
-   <div class="container-fluid">
-      <div deckgrid source="accounts" cardtemplate="{{basepath('account-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
-   </div>
-   <!-- END widget-->
+<div class="profile-account-wrap" ng-init="getAccounts()">
+	<div class="account-filter">
+		<div class="filter-wrap">
+			<div class="new-tile" ng-click="showNewAccount()"><img src="app/img/add.png"><span>New</span></div>
+			<div class="filter-img"><img src="app/img/filter-icon.png"></div>
+			<div dropdown="" class="search-option input-group-btn">
+				<button type="button" dropdown-toggle="" class="btn btn-default">{{search_option}}
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<li><a ng-click="selectOpt('Name')">Name</a></li>
+					<li><a ng-click="selectOpt('Service')">Service</a></li>
+				</ul>
+			</div>
+			<div class="search-input">
+				<input type="text" placeholder="Search..." ng-model="search_account" />
+			</div>
+			<div class="more" ng-click="showOption = !showOption">
+				<img src="app/img/dots.png">
+				<i class="fa ng-scope fa-angle-down" ng-if="!showOption"></i>
+				<i class="fa ng-scope fa-angle-up" ng-if="showOption"></i>
+			</div>
+		</div>
+		<div class="filter-options" ng-show="showOption">			
+		</div>
+	</div>
+	<!-- START row-->
+	<div class="row yabrTile-wrap accounts">
+	   <!-- START widget-->
+	   <div class="container-fluid">
+	      <div deckgrid source="accounts" cardtemplate="{{basepath('account-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
+	   </div>
+	   <!-- END widget-->
+	</div>
 </div>
+
 <!-- Alert message-->
 <div flash-message="2000" class="alert-message" ng-show="$root.hasFlash"></div>

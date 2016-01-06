@@ -36,8 +36,8 @@
                         console.log(error);
                         return;
                     })
-                    return;
                 }
+                return;
             }
 
             $scope.inMotion = true;

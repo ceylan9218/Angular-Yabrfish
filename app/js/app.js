@@ -909,7 +909,7 @@
                 title: 'Profile Clubs',
                 controller: 'clubController',
                 templateUrl: helper.basepath('profile-clubs.html'),
-                resolve: helper.resolveFor('akoenig.deckgrid')
+                resolve: helper.resolveFor('loaders.css', 'akoenig.deckgrid', 'infinite-scroll')
             })
             .state('app.profile-accounts', {
                 url: '/profile/accounts',
