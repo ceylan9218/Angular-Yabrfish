@@ -77,7 +77,7 @@
 
 
         $scope.searchClubs = function() {
-
+console.log(111);
           //---------------------------------------------------------//
           // Load Single Page Search
           //--------------------------------------------------------//
@@ -121,7 +121,6 @@
 
         // Set Club Name in Search box.
         $scope.selectClub = function(club){
-          $scope.search_club = club.name;
 
           for(var i in $scope.myClubs){
             if($scope.myClubs[i].account.externalId == club.externalId){
@@ -133,6 +132,8 @@
           $scope.myClubs.push({
             account: club
           });
+
+          $scope.clubs = [];
         }
 
       // Get my Clubs initially.

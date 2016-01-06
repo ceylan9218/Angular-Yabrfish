@@ -11239,7 +11239,9 @@ img.logo{
   width: 100%;
   height: 190px;
   float: left;
-  overflow-y: scroll;  
+  overflow-y: scroll; 
+  border: 1px solid #D2D2D2;
+  border-top: none;
 }
 .club-list{
   background: #fff;
@@ -11247,14 +11249,17 @@ img.logo{
   list-style: none;
   width: 100%;
   padding: 0;
-  border-left: 1px solid #d2d2d2;
-  border-right: 1px solid #d2d2d2;
 }
 .club-list li{
-  border-bottom: 1px solid #D2D2D2;
-  padding-left: 80px;
+  padding-left: 20px;
   height: 30px;
   line-height: 30px;
+}
+.club-list li:nth-child(odd){
+  background: #fff;
+}
+.club-list li:nth-child(even){
+  background: #E4E4E4;
 }
 @media only screen and (max-width: 767px) {
   .club-search{
