@@ -81,11 +81,11 @@
           //---------------------------------------------------------//
           // Load Single Page Search
           //--------------------------------------------------------//
-          if ( $scope.inMotion || ! AccountService.moreSearch() ) {
+          if ( $scope.inMotion || ! AccountService.moreSearch($scope.searchToken) ) {
             //---------------------------------------------------------------
             // Check Cache Size of Controller if navigation has left the View
             //---------------------------------------------------------------
-            if ( $scope.clubs.length < AccountService.cacheSearch()) {
+            if ( $scope.clubs.length < AccountService.searchCacheSize()) {
               $scope.clubs.length = 0;
               $scope.clubs = AccountService.cacheSearch();
             }
@@ -95,7 +95,7 @@
           $scope.inMotion = true;
           $scope.loading = true;
 
-          if ( ! AccountService.moreSearch() ) {
+          if ( ! AccountService.moreSearch($scope.searchToken) ) {
             $scope.loading = false;
             $scope.inMotion = true;
           } else {

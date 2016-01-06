@@ -33,7 +33,17 @@
 
                 cacheSearch: function () { return SearchAccCache.Accounts},
 
-                moreSearch: function() {
+                moreSearch: function(cacheId) {
+
+                    if ( SearchAccCache.cacheId != cacheId ) {
+                        SearchAccCache.cacheId = cacheId
+                        SearchAccCache.cacheSize =  0;
+                        SearchAccCache.page = 0;
+                        SearchAccCache.pageSize = 6;
+                        SearchAccCache.totalPages = 0;
+                        SearchAccCache.totalItems = 0;
+                        if ( SearchAccCache.Accounts != undefined ) SearchAccCache.Accounts.length = 0;
+                    }
 
                     return  ( ( SearchAccCache.cacheSize < SearchAccCache.totalItems ) || SearchAccCache.page == 0 )
 
