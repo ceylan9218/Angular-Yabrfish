@@ -18,7 +18,7 @@
 
                 var searches = [];
 
-                searches = response.data;
+                searches = response.data.accounts;
 
                 for (var i in searches) {
                     SearchAccCache.Accounts[SearchAccCache.cacheSize++] = searches[i];
@@ -77,7 +77,7 @@
                 } else {
                     var services = searchParams.split(",");
                     for ( var i in services) {
-                        searchFilter+=  searchSep + 'service='+services[i];
+                        searchFilter+=  searchSep + 'serviceName='+services[i];
                         searchSep = '&'
                     }
                 }
