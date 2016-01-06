@@ -10,8 +10,7 @@
 			<img src="app/img/dots.png">
 			<i class="fa ng-scope fa-angle-down"></i>
 		</div>
-	</div>
-	<div class="search-content" ng-if="clubs.length != 0" style="max-height:500px;overflow: scroll;border:solid 2px"></div>
+	</div>	
 	<div class="search-content" ng-if="clubs.length != 0">
 		<ul class="club-list" infinite-scroll="searchClubs()" infinite-scroll-parent="true" infinite-scroll-distance="2">
 			<li ng-repeat="club in clubs" ng-click="selectClub(club)">{{club.name}}</li>
