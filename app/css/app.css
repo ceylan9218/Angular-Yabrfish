@@ -11234,6 +11234,13 @@ img.logo{
 .relationship .btn span.caret{
   margin: 0;
 }
+.search-content{
+  background: #fff;
+  width: 100%;
+  height: 190px;
+  float: left;
+  overflow-y: scroll;  
+}
 .club-list{
   background: #fff;
   display: inline-block;

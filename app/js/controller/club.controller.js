@@ -93,12 +93,15 @@
           }
 
           $scope.inMotion = true;
+          $scope.loading = true;
 
           if ( ! AccountService.moreSearch() ) {
+            $scope.loading = false;
             $scope.inMotion = true;
           } else {
-            AccountService.searchAccounts($scope.searchToken,1,$scope.search_club, '6').then(function (searchRes) {
+            AccountService.searchAccounts($scope.searchToken,1,$scope.search_club, '1').then(function (searchRes) {
               $scope.clubs = AccountService.cacheSearch();
+              $scope.loading = false;
               $scope.inMotion = false;
             }, function (error) {
               console.log(error);
@@ -106,7 +109,6 @@
             })
           }
         }
-
 
         // Search Clubs
         $scope.$watch('search_club', function(newVal){
@@ -117,7 +119,7 @@
           }
         });
 
-        // // Set Club Name in Search box.
+        // Set Club Name in Search box.
         $scope.selectClub = function(club){
           $scope.search_club = club.name;
 
