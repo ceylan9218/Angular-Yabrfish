@@ -99,7 +99,7 @@
             $scope.loading = false;
             $scope.inMotion = true;
           } else {
-            AccountService.searchAccounts($scope.searchToken,1,$scope.search_club, '1').then(function (searchRes) {
+            AccountService.searchAccounts($scope.searchToken,1,$scope.search_club, '6').then(function (searchRes) {
               $scope.clubs = AccountService.cacheSearch();
               $scope.loading = false;
               $scope.inMotion = false;
