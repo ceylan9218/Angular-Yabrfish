@@ -85,7 +85,7 @@
             //---------------------------------------------------------------
             // Check Cache Size of Controller if navigation has left the View
             //---------------------------------------------------------------
-            if ( $scope.clubs.length < AccountService.SearchAccCache()) {
+            if ( $scope.clubs.length < AccountService.cacheSearch()) {
               $scope.clubs.length = 0;
               $scope.clubs = AccountService.cacheSearch();
             }
@@ -97,7 +97,7 @@
           if ( ! AccountService.moreSearch() ) {
             $scope.inMotion = true;
           } else {
-            AccountService.searchAccounts($scope.searchToken,1,$scope.search_club, '6').then(function (searchRes) {
+            AccountService.searchAccounts($scope.searchToken,2,$scope.search_club, '1').then(function (searchRes) {
               $scope.clubs = AccountService.cacheSearch();
               $scope.inMotion = false;
             }, function (error) {
@@ -110,7 +110,7 @@
 
         // Search Clubs
         $scope.$watch('search_club', function(newVal){
-          if(newVal != '' && newVal.length > 3) {
+          if(newVal != '' && newVal.length > 6) {
               $scope.searchToken='CLUB'+ new Date().getTime();
               $scope.search_club=newVal;
               $scope.searchClubs();

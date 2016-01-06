@@ -10,8 +10,6 @@
         .module('app.account', [])        
         .service('AccountService', AccountService);
 
-
-
         function AccountService($http, $q, APP_APIS){
 
             var SearchAccCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, Accounts:[]};
@@ -69,7 +67,6 @@
                 var searchFilter = '';
                 var searchSep = '?';
 
-
                 if ( searchType == 1 ) {
                     // Add Names To Search Filter
                     var names = searchParams.split(",");
@@ -78,7 +75,7 @@
                         searchSep = '&'
                     }
                 } else {
-                    var services = str.split(",");
+                    var services = searchParams.split(",");
                     for ( var i in services) {
                         searchFilter+=  searchSep + 'service='+services[i];
                         searchSep = '&'
@@ -106,6 +103,9 @@
                         var Accounts = cacheSearch(cacheId, response);
                         SearchAccCache.page++;
                         deferred.resolve(Accounts);
+                    }, function(error){
+                        console.log(error);
+                        return;
                     });
 
                 return deferred.promise;
