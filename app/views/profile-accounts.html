@@ -24,6 +24,18 @@
 		<div class="filter-options" ng-show="showOption">			
 		</div>
 	</div>
+	<div class="search-content" ng-if="search_accounts.length != 0">
+		<ul class="account-list" infinite-scroll="searchAccounts()" infinite-scroll-parent="true" infinite-scroll-distance="2">
+			<li ng-repeat="account in search_accounts" ng-click="selectAccount(account)">{{account.name}}</li>
+		</ul>
+		<div ng-if="loading" class="panel-body loader-demo">
+		   <div class="ball-pulse">
+		      <div></div>
+		      <div></div>
+		      <div></div>
+		   </div>
+		</div>
+	</div>
 	<!-- START row-->
 	<div class="row yabrTile-wrap accounts">
 	   <!-- START widget-->

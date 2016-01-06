@@ -12019,6 +12019,24 @@ img.logo{
     margin-left: 10px;
     color: #CCC;
 }
+.account-list {
+    background: none repeat scroll 0% 0% #FFF;
+    display: inline-block;
+    list-style: outside none none;
+    width: 100%;
+    padding: 0px;
+}
+.account-list li{
+  padding-left: 20px;
+  height: 30px;
+  line-height: 30px;
+}
+.account-list li:nth-child(odd){
+  background: #fff;
+}
+.account-list li:nth-child(even){
+  background: #E4E4E4;
+}
 .create .new-account-wrap{
   width: 90%;
   margin: 0 auto;

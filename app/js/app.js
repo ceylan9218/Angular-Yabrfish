@@ -916,7 +916,7 @@
                 title: 'Profile Accounts',
                 controller: 'accountController',
                 templateUrl: helper.basepath('profile-accounts.html'),
-                resolve: helper.resolveFor('akoenig.deckgrid')
+                resolve: helper.resolveFor('akoenig.deckgrid', 'loaders.css')
             })
             .state('app.profile-new-account', {
                 url: '/profile/accounts/new',
