@@ -14,7 +14,7 @@
                 scope: {
                     account: '='
                 },
-        		template: '<label for="file-input"><img src="app/img/upload-photo.png"/ ng-src="{{source}}"></label>' +
+                template: '<label class="panel-body" for="file-input" ng-class="loading ? \'whirl standard\' : \'\'" ng-style="loading ? {\'background-color\': \'#fff\', \'opacity\': \'0.5\'} : {\'none\': \'transparent\', \'opacity\': \'1\'}"><img src="app/img/upload-photo.png"/ ng-src="{{source}}"></label>' +
                           '<input id="file-input" class="file" type="file" uploader="form.uploader" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>',
         		link: function(scope, elem, attrs) {
                     scope.setFile = function(element) {
@@ -25,6 +25,7 @@
                         reader.onload = function(event) {
                             scope.source = event.target.result;
                             scope.$apply();
+                            scope.loading = true;
 
                             Upload.upload({
                                 url: APP_APIS['media'] + '/images',
@@ -43,6 +44,8 @@
 
                                 AccountService.updateAccount(params).then(function(data){
                                     console.log("Successful Update Account");
+                                    scope.loading = false;
+                                    angular.element('.upload-img label').css({'height': '100%', 'width': '100%', 'margin-top': '0', 'margin-left': '0', 'padding': '0'});
                                 }, function(error){
                                     console.log(error);
                                     return;

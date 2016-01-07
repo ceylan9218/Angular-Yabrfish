@@ -42,19 +42,18 @@
 
     function accountController($scope, $rootScope, $http, RouteHelpers, APP_APIS, Flash, ProductService, AuthService, ViewerService, LookupService, AccountService) {
 
+          $scope.basepath = RouteHelpers.basepath;
+          $scope.accounts = [];
+          $scope.accountTypes = [];
+          $scope.accountType = {};
 
-            $scope.basepath = RouteHelpers.basepath;
-            $scope.accounts = [];
-            $scope.accountTypes = [];
-            $scope.accountType = {};
-
-            // Place Holder For New Account Creation
-            $scope.newAccount = {
-              accountType: '',
-              imageUrl: '',
-              title: '',
-              description: ''
-            };
+          // Place Holder For New Account Creation
+          $scope.newAccount = {
+            accountType: '',
+            imageUrl: '',
+            title: '',
+            description: ''
+          };
 
           $scope.location = [ {"lat": 51.50013, "lon":-0.126305} ];
           $scope.search_option = 'Name';

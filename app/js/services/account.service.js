@@ -181,10 +181,10 @@
                     var deferred = $q.defer();
                     $http.put(APP_APIS['commerce'] + '/accounts/' + params.externalId, params)
                         .success(function(data){
-                            console.log(data);
+                            deferred.resolve(data);
                         })
                         .error(function(data, status){
-                            console.log(status);
+                            deferred.resolve(status);
                         })
 
                     return deferred.promise;

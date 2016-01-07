@@ -467,6 +467,7 @@
              'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
                                    'vendor/simple-line-icons/css/simple-line-icons.css'],
              'loaders.css':        ['vendor/loaders.css/loaders.css'],
+             'whirl':              ['vendor/whirl/dist/whirl.css'],
              'spinkit':            ['vendor/spinkit/css/spinkit.css']
           },
           // Angular based script (use the right module name)
@@ -916,7 +917,7 @@
                 title: 'Profile Accounts',
                 controller: 'accountController',
                 templateUrl: helper.basepath('profile-accounts.html'),
-                resolve: helper.resolveFor('akoenig.deckgrid', 'loaders.css')
+                resolve: helper.resolveFor('loaders.css', 'whirl', 'akoenig.deckgrid')
             })
             .state('app.profile-new-account', {
                 url: '/profile/accounts/new',
