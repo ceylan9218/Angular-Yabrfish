@@ -1,8 +1,10 @@
-<div class="club-content yabrTile-body">
+<div class="club-content yabrTile-body" ng-controller="clubController">
 	<div class="img-video-wrap">
 		<div class="tileImg">
 			<img ng-if="card.account.accountLogoUrl" src="{{card.account.accountLogoUrl}}" alt="tile" class="" />
-			<img ng-if="!card.account.accountLogoUrl" src="app/img/grey-bg.png" alt="tile" class="" />
+			<div class="upload-img" ng-if="!card.account.accountLogoUrl">
+				<img-upload account="card.account"></img-upload>
+			</div>
 		</div>      
 	</div>   
 	<div class="tile-infos">

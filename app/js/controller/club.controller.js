@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-        .module('app.profile-clubs', ['ngAnimate', 'ui.bootstrap','flash'])
+        .module('app.profile-clubs', ['ngAnimate', 'ui.bootstrap','flash', 'ngFileUpload'])
         .directive('memberAction', function($rootScope, LookupService, ViewerService){
           return {
             restrict: 'E',
@@ -64,9 +64,9 @@
         })
         .controller('clubController', clubController);
 
-    function clubController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, ViewerService, AccountService) {
-      if(!$rootScope.user)
-        return;
+    function clubController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, ViewerService, AccountService, Upload) {
+        if(!$rootScope.user)
+          return;
       
         $scope.basepath = RouteHelpers.basepath;
         $scope.inMotion = false;
@@ -164,8 +164,7 @@
                 $scope.myClubs.splice(i, 1);
               }
             }
-          }
-
-      )}
+          })        
+    }
 
 })();
