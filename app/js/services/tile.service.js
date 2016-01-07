@@ -15,6 +15,7 @@
         	var tileCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
         	var eventCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, events:[]};
 			var contentCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, content:[]};
+			var myTilesCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
 			var netTilesCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
 			var SearchCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
 
@@ -66,6 +67,30 @@
 				}
 
 				return reco;
+			};
+
+			//--------------------------------------------------------------------------------------------
+			// Process Response and cache tiles from Tile Service
+			//--------------------------------------------------------------------------------------------
+			var cacheMyTiles = function(response) {
+
+				var tiles = [];
+                tiles = response.data.tileList;
+
+                for (var i in tiles) {
+                    //Get and change lowercase Tile Type.
+                    tiles[i].tileType = tiles[i].tileType.toLowerCase();
+                    // Get Time Difference
+                    tiles[i].publishedDate = getTimeDiff(tiles[i].publishedDate);
+                    tiles[i].moreImg = 'app/img/more.png';
+                    //-------------------------------------------------------------//
+                    // Add Tiles to Cache Not being used in this Current Version
+                    //  Controller is building Cache as well
+                    //------------------------------------------------------------//
+                    myTilesCache.tiles[myTilesCache.cacheSize++] = tiles[i];
+                }
+
+                return tiles;
 			};
 
 			var cacheNetTiles = function(response) {
@@ -173,6 +198,8 @@
 
         		cacheSize : function () { return tileCache.cacheSize },
 
+        		cacheMyTilesSize : function () { return myTilesCache.cacheSize },
+
                 cacheNetTileSize: function() { return netTilesCache.cacheSize },
 
 				totalElements: tileCache.totalItems,
@@ -182,6 +209,8 @@
 				totalPages: function () { return tileCache.totalPages },
 
 				cacheTiles: function () { return tileCache.tiles},
+
+				cacheMyTiles: function () { return myTilesCache.tiles},
 
                 cacheNetTiles: function () { return netTilesCache.tiles},
 
@@ -239,6 +268,40 @@
                             });
 
                         return deferred.promise;
+                },
+
+                getMyTiles: function(viewerId){
+
+                    console.log("SERVICE Page " + myTilesCache.page + " count " + myTilesCache.totalPages + " total " + myTilesCache.cacheSize);
+
+					var deferred = $q.defer();
+					
+					if ( myTilesCache.page !=0 && myTilesCache.page  >= myTilesCache.totalPages ) {
+						// Resolve the deferred $q object before returning the promise
+						deferred.resolve([]);
+						return deferred.promise;
+					}
+
+					var promise = $http.get(APP_APIS['tile']+'/tiles/owners?viewerExternalId='+ viewerId +'&page='+myTilesCache.page+'&size='+myTilesCache.pageSize)
+						.then(function(response){
+
+							if ( myTilesCache.page == 0 ) {
+								//---------------------------------------------//
+								//Check Total Number of Pages in the Response //
+								//---------------------------------------------//
+								myTilesCache.totalItems = response.data.totalElements;
+								myTilesCache.totalPages = response.data.totalPages;
+							}
+
+							var tiles = cacheMyTiles(response);
+							myTilesCache.page++;
+
+							console.log("SERVICE THEN count " + myTilesCache.totalItems + " total " + myTilesCache.totalItems);
+
+							deferred.resolve(tiles);
+						});
+
+					return deferred.promise;
                 },
 
 				getNetTiles: function(externalId){
@@ -393,36 +456,42 @@
 				getTileContent: function(externalID) {
 
 					$http.get(APP_APIS['tile']+'/tiles/' + externalId + '/content')
-					.success(function(data){
-						if(data.contentList && data.contentList.length>0){
-							element.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
-							if(element.videoType == 'youtube'){
-								element.vid = data.contentList[0].externalRefs[0].externalContentId;
-								for( var i in data.contentList ){
-									element.videoTitles[i] = data.contentList[i].title;
-								}
-							}else if (element.videoType == 'syco') {
-								for( var i = 0; i < data.contentList.length; i++ ){
-									var vid = data.contentList[i].externalRefs[0].externalContentId;
-									$http.get('http://api1.syndicatecontent.com/Sc.Content.Api.External/ScContentExt/inventory/'+vid+'?mediaformatid=9&vendortoken=B9C333B9-54F3-40B6-8C34-7A6512955B98')
-										.success(function(data) {
-											if(data.resources[0].medias[0].hostId){
-												element.videoList.push(data.resources[0].medias[0]);
-											}
-										});
-									element.videoTitles.push(data.contentList[i].title);
-									element.videoImages.push(data.contentList[i].creatives[0].url);
+						.success(function(data){
+							if(data.contentList && data.contentList.length>0){
+								element.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
+								if(element.videoType == 'youtube'){
+									element.vid = data.contentList[0].externalRefs[0].externalContentId;
+									for( var i in data.contentList ){
+										element.videoTitles[i] = data.contentList[i].title;
+									}
+								}else if (element.videoType == 'syco') {
+									for( var i = 0; i < data.contentList.length; i++ ){
+										var vid = data.contentList[i].externalRefs[0].externalContentId;
+										$http.get('http://api1.syndicatecontent.com/Sc.Content.Api.External/ScContentExt/inventory/'+vid+'?mediaformatid=9&vendortoken=B9C333B9-54F3-40B6-8C34-7A6512955B98')
+											.success(function(data) {
+												if(data.resources[0].medias[0].hostId){
+													element.videoList.push(data.resources[0].medias[0]);
+												}
+											});
+										element.videoTitles.push(data.contentList[i].title);
+										element.videoImages.push(data.contentList[i].creatives[0].url);
+									}
 								}
 							}
-						}
 
-				});
+						});
 
 				},
 
 				moreRadar: function() {
 
                     return  ( ( tileCache.cacheSize < tileCache.totalItems ) || tileCache.page == 0 )
+
+                },
+
+                moreMyTiles: function() {
+
+                    return  ( ( myTilesCache.cacheSize < myTilesCache.totalItems ) || myTilesCache.page == 0 )
 
                 },
 

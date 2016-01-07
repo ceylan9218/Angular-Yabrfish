@@ -1,8 +1,8 @@
-<div class="tiles-wrap" ng-init="getTiles()">
+<div class="tiles-wrap">
 	<div class="tiles-filter">
 		<div class="filter-wrap">
 			<div class="new-tile" ng-click="showNewTile()"><img src="app/img/add.png"><span>New</span></div>
-			<div class="filter-img"><img src="app/img/filter-icon.png"></div>
+			<div class="filter-img"><img src="app/img/filter-icon.png"></div>			
 			<div class="tags">
 				<span ng-repeat="tag in tags" class="tag">{{tag}}<i class="fa fa-times" ng-click="removeTag(tag)"></i></span>
 			</div>
@@ -18,7 +18,7 @@
 				<div class="options">
 					<label><input type="checkbox" ng-model="event" ng-click="addTags('event')"><span>Event</span></label>
 					<label><input type="checkbox" ng-model="content" ng-click="addTags('content')"><span>Content</span></label>
-					<label><input type="checkbox" ng-model="sale" ng-click="addTags('sale')"><span>For Sale</span></label>
+					<label><input type="checkbox" ng-model="sale" ng-click="addTags('sale')"><span>For Sale</span></label>					
 				</div>
 			</div>
 			<div class="accounts">
@@ -31,11 +31,18 @@
 		</div>
 	</div>
 	<!-- START row-->
-	<div class="row yabrTile-wrap">
+	<div class="row yabrTile-wrap" infinite-scroll="getTiles()"  infinite-scroll-distance="2">
 	   	<!-- START widget-->
 	   	<div class="container-fluid">
 	    	<div deckgrid="" source="tiles" cardtemplate="{{basepath('tile-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
 	   	</div>
-	   	<!-- END widget-->
+	   	<!-- END widget-->      
+	</div>
+	<div ng-if="loading" class="panel-body loader-demo">
+	  	<div class="ball-pulse">
+	    	<div></div>
+	    	<div></div>
+	    	<div></div>
+	   	</div>
 	</div>
 </div>
