@@ -11261,6 +11261,24 @@ img.logo{
 .club-list li:nth-child(even){
   background: #E4E4E4;
 }
+.upload-img{
+  background: grey;
+  position: relative;
+  height: 250px;
+}
+.upload-img label{
+  background: #E4E4E4;
+  width: 90%;
+  margin-left: 5%;
+  height: 90%;
+  margin-top: 4%;
+}
+.upload-img #file-input{
+  display: none;
+}
+.upload-img img{
+  height: 100%;
+}
 @media only screen and (max-width: 767px) {
   .club-search{
     height: 50px;

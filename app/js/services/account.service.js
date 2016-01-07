@@ -175,6 +175,19 @@
                         })
 
                     return deferred.promise;
+                },
+
+                updateAccount: function(params) {
+                    var deferred = $q.defer();
+                    $http.put(APP_APIS['commerce'] + '/accounts/' + params.externalId, params)
+                        .success(function(data){
+                            console.log(data);
+                        })
+                        .error(function(data, status){
+                            console.log(status);
+                        })
+
+                    return deferred.promise;
                 }
 
             }

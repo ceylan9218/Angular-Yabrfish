@@ -68,7 +68,7 @@
           $scope.areaCountry = {};
 
           // Slide Tile Creation Steps.
-          var step_count = 1;
+          var step_count = 3;
           $scope.stepWidth = angular.element('.new-account-wrap').width();
           $scope.sliderWidth = angular.element('.new-account-wrap').width() * step_count;
           $scope.transform = '';
@@ -232,5 +232,23 @@
               })
             }
           }
-        }
+
+          //----------------------------------------------------------------------------
+          // Set CLub into the View for Optionallig Creating A Relationship
+          //----------------------------------------------------------------------------
+
+          $scope.selectAccount = function(account){
+
+                for(var i in $scope.accounts){
+                  if($scope.accounts[i].externalId == account.externalId){
+                    Flash.create('danger', 'Its Already Saved For You');
+                    return;
+                  }
+                }
+
+                $scope.accounts.push(account);
+
+                $scope.search_accounts = [];
+          }
+    }
 })();
