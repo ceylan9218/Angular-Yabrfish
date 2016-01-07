@@ -1,6 +1,7 @@
 <div class="create-area" ng-init=getUser()>   
    <div class="create tile">
       <h4><img class="add-icon" src="app/img/create-tile.png">Create New tile</h4>
+      <div class="close" ng-click="hideNewTile()"><i class="fa fa-times"></i></div>
       <div class="new-tile-wrap">
          <div class="create-tile-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': sliderWidth}">
             <div id="step1" class="steps" ng-style="{'width': stepWidth}">            

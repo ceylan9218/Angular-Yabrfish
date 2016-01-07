@@ -11325,8 +11325,14 @@ img.logo{
   border-radius: 0 0 15px 0;
   display: block;
   margin: 0 15px 30px 0;
+  position: relative;
   /*width: 350px;
   margin: 0 auto;*/
+}
+.create .close{
+  position: absolute;
+  right: 5px;
+  top: 5px;
 }
 .create img.add-icon{
   width: 20px;

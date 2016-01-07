@@ -930,7 +930,7 @@
                 title: 'My Tiles',
                 controller: 'myTileController',
                 templateUrl: helper.basepath('tiles.html'),
-                resolve: helper.resolveFor('akoenig.deckgrid', 'angular-carousel')
+                resolve: helper.resolveFor('spinkit','loaders.css', 'akoenig.deckgrid', 'infinite-scroll', 'angular-carousel')
             })
             .state('app.new-tile', {
                 url: '/tiles/new',
