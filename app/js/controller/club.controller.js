@@ -75,7 +75,9 @@
         $scope.search_club = '';
         $scope.searchToken = '';
 
-
+        //----------------------------------------------------------------------------
+        // Search For Clubs
+        //----------------------------------------------------------------------------
         $scope.searchClubs = function() {
 
           //---------------------------------------------------------//
@@ -112,47 +114,58 @@
 
         // Search Clubs
         $scope.$watch('search_club', function(newVal){
-          if(newVal != '' && newVal.length > 6) {
+          if(newVal != '' && newVal.length > 3) {
               $scope.searchToken='CLUB'+ new Date().getTime();
               $scope.search_club=newVal;
               $scope.searchClubs();
           }
         });
 
-        // Set Club Name in Search box.
+        //----------------------------------------------------------------------------
+        // Set CLub into the View for Optionallig Creating A Relationship
+        //----------------------------------------------------------------------------
+
         $scope.selectClub = function(club){
 
-          for(var i in $scope.myClubs){
-            if($scope.myClubs[i].account.externalId == club.externalId){
-              Flash.create('danger', 'Already existed!');
+              for(var i in $scope.myClubs){
+                if($scope.myClubs[i].account.externalId == club.externalId){
+                  Flash.create('danger', 'Its Already Saved For You');
+                  return;
+                }
+              }
+
+              $scope.myClubs.push({
+                account: club
+              });
+
+              $scope.clubs = [];
+        }
+
+        //----------------------------------------------------------------------------
+        // Fill Out the Initial Clubs View for Memebership and Relationships
+        //----------------------------------------------------------------------------
+          $scope.getClubs = function() {
+
+            ViewerService.getClubs($rootScope.user.externalId).then(function(clubs){
+              $scope.myClubs = clubs;
+            }, function(error){
+              console.log(error);
               return;
+            })
+
+          }
+
+        //----------------------------------------------------------------------------
+        // Remove a Club From Relationship and View
+        //----------------------------------------------------------------------------
+          $scope.$on('account', function(e, data){
+            for(var i in $scope.myClubs){
+              if(data == $scope.myClubs[i].account.externalId){
+                $scope.myClubs.splice(i, 1);
+              }
             }
           }
 
-          $scope.myClubs.push({
-            account: club
-          });
+      )}
 
-          $scope.clubs = [];
-        }
-
-      // Get my Clubs initially.
-      $scope.getClubs = function() {
-        ViewerService.getClubs($rootScope.user.externalId).then(function(clubs){
-          $scope.myClubs = clubs;      
-        }, function(error){
-          console.log(error);
-          return;
-        })
-      }
-
-      // Hide a Club on Remove Action
-      $scope.$on('account', function(e, data){
-        for(var i in $scope.myClubs){
-          if(data == $scope.myClubs[i].account.externalId){
-            $scope.myClubs.splice(i, 1);
-          }
-        }
-      })
-    }
 })();
