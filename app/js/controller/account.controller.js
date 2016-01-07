@@ -381,50 +381,47 @@
 
         $scope.$on('imgloaded', function (event, data) {
 
-                var creative = data.creatives;
-                var currAccount = {};
+            var currAccount = {};
+            var creative = data.creatives;
 
-                // need to Get Current Account Information
-                // -----------------------------------------
-
-                for (var i in $scope.accounts) {
-                    if ($scope.accounts[i] == data.externalId) {
-                        currAccount = $scope.accounts[i];
-                        break;
-                    }
+            //------------------------------------------------
+            // Find Curr Account using ExternalId
+            //------------------------------------------------
+            for (var i in $scope.accounts) {
+                if ($scope.accounts[i] == data.externalId) {
+                    currAccount = $scope.accounts[i];
+                    break;
                 }
+            }
 
-                //----------------------------------------------
-                // Check CurrAccount has a value
-                // ---------------------------------------------
-                if ( currAccount = 'undefined' ) {
-                    Flash.create('danger', 'Error! Problem Updating Image For The Account');
-                    return;
-                }
+            if (currAccount == 'undefined') {
+                Flash.create('danger', 'Error! Problem Updating Image For The Account');
+                return;
+            }
 
-                var params = {
-                    accountTypeId: currAccount.accountTypeId,
-                    externalId: currAccount.externalId,
-                    name: currAccount.name,
-                    accountLogoUrl: creative.url,
-                    services: currAccount.services,
-                    organizations: currAccount.organizations,
-                    active: currAccount.active
-                };
+            var params = {
+                accountTypeId: currAccount.accountTypeId,
+                externalId: currAccount.externalId,
+                name: currAccount.name,
+                accountLogoUrl: creative.url,
+                services: currAccount.services,
+                organizations: currAccount.organizations,
+                active: currAccount.active
+            };
 
-                //-----------------------------------------------
-                // Update Account Details
-                //-----------------------------------------------
+            //-----------------------------------------------
+            // Update Account Details
+            //-----------------------------------------------
 
-                AccountService.updateAccount(params).then(function (data) {
-                    console.log("Successful Update Account");
-                }, function (error) {
-                    console.log(error);
-                    Flash.create('danger', 'Error! Problem Updating Image For The Account');
-                    return;
-                })
+            AccountService.updateAccount(params).then(function (data) {
+                console.log("Successful Update Account");
+            }, function (error) {
+                console.log(error);
+                Flash.create('danger', 'Error! Problem Updating Image For The Account');
+                return;
+            })
 
-        }
+        })
 
 
           // Show/Hide extend wrap.
@@ -552,3 +549,6 @@
           }
     }
 })();
+
+
+
