@@ -32,13 +32,13 @@
                                 headers: {'Content-Range': 'bytes 42-1233/*'}
                             }).then(function (resp) {
                                 var params = {
-                                    accountTypeId: scope.account.account.accountTypeId,
-                                    externalId: scope.account.account.externalId, 
-                                    name: scope.account.account.name,
+                                    accountTypeId: scope.account.accountTypeId,
+                                    externalId: scope.account.externalId, 
+                                    name: scope.account.name,
                                     accountLogoUrl: resp.data.url,
-                                    services: scope.account.account.services,
-                                    organizations: scope.account.account.organizations,
-                                    active: scope.account.account.active
+                                    services: scope.account.services,
+                                    organizations: scope.account.organizations,
+                                    active: scope.account.active
                                 }
 
                                 AccountService.updateAccount(params).then(function(data){
