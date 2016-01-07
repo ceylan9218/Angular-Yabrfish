@@ -1,10 +1,10 @@
 <div ng-if="card == 'new-account'" ng-include="'app/views/profile-new-account.html'"></div>
-<div ng-controller="accountController" ng-if="card != 'new-account'" id="{{'account_'+card.externalId}}" class="yabrTile-body">
+<div ng-controller="accountController" ng-if="card != 'new-account'"  id="{{'account_'+card.externalId}}" class="yabrTile-body">
    <div class="img-video-wrap">
       <div class="tileImg">
          <img ng-if="card.accountLogoUrl" src="{{card.accountLogoUrl}}" alt="tile" class="" />
          <div class="upload-img" ng-if="!card.accountLogoUrl">
-            <img-upload account="card"></img-upload>
+            <img-upload external-Id="card.externalId"></img-upload>
          </div>
       </div>      
    </div>   

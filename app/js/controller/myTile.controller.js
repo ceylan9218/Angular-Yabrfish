@@ -61,21 +61,6 @@
       $scope.enableCreate = true;
       $scope.showNewTile = false;
 
-      // $scope.getUser = function() {       
-      //   AuthService.getUser().then(function(user){
-      //     $rootScope.user = user;
-      //     // Get Current User's Roles
-      //     $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/roles')
-      //       .success(function(data){
-      //         for(var i in data){            
-      //           $scope.accounts.push(data[i].account);
-      //         }
-      //         $scope.accounts.unshift({
-      //           name: 'Just For Me'
-      //         });
-      //       });
-      //   })
-      // }
 
       if(!$rootScope.user)
         return;
