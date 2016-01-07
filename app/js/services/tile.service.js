@@ -16,14 +16,40 @@
         	var eventCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, events:[]};
 			var contentCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, content:[]};
 			var netTilesCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
+			var SearchCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
 
         	var currTile = [];
         	
         	//--------------------------------------------------------------------------------------------
 			// Process Response and cache tiles from Recommendations Service
 			//--------------------------------------------------------------------------------------------
+			var cacheSearch = function(response) {
+				var searches = [];
+				searches = response.data.recommendations;
+
+				for (var i in searches) {
+					//Get and change lowercase Tile Type.
+					searches[i].tileType = searches[i].tileType.toLowerCase();
+					// Get Time Difference
+					searches[i].publishedDate = getTimeDiff(searches[i].publishedDate);
+					searches[i].moreImg = 'app/img/more.png';
+					//-------------------------------------------------------------//
+					// Add Tiles to Cache
+					// Controller is building Cache as well
+					//------------------------------------------------------------//
+					SearchCache.tiles[SearchCache.cacheSize++] = reco[i];
+				}
+
+				return searches;
+			};
+
+			//--------------------------------------------------------------------------------------------
+			// Process Response and cache tiles from Recommendations Service
+			//--------------------------------------------------------------------------------------------
 			var cacheReco = function(response) {
+
 				var reco = [];
+
 				reco = response.data.recommendations;
 
 				for (var i in reco) {
@@ -41,7 +67,7 @@
 
 				return reco;
 			};
-	
+
 			var cacheNetTiles = function(response) {
 
                 var tiles = [];

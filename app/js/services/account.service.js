@@ -33,6 +33,31 @@
 
                 cacheSearch: function () { return SearchAccCache.Accounts},
 
+                trimSearch: function(cacheId, trimBase) {
+
+                    if ( SearchAccCache.cacheId != cacheId ) {
+                        SearchAccCache.cacheId = cacheId
+                        SearchAccCache.cacheSize =  0;
+                        SearchAccCache.page = 0;
+                        SearchAccCache.pageSize = 6;
+                        SearchAccCache.totalPages = 0;
+                        SearchAccCache.totalItems = 0;
+                        if ( SearchAccCache.Accounts != undefined ) SearchAccCache.Accounts.length = 0;
+                        return 0;
+                    }
+
+                    for (var i in SearchAccCache.Accounts) {
+                        // Check If the New Request is in the Search String
+                        if (SearchAccCache.Accounts[i].name.indexOf(trimBase) == -1 ) {
+                            SearchAccCache.Accounts.splice(i,1);
+                            SearchAccCache.cacheSize--;
+                        }
+                    }
+
+                    return SearchAccCache.cacheSize;
+
+                },
+
                 moreSearch: function(cacheId) {
 
                     if ( SearchAccCache.cacheId != cacheId ) {
@@ -125,7 +150,6 @@
 
                     return deferred.promise;
                 },
-
 
                 getLocation: function(accountId) {
                     var deferred = $q.defer();
