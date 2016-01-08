@@ -26,37 +26,37 @@
                             scope.source = event.target.result;
                             scope.$apply();
                             scope.loading = true;
+console.log(scope.account);
+                            // Upload.upload({
+                            //     url: APP_APIS['media'] + '/images',
+                            //     data: {file: scope.currentFile},
+                            //     headers: {'Content-Range': 'bytes 42-1233/*'}
+                            // }).then(function (resp) {
+                            //     var params = {
+                            //         accountTypeId: scope.account.accountTypeId,
+                            //         externalId: scope.account.externalId, 
+                            //         name: scope.account.name,
+                            //         accountLogoUrl: resp.data.url,
+                            //         services: scope.account.services,
+                            //         organizations: scope.account.organizations,
+                            //         active: scope.account.active
+                            //     }
 
-                            Upload.upload({
-                                url: APP_APIS['media'] + '/images',
-                                data: {file: scope.currentFile},
-                                headers: {'Content-Range': 'bytes 42-1233/*'}
-                            }).then(function (resp) {
-                                var params = {
-                                    accountTypeId: scope.account.accountTypeId,
-                                    externalId: scope.account.externalId, 
-                                    name: scope.account.name,
-                                    accountLogoUrl: resp.data.url,
-                                    services: scope.account.services,
-                                    organizations: scope.account.organizations,
-                                    active: scope.account.active
-                                }
-
-                                AccountService.updateAccount(params).then(function(data){
-                                    console.log("Successful Update Account");
-                                    scope.loading = false;
-                                    angular.element('.upload-img label').css({'height': '100%', 'width': '100%', 'margin-top': '0', 'margin-left': '0', 'padding': '0'});
-                                }, function(error){
-                                    console.log(error);
-                                    return;
-                                })
-                            }, function (resp) {
-                                console.log('Error status: ' + resp.status);
-                                Flash.create('danger', 'Error! Cannot create new account.');
-                            }, function (evt) {
-                                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-                            });
+                            //     AccountService.updateAccount(params).then(function(data){
+                            //         console.log("Successful Update Account");
+                            //         scope.loading = false;
+                            //         angular.element('.upload-img label').css({'height': '100%', 'width': '100%', 'margin-top': '0', 'margin-left': '0', 'padding': '0'});
+                            //     }, function(error){
+                            //         console.log(error);
+                            //         return;
+                            //     })
+                            // }, function (resp) {
+                            //     console.log('Error status: ' + resp.status);
+                            //     Flash.create('danger', 'Error! Cannot create new account.');
+                            // }, function (evt) {
+                            //     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            //     console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                            // });
                         }
 
                         // when the file is read it triggers the onload event above.
