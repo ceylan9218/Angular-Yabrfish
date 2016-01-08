@@ -345,6 +345,49 @@
                 console.log(error);
                 return;
             });
+
+            $scope.$on('imgloaded', function (event, data) {
+                var currAccount = {};
+                var creative = data.creatives;
+
+                //------------------------------------------------
+                // Find Curr Account using ExternalId
+                //------------------------------------------------
+                for (var i in $scope.accounts) {
+                    if ($scope.accounts[i].externalId == data.externalId) {
+                        currAccount = $scope.accounts[i];
+                        break;
+                    }
+                }
+
+                if (currAccount == 'undefined') {
+                    Flash.create('danger', 'Error! Problem Updating Image For The Account');
+                    return;
+                }
+
+                var params = {
+                    accountTypeId: currAccount.accountTypeId,
+                    externalId: currAccount.externalId,
+                    name: currAccount.name,
+                    accountLogoUrl: creative.url,
+                    services: currAccount.services,
+                    organizations: currAccount.organizations,
+                    active: currAccount.active
+                };
+
+                //-----------------------------------------------
+                // Update Account Details
+                //-----------------------------------------------
+
+                AccountService.updateAccount(params).then(function (data) {
+                    console.log("Successful Update Account");
+                }, function (error) {
+                    console.log(error);
+                    Flash.create('danger', 'Error! Problem Updating Image For The Account');
+                    return;
+                })
+
+            })
         }
 
 
@@ -379,49 +422,7 @@
 
         })
 
-        $scope.$on('imgloaded', function (event, data) {
-console.log(data);
-            var currAccount = {};
-            var creative = data.creatives;
 
-            //------------------------------------------------
-            // Find Curr Account using ExternalId
-            //------------------------------------------------
-            for (var i in $scope.accounts) {
-                if ($scope.accounts[i] == data.externalId) {
-                    currAccount = $scope.accounts[i];
-                    break;
-                }
-            }
-
-            if (currAccount == 'undefined') {
-                Flash.create('danger', 'Error! Problem Updating Image For The Account');
-                return;
-            }
-
-            var params = {
-                accountTypeId: currAccount.accountTypeId,
-                externalId: currAccount.externalId,
-                name: currAccount.name,
-                accountLogoUrl: creative.url,
-                services: currAccount.services,
-                organizations: currAccount.organizations,
-                active: currAccount.active
-            };
-
-            //-----------------------------------------------
-            // Update Account Details
-            //-----------------------------------------------
-
-            AccountService.updateAccount(params).then(function (data) {
-                console.log("Successful Update Account");
-            }, function (error) {
-                console.log(error);
-                Flash.create('danger', 'Error! Problem Updating Image For The Account');
-                return;
-            })
-
-        })
 
 
           // Show/Hide extend wrap.
