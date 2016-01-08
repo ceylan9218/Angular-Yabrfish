@@ -63,10 +63,24 @@
 
                 cacheSearch: function () { return searchAccCache.Accounts},
 
+                removeSearch: function(account) {
+
+                    for (var i in searchAccCache.Accounts) {
+                        // Check If the New Request is in the Search String
+                        if (searchAccCache.Accounts[i].externalId == account.externalId ) {
+                            searchAccCache.Accounts.splice(i,1);
+                            searchAccCache.cacheSize--;
+                        }
+                    }
+
+                    return searchAccCache.Accounts;
+
+                },
+
                 trimSearch: function(cacheId, trimBase) {
 
                     if ( searchAccCache.cacheId != cacheId ) {
-                        searchAccCache.cacheId = cacheId
+                        searchAccCache.cacheId = cacheId;
                         searchAccCache.cacheSize =  0;
                         searchAccCache.page = 0;
                         searchAccCache.pageSize = 6;

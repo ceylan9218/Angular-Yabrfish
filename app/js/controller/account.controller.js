@@ -525,7 +525,8 @@
 
                 $scope.accounts.push(account);
                 var cacheCount = AccountService.addCache(account);
-                $scope.search_accounts = [];
+                $scope.search_accounts = AccountService.removeSearch(account);
+
           }
 
     }
