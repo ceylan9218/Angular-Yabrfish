@@ -48,7 +48,6 @@
         $scope.accountTypes = [];
         $scope.accountType = {};
 
-
         // Place Holder For New Account Creation
         $scope.newAccount = {
             accountType: '',
@@ -308,6 +307,7 @@
             "id": "YE",
             "text": "Yemen"
         }, {"id": "ZM", "text": "Zambia"}, {"id": "ZW", "text": "Zimbabwe"}];
+
         $scope.country = {};
         $scope.areaCountry = {};
 
@@ -331,63 +331,52 @@
             }
         }
 
+        // --------------------------------------------------------------------
+        // Call Back Function for Image Upload - Used to update Account Panel
+        // --------------------------------------------------------------------
+        $scope.onComplete = function (creative) {
+
+            //-----
+            // Weird Debugging Countries Length is Ok accounts is not.
+
+            var i = $scope.accounts.length;
+            var a = $scope.countries.length;
+            var c = $scope.search_accounts.length;
+            var d = AccountService.cacheSearch();
+
+            var currAccount = AccountService.setCurrentAccount(creative.externalId);
+
+            currAccount.accountLogoUrl  = creative.creatives.url;
+
+            AccountService.updateAccount(currAccount).then(function (data) {
+                console.log("Successful Update Account");
+            }, function (error) {
+                console.log(error);
+                Flash.create('danger', 'Error! Problem Updating Image For The Account');
+                return;
+            })
+
+        }
+
         //-------------------------------------------------------------------------------
         // Get Accounts based on Viewer Roles
         //------------------------------------------------------------------------------
 
         $scope.getAccounts = function () {
+
             // Get Roles by viewer.
+
             ViewerService.getAccounts($rootScope.user.externalId).then(function (data) {
+                var cacheCount;
                 for (var i in data) {
                     $scope.accounts.push(data[i].account);
+                    cacheCount = AccountService.addCache(data[i].account);
                 }
             }, function (error) {
                 console.log(error);
                 return;
             });
 
-            $scope.$on('imgloaded', function (event, data) {
-                var currAccount = {};
-                var creative = data.creatives;
-
-                //------------------------------------------------
-                // Find Curr Account using ExternalId
-                //------------------------------------------------
-                for (var i in $scope.accounts) {
-                    if ($scope.accounts[i].externalId == data.externalId) {
-                        currAccount = $scope.accounts[i];
-                        break;
-                    }
-                }
-
-                if (currAccount == 'undefined') {
-                    Flash.create('danger', 'Error! Problem Updating Image For The Account');
-                    return;
-                }
-
-                var params = {
-                    accountTypeId: currAccount.accountTypeId,
-                    externalId: currAccount.externalId,
-                    name: currAccount.name,
-                    accountLogoUrl: creative.url,
-                    services: currAccount.services,
-                    organizations: currAccount.organizations,
-                    active: currAccount.active
-                };
-
-                //-----------------------------------------------
-                // Update Account Details
-                //-----------------------------------------------
-
-                AccountService.updateAccount(params).then(function (data) {
-                    console.log("Successful Update Account");
-                }, function (error) {
-                    console.log(error);
-                    Flash.create('danger', 'Error! Problem Updating Image For The Account');
-                    return;
-                })
-
-            })
         }
 
 
@@ -413,20 +402,9 @@
             $scope.products = products;
         })
 
-        //------------------------------------
-        // Messages From the Image Uploader
-        //------------------------------------
-        $scope.$on('file', function (event, response) {
 
-            var i = 1;
-
-        })
-
-
-
-
-          // Show/Hide extend wrap.
-          $scope.extendAccount = function(element) {
+            // Show/Hide extend wrap.
+            $scope.extendAccount = function(element) {
             var accountId = element.externalId;
             var zoomVal = 17;
             var defaultMapPos = {lat: 51.50013, lng: -0.126305};
@@ -437,7 +415,7 @@
             else{
               element.extendWrap = true;
             }
-          }
+            }
 
           // Get Products of type = Account
           $scope.selectOffer = function(offer) {
@@ -532,11 +510,12 @@
           }
 
           //----------------------------------------------------------------------------
-          // Set CLub into the View for Optionallig Creating A Relationship
+          // Set Account into the View for Optional Creating A Relationship
           //----------------------------------------------------------------------------
 
           $scope.selectAccount = function(account){
-console.log(account);
+
+                console.log(account);
                 for(var i in $scope.accounts){
                   if($scope.accounts[i].externalId == account.externalId){
                     Flash.create('danger', 'Its Already Saved For You');
@@ -545,9 +524,10 @@ console.log(account);
                 }
 
                 $scope.accounts.push(account);
-
+                var cacheCount = AccountService.addCache(account);
                 $scope.search_accounts = [];
           }
+
     }
 })();
 

@@ -12,7 +12,18 @@
 
         function AccountService($http, $q, APP_APIS){
 
-            var SearchAccCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, Accounts:[]};
+            var accCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, Accounts:[]};
+            var searchAccCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, Accounts:[]};
+
+            var currAccount = {
+                accountTypeId: null,
+                externalId: null,
+                name: null,
+                accountLogoUrl: null,
+                services: null,
+                organizations: null,
+                active: null
+            };
 
             var cacheSearch = function(cacheID, response) {
 
@@ -21,7 +32,7 @@
                 searches = response.data.accounts;
 
                 for (var i in searches) {
-                    SearchAccCache.Accounts[SearchAccCache.cacheSize++] = searches[i];
+                    searchAccCache.Accounts[searchAccCache.cacheSize++] = searches[i];
                 }
 
                 return searches;
@@ -29,48 +40,67 @@
 
         	return{
 
-                searchCacheSize : function () { return SearchAccCache.cacheSize },
+                addCache : function (account) {
 
-                cacheSearch: function () { return SearchAccCache.Accounts},
+                    accCache.Accounts.push(account);
+                    accCache.cacheSize++;
 
-                trimSearch: function(cacheId, trimBase) {
+                    return accCache.cacheSize;
+                },
 
-                    if ( SearchAccCache.cacheId != cacheId ) {
-                        SearchAccCache.cacheId = cacheId
-                        SearchAccCache.cacheSize =  0;
-                        SearchAccCache.page = 0;
-                        SearchAccCache.pageSize = 6;
-                        SearchAccCache.totalPages = 0;
-                        SearchAccCache.totalItems = 0;
-                        if ( SearchAccCache.Accounts != undefined ) SearchAccCache.Accounts.length = 0;
-                        return 0;
-                    }
+                setCurrentAccount: function  (externalId) {
 
-                    for (var i in SearchAccCache.Accounts) {
-                        // Check If the New Request is in the Search String
-                        if (SearchAccCache.Accounts[i].name.indexOf(trimBase) == -1 ) {
-                            SearchAccCache.Accounts.splice(i,1);
-                            SearchAccCache.cacheSize--;
+                    for ( var i in accCache.Accounts ) {
+                        if ( accCache.Accounts[i].externalId == externalId ) {
+                            return accCache.Accounts[i];
                         }
                     }
 
-                    return SearchAccCache.cacheSize;
+                    return {};
+                },
+
+                searchCacheSize : function () { return searchAccCache.cacheSize },
+
+                cacheSearch: function () { return searchAccCache.Accounts},
+
+                trimSearch: function(cacheId, trimBase) {
+
+                    if ( searchAccCache.cacheId != cacheId ) {
+                        searchAccCache.cacheId = cacheId
+                        searchAccCache.cacheSize =  0;
+                        searchAccCache.page = 0;
+                        searchAccCache.pageSize = 6;
+                        searchAccCache.totalPages = 0;
+                        searchAccCache.totalItems = 0;
+                        if ( searchAccCache.Accounts != undefined ) searchAccCache.Accounts.length = 0;
+                        return 0;
+                    }
+
+                    for (var i in searchAccCache.Accounts) {
+                        // Check If the New Request is in the Search String
+                        if (searchAccCache.Accounts[i].name.indexOf(trimBase) == -1 ) {
+                            searchAccCache.Accounts.splice(i,1);
+                            searchAccCache.cacheSize--;
+                        }
+                    }
+
+                    return searchAccCache.cacheSize;
 
                 },
 
                 moreSearch: function(cacheId) {
 
-                    if ( SearchAccCache.cacheId != cacheId ) {
-                        SearchAccCache.cacheId = cacheId
-                        SearchAccCache.cacheSize =  0;
-                        SearchAccCache.page = 0;
-                        SearchAccCache.pageSize = 6;
-                        SearchAccCache.totalPages = 0;
-                        SearchAccCache.totalItems = 0;
-                        if ( SearchAccCache.Accounts != undefined ) SearchAccCache.Accounts.length = 0;
+                    if ( searchAccCache.cacheId != cacheId ) {
+                        searchAccCache.cacheId = cacheId
+                        searchAccCache.cacheSize =  0;
+                        searchAccCache.page = 0;
+                        searchAccCache.pageSize = 6;
+                        searchAccCache.totalPages = 0;
+                        searchAccCache.totalItems = 0;
+                        if ( searchAccCache.Accounts != undefined ) searchAccCache.Accounts.length = 0;
                     }
 
-                    return  ( ( SearchAccCache.cacheSize < SearchAccCache.totalItems ) || SearchAccCache.page == 0 )
+                    return  ( ( searchAccCache.cacheSize < searchAccCache.totalItems ) || searchAccCache.page == 0 )
 
                 },
 
@@ -82,19 +112,19 @@
                     // CacheID based on Controller generated token
                     //--------------------------------------------------------------------------
 
-                    if ( SearchAccCache.cacheId != cacheId ) {
-                        SearchAccCache.cacheId = cacheId
-                        SearchAccCache.cacheSize =  0;
-                        SearchAccCache.page = 0;
-                        SearchAccCache.pageSize = 6;
-                        SearchAccCache.totalPages = 0;
-                        SearchAccCache.totalItems = 0;
-                        if ( SearchAccCache.Accounts != undefined ) SearchAccCache.Accounts.length = 0;
+                    if ( searchAccCache.cacheId != cacheId ) {
+                        searchAccCache.cacheId = cacheId
+                        searchAccCache.cacheSize =  0;
+                        searchAccCache.page = 0;
+                        searchAccCache.pageSize = 6;
+                        searchAccCache.totalPages = 0;
+                        searchAccCache.totalItems = 0;
+                        if ( searchAccCache.Accounts != undefined ) searchAccCache.Accounts.length = 0;
                     }
 
                     var deferred = $q.defer();
 
-                    if ( SearchAccCache.page !=0 && SearchAccCache.page  >= SearchAccCache.totalPages ) {
+                    if ( searchAccCache.page !=0 && searchAccCache.page  >= searchAccCache.totalPages ) {
                         // Resolve the deferred $q object before returning the promise
                         deferred.resolve([]);
                         return deferred.promise;
@@ -127,21 +157,21 @@
                         searchFilter+=  searchSep + 'type='+accTypes[i];
                     }
 
-                    var apiParms = searchFilter + '&page='+SearchAccCache.page+'&size='+SearchAccCache.pageSize;
+                    var apiParms = searchFilter + '&page='+searchAccCache.page+'&size='+searchAccCache.pageSize;
 
                     var promise = $http.get(APP_APIS['commerce']+'/accounts'+apiParms)
                         .then(function(response){
 
-                            if ( SearchAccCache.page == 0 ) {
+                            if ( searchAccCache.page == 0 ) {
                                 //---------------------------------------------//
                                 //Check Total Number of Pages in the Response //
                                 //---------------------------------------------//
-                                SearchAccCache.totalItems = response.data.totalElements;
-                                SearchAccCache.totalPages = response.data.totalPages;
+                                searchAccCache.totalItems = response.data.totalElements;
+                                searchAccCache.totalPages = response.data.totalPages;
                             }
 
                             var Accounts = cacheSearch(cacheId, response);
-                            SearchAccCache.page++;
+                            searchAccCache.page++;
                             deferred.resolve(Accounts);
                         }, function(error){
                             console.log(error);

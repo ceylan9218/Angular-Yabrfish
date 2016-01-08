@@ -4,7 +4,7 @@
       <div class="tileImg">
          <img ng-if="card.accountLogoUrl" src="{{card.accountLogoUrl}}" alt="tile" class="" />
          <div class="upload-img" ng-if="!card.accountLogoUrl">
-            <img-upload external-Id="card.externalId"></img-upload>
+            <img-upload on-complete="onComplete(creative)" external-Id="card.externalId"></img-upload>
          </div>
       </div>      
    </div>   

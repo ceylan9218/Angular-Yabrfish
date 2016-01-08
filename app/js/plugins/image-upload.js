@@ -8,15 +8,17 @@
 
     angular
         .module('app.img-upload', [])
-        .directive("imgUpload", function(Upload, APP_APIS, Flash, AccountService) {
+        .directive("imgUpload", function(Upload, Flash, APP_APIS) {
         	return {
         		restrict: 'E',
                 scope: {
-                    externalId: '='
+                    externalId: '=',
+                    onComplete: '&'
                 },
                 template: '<label class="panel-body" for="file-input" ng-class="loading ? \'whirl standard\' : \'\'" ng-style="loading ? {\'background-color\': \'#fff\', \'opacity\': \'0.5\'} : {\'none\': \'transparent\', \'opacity\': \'1\'}"><img src="app/img/upload-photo.png"/ ng-src="{{source}}"></label>' +
                           '<input id="file-input" class="file" type="file" uploader="form.uploader" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>',
         		link: function(scope, elem, attrs) {
+
                     scope.setFile = function(element) {
 
                         scope.currentFile = element.files[0];
@@ -33,14 +35,15 @@
                                 headers: {'Content-Range': 'bytes 42-1233/*'}
                             }).then(function (resp) {
 
-                                var params = {
+                                var creative = {
                                     externalId: scope.externalId,
                                     creatives: resp.data
                                 }
 
-                                scope.$parent.$emit('imgloaded', params);
-                                
+                                scope.onComplete({creative:creative});
+
                                 scope.loading = false;
+
                                 angular.element('.upload-img label').css({'height': '100%', 'width': '100%', 'margin-top': '0', 'margin-left': '0', 'padding': '0'});
                             }, function (evt) {
                                 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
