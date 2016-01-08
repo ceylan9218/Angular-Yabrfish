@@ -51,6 +51,7 @@
 		$rootScope.youtubePlay = false;
 
 		$scope.getVideoList = function(element){
+
 			var uid = element.externalId;
 			$scope.loading = true;
 			element.videoList = [];

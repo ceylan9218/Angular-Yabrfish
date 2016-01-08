@@ -122,7 +122,7 @@
         });
 
         //----------------------------------------------------------------------------
-        // Set CLub into the View for Optionallig Creating A Relationship
+        // Set CLub into the View for Optional Creating A Relationship
         //----------------------------------------------------------------------------
 
         $scope.selectClub = function(club){
