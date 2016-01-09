@@ -15,17 +15,7 @@
       "label": "label label-info"
   },
   {
-      "text": "Link social networks",
-      "sref": "",
-      "label": "label label-info"
-  },
-  {
-      "text": "Messages",
-      "sref": "",
-      "label": "label label-info"
-  },
-  {
-      "text": "Biz Connection",
+      "text": "Service Connector",
       "sref": "app.profile-accounts",
       "label": "label label-info"      
   }
