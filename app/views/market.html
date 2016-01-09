@@ -1,9 +1,9 @@
-<div class="tiles-wrap" ng-init="getRadar()">
+<div class="tiles-wrap">
 	<div class="tiles-filter">
 		<div class="filter-wrap">
 			<div class="filter-img"><img src="app/img/filter-icon.png"></div>
 			<div class="tags market">
-				<span ng-repeat="tag in tags" class="tag">{{tag}}<i class="fa fa-times" ng-click="removeTag(tag)"></i></span>
+				<span ng-repeat="tag in filterTags" class="tag">{{tag.tagName}}<i class="fa fa-times" ng-click="removeTag(tag)"></i></span>
 			</div>
 			<div class="more" ng-click="showOption = !showOption">
 				<img src="app/img/dots.png">
@@ -12,41 +12,19 @@
 			</div>
 		</div>
 		<div class="filter-options" ng-show="showOption">
-			<div class="tile-types">
-				<h4>Choose Sport</h4>
-				<div class="options">
-					<label><input type="checkbox" ng-model="event" ng-click="addTags('event')"><span>Sail</span></label>
-					<label><input type="checkbox" ng-model="power" ng-click="addTags('power')"><span>Power</span></label>
-					<label><input type="checkbox" ng-model="Boards" ng-click="addTags('Boards')"><span>Boards</span></label>
-					<label><input type="checkbox" ng-model="Rowing" ng-click="addTags('Rowing')"><span>Rowing</span></label>
+			<div class="tile-types" ng-repeat="type in tagTypes">
+				<h4>{{type.description}}</h4>
+				<div class="options" ng-init="getTags(type.shortCode)">
+					<label ng-repeat="tag in tags[type.shortCode]"><input type="checkbox" ng-model="tag.selected" ng-click="checkTag(tag)"><span>{{tag.tagName}}</span></label>
 				</div>
-			</div>
-			<div class="tile-types">
-				<h4>I Want To..</h4>
-				<div class="options">
-					<label><input type="checkbox" ng-model="want1" ng-click="addTags('want1')"><span>Buy</span></label>
-					<label><input type="checkbox" ng-model="want2" ng-click="addTags('want2')"><span>Learn</span></label>
-					<label><input type="checkbox" ng-model="want3" ng-click="addTags('want3')"><span>Join</span></label>
-					<label><input type="checkbox" ng-model="want4" ng-click="addTags('want4')"><span>Visit</span></label>
-					<label><input type="checkbox" ng-model="want5" ng-click="addTags('want5')"><span>Enter</span></label>
-				</div>
-			</div>
-			<div class="tile-types">
-				<h4>In Particular.</h4>
-				<div class="options">
-					<label><input type="checkbox" ng-model="filter1" ng-click="addTags('filter1')"><span>Clothing</span></label>
-					<label><input type="checkbox" ng-model="filter2" ng-click="addTags('filter2')"><span>Equipment</span></label>
-					<label><input type="checkbox" ng-model="filter3" ng-click="addTags('filter3')"><span>Holidays</span></label>
-					<label><input type="checkbox" ng-model="filter4" ng-click="addTags('filter4')"><span>Events</span></label>
-				</div>
-			</div>
+			</div>			
 		</div>
 	</div>
 	<!-- START row-->
-	<div class="row yabrTile-wrap" infinite-scroll="getRadar()"  infinite-scroll-distance="2">
+	<div class="row yabrTile-wrap" infinite-scroll="getTiles(filterTags)"  infinite-scroll-distance="2">
 	   	<!-- START widget-->
 	   	<div class="container-fluid">
-	    	<div deckgrid="" source="tiles" ng-init="getRadar()" cardtemplate="{{basepath('tile-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
+	    	<div deckgrid="" source="tiles" cardtemplate="{{basepath('tile-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
 	   	</div>
 	   	<!-- END widget-->      
 	</div>

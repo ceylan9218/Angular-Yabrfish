@@ -15,8 +15,8 @@
             		tile: '='
             	},
             	templateUrl: "app/views/partials/class-list.html",
-            	link: function(scope, elem, attrs) {
-            		scope.eventId = '';
+            	link: function(scope, elem, attrs) {                   
+           		   scope.eventId = '';
 
             		var getClasses = function(eventId) {
             			TileService.getClasses(eventId).then(function(classes){

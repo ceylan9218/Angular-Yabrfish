@@ -93,6 +93,34 @@
                         });
 
                     return deferred.promise;
+                },
+
+                getTagTypes: function() {
+                    var deferred = $q.defer();
+                    $http.get(APP_APIS['lookup']+'/tagtypes')
+                        .success(function(data){
+                            deferred.resolve(data);
+                        })
+                        .error(function(status){
+                            deferred.resolve(status);
+                        });
+
+                    return deferred.promise;
+                },
+
+                getTags: function(type) {
+                    type = type.toUpperCase();
+
+                    var deferred = $q.defer();
+                    $http.get(APP_APIS['tile']+'/tags?tagtype='+type)
+                        .success(function(data){
+                            deferred.resolve(data);
+                        })
+                        .error(function(status){
+                            deferred.resolve(status);
+                        });
+
+                    return deferred.promise;
                 }
         	}
 		}
