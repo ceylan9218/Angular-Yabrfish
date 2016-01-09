@@ -555,9 +555,7 @@
 						deferred.resolve([]);
 						return deferred.promise;
 					}
-
-                    var deferred = $q.defer();
-
+					
 					var searchFilter = '';
 					var searchSep = '?';
 
