@@ -11271,7 +11271,10 @@ img.logo{
   width: 90%;
   margin-left: 5%;
   height: 90%;
-  margin-top: 4%;
+  margin-top: 3.5%;
+}
+.upload-img label.whirl:after{
+  border-top: 4px solid #3ABEEF;
 }
 .upload-img #file-input{
   display: none;

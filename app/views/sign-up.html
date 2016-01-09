@@ -6,8 +6,9 @@
       <div class="panel panel-default">
           <div class="panel-body">
             <div class="form-group">
-              <input type="text" placeholder="Username" name="username" required="" ng-model="register.username" class="form-control" />
-              <span ng-show="registerForm.username.$dirty &amp;&amp; registerForm.username.$error.required" class="text-danger">This field is required</span>
+              <input type="email" placeholder="mail@example.com" name="email" required="" ng-model="register.email" class="form-control" />
+              <span ng-show="registerForm.email.$dirty &amp;&amp; registerForm.email.$error.required" class="text-danger">This field is required</span>
+              <span ng-show="registerForm.email.$dirty &amp;&amp; registerForm.email.$error.email" class="text-danger">This field must be a valid email address</span>
             </div>
             <div class="form-group">
               <input id="id-password" type="password" name="password1" ng-model="register.password1" class="form-control" placeholder="Password" />
@@ -24,26 +25,7 @@
             <div class="form-group">
               <input type="text" placeholder="Surname" name="surname" required="" ng-model="register.surname" class="form-control" />
               <span ng-show="registerForm.surname.$dirty &amp;&amp; registerForm.surname.$error.required" class="text-danger">This field is required</span>
-            </div>
-            <div class="form-group">
-              <input type="email" placeholder="mail@example.com" name="email" required="" ng-model="register.email" class="form-control" />
-              <span ng-show="registerForm.email.$dirty &amp;&amp; registerForm.email.$error.required" class="text-danger">This field is required</span>
-              <span ng-show="registerForm.email.$dirty &amp;&amp; registerForm.email.$error.email" class="text-danger">This field must be a valid email address</span>
-            </div>
-            <div class="form-group">
-              <p class="input-group">
-                <input type="text" class="form-control" datetime-picker="mediumDate" ng-model="register.date" is-open="opened" enable-time="false" datepicker-options="ctrl.dateOptions" date-disabled="ctrl.disabled(date, mode)" close-on-date-selection="false" datepicker-append-to-body="true" clear-text="Remove" ng-click="open($event)" placeholder="Date of birth DD/MM/YYYY"/>                
-              </p>
-              <span ng-show="form.validateInput('date', 'required')" class="text-danger">This field is required</span>
-            </div>
-            <div class="form-group file-upload">
-              <label for="file-input">
-                <img class="user-img" src="app/img/user/default.png" ng-src="{{image_source}}">
-              </label>
-              <input id="file-input" class="file" type="file" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
-              <span>Upload profile picture</span>
-              <button class="upload-photo btn" ng-click="uploadPhoto()">Upload photo</button>
-            </div>            
+            </div>                       
             <div class="required">* Required fields</div>
          </div>
          <div class="panel-footer">
@@ -58,42 +40,13 @@
                   <span ng-show="registerForm.agreements.$dirty &amp;&amp; registerForm.agreements.$error.required" class="text-danger">Please read and agree the terms</span>
                </div>
                <div class="pull-right">
-                  <button type="submit" class="btn btn-primary" ng-click="createUser()">Register</button>
+                  <button type="submit" class="btn btn-primary" ng-click="createUser()" ng-disabled="registerForm.$invalid">Register</button>
                </div>
             </div>
          </div>
       </div>
       <!-- END panel-->
-    </form>
-    
-    <!-- <div class="signup" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform}">
-      <div class="signup-form first">
-        <input class="form-control" type="text" placeholder="Username">
-        <input class="form-control" type="password" placeholder="Password">
-        <input class="form-control" type="password" placeholder="Re-type Password">
-      </div>
-      <div class="signup-form second">
-        <input class="form-control" type="text" placeholder="First name">
-        <input class="form-control" type="text" placeholder="Surname">
-        <input class="form-control" type="email" placeholder="Email address">
-        <input class="form-control" type="date" placeholder="Date of birth DD/MM/YYYY">
-        <div class="sex">
-          <input type="radio" id="male" name="sex">
-          <label for="male">Male</label>
-          <input type="radio" id="female" name="sex">
-          <label for="female">Female</label>
-        </div>
-        <div class="upload-wrap">
-          <img class="user-picture" src="app/img/user/default.png" ng-src="{{image_source}}">
-          <input type="file" onchange="angular.element(this).scope().setFile(this)" accept="image/*">
-          <button class="btn" ng-click=""></button>
-        </div>
-      </div>
-    </div>
-    <div class="buttons">
-      <button class="back btn" ng-click="slideSignup('back')"><i class="fa fa-angle-left"></i>Back</button>
-      <button class="next btn" ng-click="slideSignup('next')">Next<i class="fa fa-angle-right"></i></button>
-    </div> -->
+    </form>    
   </div>
 </div>
 <!-- Alert message-->
