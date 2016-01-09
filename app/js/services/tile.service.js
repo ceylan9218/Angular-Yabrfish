@@ -215,6 +215,51 @@
 
                 cacheNetTiles: function () { return netTilesCache.tiles},
 
+				trimSearch: function(cacheId, tileTags) {
+
+					if ( searchCache.cacheId != cacheId ) {
+						searchCache.cacheId = cacheId;
+						searchCache.cacheSize =  0;
+						searchCache.page = 0;
+						searchCache.pageSize = 6;
+						searchCache.totalPages = 0;
+						searchCache.totalItems = 0;
+						if ( searchCache.Accounts != undefined ) searchCache.Accounts.length = 0;
+						return 0;
+					}
+
+					//--------------------------------------------------------------------
+					// Check if tiles in the Cache Have the Same Tags currently selected
+					// If the user has removed certain tags and they are not in the cache
+					// each tile will be removed until the number of tiles is zero
+					//--------------------------------------------------------------------
+					var matchCount = 0;
+					var currTile = 0;
+
+					for (var currTile in searchCache.tiles) {
+						// Loop Tags For Each Tile
+						for (var t in searchCache.tiles[currTile].tags) {
+							// Check Each Tile Tag with the tags selected in the UI
+							for (var tg in tileTags) {
+								console.log(currTile + " " + searchCache.tiles[currTile].tags[t].externalId + " " + tileTags[tg].externalId )
+								if (searchCache.tiles[currTile].tags[t].externalId == tileTags[tg].externalId) {
+									matchCount++
+								}
+							}
+						}
+						// If No Matches Remove The Tile From The Cache
+						if (matchCount == 0) {
+							searchCache.tiles.splice(currTile, 1);
+							searchCache.cacheSize--;
+						}
+						matchCount = 0;
+					}
+
+					return searchCache.cacheSize;
+
+				},
+
+
                 cacheSearchTiles: function () { return searchCache.tiles},
 
                 currTile: function(externalId) {
@@ -486,32 +531,51 @@
 
 				},
 
-				getSearchTiles: function(tags){
+				getSearchTiles: function(cacheId, tags, searchParams, tileTypes) {
 
-                    console.log("SERVICE Page " + searchCache.page + " count " + searchCache.totalPages + " total " + searchCache.cacheSize);
+					//--------------------------------------------------------
+					// Server side Search API Interaction
+					//--------------------------------------------------------
 
-                    var deferred = $q.defer();
-					var param = '';
-
-					if(tags.length != 0){
-						for(var i in tags){
-							if (i < tags.length - 1)
-								param += 'tags='+tags[i].externalId+'&';
-							else
-								param += 'tags='+tags[i].externalId;
-						}
-						param += '&page='+searchCache.page+'&size='+searchCache.pageSize;
-					}else{
-						param = 'page='+searchCache.page+'&size='+searchCache.pageSize;
+					// If its a new Search clear the Cache.
+					if ( searchCache.cacheId != cacheId ) {
+						searchCache.cacheId = cacheId
+						searchCache.cacheSize =  0;
+						searchCache.page = 0;
+						searchCache.pageSize = 6;
+						searchCache.totalPages = 0;
+						searchCache.totalItems = 0;
+						if ( searchCache.tiles != undefined ) searchCache.tiles.length = 0;
 					}
 
-                    if ( searchCache.page !=0 && searchCache.page  >= searchCache.totalPages ) {
-                        // Resolve the deferred $q object before returning the promise
-                        deferred.resolve([]);
-                        return deferred.promise;
-                    }
+					var deferred = $q.defer();
 
-                    var promise = $http.get(APP_APIS['tile']+'/tiles?'+param)
+					if ( searchCache.page !=0 && searchCache.page  >= searchCache.totalPages ) {
+						// Resolve the deferred $q object before returning the promise
+						deferred.resolve([]);
+						return deferred.promise;
+					}
+
+                    var deferred = $q.defer();
+
+					var searchFilter = '';
+					var searchSep = '?';
+
+					for ( var i in tags) {
+						searchFilter+=  searchSep + 'tags='+tags[i].externalId;
+						searchSep = '&'
+					}
+
+					for ( var i in tileTypes) {
+						searchFilter+=  searchSep + 'tiletype='+tileTypes[i];
+						searchSep = '&'
+					}
+
+					if ( searchFilter.length == 0) {searchFilter+='?'}
+
+					var apiParms = searchFilter + searchSep + 'page='+searchCache.page+'&size='+searchCache.pageSize;
+
+                    var promise = $http.get(APP_APIS['tile']+'/tiles'+apiParms)
                         .then(function(response){
                             if ( searchCache.page == 0 ) {
                                 //---------------------------------------------//
@@ -523,10 +587,6 @@
 
                             var tiles = cacheSearch(response);
                             searchCache.page++;
-//console.log(param, tiles);
-
-                            console.log("Tile THEN count " + searchCache.totalItems + " total " + searchCache.totalItems);
-
                             deferred.resolve(tiles);
                         });
 
