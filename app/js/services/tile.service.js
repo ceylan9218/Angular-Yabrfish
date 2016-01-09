@@ -593,6 +593,22 @@
                     return deferred.promise;
 				},
 
+				getOffers: function(externalId) {
+					var deferred = $q.defer();
+
+					$http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/offers')
+						.success(function(data){
+							deferred.resolve(data);
+						})
+						.error(function(error){
+							console.log(error);
+							return error;
+						});
+
+					return deferred.promise;
+
+				},
+
 				moreRadar: function() {
 
                     return  ( ( tileCache.cacheSize < tileCache.totalItems ) || tileCache.page == 0 )

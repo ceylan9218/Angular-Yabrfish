@@ -190,6 +190,38 @@
 				element.extendWrap = true;
 				element.moreImg = 'app/img/less.png';
 			}
+
+			if(element.tileType == 'offer'){
+				TileService.getOffers(element.externalId).then(function(data){
+					element.offers = data;
+					var curDate = new Date();
+
+					for(var i in element.offers){
+						element.offers[i].enddate = new Date(element.offers[i].enddate);
+
+						// Get Diff days between Expired Date and Today.
+						var diff = (element.offers[i].enddate - curDate)/1000;
+						diff = Math.abs(Math.floor(diff));
+						element.offers[i].expire_days = Math.floor(diff/(24*60*60));
+
+						// Get EndDate.
+						var endDay = element.offers[i].enddate.getDate();
+						var endMonth = element.offers[i].enddate.getMonth() + 1;
+						var endYear = element.offers[i].enddate.getFullYear();
+
+						if( endDay < 10 ){
+							endDay = '0' + endDay;
+						}
+						if( endMonth < 10 ){
+							endMonth = '0' + endMonth;
+						}
+						element.offers[i].enddate = endDay + '/' + endMonth + '/' + endYear;
+					}
+				}, function(error){
+					console.log(error);
+					return;
+				});
+            }
         }
     }
 })();
