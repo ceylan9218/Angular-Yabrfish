@@ -7,7 +7,7 @@
     'use strict';
     
     angular
-        .module('app.tileSrv', [])        
+        .module('app.tileSrv', [])
         .service('TileService', TileService);
 
         function TileService($http, $q, APP_APIS){
@@ -17,16 +17,16 @@
 			var contentCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, content:[]};
 			var myTilesCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
 			var netTilesCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
-			var SearchCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
+			var searchCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
 
         	var currTile = [];
         	
         	//--------------------------------------------------------------------------------------------
-			// Process Response and cache tiles from Recommendations Service
+			// Process Response and cache tiles from Search Function
 			//--------------------------------------------------------------------------------------------
 			var cacheSearch = function(response) {
 				var searches = [];
-				searches = response.data.recommendations;
+				searches = response.data.tileList;
 
 				for (var i in searches) {
 					//Get and change lowercase Tile Type.
@@ -38,9 +38,8 @@
 					// Add Tiles to Cache
 					// Controller is building Cache as well
 					//------------------------------------------------------------//
-					SearchCache.tiles[SearchCache.cacheSize++] = reco[i];
+					searchCache.tiles[searchCache.cacheSize++] = searches[i];
 				}
-
 				return searches;
 			};
 
@@ -202,6 +201,8 @@
 
                 cacheNetTileSize: function() { return netTilesCache.cacheSize },
 
+                cacheSearchSize: function() { return searchCache.cacheSize },
+
 				totalElements: tileCache.totalItems,
 
 				currPage: function () { return tileCache.page },
@@ -213,6 +214,8 @@
 				cacheMyTiles: function () { return myTilesCache.tiles},
 
                 cacheNetTiles: function () { return netTilesCache.tiles},
+
+                cacheSearchTiles: function () { return searchCache.tiles},
 
                 currTile: function(externalId) {
 
@@ -483,6 +486,53 @@
 
 				},
 
+				getSearchTiles: function(tags){
+
+                    console.log("SERVICE Page " + searchCache.page + " count " + searchCache.totalPages + " total " + searchCache.cacheSize);
+
+                    var deferred = $q.defer();
+					var param = '';
+
+					if(tags.length != 0){
+						for(var i in tags){
+							if (i < tags.length - 1)
+								param += 'tags='+tags[i].externalId+'&';
+							else
+								param += 'tags='+tags[i].externalId;
+						}
+						param += '&page='+searchCache.page+'&size='+searchCache.pageSize;
+					}else{
+						param = 'page='+searchCache.page+'&size='+searchCache.pageSize;
+					}
+
+                    if ( searchCache.page !=0 && searchCache.page  >= searchCache.totalPages ) {
+                        // Resolve the deferred $q object before returning the promise
+                        deferred.resolve([]);
+                        return deferred.promise;
+                    }
+
+                    var promise = $http.get(APP_APIS['tile']+'/tiles?'+param)
+                        .then(function(response){
+                            if ( searchCache.page == 0 ) {
+                                //---------------------------------------------//
+                                //Check Total Number of Pages in the Response //
+                                //---------------------------------------------//
+                                searchCache.totalItems = response.data.totalElements;
+                                searchCache.totalPages = response.data.totalPages;
+                            }
+
+                            var tiles = cacheSearch(response);
+                            searchCache.page++;
+//console.log(param, tiles);
+
+                            console.log("Tile THEN count " + searchCache.totalItems + " total " + searchCache.totalItems);
+
+                            deferred.resolve(tiles);
+                        });
+
+                    return deferred.promise;
+				},
+
 				moreRadar: function() {
 
                     return  ( ( tileCache.cacheSize < tileCache.totalItems ) || tileCache.page == 0 )
@@ -498,6 +548,11 @@
                 moreNetTiles: function() {
 
                     return ( ( netTilesCache.cacheSize < netTilesCache.totalItems ) ||  netTilesCache.page == 0  )
+                },
+
+                moreSearch: function() {
+
+                    return ( ( searchCache.cacheSize < searchCache.totalItems ) ||  searchCache.page == 0  )
                 },
 
                 moreEvents: function() {
