@@ -591,6 +591,21 @@
                     return deferred.promise;
 				},
 
+				getMedia: function(externalId) {
+					var deferred = $q.defer();
+
+					$http.get(APP_APIS['tile']+'/events/'+ externalId +'/media')
+						.success(function(data){
+							deferred.resolve(data);
+						})
+						.error(function(error){
+							console.log(error);
+							return error;
+						});
+
+					return deferred.promise;
+				},
+
 				getOffers: function(externalId) {
 					var deferred = $q.defer();
 

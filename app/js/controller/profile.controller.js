@@ -75,20 +75,31 @@
         AuthService.getUser().then(function(user){
             // Update Birthday.
             var birthday = $scope.birthday;
-            var dateAry = birthday.split(' ');
-            var date = parseInt(dateAry[0].substring(0, dateAry[0].length-2));
-            var month = $scope.monthNames.indexOf(dateAry[1]) + 1;
-            
-            if(date < 10)
-              date = '0' + date;
+            var dateAry = birthday.split('/');
 
-            if(month < 10)
-              month = '0' + month;
+            var date = parseInt(dateAry[0]);
+            if( date < 0 || date > 31){
+              Flash.create('danger', 'Date should be in 1-31');
+              return;
+            }else{            
+              if(date < 10)
+                date = '0' + date;
+            }
 
-            var newDate = Number(new Date(dateAry[2] + '-' + month + '-' + date));
+            var month = parseInt(dateAry[1]);
+            if( month < 0 || month > 12){
+              Flash.create('danger', 'Month should be in 1-12');
+              return;
+            }else{
+              if(month < 10)
+                month = '0' + month;
+            }
+
+            var year = dateAry[2];
+            var newDate = Number(new Date(year + '-' + month + '-' + date));
 
             if(!newDate){
-              Flash.create('danger', 'Date Format Error!');
+              Flash.create('danger', 'Date Format should be like "DD/MM/YYYY"!');
               return;
             }else{
               var params = {
