@@ -84,11 +84,11 @@
                 }                
                 
                 // Just For testing.
-                $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; 
-                var user = {
-                  externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
-                }
-                deferred.resolve(user);
+                // $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; 
+                // var user = {
+                //   externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
+                // }
+                // deferred.resolve(user);
 
                 return deferred.promise;
               },
