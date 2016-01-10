@@ -9807,11 +9807,34 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   margin: 0 auto;
   width: 10px;
 }
+.action-replay .add-buttons{
+  padding: 10px;
+}
+.action-replay .add-button{
+  width: 50%;
+  float: left;
+  color: #333;
+}
+.action-replay .add-button:hover{
+  cursor: pointer;
+  color: #3ABEEF;
+  text-decoration: none;
+}
+.action-replay .add-button img{
+  width: 30px;
+  margin-right: 20px;
+}
 .video-list{
   border-top: 1px solid #C1C1C1;
   padding: 0 10px 20px;
   width: 100%;
   display: inline-block;
+}
+.video-list.action-replay{
+  border-top: none;
+}
+.video-list.action-replay ul li:first-child{
+  border-top: none;
 }
 .video-list h4{
   color: #333;
@@ -9853,11 +9876,11 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   display: inline-block;
   width: calc(100% - 60px);
   line-height: 1;
-  margin-top: 3px;
+  margin-top: 10px;
 }
 .video-list ul li a span.videoType{
   clear: both;
-  color: #333;
+  color: #C1C1C1;
   width: 100%;
   float: left;
   margin-top: 5px;

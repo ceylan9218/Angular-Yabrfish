@@ -32,7 +32,7 @@
                     scope.classes = [];
                     scope.eventPerSlide = 1;
                     scope.currEvent = 0;
-                    scope.carouselIndex = 3;
+//                    scope.carouselIndex = 3;
 
                     var path = $location.path();
                     // Enable/Disable Edit Event.
@@ -83,7 +83,8 @@
                             editable: true,
                             enableEvent: scope.enableEvent
                         };
-                        scope.$parent.$broadcast('event', eventData);
+                        scope.$parent.$parent.$parent.$broadcast('event', eventData);
+                        //scope.$parent.$broadcast('event', eventData);
                     }
                 }
             }

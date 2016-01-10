@@ -56,7 +56,8 @@
             'app.race-list',
             'app.img-upload',
             'app.equip',
-            'app.tile'
+            'app.tile',
+            'app.action-replay'
         ])
         .constant('APP_APIS', {
           'base':                 'http://data.yabrfish.com/yfapi',

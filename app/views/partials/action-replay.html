@@ -1,0 +1,23 @@
+<div class="action-replay video-list">
+   <ul>
+      <li ng-repeat="media in medias track by $index">            
+         <a class="video">
+            <div class="videoImage-wrap">
+               <img class="videoImg" ng-if="media.content != null" src="{{media.content.creatives[0].url}}">
+               <img class="videoImg" ng-if="media.content == null" src="{{media.creatives.url}}">
+               <img class="videoIcon" ng-if="media.content != null" src="app/img/tv-icon.png">
+            </div>
+            <div class="video-infos">
+               <span>{{media.description}}</span>
+               <span ng-if="media.content != null && media.content.externalRefs[0].providerName != 'Sail TV'" class="videoType">YouTube</span>
+               <span ng-if="media.content != null && media.content.externalRefs[0].providerName == 'Sail TV'" class="videoType">Sail TV</span>
+               <span ng-if="media.content == null" class="videoType">Image</span>
+            </div>
+         </a>
+      </li>
+   </ul>
+   <div class="add-buttons">
+      <a class="add-button"><img src="app/img/add-rec.png">Add Video</a>
+      <a class="add-button"><img src="app/img/add-rec.png">Add Photo</a>
+   </div>   
+</div>

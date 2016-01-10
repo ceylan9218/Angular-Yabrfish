@@ -404,7 +404,7 @@
 
 
             // Show/Hide extend wrap.
-            $scope.extendAccount = function(element) {
+        $scope.extendAccount = function(element) {
             var accountId = element.externalId;
             var zoomVal = 17;
             var defaultMapPos = {lat: 51.50013, lng: -0.126305};
@@ -415,119 +415,119 @@
             else{
               element.extendWrap = true;
             }
-            }
+        }
 
-          // Get Products of type = Account
-          $scope.selectOffer = function(offer) {
+        // Get Products of type = Account
+        $scope.selectOffer = function(offer) {
             $scope.selected = offer;
             $scope.offerDescription = offer.description;
             $scope.offerAmount = offer.grossPrice * 100;
             $scope.offerName = offer.name;
-          }
+        }
 
-          $scope.isSelected = function(offer) {
+        $scope.isSelected = function(offer) {
             return $scope.selected === offer;
-          }
+        }
 
-          $scope.doCheckout = function(token) {
+        $scope.doCheckout = function(token) {
             console.log(token.id);
-          }
+        }
 
-          $scope.showNewAccount = function() {
+        $scope.showNewAccount = function() {
             if($scope.accounts.indexOf('new-account') < 0)
-              $scope.accounts.unshift('new-account');
-          }
+                $scope.accounts.unshift('new-account');
+        }
 
-          //--------------------------------------------------------------------
-          // Toggle the Account Types Based on the Selector For Name or Service
-          //--------------------------------------------------------------------
+        //--------------------------------------------------------------------
+        // Toggle the Account Types Based on the Selector For Name or Service
+        //--------------------------------------------------------------------
 
-          $scope.selectOpt = function(txt){
+        $scope.selectOpt = function(txt){
             $scope.search_option = txt;
             if(txt == 'Name')
-              $scope.searchType = 1;
+                $scope.searchType = 1;
             else
-              $scope.searchType = 2;
-          }
+                $scope.searchType = 2;
+        }
 
-          //--------------------------------------------------------------------
-          // Watch Search Request new Request After 3 Chars
-          //--------------------------------------------------------------------
+        //--------------------------------------------------------------------
+        // Watch Search Request new Request After 3 Chars
+        //--------------------------------------------------------------------
 
-          $scope.$watch('search_account', function(newVal){
+        $scope.$watch('search_account', function(newVal){
 
-              if(newVal.length > 3) {
+            if(newVal.length > 3) {
 
-                    // Check if adding new Chars Trims the Search to Zero Rows If it does
-                    // Run a New Search / Cache
-                    if ( AccountService.trimSearch($scope.searchToken, newVal) == 0 )  {
-                        $scope.searchToken='ACCOUNT'+ new Date().getTime();
-                        $scope.search_account=newVal;
-                        $scope.searchAccounts();
-                    } else {
-                        $scope.search_accounts = AccountService.cacheSearch();
-                    }
-
+                // Check if adding new Chars Trims the Search to Zero Rows If it does
+                // Run a New Search / Cache
+                if ( AccountService.trimSearch($scope.searchToken, newVal) == 0 )  {
+                    $scope.searchToken='ACCOUNT'+ new Date().getTime();
+                    $scope.search_account=newVal;
+                    $scope.searchAccounts();
+                } else {
+                    $scope.search_accounts = AccountService.cacheSearch();
                 }
 
-          });
+            }
 
-          //--------------------------------------------------------------------
-          // Search for Accounts supporting Cache and Unique Search with a Token
-          //--------------------------------------------------------------------
-          $scope.searchAccounts = function() {
+        });
+
+        //--------------------------------------------------------------------
+        // Search for Accounts supporting Cache and Unique Search with a Token
+        //--------------------------------------------------------------------
+        $scope.searchAccounts = function() {
 
             //---------------------------------------------------------//
             // Load Single Page Search
             //--------------------------------------------------------//
             if ( $scope.inMotion || ! AccountService.moreSearch($scope.searchToken) ) {
-              //---------------------------------------------------------------
-              // Check Cache Size of Controller if navigation has left the View
-              //---------------------------------------------------------------
-              if ( $scope.search_accounts.length < AccountService.searchCacheSize()) {
-                $scope.search_accounts.length = 0;
-                $scope.search_accounts = AccountService.cacheSearch();
-              }
-              return;
+                //---------------------------------------------------------------
+                // Check Cache Size of Controller if navigation has left the View
+                //---------------------------------------------------------------
+                if ( $scope.search_accounts.length < AccountService.searchCacheSize()) {
+                    $scope.search_accounts.length = 0;
+                    $scope.search_accounts = AccountService.cacheSearch();
+                }
+                return;
             }
 
             $scope.inMotion = true;
             $scope.loading = true;
 
             if ( ! AccountService.moreSearch($scope.searchToken) ) {
-              $scope.loading = false;
-              $scope.inMotion = true;
-            } else {
-              AccountService.searchAccounts($scope.searchToken, $scope.searchType, $scope.search_account, '1').then(function (searchRes) {
-                $scope.search_accounts = AccountService.cacheSearch();
                 $scope.loading = false;
-                $scope.inMotion = false;
-              }, function (error) {
-                console.log(error);
-                return;
-              })
+                $scope.inMotion = true;
+            } else {
+                AccountService.searchAccounts($scope.searchToken, $scope.searchType, $scope.search_account, '1').then(function (searchRes) {
+                    $scope.search_accounts = AccountService.cacheSearch();
+                    $scope.loading = false;
+                    $scope.inMotion = false;
+                }, function (error) {
+                    console.log(error);
+                    return;
+                })
             }
-          }
+        }
 
-          //----------------------------------------------------------------------------
-          // Set Account into the View for Optional Creating A Relationship
-          //----------------------------------------------------------------------------
+        //----------------------------------------------------------------------------
+        // Set Account into the View for Optional Creating A Relationship
+        //----------------------------------------------------------------------------
 
-          $scope.selectAccount = function(account){
+        $scope.selectAccount = function(account){
 
-                console.log(account);
-                for(var i in $scope.accounts){
-                  if($scope.accounts[i].externalId == account.externalId){
+            console.log(account);
+            for(var i in $scope.accounts){
+                if($scope.accounts[i].externalId == account.externalId){
                     Flash.create('danger', 'Its Already Saved For You');
                     return;
-                  }
                 }
+            }
 
-                $scope.accounts.push(account);
-                var cacheCount = AccountService.addCache(account);
-                $scope.search_accounts = AccountService.removeSearch(account);
+            $scope.accounts.push(account);
+            var cacheCount = AccountService.addCache(account);
+            $scope.search_accounts = AccountService.removeSearch(account);
 
-          }
+        }
 
     }
 })();
