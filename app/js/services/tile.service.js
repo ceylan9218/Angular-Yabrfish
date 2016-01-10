@@ -18,6 +18,7 @@
 			var myTilesCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
 			var netTilesCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
 			var searchCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, tiles:[]};
+			var offerCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, offers:[]};
 
         	var currTile = [];
         	
@@ -67,6 +68,48 @@
 
 				return reco;
 			};
+
+			//--------------------------------------------------------------------------------------------
+			// Process Response and cache tiles from Recommendations Service
+			//--------------------------------------------------------------------------------------------
+			var cacheOffers = function(response) {
+
+				var offers = [];
+				var curDate = new Date();
+
+				offers = response.data;
+
+				for (var i in offers) {
+
+					offers[i].enddate = new Date(offers[i].enddate);
+
+					// Get Diff days between Expired Date and Today.
+					var diff = (offers[i].enddate - curDate)/1000;
+					diff = Math.abs(Math.floor(diff));
+					offers[i].expire_days = Math.floor(diff/(24*60*60));
+
+					// Get EndDate.
+					var endDay = offers[i].enddate.getDate();
+					var endMonth = offers[i].enddate.getMonth() + 1;
+					var endYear = offers[i].enddate.getFullYear();
+
+					if( endDay < 10 ){
+						endDay = '0' + endDay;
+					}
+					if( endMonth < 10 ){
+						endMonth = '0' + endMonth;
+					}
+					offers[i].enddate = endDay + '/' + endMonth + '/' + endYear;
+					//-------------------------------------------------------------//
+					// Add Tiles to Cache
+					// Controller is building Cache as well
+					//------------------------------------------------------------//
+					offerCache.offers[offerCache.cacheSize++] = offers[i];
+				}
+
+				return offers;
+			};
+
 
 			//--------------------------------------------------------------------------------------------
 			// Process Response and cache tiles from Tile Service
@@ -215,6 +258,8 @@
 
                 cacheNetTiles: function () { return netTilesCache.tiles},
 
+				cacheOffers: function () { return offerCache.offers},
+
 				trimSearch: function(cacheId, tileTags) {
 
 					if ( searchCache.cacheId != cacheId ) {
@@ -258,7 +303,6 @@
 					return searchCache.cacheSize;
 
 				},
-
 
                 cacheSearchTiles: function () { return searchCache.tiles},
 
@@ -607,28 +651,60 @@
 				},
 
 				getOffers: function(externalId) {
+
 					var deferred = $q.defer();
 
-					$http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/offers')
-						.success(function(data){
-							deferred.resolve(data);
-						})
-						.error(function(error){
-							console.log(error);
-							return error;
+					if ( offerCache.page !=0 && offerCache.page  >= offerCache.totalPages ) {
+						// Resolve the deferred $q object before returning the promise
+						deferred.resolve([]);
+						return deferred.promise;
+					}
+
+					var promise = $http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/offers')
+						.then(function(response){
+
+							if ( offerCache.page == 0 ) {
+								//---------------------------------------------------------------//
+								//Not using Paging on this API so get all Elements in first call//
+								//--------------------------------------------------------------//
+								offerCache.totalItems = response.data.length;
+								offerCache.totalPages = 1;
+							}
+
+							var offers = cacheOffers(response);
+							offerCache.page++;
+
+							deferred.resolve(offers);
 						});
 
 					return deferred.promise;
 
+
 				},
 
-				moreRadar: function() {
+				moreOffers: function(externalId) {
 
-                    return  ( ( tileCache.cacheSize < tileCache.totalItems ) || tileCache.page == 0 )
+					if ( offerCache.cacheId != externalId) {
+						offerCache.cacheId = externalId
+						offerCache.cacheSize =  0;
+						offerCache.page = 0;
+						offerCache.pageSize = 6;
+						offerCache.totalPages = 0;
+						offerCache.totalItems = 0;
+						if ( offerCache.tiles != undefined ) offerCache.tiles.length = 0;
+					}
+
+                    return  ( ( offerCache.cacheSize < offerCache.totalItems ) || offerCache.page == 0 )
 
                 },
 
-                moreMyTiles: function() {
+				moreRadar: function() {
+
+					return  ( ( tileCache.cacheSize < tileCache.totalItems ) || tileCache.page == 0 )
+
+				},
+
+				moreMyTiles: function() {
 
                     return  ( ( myTilesCache.cacheSize < myTilesCache.totalItems ) || myTilesCache.page == 0 )
 

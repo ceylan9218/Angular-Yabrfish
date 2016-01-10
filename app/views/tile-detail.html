@@ -147,10 +147,10 @@
             </div>
          </accordion-group>
       </accordion>
-      <div class="offer-extend-wrap" ng-if="card.extendWrap && card.tileType == 'offer'">
+      <div class="offer-extend-wrap" ng-if="card.extendWrap && card.tileType == 'offer'" infinite-scroll='getOffers(card)' infinite-scroll-disabled='bOffersScrollDisabled'>
          <h4 class="offer-title">Offers</h4>
          <ul class="offers">
-            <li class="offer" ng-repeat="offer in card.offers">
+            <li class="offer" ng-repeat="offer in offers">
                <h5>{{offer.name}}</h4>
                <a class="get-offer-btn btn" href="{{offer.affilliateLink}}" target="_blank">Get This Offer</a>
                <p class="offer-detail"><span class="expires"><b>Expires {{offer.expire_days}} days</b></span> - Ends: {{offer.enddate}} - <span class="description">{{offer.description}}</span></p>
