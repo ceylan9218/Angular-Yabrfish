@@ -11840,14 +11840,14 @@ img.logo{
   padding: 14px 20px;
 }
 .new-tile img{
-  width: 30px;
+  width: 20px;
   float: left;
 }
 .new-tile span{
   margin-left: 15px;
   color: red;
   font-size: 16px;
-  line-height: 30px;
+  line-height: 20px;
   float: left;
 }
 .filter-img{
@@ -11861,7 +11861,7 @@ img.logo{
   width: 30px;
 }
 .tags{
-  width: calc(100% - 300px);
+  width: calc(100% - 270px);
   float: left;
   border-right: 1px solid #D2D2D2;
   height: 100%;
