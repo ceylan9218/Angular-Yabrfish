@@ -50,6 +50,13 @@
 
 		$rootScope.youtubePlay = false;
 
+		$scope.offers = [];
+		$scope.bOffersScrollDisabled = false;
+
+		$scope.getuser = function(element) {
+			console.log("USER");
+		}
+
 		$scope.getVideoList = function(element){
 
 			var uid = element.externalId;
@@ -58,6 +65,7 @@
 			element.videoTitles = [];
 			element.videoImages = [];
 			element.videoType = '';
+
 			element.youtube = {
 				config: {}
 			}
@@ -66,32 +74,32 @@
 			if(video_list[0])
 				video_list[0].style.display = 'block';
 
-			$http.get(APP_APIS['tile']+'/tiles/' + uid + '/content')
-				.success(function(data){
-					if(data.contentList && data.contentList.length>0){
-						element.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
-						if(element.videoType == 'youtube'){
-							element.vid = data.contentList[0].externalRefs[0].externalContentId;
-							for( var i in data.contentList ){                      
-								element.videoTitles[i] = data.contentList[i].title;
-							}
-						}else if (element.videoType == 'syco') {
-							for( var i = 0; i < data.contentList.length; i++ ){
-								var vid = data.contentList[i].externalRefs[0].externalContentId;
-								$http.get('http://api1.syndicatecontent.com/Sc.Content.Api.External/ScContentExt/inventory/'+vid+'?mediaformatid=9&vendortoken=B9C333B9-54F3-40B6-8C34-7A6512955B98')
-									.success(function(data) {
-										if(data.resources[0].medias[0].hostId){
-											element.videoList.push(data.resources[0].medias[0]);
-										}
-									});
-								element.videoTitles.push(data.contentList[i].title);
-								element.videoImages.push(data.contentList[i].creatives[0].url);
+				$http.get(APP_APIS['tile']+'/tiles/' + uid + '/content')
+					.success(function(data){
+						if(data.contentList && data.contentList.length>0){
+							element.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
+							if(element.videoType == 'youtube'){
+								element.vid = data.contentList[0].externalRefs[0].externalContentId;
+								for( var i in data.contentList ){
+									element.videoTitles[i] = data.contentList[i].title;
+								}
+							}else if (element.videoType == 'syco') {
+								for( var i = 0; i < data.contentList.length; i++ ){
+									var vid = data.contentList[i].externalRefs[0].externalContentId;
+									$http.get('http://api1.syndicatecontent.com/Sc.Content.Api.External/ScContentExt/inventory/'+vid+'?mediaformatid=9&vendortoken=B9C333B9-54F3-40B6-8C34-7A6512955B98')
+										.success(function(data) {
+											if(data.resources[0].medias[0].hostId){
+												element.videoList.push(data.resources[0].medias[0]);
+											}
+										});
+									element.videoTitles.push(data.contentList[i].title);
+									element.videoImages.push(data.contentList[i].creatives[0].url);
+								}
 							}
 						}
-					}
-					$scope.loading = false;
-				})
-		}
+						$scope.loading = false;
+					})
+			}
 
         $scope.videoPlay = function(element, video) {
 			$rootScope.youtubePlay = false;
@@ -181,6 +189,36 @@
 				ribbon[0].style.display = 'inline-block';
         }
 
+		$scope.getTileEvents = function(element) {
+			console.log("Events Logging")
+		}
+
+		$scope.getOffers = function(element) {
+
+			if ( $scope.bOffersScrollDisabled ) {
+				return;
+			}
+
+			$scope.bOffersScrollDisabled = true;
+
+			if ( TileService.moreOffers(element.externalId)) {
+				TileService.getOffers(element.externalId).then(function (data) {
+					$scope.offers = data;
+					$scope.bOffersScrollDisabled = false;
+				}, function (error) {
+					console.log(error);
+					return;
+				})
+			} else {
+				$scope.offers = TileService.cacheOffers();
+				// Make bScopeLoading = True to Turn off Loading
+				$scope.bOffersScrollDisabled = true;
+				console.log("Offer Cache Done")
+			}
+
+
+		}
+
         $scope.extendTile = function(element){
         	if(element.extendWrap){
         		element.extendWrap = false;
@@ -192,35 +230,7 @@
 			}
 
 			if(element.tileType == 'offer'){
-				TileService.getOffers(element.externalId).then(function(data){
-					element.offers = data;
-					var curDate = new Date();
 
-					for(var i in element.offers){
-						element.offers[i].enddate = new Date(element.offers[i].enddate);
-
-						// Get Diff days between Expired Date and Today.
-						var diff = (element.offers[i].enddate - curDate)/1000;
-						diff = Math.abs(Math.floor(diff));
-						element.offers[i].expire_days = Math.floor(diff/(24*60*60));
-
-						// Get EndDate.
-						var endDay = element.offers[i].enddate.getDate();
-						var endMonth = element.offers[i].enddate.getMonth() + 1;
-						var endYear = element.offers[i].enddate.getFullYear();
-
-						if( endDay < 10 ){
-							endDay = '0' + endDay;
-						}
-						if( endMonth < 10 ){
-							endMonth = '0' + endMonth;
-						}
-						element.offers[i].enddate = endDay + '/' + endMonth + '/' + endYear;
-					}
-				}, function(error){
-					console.log(error);
-					return;
-				});
             }
         }
     }

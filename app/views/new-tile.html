@@ -6,7 +6,7 @@
          <div class="create-tile-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': sliderWidth}">
             <div id="step1" class="steps" ng-style="{'width': stepWidth}">            
                <label for="file-input">
-                  <img src="app/img/upload-photo.png"/ ng-src="{{image_source}}">
+                  <img src="app/img/upload-photo.png" ng-src="{{image_source}}">
                </label>
                <input id="file-input" class="file" type="file" uploader="form.uploader" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
                <ui-select ng-model="tileType.selected" theme="select2">
@@ -25,7 +25,7 @@
                </div>
             </div>
             <div id="step2" class="steps" ng-style="{'width': stepWidth}">
-               <label for="accounts">Accounts:</label>
+               <label for="accounts">Choose Account:</label>
                <ui-select ng-model="account.selected" theme="select2" on-select="changeAccount($item, $model)">
                   <ui-select-match placeholder="Select Account...">{{$select.selected.name}}</ui-select-match>
                   <ui-select-choices repeat="account in accounts | propsFilter: {name: $select.search}">
