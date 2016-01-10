@@ -38,10 +38,10 @@
       <h4 class="title">{{card.name}}<i class="fa fa-angle-right fg-lg"></i></h4>
       <p class="date"><span>{{card.publishedDate}}</span></p>
       <div class="icons">
-         <a class="check-btn"><img src="app/img/check.png"></a>
-         <a class="net-btn"><img src="app/img/fish-net.png"></a>
-         <a class="share-btn"><img src="app/img/share-alt.png"></a>
-         <a class="comment-btn"><img src="app/img/comment.png"></a>
+         <a class="check-btn" ng-click="selectIcon('check')"><img src="app/img/check.png"></a>
+         <a class="net-btn" ng-click="addToNet = !addToNet"><img ng-src="{{addToNet? ('app/img/fish-net-o.png'): ('app/img/fish-net.png')}}"></a>
+         <a class="share-btn" ng-click="selectIcon('share')"><img src="app/img/share-alt.png"></a>
+         <a class="comment-btn" ng-click="selectIcon('comment')"><img src="app/img/comment.png"></a>
          <a class="more pull-right" ng-click="extendTile(card)">
             <img ng-src="{{card.moreImg}}">
          </a>
@@ -73,6 +73,14 @@
                   <span>YouTube</span>
                </a>
             </li>
+         </ul>
+      </div>
+      <div class="add-to-net" ng-if="addToNet">
+         <ul>
+            <li><span>My First Net</span><button class="btn btn-default">ADD</button></li>
+            <li><span>My Second Net For Events</span><button class="btn btn-default">ADD</button></li>
+            <li><span>Another Net For Things For Sale</span><button class="btn btn-default">ADD</button></li>
+            <li><input type="text" class="new-net form-control" placeholder="New Net Name"><button class="btn btn-default">NEW</button></li>
          </ul>
       </div>
       <accordion class="extend-wrap" ng-if="card.extendWrap && card.tileType == 'article'" close-others="false">
