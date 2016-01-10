@@ -9728,6 +9728,13 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 .panel .panel-heading a.accordion-toggle p span{
   color: #3abeef;  
 }
+.sale-extend-wrap h4.description-title{
+  padding: 0 20px;
+  font-size: 14px;
+}
+.sale-extend-wrap p{
+  padding: 0px 20px;
+}
 .tile-infos .panel-group .panel{
     border-width: 1px medium medium;
     border-style: solid none none;
