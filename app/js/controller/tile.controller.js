@@ -53,6 +53,10 @@
 		$scope.offers = [];
 		$scope.bOffersScrollDisabled = false;
 
+		$scope.getuser = function(element) {
+			console.log("USER");
+		}
+
 		$scope.getVideoList = function(element){
 
 			var uid = element.externalId;
@@ -61,6 +65,7 @@
 			element.videoTitles = [];
 			element.videoImages = [];
 			element.videoType = '';
+
 			element.youtube = {
 				config: {}
 			}
@@ -69,32 +74,32 @@
 			if(video_list[0])
 				video_list[0].style.display = 'block';
 
-			$http.get(APP_APIS['tile']+'/tiles/' + uid + '/content')
-				.success(function(data){
-					if(data.contentList && data.contentList.length>0){
-						element.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
-						if(element.videoType == 'youtube'){
-							element.vid = data.contentList[0].externalRefs[0].externalContentId;
-							for( var i in data.contentList ){                      
-								element.videoTitles[i] = data.contentList[i].title;
-							}
-						}else if (element.videoType == 'syco') {
-							for( var i = 0; i < data.contentList.length; i++ ){
-								var vid = data.contentList[i].externalRefs[0].externalContentId;
-								$http.get('http://api1.syndicatecontent.com/Sc.Content.Api.External/ScContentExt/inventory/'+vid+'?mediaformatid=9&vendortoken=B9C333B9-54F3-40B6-8C34-7A6512955B98')
-									.success(function(data) {
-										if(data.resources[0].medias[0].hostId){
-											element.videoList.push(data.resources[0].medias[0]);
-										}
-									});
-								element.videoTitles.push(data.contentList[i].title);
-								element.videoImages.push(data.contentList[i].creatives[0].url);
+				$http.get(APP_APIS['tile']+'/tiles/' + uid + '/content')
+					.success(function(data){
+						if(data.contentList && data.contentList.length>0){
+							element.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
+							if(element.videoType == 'youtube'){
+								element.vid = data.contentList[0].externalRefs[0].externalContentId;
+								for( var i in data.contentList ){
+									element.videoTitles[i] = data.contentList[i].title;
+								}
+							}else if (element.videoType == 'syco') {
+								for( var i = 0; i < data.contentList.length; i++ ){
+									var vid = data.contentList[i].externalRefs[0].externalContentId;
+									$http.get('http://api1.syndicatecontent.com/Sc.Content.Api.External/ScContentExt/inventory/'+vid+'?mediaformatid=9&vendortoken=B9C333B9-54F3-40B6-8C34-7A6512955B98')
+										.success(function(data) {
+											if(data.resources[0].medias[0].hostId){
+												element.videoList.push(data.resources[0].medias[0]);
+											}
+										});
+									element.videoTitles.push(data.contentList[i].title);
+									element.videoImages.push(data.contentList[i].creatives[0].url);
+								}
 							}
 						}
-					}
-					$scope.loading = false;
-				})
-		}
+						$scope.loading = false;
+					})
+			}
 
         $scope.videoPlay = function(element, video) {
 			$rootScope.youtubePlay = false;
@@ -183,6 +188,10 @@
 			if(ribbon[0])
 				ribbon[0].style.display = 'inline-block';
         }
+
+		$scope.getTileEvents = function(element) {
+			console.log("Events Logging")
+		}
 
 		$scope.getOffers = function(element) {
 
