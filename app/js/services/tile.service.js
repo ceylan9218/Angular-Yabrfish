@@ -21,6 +21,7 @@
 			var offerCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, offers:[]};
 
         	var currTile = [];
+			var controllerLoad = {"cacheId":null,"loadCount":0};
         	
         	//--------------------------------------------------------------------------------------------
 			// Process Response and cache tiles from Search Function
@@ -238,6 +239,12 @@
 
         	return {
 
+				loadCache : function(cacheId) {
+
+					if (controllerLoad.cacheId != cacheId ) { controllerLoad.loadCount++};
+
+				},
+
         		cacheSize : function () { return tileCache.cacheSize },
 
         		cacheMyTilesSize : function () { return myTilesCache.cacheSize },
@@ -354,7 +361,7 @@
                                 var reco = cacheReco(response);
                                 tileCache.page++;
 
-                                console.log("RECO THEN count " + tileCache.totalItems + " total " + tileCache.totalItems);
+                                console.log("RADAR THEN cache size count " + reco.length + " total " + tileCache.tiles.length);
 
                                 deferred.resolve(reco);
                             });

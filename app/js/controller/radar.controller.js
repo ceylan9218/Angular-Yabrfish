@@ -12,13 +12,18 @@
 
     function radarController($rootScope, $scope, $http, RouteHelpers, TileService) {
 
-        $scope.inMotion = false;
-        $scope.InMotionPage = 0;
+        $scope.bRadarScrollDisabled = false;
+        $scope.loading = false;
+        $scope.pageToken='RADAR'+ new Date().getTime();
+
         $scope.basepath = RouteHelpers.basepath;
-        $scope.tiles = [];
+        $scope.tiles = TileService.cacheTiles();
+
 
         $scope.loadBanner = function(){
-          // Get Banner Image.
+          // Counting Loads Of Banner
+          TileService.loadCache($scope.pageToken);
+          // Get Banner Image
           $http.get('http://ab167293.adbutler-boson.com/adserve/;ID=167293;size=1838x227;setID=196632;type=json')
             .success(function(data){
               $scope.bannerId = data.placements.placement_1.banner_id;
@@ -35,31 +40,27 @@
 
         $scope.getRadar = function() {
 
-            //---------------------------------------------------------//
-            // Load Single Page of Tiles
-            //--------------------------------------------------------//
-            if ( $scope.inMotion || ! TileService.moreRadar() ) {
-                //---------------------------------------------------------------
-                // Check Cache Size of Controller if navigation has left the View
-                //---------------------------------------------------------------
-                if ( $scope.tiles.length < TileService.cacheSize()) {
-                    $scope.tiles.length = 0;
-                    $scope.tiles = TileService.cacheTiles();
-                }
+            console.log("Get Tiles Called " + $scope.tiles.length + "Loading " + $scope.loading + "Scroll "+ $scope.bRadarScrollDisabled)
+
+            if ( $scope.loading ) {
                 return;
             }
 
-            $scope.inMotion = true;
             $scope.loading = true;
 
             if ( ! TileService.moreRadar() ) {
                 $scope.loading = false;
-                $scope.inMotion = true;
+                $scope.bRadarScrollDisabled = true;
             } else {
                 TileService.getRadar($rootScope.user.externalId).then(function (radar) {
                     $scope.tiles = TileService.cacheTiles();
                     $scope.loading = false;
-                    $scope.inMotion = false;
+                    //----------------------------------------------------------------//
+                    // Disable Radar Scrolling as we have now filled the Cache
+                    //---------------------------------------------------------------//
+                    if ( ! TileService.moreRadar() ) {
+                        $scope.bRadarScrollDisabled = true;
+                    }
                 }, function (error) {
                     console.log(error);
                     return;
