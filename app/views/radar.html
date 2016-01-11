@@ -3,14 +3,14 @@
    <a id="{{bannerId}}" href="{{bannerUrl}}" target="{{target}}" alt="{{alt}}"><img src="{{bannerImg}}" /></a>
 </div>
 <!-- START row-->
-<div class="row yabrTile-wrap" infinite-scroll="getRadar()"  infinite-scroll-distance="2">
+<div class="row yabrTile-wrap" infinite-scroll="getRadar()"  infinite-scroll-disabled='bRadarScrollDisabled' infinite-scroll-distance="2">
    <!-- START widget-->
    <div class="container-fluid">
       <div deckgrid source="tiles" cardtemplate="{{basepath('tile-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
    </div>
    <!-- END widget-->
 </div>
-<div class="panel-body loader-demo">
+<div ng-if="loading" class="panel-body loader-demo">
    <div class="ball-pulse">
       <div></div>
       <div></div>
