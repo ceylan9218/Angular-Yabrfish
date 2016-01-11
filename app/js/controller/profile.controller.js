@@ -13,7 +13,7 @@
         })
         .controller('profileController', profileController);
 
-    function profileController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS, AuthService, LookupService) {
+    function profileController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS, AuthService, LookupService) {      
       if(!$rootScope.user)
         return;
 
@@ -48,6 +48,7 @@
                     default: birth_date = birth_date + "th";
                 }
               }
+              
               var birth_month = $scope.monthNames[$scope.birthday.getMonth()];
               var birth_year = $scope.birthday.getFullYear();
               $scope.birthday = birth_date + " " + birth_month + " " + birth_year;

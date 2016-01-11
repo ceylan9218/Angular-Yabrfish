@@ -498,7 +498,7 @@
                 $scope.loading = false;
                 $scope.inMotion = true;
             } else {
-                AccountService.searchAccounts($scope.searchToken, $scope.searchType, $scope.search_account, '1').then(function (searchRes) {
+                AccountService.searchAccounts($scope.searchToken, $scope.searchType, $scope.search_account,'').then(function (searchRes) {
                     $scope.search_accounts = AccountService.cacheSearch();
                     $scope.loading = false;
                     $scope.inMotion = false;
