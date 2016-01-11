@@ -401,44 +401,53 @@
 				},
 
 		        getTileEvents: function(externalId) {
+		        	var deferred = $q.defer();
+		        	$http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/events')
+		        		.success(function(data){
+		        			deferred.resolve(data.eventList);
+		        		})
+		        		.error(function(status){
+		        			console.log(status);
+		        			deferred.resolve(status);
+		        		})
+
 
                     //--------------------------------------------------------------------------
                     // Get List of Events from Tile Service.
                     //--------------------------------------------------------------------------
 
-					if ( eventCache.cacheId != externalId ) {
-						eventCache.cacheId = externalId
-						eventCache.cacheSize =  0;
-						eventCache.page = 0;
-						eventCache.pageSize = 6;
-						eventCache.totalPages = 0;
-						eventCache.totalItems = 0;
-						if ( eventCache.tiles != undefined ) eventCache.tiles.length = 0;
-					}
+					// if ( eventCache.cacheId != externalId ) {
+					// 	eventCache.cacheId = externalId
+					// 	eventCache.cacheSize =  0;
+					// 	eventCache.page = 0;
+					// 	eventCache.pageSize = 6;
+					// 	eventCache.totalPages = 0;
+					// 	eventCache.totalItems = 0;
+					// 	if ( eventCache.tiles != undefined ) eventCache.tiles.length = 0;
+					// }
 
-                    var deferred = $q.defer();
+     //                var deferred = $q.defer();
 
-					if ( eventCache.page !=0 && eventCache.page  >= eventCache.totalPages ) {
-						// Resolve the deferred $q object before returning the promise
-						deferred.resolve([]);
-						return deferred.promise;
-					}
+					// // if ( eventCache.page !=0 && eventCache.page  >= eventCache.totalPages ) {
+					// // 	// Resolve the deferred $q object before returning the promise
+					// // 	deferred.resolve([]);
+					// // 	return deferred.promise;
+					// // }
 
-					var promise = $http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/events?page='+eventCache.page+'&size='+eventCache.pageSize)
-						.then(function(response){
+					// var promise = $http.get(APP_APIS['tile']+'/tiles/'+ externalId +'/events?page='+eventCache.page+'&size='+eventCache.pageSize)
+					// 	.then(function(response){
+					// 		if ( eventCache.page == 0 ) {
+					// 			//---------------------------------------------//
+					// 			//Check Total Number of Pages in the Response //
+					// 			//---------------------------------------------//
+					// 			eventCache.totalItems = response.data.totalElements;
+					// 			eventCache.totalPages = response.data.totalPages;
+					// 		}
 
-							if ( eventCache.page == 0 ) {
-								//---------------------------------------------//
-								//Check Total Number of Pages in the Response //
-								//---------------------------------------------//
-								eventCache.totalItems = response.data.totalElements;
-								eventCache.totalPages = response.data.totalPages;
-							}
-
-							var events = cacheEvents(externalId, response);
-							eventCache.page++;
-							deferred.resolve(events);
-						});
+					// 		var events = cacheEvents(externalId, response);
+					// 		eventCache.page++;
+					// 		deferred.resolve(events);
+					// 	});
 
 					return deferred.promise;
 				},
