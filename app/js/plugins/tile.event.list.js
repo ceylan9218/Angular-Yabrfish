@@ -15,15 +15,6 @@
                     tile:"="
                 },
                 templateUrl: "app/views/partials/event-list.html",
-//                 compile : function(scope, elem, attrs) {
-//                     scope.carouselIndex = 3;
-//                     return {
-//                         post: function (scope, elem, attrs){
-//                             console.log(scope, elem, attrs);
-//                         }
-//                     }
-//                 }
-// //                 ,
                 link: function(scope, elem, attrs) {
 
                     var monthNames = TileService.getMonthNames();
@@ -32,7 +23,7 @@
                     scope.classes = [];
                     scope.eventPerSlide = 1;
                     scope.currEvent = 0;
-//                    scope.carouselIndex = 3;
+                    scope.carouselIndex = 3;                    	
 
                     var path = $location.path();
                     // Enable/Disable Edit Event.
@@ -45,7 +36,6 @@
                     // Need to put into a function to support infinite scroll and paging of events.
                     //------------------------------------------------------------------------------
                     TileService.getTileEvents(scope.tile.externalId).then(function(events){
-
                         for(var i in events) {
                             var startDate = new Date(events[i].startDate);
                             var month = monthNames[startDate.getMonth()];
