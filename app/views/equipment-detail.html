@@ -58,10 +58,23 @@
 	            <accordion-heading class="enter-header">
 	               <img src="app/img/service-icon.png">Services<i class="pull-right fa" ng-class="{'fa-angle-up': card.showServices, 'fa-angle-down': !card.showServices}"></i>
 	            </accordion-heading>
-	            <div class="content">
-	               <div><h5>Insurance</h5></div>
-	               <div><h5>Marina Berth</h5></div>
-	               <div><h5>Valet</h5></div>
+				<ui-select ng-model="service.selected" theme="select2" on-select="changeService($item, $model)">
+					<ui-select-match placeholder="Select Service...">{{$select.selected.name}}</ui-select-match>
+					<ui-select-choices repeat="service in services | propsFilter: {name: $select.search}">
+						<div ng-bind-html="service.name | highlight: $select.search"></div>
+					</ui-select-choices>
+				</ui-select>
+				<ui-select ng-model="account.selected" theme="select2" on-select="changeAccount($item, $model)">
+					<ui-select-match placeholder="Select Account...">{{$select.selected.name}}</ui-select-match>
+					<ui-select-choices repeat="account in accounts | propsFilter: {name: $select.search}">
+						<div ng-bind-html="account.name | highlight: $select.search"></div>
+					</ui-select-choices>
+				</ui-select>
+				<div class="content">
+	               <div><h5>Insurance</h5>Bluefinn insurance</div>
+	               <div><h5>Storage Berth</h5>Warsash Sailing Club</div>
+	               <div><h5>Parts</h5>North Sails</h5></div>
+					<div><h5>Parts</h5>RS Sailing</h5></div>
 	            </div>
 	        </accordion-group>
 		</accordion>
