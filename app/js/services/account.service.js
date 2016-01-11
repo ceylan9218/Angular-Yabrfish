@@ -166,9 +166,11 @@
                         }
                     }
 
-                    var accTypes = accountTypes.split(",");
-                    for ( var i in accTypes) {
-                        searchFilter+=  searchSep + 'type='+accTypes[i];
+                    if ( accountTypes.length > 0 ) {
+                        var accTypes = accountTypes.split(",");
+                        for (var i in accTypes) {
+                            searchFilter += searchSep + 'type=' + accTypes[i];
+                        }
                     }
 
                     var apiParms = searchFilter + '&page='+searchAccCache.page+'&size='+searchAccCache.pageSize;
