@@ -1026,6 +1026,7 @@
     SidebarController.$inject = ['$rootScope', '$scope', '$state', 'SidebarLoader', 'Utils', '$location'];
     function SidebarController($rootScope, $scope, $state, SidebarLoader,  Utils, $location) {
         var path = $location.path();
+
         // Show/Hide Profile Menu.
         if(path.indexOf('/app/profile') != -1)
           $scope.profileMenu = true;
@@ -1073,7 +1074,7 @@
           // Handle sidebar and collapse items
           // ----------------------------------
           
-          $scope.getMenuItemPropClasses = function(item) {
+          $scope.getMenuItemPropClasses = function(item) {           
             return (item.heading ? 'nav-heading' : '') +
                    (isActive(item) ? ' active' : '') ;
           };
@@ -1113,7 +1114,6 @@
 
             // Check item and children active state
             function isActive(item) {
-
               if(!item) return;
 
               if( !item.sref || item.sref === '#') {
@@ -1123,8 +1123,9 @@
                 });
                 return foundActive;
               }
-              else
+              else{
                 return $state.is(item.sref) || $state.includes(item.sref);
+              }
             }
 
             function closeAllBut(index) {
