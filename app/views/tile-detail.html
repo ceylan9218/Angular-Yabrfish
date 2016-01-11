@@ -75,7 +75,7 @@
             </li>
          </ul>
       </div>
-      <div class="add-to-net" ng-if="addToNet">
+      <div class="add-to-net" ng-if="addToNet" infinite-scroll='getTileNets(card)' infinite-scroll-disabled='bTileNetScrollDisabled'>
          <ul>
             <li ng-repeat="net in nets"><span>{{net.name}}</span><button class="btn btn-default">ADD</button></li>
             <li><input type="text" class="new-net form-control" placeholder="New Net Name"><button class="btn btn-default">NEW</button></li>
