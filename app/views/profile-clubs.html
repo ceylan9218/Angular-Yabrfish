@@ -1,4 +1,4 @@
-<div class="profile-club-wrap" ng-init="getClubs()">
+<div class="profile-club-wrap">
 	<div class="club-search">
 		<div class="search-img">
 			<img class="" src="app/img/search-blue.png">
@@ -24,12 +24,19 @@
 		</div>
 	</div>
 	<!-- START row-->
-	<div class="row yabrTile-wrap clubs">
+	<div class="row yabrTile-wrap clubs" infinite-scroll="getClubs()"  infinite-scroll-disabled='bClubScrollDisabled' infinite-scroll-distance="2">
 	   	<!-- START widget-->
 	   	<div class="container-fluid">
 	    	<div deckgrid source="myClubs" cardtemplate="{{basepath('club-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
 	   	</div>
 	   	<!-- END widget-->
+	</div>
+</div>
+<div ng-if="loading" class="panel-body loader-demo">
+	<div class="ball-pulse">
+		<div></div>
+		<div></div>
+		<div></div>
 	</div>
 </div>
 <!-- Alert message-->

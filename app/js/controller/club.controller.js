@@ -70,10 +70,64 @@
       
         $scope.basepath = RouteHelpers.basepath;
         $scope.inMotion = false;
+        $scope.loading = false;
         $scope.clubs = [];
-        $scope.myClubs = [];
+        $scope.myClubs = ViewerService.cacheClubs();
         $scope.search_club = '';
         $scope.searchToken = '';
+        $scope.bClubScrollDisabled = false;
+
+
+        //----------------------------------------------------------------------------
+        // Fill Out the Initial Clubs View for Membership and Relationships
+        //----------------------------------------------------------------------------
+        $scope.getClubs = function() {
+
+
+            console.log("Get Clubs Called " + $scope.myClubs.length + "Loading " + $scope.loading + "Scroll "+ $scope.bClubScrollDisabled)
+
+            if ( $scope.loading ) {
+                return;
+            }
+
+            $scope.loading = true;
+
+            if ( ! ViewerService.moreClubs() ) {
+                $scope.loading = false;
+                $scope.bClubScrollDisabled = true;
+            } else {
+                ViewerService.getClubs($rootScope.user.externalId).then(function (clubs) {
+                    $scope.myClubs = clubs;
+                    $scope.loading = false;
+                    $scope.bClubScrollDisabled = true;
+                }, function (error) {
+                    console.log(error);
+                    return;
+                })
+            }
+
+        }
+
+        // --------------------------------------------------------------------
+        // Call Back Function for Image Upload - Used to update Account Panel
+        // --------------------------------------------------------------------
+        $scope.onComplete = function (creative) {
+
+
+            var currAccount = ViewerService.setCurrentClub(creative.externalId);
+
+            currAccount.accountLogoUrl  = creative.creatives.url;
+
+            AccountService.updateAccount(currAccount).then(function (data) {
+                console.log("Successful Update Account");
+            }, function (error) {
+                console.log(error);
+                Flash.create('danger', 'Error! Problem Updating Image For The Account');
+                return;
+            })
+
+        }
+
 
         //----------------------------------------------------------------------------
         // Search For Clubs
@@ -127,33 +181,21 @@
 
         $scope.selectClub = function(club){
 
-              for(var i in $scope.myClubs){
+                for(var i in $scope.myClubs){
                 if($scope.myClubs[i].account.externalId == club.externalId){
                   Flash.create('danger', 'Its Already Saved For You');
                   return;
                 }
-              }
+                }
 
-              $scope.myClubs.push({
-                account: club
-              });
+                $scope.myClubs.push({account: club});
 
-              $scope.clubs = [];
+                ViewerService.addClubCache(club);
+
+                  // Clear Search List
+                  $scope.clubs = [];
+
         }
-
-        //----------------------------------------------------------------------------
-        // Fill Out the Initial Clubs View for Memebership and Relationships
-        //----------------------------------------------------------------------------
-          $scope.getClubs = function() {
-
-            ViewerService.getClubs($rootScope.user.externalId).then(function(clubs){
-              $scope.myClubs = clubs;
-            }, function(error){
-              console.log(error);
-              return;
-            })
-
-          }
 
         //----------------------------------------------------------------------------
         // Remove a Club From Relationship and View
