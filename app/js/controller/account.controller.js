@@ -62,7 +62,7 @@
         $scope.search_accounts = [];
         $scope.search_account = '';
         $scope.searchToken = '';
-        //$scope.countries = LookupService.getCountries();
+        $scope.countries = LookupService.getCountries();
         $scope.country = {};
         $scope.areaCountry = {};
 
