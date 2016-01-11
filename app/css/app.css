@@ -9582,10 +9582,7 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   margin-right: 10px;
 }
 .yabrTile .tile-infos .icons a img{
-  width: 15px;
-}
-.yabrTile .tile-infos .icons a.net-btn img{
-  width: 20px;
+  width: 18px;
 }
 .yabrTile .tile-infos .icons a.more{
   margin-right: 0;

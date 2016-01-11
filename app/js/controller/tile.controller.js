@@ -46,12 +46,13 @@
         })
     	.controller('tileController', tileController);
 
-    function tileController($rootScope, $scope, $http, $sce, RouteHelpers, APP_APIS, TileService) {
+    function tileController($rootScope, $scope, $http, $sce, RouteHelpers, APP_APIS, TileService, ViewerService) {
 
 		$rootScope.youtubePlay = false;
 
 		$scope.offers = [];
 		$scope.bOffersScrollDisabled = false;
+		$scope.nets = [];
 
 		$scope.getuser = function(element) {
 			console.log("USER");
@@ -233,5 +234,11 @@
 
             }
         }
+
+    	ViewerService.getNets($rootScope.user.externalId).then(function(data){
+    		$scope.nets = data;
+    	}, function(error){
+
+    	});
     }
 })();
