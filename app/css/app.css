@@ -9602,6 +9602,42 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   margin: 0 10px;
   color: #3abeef;
 }
+.add-to-net{
+  display: inline-block;
+  width: 100%;
+}
+.add-to-net ul{
+  list-style: none;
+  padding: 0 20px;
+}
+.add-to-net ul li{
+  width: 100%;
+  display: inline-block;
+  border-top: 1px solid #e4e4e4;
+  padding-top: 5px;
+}
+.add-to-net ul li span{
+  float: left;
+}
+.add-to-net ul li button.btn{
+  float: right;
+  background: #3ABEEF;
+  border-radius: 20px;
+  color: #fff;
+  border: none;
+  padding: 2px 15px;
+}
+.add-to-net ul li:last-child{
+  border-top: none;
+  padding-top: 20px;
+}
+.add-to-net ul li:last-child button.btn{
+  margin-top: 5px;
+}
+.add-to-net ul li .new-net{
+  width: 200px;
+  float: left;
+}
 .ribbon {
    position: absolute;
    right: -5px; top: -5px;
@@ -9727,6 +9763,13 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 }
 .panel .panel-heading a.accordion-toggle p span{
   color: #3abeef;  
+}
+.sale-extend-wrap h4.description-title{
+  padding: 0 20px;
+  font-size: 14px;
+}
+.sale-extend-wrap p{
+  padding: 0px 20px;
 }
 .tile-infos .panel-group .panel{
     border-width: 1px medium medium;
@@ -11833,14 +11876,14 @@ img.logo{
   padding: 14px 20px;
 }
 .new-tile img{
-  width: 30px;
+  width: 20px;
   float: left;
 }
 .new-tile span{
   margin-left: 15px;
   color: red;
   font-size: 16px;
-  line-height: 30px;
+  line-height: 20px;
   float: left;
 }
 .filter-img{
@@ -11854,7 +11897,7 @@ img.logo{
   width: 30px;
 }
 .tags{
-  width: calc(100% - 300px);
+  width: calc(100% - 270px);
   float: left;
   border-right: 1px solid #D2D2D2;
   height: 100%;

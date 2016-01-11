@@ -20,12 +20,22 @@
     	$scope.equipments.unshift('addEquip');
     	$scope.equipType = {};
 
+		$scope.services = [{id:1,name:"Insurance"},{id:2,name:"Storage/Marina"},{id:3,name:"Maintenance"},{id:4,name:"Parts"},{id:5,name:"Cleaning"}];
+
     	$scope.equip = {
     		name: '',
     		classID: null,
     		desc: '',
     		idNum: ''
     	}
+
+		// Get Service
+		//LookupService.getServiceTypes().then(function(data){
+		//	$scope.services = data;
+		//}, function(error){
+		//	console.log(error);
+		//	return;
+		//});
 
     	// Get Equipment Types
     	LookupService.getEquipmentTypes().then(function(data){

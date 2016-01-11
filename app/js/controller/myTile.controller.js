@@ -65,9 +65,26 @@
       if(!$rootScope.user)
         return;
 
-      //--------------------------------------------------------------------------------------------
-      // New Tile functions
-      //--------------------------------------------------------------------------------------------      
+        $scope.getUser = function() {
+            AuthService.getUser().then(function(user){
+                $rootScope.user = user;
+                // Get Current User's Roles
+                $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/roles')
+                    .success(function(data){
+                        for(var i in data){
+                            $scope.accounts.push(data[i].account);
+                        }
+                        $scope.accounts.unshift({
+                            name: 'Just For Me'
+                        });
+                    });
+            })
+        }
+
+
+          //--------------------------------------------------------------------------------------------
+          // New Tile functions
+          //--------------------------------------------------------------------------------------------
         // Get Tile Types
         LookupService.getTileTypes().then(function(tiletypes){
           $scope.tileTypes = tiletypes;
@@ -215,7 +232,7 @@
                   .success(function(response){
                     $scope.showNewTile = true;
                     $scope.newTile.creatives.push(response);
-                    $scope.newTile.publishedDate = TileService.getTimeDiff($scope.newTile.publishedDate);
+                    //$scope.newTile.publishedDate = TileService.getTimeDiff($scope.newTile.publishedDate);
                     $scope.slideWrap('next');                  
                     Flash.create('success', 'Successfully created new tile.');
                     $scope.enableCreate = true;
@@ -237,17 +254,7 @@
 
       // Get My Tiles.
       $scope.getTiles = function() {
-//         $http.get(APP_APIS['tile']+'/tiles/owners?viewerExternalId='+ $rootScope.user.externalId)
-//           .success(function(tiles){
-//             $scope.tiles = tiles.tileList;
-//             for(var i in $scope.tiles){
-//               //Get and change lowercase Tile Type.              
-//               $scope.tiles[i].tileType = $scope.tiles[i].tileType.toLowerCase();
-// //              $scope.tiles[i].publishedDate = TileService.getTimeDiff($scope.tiles[i].publishedDate);
-//             }
-//           })
 
-        
         //---------------------------------------------------------//
         // Load Single Page of my tiles.
         //--------------------------------------------------------//
@@ -288,6 +295,7 @@
       })
 
       $scope.showNewTile = function() {
+
         if($scope.tiles.indexOf('newTile') < 0){
           $scope.tiles.unshift('newTile');
           

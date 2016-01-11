@@ -22,7 +22,7 @@
 <div class="aside-inner">
    <nav sidebar="" sidebar-anyclick-close="true" class="sidebar">
       <!-- START sidebar nav-->
-      <div id="search-wrap">
+      <!-- <div id="search-wrap">
          <div class="searchbar navbar">
             <form role="search" class="navbar-form">
                <div class="form-group has-feedback">
@@ -32,7 +32,7 @@
                <button type="submit" class="hidden btn btn-default">Submit</button>
             </form>   
          </div>
-      </div>
+      </div> -->
       <div class="user-profile">
       	<img ng-if="!$root.logged || $root.user.avatarUrl==null" src="app/img/user/default.png"></img>
          <img ng-if="$root.logged && $root.user.avatarUrl" src="{{$root.user.avatarUrl}}"></img>
@@ -41,10 +41,10 @@
 	      	<a ng-href="#/app/profile" class="profile-link">View Profile</a>      		
       	</div>
       </div>
-      <div class="follow-wrap">
+      <!-- <div class="follow-wrap">
       	<div class="following"><span>Following</span><span class="following-num">46</span></div>
       	<div class="follower"><span>Followers</span><span class="followers-num">87</span></div>
-      </div>
+      </div> -->
       <ul class="nav">
          <!-- Iterates over all sidebar items-->
          <li ng-class="getMenuItemPropClasses(item)" ng-show="!profileMenu" ng-repeat="item in menuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'" ng-click="toggleCollapse(pIndex, true)"></li>

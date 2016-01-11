@@ -12,6 +12,20 @@
 
         function LookupService($http, $q, APP_APIS){
         	return {
+
+                getServiceTypes: function(){
+                    var deferred = $q.defer();
+                    $http.get(APP_APIS['lookup']+'/accounttypes')
+                        .success(function(data){
+                            deferred.resolve(data);
+                        })
+                        .error(function(status){
+                            deferred.resolve(status);
+                        });
+
+                    return deferred.promise;
+                },
+
         		getAccountTypes: function(){
         			var deferred = $q.defer();
         			$http.get(APP_APIS['lookup']+'/accounttypes')
