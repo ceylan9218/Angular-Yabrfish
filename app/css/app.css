@@ -12051,6 +12051,19 @@ img.logo{
   .create .tileCount{
     font-size: 14px;
   }
+  .tiles-filter .more{
+    width: 60px;
+    padding: 13px 10px;
+  }
+  .tags{
+    width: calc(100% - 100px);
+  }
+  .tiles-filter .more i{
+    margin-left: 2px;
+  }
+  .tile-types{
+    width: 100%;
+  }
 }
 /* ========================================================================
    title: Account Page Style
@@ -12070,7 +12083,7 @@ img.logo{
     background: none repeat scroll 0% 0% #FFF;
     margin-top: 20px;
     border: 1px solid #D2D2D2;
-    height: 60px;
+    height: 50px;
 }
 .account-filter .search-option{
   width: 80px;
@@ -12086,7 +12099,7 @@ img.logo{
   font-size: 14px;
 }
 .account-filter .search-input{
-  width: calc(100% - 380px);
+  width: calc(100% - 370px);
   float: left;
   border-right: 1px solid #D2D2D2;
   height: 100%;
@@ -12102,7 +12115,7 @@ img.logo{
     float: right;
     width: 100px;
     height: 100%;
-    padding: 20px;
+    padding: 15px 20px;
     cursor: pointer;
 }
 .account-filter .more img {
@@ -12249,6 +12262,41 @@ p.title{
     width: 90%;
     top: 40px !important;
     left: 0;
+  }
+  .new-tile{
+    padding: 15px 10px;
+    width: 40px;
+  }
+  .new-tile span{
+    display: none;
+  }
+  .filter-img{
+    display: none;
+  }
+  .account-filter{
+    height: 50px;
+  }
+  .account-filter .search-option{
+    width: 60px;
+  }
+  .account-filter .search-option button{
+    padding: 0;
+  }
+  .account-filter .more{
+    width: 60px;
+    padding: 15px 10px;
+  }
+  .account-filter .more img {
+    width: 25px;
+  }
+  .account-filter .more i{
+    margin-left: 2px;
+  }
+  .account-filter .search-input{
+    width: calc(100% - 160px);
+  }
+  .account-filter .search-input input{
+    padding: 10px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1199px) {
