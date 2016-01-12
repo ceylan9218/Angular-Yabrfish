@@ -38,6 +38,19 @@
                 return searches;
             };
 
+            var updateCache = function (object, value, replacevalue){
+
+                for(var x in object){
+                    if(typeof object[x] == 'object'){
+                        findAndReplace(object[x], value, replacevalue);
+                    }
+                    if(object[x] == value){
+                        object["name"] = replacevalue;
+                        // break; // uncomment to stop after first replacement
+                    }
+                }
+            };
+
         	return{
 
                 addCache : function (account) {
