@@ -38,10 +38,10 @@
       <h4 class="title">{{card.name}}<i class="fa fa-angle-right fg-lg"></i></h4>
       <p class="date"><span>{{card.publishedDate}}</span></p>
       <div class="icons">
-         <a class="check-btn" ng-click="selectIcon('check')"><img src="app/img/check.png"></a>
-         <a class="net-btn" ng-click="addToNet = !addToNet"><img ng-src="{{addToNet? ('app/img/fish-net-o.png'): ('app/img/fish-net.png')}}"></a>
-         <a class="share-btn" ng-click="selectIcon('share')"><img src="app/img/share-alt.png"></a>
-         <a class="comment-btn" ng-click="selectIcon('comment')"><img src="app/img/comment.png"></a>
+         <a class="check-btn" ng-click="addToLink = !addToLink"><img ng-src="{{addToLink? ('app/img/check.png'): ('app/img/check-o.png')}}"></a>
+         <a class="net-btn" ng-click="addToNet = !addToNet"><img ng-src="{{addToNet? ('app/img/fish-net.png'): ('app/img/fish-net-o.png')}}"></a>
+         <a class="share-btn" ng-click="addToShare = !addToShare"><img ng-src="{{addToShare? ('app/img/share-alt.png'): ('app/img/share-alt-o.png')}}"></a>
+         <a class="comment-btn" ng-click="addToComment = !addToComment"><img ng-src="{{addToComment? ('app/img/comment.png'): ('app/img/comment-o.png')}}"></a>
          <a class="more pull-right" ng-click="extendTile(card)">
             <img ng-src="{{card.moreImg}}">
          </a>
@@ -75,11 +75,9 @@
             </li>
          </ul>
       </div>
-      <div class="add-to-net" ng-if="addToNet">
+      <div class="add-to-net" ng-if="addToNet" infinite-scroll='getTileNets(card)' infinite-scroll-disabled='bTileNetScrollDisabled'>
          <ul>
-            <li><span>My First Net</span><button class="btn btn-default">ADD</button></li>
-            <li><span>My Second Net For Events</span><button class="btn btn-default">ADD</button></li>
-            <li><span>Another Net For Things For Sale</span><button class="btn btn-default">ADD</button></li>
+            <li ng-repeat="net in nets"><span>{{net.name}}</span><button class="btn btn-default">ADD</button></li>
             <li><input type="text" class="new-net form-control" placeholder="New Net Name"><button class="btn btn-default">NEW</button></li>
          </ul>
       </div>

@@ -22,6 +22,7 @@
         $scope.searchToken = '';
         $scope.cacheFilterTags = [];
         $scope.tileTypes = ['OFFER','SALE', 'SWAP']
+        $scope.bMarketScrollDisabled = false;
 
             $scope.getTiles = function(tags){
 
@@ -38,8 +39,10 @@
 
                 if ( TileService.trimSearch($scope.searchToken,tileTags) == 0 ) {
                     $scope.searchToken = 'MARKET' + new Date().getTime();
+                    $scope.bMarketScrollDisabled = false;
                 } else {
                     $scope.tiles = TileService.cacheSearchTiles();
+                    $scope.bMarketScrollDisabled = true;
                     return;
                 }
 
@@ -50,6 +53,8 @@
                     if ( $scope.tiles.length <= TileService.cacheSearchSize()) {
                         $scope.tiles.length = 0;
                         $scope.tiles = TileService.cacheSearchTiles();
+                        // Disable Infinite Scroll as we are at end of Cache.
+                        $scope.bMarketScrollDisabled = true;
                     }
                     return;
                 }

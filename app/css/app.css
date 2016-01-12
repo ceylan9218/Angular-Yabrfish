@@ -565,8 +565,9 @@ body {
 }
 .aside-collapsed.aside-toggled .sidebar > .nav > li {
   width: 300px;
+  height: 60px;
 }
-.aside-collapsed.aside-toggled .sidebar > .nav > li:hover, .aside-collapsed.aside-toggled .sidebar > .nav > li.active{
+.aside-collapsed.aside-toggled .sidebar > .nav > li:hover, .aside-collapsed.aside-toggled .sidebar > .nav > li a.active{
   background: #00aced;
   color: #fff;
 }
@@ -1375,10 +1376,11 @@ _:-ms-lang(x),
 }
 .aside-collapsed.aside-toggled .sidebar > .nav > li > a{
   text-align: left;
-  width: 70%;
+  width: 100%;
   margin: 0 auto;
   color: #333;
-  padding: 15px 0;
+  padding: 0 15%;
+  display: inline-block;
 }
 .aside-collapsed.aside-toggled .sidebar > .nav > li > a:hover,
 .aside-collapsed.aside-toggled .sidebar > .nav > li.active > a,
@@ -1388,20 +1390,23 @@ _:-ms-lang(x),
 }
 .aside-collapsed.aside-toggled .sidebar > .nav > li > a img{
   width: 30px;
+  float: left;
+  margin-top: 15px;
 }
 .aside-collapsed.aside-toggled .sidebar > .nav > li > a span{
   margin-left: 30px;
+  float: left;
+  line-height: 60px;
 }
 .aside-collapsed.aside-toggled .sidebar > .nav > li > a i{
-  top: 31%;
   font-size: 20px;
-  position: absolute;
-  right: 0px;
   color: rgb(58, 190, 239);
+  float: right;
+  line-height: 60px;
 }
 .aside-collapsed.aside-toggled .sidebar > .nav > li > a:hover i,
 .aside-collapsed.aside-toggled .sidebar > .nav > li:hover > a i,
-.aside-collapsed.aside-toggled .sidebar > .nav > li.active > a i
+.aside-collapsed.aside-toggled .sidebar > .nav > li > a.active i
 {
   color: #fff;
 }
@@ -1418,6 +1423,7 @@ _:-ms-lang(x),
   }
   .aside-collapsed.aside-toggled .sidebar > .nav > li {
     width: 200px;
+    height: 40px;
   }
   .sidebar .user-profile{
     padding: 10px 20px;
@@ -1456,13 +1462,18 @@ _:-ms-lang(x),
     font-size: 16px;
   }
   .aside-collapsed.aside-toggled .sidebar > .nav > li > a{
-    padding: 10px 0;
+    padding: 0px 30px;
   }
   .aside-collapsed.aside-toggled .sidebar > .nav > li > a img{
     width: 20px;
+    margin-top: 10px;
   }
   .aside-collapsed.aside-toggled .sidebar > .nav > li > a span{
     margin-left: 10px;
+    line-height: 40px;
+  }
+  .aside-collapsed.aside-toggled .sidebar > .nav > li > a i{
+    line-height: 40px;
   }
 }
 @media only screen and (min-width: 1025px) {
@@ -9582,10 +9593,7 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   margin-right: 10px;
 }
 .yabrTile .tile-infos .icons a img{
-  width: 15px;
-}
-.yabrTile .tile-infos .icons a.net-btn img{
-  width: 20px;
+  width: 18px;
 }
 .yabrTile .tile-infos .icons a.more{
   margin-right: 0;

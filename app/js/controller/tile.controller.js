@@ -46,16 +46,34 @@
         })
     	.controller('tileController', tileController);
 
-    function tileController($rootScope, $scope, $http, $sce, RouteHelpers, APP_APIS, TileService) {
+    function tileController($rootScope, $scope, $http, $sce, RouteHelpers, APP_APIS, TileService, ViewerService) {
 
 		$rootScope.youtubePlay = false;
 
 		$scope.offers = [];
 		$scope.bOffersScrollDisabled = false;
+		$scope.bTileNetScrollDisabled = false;
+		$scope.nets = [];
 
 		$scope.getuser = function(element) {
-			console.log("USER");
+
+
 		}
+
+		$scope.getTileNets = function(element) {
+
+
+			ViewerService.getNets($rootScope.user.externalId).then(function(data){
+				$scope.nets = ViewerService.cacheNets();
+				$scope.bTileNetScrollDisabled = false;
+			}, function(error){
+
+			});
+			$scope.bTileNetScrollDisabled = false;
+		}
+
+
+
 
 		$scope.getVideoList = function(element){
 
@@ -233,5 +251,11 @@
 
             }
         }
+
+    	//ViewerService.getNets($rootScope.user.externalId).then(function(data){
+    	//	$scope.nets = data;
+    	//}, function(error){
+		//
+    	//});
     }
 })();

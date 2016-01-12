@@ -11,6 +11,7 @@
         .service('ViewerService', ViewerService);
 
 		var netsCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, nets:[]};
+		var clubsCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, clubs:[]};
 
 		var cacheNets = function(response) {
 
@@ -29,11 +30,27 @@
 
 		};
 
+		var cacheClubs = function(response) {
+
+			var clubs = [];
+
+			clubs = response.data;
+
+			for (var i in clubs) {
+				clubsCache.clubs[clubsCache.cacheSize++] = clubs[i];
+			}
+
+			return clubs;
+
+		};
+
+
         function ViewerService($http, $q, APP_APIS){
 
 
         	return{
 
+				cacheClubs: function() { return clubsCache.clubs},
 
                 cacheNetSize: function() { return netsCache.cacheSize },
 
@@ -44,6 +61,34 @@
                     return  ( ( netsCache.cacheSize < netsCache.totalItems ) || netsCache.page == 0 )
 
                 },
+
+				moreClubs: function() {
+
+					return  ( ( clubsCache.cacheSize < clubsCache.totalItems ) || clubsCache.page == 0 )
+
+				},
+
+				addClubCache: function(club) {
+
+					clubsCache.clubs.push({
+						account: club
+					});
+
+					clubsCache.totalItems++;
+					clubsCache.cacheSize++;
+
+				},
+
+				setCurrentClub: function  (externalId) {
+
+					for ( var i in clubsCache.clubs ) {
+						if ( clubsCache.clubs[i].externalId == externalId ) {
+							return clubsCache.clubs[i];
+						}
+					}
+
+					return {};
+				},
 
 				getNets: function(viewerId){
 
@@ -104,16 +149,36 @@
         		},
 
         		getClubs: function(viewerId){
-        			var deferred = $q.defer();
-        			$http.get(APP_APIS['commerce']+'/viewers/'+viewerId+'/clubs')
-			            .success(function(data){
-			            	deferred.resolve(data);
-			            })
-			            .error(function(status){
-			            	deferred.resolve(status);
-			            });
 
-					return deferred.promise;	
+					var deferred = $q.defer();
+
+					if ( clubsCache.page !=0 && clubsCache.page  >= clubsCache.totalPages ) {
+						// Resolve the deferred $q object before returning the promise
+						deferred.resolve([]);
+						return deferred.promise;
+					}
+
+					var promise = $http.get(APP_APIS['commerce']+'/viewers/'+viewerId+'/clubs?page='+clubsCache.page+'&size='+clubsCache.pageSize)
+						.then(function(response){
+
+							if ( clubsCache.page == 0 ) {
+								//---------------------------------------------//
+								//No Pages on this response //
+								//---------------------------------------------//
+								clubsCache.totalItems = response.data.length;
+								clubsCache.totalPages = 1;
+							}
+
+							var clubs = cacheClubs(response);
+							clubsCache.page++;
+
+							console.log("CLUBS THEN cache size count " + clubs.length + " total " + clubsCache.clubs.length);
+
+							deferred.resolve(clubs);
+						});
+
+					return deferred.promise;
+
         		},
 
         		updateRelation: function(viewerId, accountId, relationId){

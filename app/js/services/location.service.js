@@ -11,7 +11,9 @@
         .service('LocationService', LocationService);
 
         function LocationService($http, $q, APP_APIS){
+
         	return{
+
         		getLocation: function(locationId) {
         			var deferred = $q.defer();
 					$http.get(APP_APIS['commerce'] + '/locations/' + locationId)

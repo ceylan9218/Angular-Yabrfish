@@ -17,7 +17,7 @@
       "text": "My NET",
       "sref": "app.nets",
       "icon": "app/img/fish-net.png",
-      "selicon": "app/img/fish-net-o.png",
+      "selicon": "app/img/fish-net-o-w.png",
       "label": "label label-info"
   },
   {
