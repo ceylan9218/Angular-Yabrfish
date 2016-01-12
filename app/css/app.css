@@ -11894,24 +11894,14 @@ img.logo{
   line-height: 20px;
   float: left;
 }
-.filter-img{
-  border-right: 1px solid #D2D2D2;
-  width: 70px;
-  height: 100%;
-  padding: 15px 20px;
-  float: left;
-}
-.filter-img img{
-  width: 30px;
-}
 .tags{
-  width: calc(100% - 270px);
+  width: calc(100% - 200px);
   float: left;
   border-right: 1px solid #D2D2D2;
   height: 100%;
 }
 .tags.market{
-  width: calc(100% - 150px);
+  width: calc(100% - 80px);
 }
 .tiles-filter .more{
   float: right;
@@ -12072,6 +12062,9 @@ img.logo{
   .tile-types{
     width: 100%;
   }
+  .tags.market{
+    width: calc(100% - 60px);
+  }
 }
 /* ========================================================================
    title: Account Page Style
@@ -12107,7 +12100,7 @@ img.logo{
   font-size: 14px;
 }
 .account-filter .search-input{
-  width: calc(100% - 370px);
+  width: calc(100% - 300px);
   float: left;
   border-right: 1px solid #D2D2D2;
   height: 100%;
@@ -12276,9 +12269,6 @@ p.title{
     width: 40px;
   }
   .new-tile span{
-    display: none;
-  }
-  .filter-img{
     display: none;
   }
   .account-filter{
