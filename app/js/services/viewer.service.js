@@ -68,6 +68,18 @@
 
 				},
 
+				removeClubCache: function(externalId) {
+
+					for ( var i in clubsCache.clubs ) {
+						if (clubsCache.clubs[i].account.externalId == externalId) {
+							clubsCache.clubs.splice(i, 1);
+							clubsCache.totalItems++;
+							clubsCache.cacheSize++;
+						}
+					}
+				},
+
+
 				addClubCache: function(club) {
 
 					clubsCache.clubs.push({
@@ -82,8 +94,19 @@
 				setCurrentClub: function  (externalId) {
 
 					for ( var i in clubsCache.clubs ) {
-						if ( clubsCache.clubs[i].externalId == externalId ) {
+						if ( clubsCache.clubs[i].account.externalId == externalId ) {
 							return clubsCache.clubs[i];
+						}
+					}
+
+					return {};
+				},
+
+				UpdateClub: function  (externalId,tagName,newValue) {
+
+					for ( var i in clubsCache.clubs ) {
+						if ( clubsCache.clubs[i].account.externalId == externalId ) {
+							clubCache.clubs[i].account.accountLogoUrl = newValue;
 						}
 					}
 

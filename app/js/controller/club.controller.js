@@ -114,17 +114,23 @@
         $scope.onComplete = function (creative) {
 
 
-            var currAccount = ViewerService.setCurrentClub(creative.externalId);
+            var currClub = ViewerService.setCurrentClub(creative.externalId);
 
+            var currAccount = currClub.account;
+            //--------------------------------------------------------
+            // Update the Image
+            //--------------------------------------------------------
             currAccount.accountLogoUrl  = creative.creatives.url;
 
             AccountService.updateAccount(currAccount).then(function (data) {
                 console.log("Successful Update Account");
+                ViewerService.UpdateClub(creative.externalId,'accountLogoUrl',creative.creatives.url);
             }, function (error) {
                 console.log(error);
                 Flash.create('danger', 'Error! Problem Updating Image For The Account');
                 return;
             })
+
 
         }
 
@@ -176,7 +182,7 @@
         });
 
         //----------------------------------------------------------------------------
-        // Set CLub into the View for Optional Creating A Relationship
+        // Set Club into the View for Optional Creating A Relationship
         //----------------------------------------------------------------------------
 
         $scope.selectClub = function(club){
@@ -197,16 +203,18 @@
 
         }
 
-        //----------------------------------------------------------------------------
-        // Remove a Club From Relationship and View
-        //----------------------------------------------------------------------------
-          $scope.$on('account', function(e, data){
-            for(var i in $scope.myClubs){
-              if(data == $scope.myClubs[i].account.externalId){
-                $scope.myClubs.splice(i, 1);
-              }
-            }
-          })        
+            //----------------------------------------------------------------------------
+            // Remove a Club From Relationship and View receiving event from
+            // Directive seems to intialise the controller
+            //----------------------------------------------------------------------------
+            $scope.$on('account', function(e, data){
+                for(var i in $scope.myClubs){
+                  if(data == $scope.myClubs[i].account.externalId){
+                        ViewerService.removeClubCache($scope.myClubs[i].account.externalId);
+                        $scope.myClubs.splice(i, 1);
+                  }
+                }
+            })
     }
 
 })();

@@ -15,13 +15,19 @@
         $scope.inMotion = false;
         $scope.InMotionPage = 0;
         $scope.basepath = RouteHelpers.basepath;
+
+
         $scope.tiles = [];
+
         $scope.tagTypes = [];
         $scope.tags = [];
         $scope.filterTags = [];
         $scope.searchToken = '';
         $scope.cacheFilterTags = [];
+
+        // We are only using Market Place Tile Options
         $scope.tileTypes = ['OFFER','SALE', 'SWAP']
+
         $scope.bMarketScrollDisabled = false;
 
             $scope.getTiles = function(tags){
