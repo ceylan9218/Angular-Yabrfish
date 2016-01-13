@@ -24,7 +24,7 @@
 		</div>
 	</div>
 	<!-- START row-->
-	<div class="row yabrTile-wrap clubs" infinite-scroll="getClubs()"  infinite-scroll-disabled='bClubScrollDisabled' infinite-scroll-distance="2">
+	<div class="row yabrTile-wrap clubs" ng-init="getClubLookups()" infinite-scroll="getClubs()"  infinite-scroll-disabled='bClubScrollDisabled' infinite-scroll-distance="2">
 	   	<!-- START widget-->
 	   	<div class="container-fluid">
 	    	<div deckgrid source="myClubs" cardtemplate="{{basepath('club-detail.html')}}" class="deckgrid clearfix yabrTile widget"></div>
