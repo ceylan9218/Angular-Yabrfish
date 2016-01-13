@@ -38,10 +38,22 @@
       <h4 class="title">{{card.name}}<i class="fa fa-angle-right fg-lg"></i></h4>
       <p class="date"><span>{{card.publishedDate}}</span></p>
       <div class="icons">
-         <a class="check-btn" ng-click="addToLink = !addToLink"><img ng-src="{{addToLink? ('app/img/check.png'): ('app/img/check-o.png')}}"></a>
-         <a class="net-btn" ng-click="addToNet = !addToNet"><img ng-src="{{addToNet? ('app/img/fish-net.png'): ('app/img/fish-net-o.png')}}"></a>
-         <a class="share-btn" ng-click="addToShare = !addToShare"><img ng-src="{{addToShare? ('app/img/share-alt.png'): ('app/img/share-alt-o.png')}}"></a>
-         <a class="comment-btn" ng-click="addToComment = !addToComment"><img ng-src="{{addToComment? ('app/img/comment.png'): ('app/img/comment-o.png')}}"></a>
+         <a class="check-btn" ng-click="addToLink = !addToLink">
+            <img ng-src="{{addToLink? ('app/img/check.png'): ('app/img/check-o.png')}}">
+            <span ng-style="{'color': addToLink? '#3abeef':'#ccc'}">Like</span>
+         </a>
+         <a class="net-btn" ng-click="addToNet = !addToNet">
+            <img ng-src="{{addToNet? ('app/img/fish-net.png'): ('app/img/fish-net-o.png')}}">
+            <span ng-style="{'color': addToNet? '#3abeef':'#ccc'}">My Net</span>
+         </a>
+         <a class="share-btn" ng-click="addToShare = !addToShare">
+            <img ng-src="{{addToShare? ('app/img/share-alt.png'): ('app/img/share-alt-o.png')}}">
+            <span ng-style="{'color': addToShare? '#3abeef':'#ccc'}">Share</span>
+         </a>
+         <a class="comment-btn" ng-click="addToComment = !addToComment">
+            <img ng-src="{{addToComment? ('app/img/comment.png'): ('app/img/comment-o.png')}}">
+            <span ng-style="{'color': addToComment? '#3abeef':'#ccc'}">Comment</span>
+         </a>
          <a class="more pull-right" ng-click="extendTile(card)">
             <img ng-src="{{card.moreImg}}">
          </a>

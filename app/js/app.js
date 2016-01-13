@@ -1027,20 +1027,6 @@
     function SidebarController($rootScope, $scope, $state, SidebarLoader,  Utils, $location) {
         var path = $location.path();
 
-        // Show/Hide Profile Menu.
-        if(path.indexOf('/app/profile') != -1)
-          $scope.profileMenu = true;
-        else
-          $scope.profileMenu = false;
-
-        $scope.$on('$locationChangeStart', function(next, current) {
-          path = $location.path();
-          if(path.indexOf('/app/profile') != -1)
-            $scope.profileMenu = true;
-          else
-            $scope.profileMenu = false;
-        });      
-
         activate();
 
         ////////////////
@@ -1062,13 +1048,6 @@
           SidebarLoader.getMenu(sidebarReady);          
           function sidebarReady(items) {
             $scope.menuItems = items;
-          }
-
-          // Load profile menu from json file
-          // ----------------------------------- 
-          SidebarLoader.getProfileMenu(sidebarProfileReady);
-          function sidebarProfileReady(items) {
-            $scope.profileMenuItems = items;
           }
 
           // Handle sidebar and collapse items
@@ -1331,24 +1310,11 @@
     SidebarLoader.$inject = ['$http'];
     function SidebarLoader($http) {
         this.getMenu = getMenu;
-        this.getProfileMenu = getProfileMenu;
 
         ////////////////
 
         function getMenu(onReady, onError) {
           var menuJson = 'server/sidebar-menu.json',
-              menuURL  = menuJson + '?v=' + (new Date().getTime()); // jumps cache
-            
-          onError = onError || function() { alert('Failure loading menu'); };
-
-          $http
-            .get(menuURL)
-            .success(onReady)
-            .error(onError);
-        }
-
-        function getProfileMenu(onReady, onError) {
-          var menuJson = 'server/sidebar-profile-menu.json',
               menuURL  = menuJson + '?v=' + (new Date().getTime()); // jumps cache
             
           onError = onError || function() { alert('Failure loading menu'); };

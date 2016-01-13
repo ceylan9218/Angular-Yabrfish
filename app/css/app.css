@@ -632,6 +632,24 @@ body {
 .layout-fixed .wrapper > section {
   margin-top: 55px;
 }
+.nav-wrapper .navbar-nav .open.user .dropdown-menu{
+  padding: 0;
+  border-left: 1px solid #E4E4E4;
+  border-right: 1px solid #E4E4E4;
+  border-bottom: 1px solid #E4E4E4;
+}
+.user .dropdown-menu > li > a{
+  line-height: 30px;
+  border-bottom: 1px solid #E4E4E4;
+}
+.user .dropdown-menu > li:last-child > a{
+  border-bottom: none;
+}
+.user .dropdown-menu > li > a:hover, .user .dropdown-menu > li > a:focus {
+  color: #fff;
+  background: #3ABEEF;
+  font-weight: bold;
+}
 @media only screen and (min-width: 768px) {
   .layout-fixed .wrapper > section {
     margin-top: 60px;
@@ -962,17 +980,6 @@ _:-ms-lang(x),
 .topnavbar {
   position: relative;
 }
-#search-wrap{
-  width: 100%;
-  height: 60px;
-}
-.searchbar {
-  background: #ebebeb;
-  border-bottom: 1px solid #C1C1C1;
-  margin: 0;
-  height: 100%;
-  border-radius: 0;
-}
 .topnavbar .navbar-header {
   background-color: transparent;
   /*background-image: -webkit-linear-gradient(left, #3abeef 0%, #51c6ea 100%);
@@ -1060,9 +1067,6 @@ _:-ms-lang(x),
     border: none;
     padding: 10px 0;
   }
-  #search-wrap{
-    height: 54px;
-  }
 }
 .nav-wrapper {
   background-color: transparent;
@@ -1087,32 +1091,6 @@ _:-ms-lang(x),
   right: 0px;
   border-top: 1px solid #e1e1e1;
   border-bottom: 1px solid #e1e1e1;
-}
-.searchbar .navbar-form .form-group {
-  height: 100%;
-  width: 100%;
-}
-.searchbar .navbar-form .form-control {
-  background: transparent;
-  color: #a3a3a3;
-  height: 100%;
-  border: 0;
-  border-radius: 0;
-  width: 100%;
-}
-.searchbar .navbar-form.open {
-  top: 0;
-}
-.searchbar .navbar-form .has-feedback .form-control-feedback {
-  height: 30px;
-  cursor: pointer;
-  top: 50%;
-  margin-top: -15px;
-  line-height: 30px;
-  margin-right: 10px;
-  color: #c1c2c3;
-  font-size: 1.5em;
-  pointer-events: auto;
 }
 .topnavbar .navbar-nav > li > a img {
   width: 15px;
@@ -1338,42 +1316,6 @@ _:-ms-lang(x),
   margin-left: 20px;
   cursor: pointer;
 }
-.sidebar .follow-wrap{
-  border-bottom: 1px solid #e4e4e4;
-  height: 70px;
-  margin-top: -6px;
-}
-.sidebar .follow-wrap span{
-  font-size: 15px;
-  vertical-align: middle;
-  display: table-cell;
-  width: 16%;
-  text-align: right;
-  padding-right: 10px;
-  color: #a3a3a3;
-}
-.sidebar .follow-wrap span.following-num, .sidebar .follow-wrap span.followers-num{
-  font-size: 24px;
-  color: #333;
-  text-align: left;
-  padding: 0;
-}
-.sidebar .follow-wrap .following{
-  width: calc(50% - 1px);  
-  width: -moz-calc(50% - 1px);  /* Firefox */
-  width: -webkit-calc(50% - 1px); /* WebKit */
-  width: -o-calc(50% - 1px);  /* Opera */
-  border-right: 1px solid #e4e4e4;
-  float: left;
-  height: 100%;
-  display: table;
-}
-.sidebar .follow-wrap .follower{
-  width: 50%;
-  float: left;
-  height: 100%;
-  display: table;
-}
 .aside-collapsed.aside-toggled .sidebar > .nav > li > a{
   text-align: left;
   width: 100%;
@@ -1451,15 +1393,6 @@ _:-ms-lang(x),
     width: 100%;
     display: inline-block;
     font-size: 14px;    
-  }
-  .sidebar .follow-wrap{
-    height: 40px;
-  }
-  .sidebar .follow-wrap span{
-    font-size: 12px;
-  }
-  .sidebar .follow-wrap span.following-num, .sidebar .follow-wrap span.followers-num{
-    font-size: 16px;
   }
   .aside-collapsed.aside-toggled .sidebar > .nav > li > a{
     padding: 0px 30px;
@@ -9576,7 +9509,7 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 .yabrTile .tile-infos .icons{
   margin-top: 20px;
   border-top: 1px solid #C1C1C1;
-  padding: 15px;
+  padding: 15px 15px 15px 0;
 }
 .yabrTile .tile-infos .icons a{
   cursor: pointer;
@@ -9590,13 +9523,19 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   color: #3abeef;
 }
 .yabrTile .tile-infos .icons a{
-  margin-right: 10px;
+  width: 60px;
+  display: inline-block;
+  text-decoration: none;
 }
 .yabrTile .tile-infos .icons a img{
   width: 18px;
+  display: table;
+  margin: 0 auto;
 }
 .yabrTile .tile-infos .icons a.more{
   margin-right: 0;
+  margin-top: 10px;
+  width: auto;
 }
 .yabrTile .tile-infos .icons a.more img{
   width: 70px;
@@ -9606,9 +9545,11 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   vertical-align: middle;
 }
 .yabrTile .tile-infos .icons span{
-  font-size: 18px;
-  margin: 0 10px;
-  color: #3abeef;
+  font-size: 16px;
+  margin: 5px 0px 0px;
+  text-align: center;
+  width: 100%;
+  display: table;
 }
 .add-to-net{
   display: inline-block;

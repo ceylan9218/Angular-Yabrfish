@@ -5,11 +5,6 @@
       <!-- START Left navbar-->
       <ul class="nav navbar-nav left-navbar">
          <li>
-            <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops
-            <a href="" trigger-resize="" ng-click="app.layout.isCollapsed = !app.layout.isCollapsed" class="">
-               <em class="fa fa-navicon"></em>
-            </a>-->
-            <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
             <a href="" ng-click="app.asideToggled = !app.asideToggled" class="sidebar-toggle">
                <img ng-if="!app.asideToggled" src="app/img/menu-icon.png">
                <img ng-if="app.asideToggled" src="app/img/menu-icon-sel.png">
@@ -23,29 +18,16 @@
             <div class="brand-logo">
                <img src="app/img/logo.png" alt="App Logo" class="img-responsive" />
             </div>
-<!--             <div class="brand-logo-collapsed">
-               <img src="app/img/logo-single.png" alt="App Logo" class="img-responsive" />
-            </div> -->
          </a>
       </div>
       <!-- END navbar header-->
       <!-- START Right Navbar-->
       <ul class="nav navbar-nav navbar-user navbar-right">
-         <!-- <li class="search">
-            <a search-open="">
-               <em class="icon-magnifier"></em>
-            </a>
-         </li> -->
          <li class="notifications">
             <a>
                <img src="app/img/notifications.png">
             </a>
          </li>
-         <!-- <li>
-            <a href="" ng-click="app.offsidebarOpen = !app.offsidebarOpen">
-               <em class="icon-notebook"></em>
-            </a>
-         </li> -->
          <!-- User -->
          <li class="user dropdown" dropdown="">
             <a class="dropdown-toggle" dropdown-toggle="">
@@ -53,9 +35,10 @@
                <img ng-if="$root.logged && $root.user.avatarUrl" src="{{$root.user.avatarUrl}}" class="img-circle" />
             </a>
             <ul class="dropdown-menu">
-               <li><a ng-href="{{'#/app/profile'}}" ng-click="hideMenu()">Profile</a></li>
-               <li><a href="app/views/messages.html" ng-click="hideMenu()">Messages</a></li>
-               <li><a ng-href="{{'#/app/login'}}" ng-if="!$root.logged" ng-click="hideMenu()">Login</a></li>
+               <li><a ng-href="{{'#/app/profile'}}">Profile</a></li>
+               <li><a ng-href="{{'#/app/profile/clubs'}}">Club</a></li>
+               <li><a ng-href="{{'#/app/profile/equipment'}}">Equipment</a></li>
+               <li><a ng-href="{{'#/app/login'}}" ng-if="!$root.logged">Login</a></li>
                <li><a ng-if="$root.logged" ng-click="logout()">Logout</a></li>
             </ul>            
          </li>
@@ -63,14 +46,5 @@
       <!-- END Right Navbar-->
    </div>
    <!-- END Nav wrapper-->
-   <!-- START Search form-->
-   <!-- <form role="search" class="navbar-form">
-      <div class="form-group has-feedback">
-         <input type="text" ng-model="filter.feeds" ng-change="" placeholder="{{ 'topbar.search.PLACEHOLDER' | translate }}" class="form-control ng-pristine ng-valid" />         
-         <div search-dismiss="search-dismiss" class="fa fa-times form-control-feedback"></div>
-      </div>
-      <button type="submit" class="hidden btn btn-default">Submit</button>
-   </form> -->
-   <!-- END Search form-->
 </nav>
 <!-- END Top Navbar

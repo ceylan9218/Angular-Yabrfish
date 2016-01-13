@@ -21,18 +21,6 @@
 <!-- START Sidebar (left)-->
 <div class="aside-inner">
    <nav sidebar="" sidebar-anyclick-close="true" class="sidebar">
-      <!-- START sidebar nav-->
-      <!-- <div id="search-wrap">
-         <div class="searchbar navbar">
-            <form role="search" class="navbar-form">
-               <div class="form-group has-feedback">
-                  <input type="text" ng-model="filter.feeds" ng-change="filterFeeds()" placeholder="{{ 'topbar.search.PLACEHOLDER' | translate }}" class="form-control ng-pristine ng-valid" />         
-                  <div search-dismiss="search-dismiss" class="fa fa-times form-control-feedback"></div>
-               </div>
-               <button type="submit" class="hidden btn btn-default">Submit</button>
-            </form>   
-         </div>
-      </div> -->
       <div class="user-profile">
       	<img ng-if="!$root.logged || $root.user.avatarUrl==null" src="app/img/user/default.png"></img>
          <img ng-if="$root.logged && $root.user.avatarUrl" src="{{$root.user.avatarUrl}}"></img>
@@ -41,17 +29,8 @@
 	      	<a ng-href="#/app/profile" class="profile-link">View Profile</a>      		
       	</div>
       </div>
-      <!-- <div class="follow-wrap">
-      	<div class="following"><span>Following</span><span class="following-num">46</span></div>
-      	<div class="follower"><span>Followers</span><span class="followers-num">87</span></div>
-      </div> -->
       <ul class="nav">
-         <!-- Iterates over all sidebar items-->
-         <!-- <li ng-class="getMenuItemPropClasses(item)" ng-show="!profileMenu" ng-repeat="item in menuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'" ng-click="toggleCollapse(pIndex, true)"></li>
-         <li ng-class="getMenuItemPropClasses(item)" ng-show="profileMenu" ng-repeat="item in profileMenuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'" ng-click="toggleCollapse(pIndex, true)"></li> -->
-
-         <li ng-show="!profileMenu" ng-repeat="item in menuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'"></li>
-         <li ng-show="profileMenu" ng-repeat="item in profileMenuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'"></li>
+         <li ng-repeat="item in menuItems" ng-init="pIndex = $index" ng-include="'sidebar-renderer.html'"></li>
       </ul>
       <div class="sign-out">
          <a ng-if="$root.logged" ng-mouseover="signOver = true" ng-mouseout="signOver = false" ng-click="logout()">
