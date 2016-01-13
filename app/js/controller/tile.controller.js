@@ -61,8 +61,7 @@
 		}
 
 		$scope.getTileNets = function(element) {
-
-
+console.log(element.externalId);
 			ViewerService.getNets($rootScope.user.externalId).then(function(data){
 				$scope.nets = ViewerService.cacheNets();
 				$scope.bTileNetScrollDisabled = false;
@@ -251,11 +250,5 @@
 
             }
         }
-
-    	//ViewerService.getNets($rootScope.user.externalId).then(function(data){
-    	//	$scope.nets = data;
-    	//}, function(error){
-		//
-    	//});
     }
 })();
