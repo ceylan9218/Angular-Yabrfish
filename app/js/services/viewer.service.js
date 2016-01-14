@@ -204,6 +204,19 @@
 
         		},
 
+        		addTileToNet: function(netId, tileId) {
+        			var deferred = $q.defer();
+        			$http.post(APP_APIS['viewer']+'/nets/'+netId+'/tiles/'+tileId)
+        				.success(function(data){
+        					deferred.resolve(data);
+        				})
+        				.error(function(status){
+        					deferred.resolve(status)
+        				});
+
+        			return deferred.promise;
+        		},
+
         		updateRelation: function(viewerId, accountId, relationId){
         			var deferred = $q.defer();
         			$http.post(APP_APIS['commerce']+'/viewers/'+viewerId+'/clubs/'+accountId+'/relation/'+relationId)

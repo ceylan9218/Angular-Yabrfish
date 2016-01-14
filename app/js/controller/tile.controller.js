@@ -60,19 +60,24 @@
 
 		}
 
-		$scope.getTileNets = function(element) {
-console.log(element.externalId);
+		$scope.getTileNets = function() {
 			ViewerService.getNets($rootScope.user.externalId).then(function(data){
 				$scope.nets = ViewerService.cacheNets();
 				$scope.bTileNetScrollDisabled = false;
 			}, function(error){
-
+				console.log(error);
 			});
 			$scope.bTileNetScrollDisabled = false;
 		}
 
 
-
+		$scope.addTileToNet = function(netId, tileId) {
+			ViewerService.addTileToNet(netId, tileId).then(function(data){
+				
+			}, function(error){
+				console.log(error);
+			})
+		}
 
 		$scope.getVideoList = function(element){
 

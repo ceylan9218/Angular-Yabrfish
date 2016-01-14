@@ -18,7 +18,7 @@
             },
             templateUrl: 'app/views/partials/member-action.html',
             link: function(scope, elm, attr){
-
+console.log(scope.clubActions);
                 scope.relationshipTypes = scope.clubActions;
 
                 // Update Relationship
