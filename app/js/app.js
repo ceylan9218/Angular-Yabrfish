@@ -914,8 +914,8 @@
                 resolve: helper.resolveFor('loaders.css', 'akoenig.deckgrid', 'infinite-scroll')
             })
             .state('app.club-detail', {
-                url: '/profile/clubs',
-                title: 'Clubs',
+                url: '/club-detail',
+                title: 'Club Hub',
                 templateUrl: helper.basepath('club-detail.html'),
                 controller: 'clubItemController'
             })
