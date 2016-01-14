@@ -145,7 +145,7 @@
 					return deferred.promise;
 				},
 
-        		getTilesByNetId: function(netId){
+        		getNetTiles: function(netId){
         			var deferred = $q.defer();
         			$http.get(APP_APIS['viewer']+'/nets/'+ netId +'/tiles')
 				        .success(function(data) {

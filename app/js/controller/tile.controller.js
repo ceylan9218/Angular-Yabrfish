@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-		.module('app.tile', ["com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'ngMap'])
+		.module('app.tile', ["com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'ngMap', 'flash'])
 		.directive('sycovideo', function(){
             return {
               restrict: 'E',
@@ -46,7 +46,7 @@
         })
     	.controller('tileController', tileController);
 
-    function tileController($rootScope, $scope, $http, $sce, RouteHelpers, APP_APIS, TileService, ViewerService) {
+    function tileController($rootScope, $scope, $http, $sce, RouteHelpers, APP_APIS, TileService, ViewerService, Flash) {
 
 		$rootScope.youtubePlay = false;
 
@@ -60,23 +60,44 @@
 
 		}
 
-		$scope.getTileNets = function() {
+		$scope.getTileNets = function(tileId) {
+
 			ViewerService.getNets($rootScope.user.externalId).then(function(data){
 				$scope.nets = ViewerService.cacheNets();
 				$scope.bTileNetScrollDisabled = false;
+
+				$scope.nets.forEach(function(net){
+					ViewerService.getNetTiles(net.externalId).then(function(tiles){
+						for(var i in tiles) {
+							if( tiles[i].externalId == tileId ){
+								net.opt = 'remove';
+							}else{
+								net.opt = 'add';
+							}
+						}
+					}, function(error){
+						console.log(error);
+					})
+				});
 			}, function(error){
 				console.log(error);
 			});
 			$scope.bTileNetScrollDisabled = false;
 		}
 
+		$scope.updateTileToNet = function(netId, tileId, opt) {
+			if(opt == 'add'){
+				ViewerService.addTileToNet(netId, tileId).then(function(data){
+					if(data.error == "Conflict"){
+						Flash.create('danger', 'The current tile was already added to this Net.');
+						return;
+					}
+				}, function(error){
+					console.log(error);
+				})
+			}else{
 
-		$scope.addTileToNet = function(netId, tileId) {
-			ViewerService.addTileToNet(netId, tileId).then(function(data){
-console.log(data);				
-			}, function(error){
-				console.log(error);
-			})
+			}
 		}
 
 		$scope.getVideoList = function(element){
