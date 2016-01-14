@@ -73,7 +73,7 @@
 
 		$scope.addTileToNet = function(netId, tileId) {
 			ViewerService.addTileToNet(netId, tileId).then(function(data){
-				
+console.log(data);				
 			}, function(error){
 				console.log(error);
 			})

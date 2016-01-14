@@ -57,7 +57,8 @@
             'app.img-upload',
             'app.equip',
             'app.tile',
-            'app.action-replay'
+            'app.action-replay',
+            'app.club-detail'
         ])
         .constant('APP_APIS', {
           'base':                 'http://data.yabrfish.com/yfapi',
@@ -916,8 +917,8 @@
             .state('app.club-detail', {
                 url: '/club-detail',
                 title: 'Club Hub',
-                templateUrl: helper.basepath('club-detail.html'),
-                controller: 'clubItemController'
+                controller: 'clubItemController',
+                templateUrl: helper.basepath('club-detail.html')
             })
             .state('app.profile-accounts', {
                 url: '/profile/accounts',
