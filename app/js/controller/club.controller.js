@@ -24,21 +24,6 @@
         $scope.searchToken = '';
         $scope.bClubScrollDisabled = false;
 
-        $scope.clubActions;
-
-        //----------------------------------------------------------------------------
-        // Fill Out the Initial Clubs View for Membership and Relationships
-        //----------------------------------------------------------------------------
-
-        $scope.init = function() {
-
-            LookupService.getRelationshipTypes().then(function(types){
-                $scope.clubActions = types;
-            }, function(error){
-                console.log(error);
-            })
-
-        }
 
         $scope.getClubs = function() {
 
