@@ -258,6 +258,8 @@
                 }, {"id": "ZM", "text": "Zambia"}, {"id": "ZW", "text": "Zimbabwe"}];
 
 
+                var clubActions = [];
+
                 return{
 
                     getCountries: function() {
@@ -279,6 +281,7 @@
                 },
 
         		getAccountTypes: function(){
+
         			var deferred = $q.defer();
         			$http.get(APP_APIS['lookup']+'/accounttypes')
 				        .success(function(data){

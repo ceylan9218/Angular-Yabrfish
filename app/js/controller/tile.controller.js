@@ -73,8 +73,6 @@
 		}
 
 
-
-
 		$scope.getVideoList = function(element){
 
 			var uid = element.externalId;
