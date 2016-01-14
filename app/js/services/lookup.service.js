@@ -334,7 +334,13 @@
                 },
 
                 getRelationshipTypes: function() {
+
                     var deferred = $q.defer();
+
+                    if ( clubActions.length > 0 ) {
+                        deferred.resolve(clubActions);
+                    }
+
                     $http.get(APP_APIS['lookup']+'/relationshiptypes')
                         .success(function(data){
                             data.unshift({
@@ -342,6 +348,7 @@
                                 shortCode: "Remove",
                                 fullName: "Remove"
                             })
+                            clubActions = data;
                             deferred.resolve(data);
                         })
                         .error(function(status){

@@ -8,18 +8,23 @@
 
     angular
         .module('app.club-detail', ['ngAnimate', 'ui.bootstrap','flash', 'ngFileUpload'])
-        .directive('memberAction', function(){
+        .directive('memberAction', function(LookupService){
             return {
                 restrict: 'EA',
                 scope: {
                     actionType: '=',
-                    accountId: '=',
-                    clubActions: '=',
+                    accountId: '='
                 },
                 templateUrl: 'app/views/partials/member-action.html',
                 link: function(scope, elm, attr){
 
-                    scope.relationshipTypes = scope.clubActions;
+                    // Get Relationship Types
+                    LookupService.getRelationshipTypes().then(function(types){
+                        scope.relationshipTypes = types;
+                    }, function(error){
+                        console.log(error);
+                        return;
+                    })
 
                     // Update Relationship
                     scope.updateRelation = function(relationId){
@@ -42,6 +47,24 @@
 
         if(!$rootScope.user)
             return;
+
+
+
+        //----------------------------------------------------------------------------
+        // Fill Out the Initial Clubs View for Membership and Relationships
+        //----------------------------------------------------------------------------
+
+        $scope.getActions = function() {
+
+            $scope.clubActions = [];
+
+            LookupService.getRelationshipTypes().then(function(types){
+                $scope.clubActions = types;
+            }, function(error){
+                console.log(error);
+            })
+
+        }
 
         // --------------------------------------------------------------------
         // Call Back Function for Image Upload - Used to update Account Panel

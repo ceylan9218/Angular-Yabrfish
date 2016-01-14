@@ -18,7 +18,7 @@
 				<img ng-if="extendWrap" src="app/img/less.png">
 				<img ng-if="!extendWrap" src="app/img/more.png">
 			</a>
-			<member-action account-id="card.account.externalId" action-type="card.relationshipType" club-actions="clubActions"></member-action>
+			<member-action account-id="card.account.externalId" action-type="card.relationshipType"></member-action>
 		</div>
 		<accordion class="extend-wrap" ng-if="extendWrap" close-others="false">         
 			<accordion-group is-open="card.showContacts">
