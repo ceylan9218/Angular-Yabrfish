@@ -9575,6 +9575,10 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   color: #fff;
   border: none;
   padding: 2px 15px;
+  font-size: 12px;
+}
+.add-to-net ul li button.btn.remove{
+  background: red;
 }
 .add-to-net ul li:last-child{
   border-top: none;

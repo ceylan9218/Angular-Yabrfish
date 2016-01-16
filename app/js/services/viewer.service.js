@@ -120,7 +120,7 @@
 
 					if ( netsCache.page !=0 && netsCache.page  >= netsCache.totalPages ) {
 						// Resolve the deferred $q object before returning the promise
-						deferred.resolve([]);
+						deferred.resolve(netsCache.nets);
 						return deferred.promise;
 					}
 
@@ -156,6 +156,20 @@
 				        });
 
 				    return deferred.promise;
+        		},
+
+        		getTileNets: function(tileId, viewerId) {
+        			var deferred = $q.defer();
+
+        			$http.get(APP_APIS['tile']+'/tiles/'+tileId+'/nets?viewerExternalId='+viewerId)
+			            .success(function(data){
+			            	deferred.resolve(data.content);
+			            })
+			            .error(function(status){
+			            	deferred.resolve(status);
+			            });
+
+					return deferred.promise;
         		},
 
         		getAccounts: function(viewerId){
@@ -207,6 +221,19 @@
         		addTileToNet: function(netId, tileId) {
         			var deferred = $q.defer();
         			$http.post(APP_APIS['viewer']+'/nets/'+netId+'/tiles/'+tileId)
+        				.success(function(data){
+        					deferred.resolve(data);
+        				})
+        				.error(function(status){
+        					deferred.resolve(status)
+        				});
+
+        			return deferred.promise;
+        		},
+
+        		removeTileFromNet: function(netId, tileId) {
+        			var deferred = $q.defer();
+        			$http.delete(APP_APIS['viewer']+'/nets/'+netId+'/tiles/'+tileId)
         				.success(function(data){
         					deferred.resolve(data);
         				})
