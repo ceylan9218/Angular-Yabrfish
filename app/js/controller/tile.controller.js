@@ -54,15 +54,31 @@
 		$scope.bOffersScrollDisabled = false;
 		$scope.bTileNetScrollDisabled = false;
 		$scope.nets = [];
+		$scope.currExternalId;;
 
 
 		$scope.getuser = function(element) {
 		}
 
+		$scope.loadNets = function(tile) {
+
+			if ($scope.currExternalId == tile.externalId) {
+				return false;
+			}
+
+			$scope.currExternalId = tile.externalId;
+
+			// Close other Tiles that may be open
+			$rootScope.$emit('currTile', tile);
+
+			getNetTiles(tile);
+
+			return true;
+
+		}
+
 		$scope.getTileNets = function(tile) {
 
-			// Hide other tiles Net content. -- Emit to TileService.
-			$rootScope.$emit('currTile', tile);
 
 			var tileId = tile.externalId;
  			// Get List of Nets
