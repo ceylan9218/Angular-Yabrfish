@@ -1,39 +1,6 @@
 <div ng-controller="myTileController" ng-if="card == 'newTile'" ng-include="'app/views/new-tile.html'"></div>
 <div ng-controller="tileController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer' || card.tileType == 'business' || card.tileType == 'job' || card.tileType == 'swap' || card.tileType == 'article'" class="yabrTile-body">
-   <div class="ribbon" ng-if="card.segmentations[0].reason != ''"><span>{{card.segmentations[0].reason}}</span></div>
-   <div class="img-video-wrap">
-      <div class="tileImg">
-         <img src="{{card.creatives[0].url}}" alt="tile" class="" />
-         <div ng-if="card.tileType == 'content'" class="play-icon" ng-click="getVideoList(card)">
-            <img src="app/img/tv-icon.png" />            
-         </div>
-      </div>
-      <div class="youtubeVideo-wrap">
-         <div class="youtubeVideo" ng-if="card.showYoutube && $root.youtubePlay">
-            <videogular class="y-video" vg-theme="card.youtube.config.theme.url">
-               <vg-media class="vg-media" vg-src="card.youtube.config.sources" vg-youtube="rel=1;showinfo=1">
-               </vg-media>
-               <vg-controls vg-autohide="card.youtube.config.plugins.controls.autoHide" vg-autohide-time="card.youtube.config.plugins.controls.autoHideTime">
-                  <vg-play-pause-button></vg-play-pause-button>
-                  <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
-                  <vg-scrub-bar>
-                     <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-                  </vg-scrub-bar>
-                  <vg-volume>
-                     <vg-mute-button></vg-mute-button>
-                     <vg-volume-bar></vg-volume-bar>
-                  </vg-volume>
-                  <vg-fullscreen-button></vg-fullscreen-button>
-               </vg-controls>
-            </videogular>            
-         </div>
-         <a class="close-btn" ng-click="hideVideo(card)"><img src="app/img/video-close.png" ng-if="card.showYoutube"></a>
-      </div>
-      <div class="tileVideo">
-         <sycovideo hls="card.hls_source" id="card.externalId"></sycovideo>
-         <a class="close-btn" ng-click="hideVideo(card)"><img src="app/img/video-close.png" ng-if="card.hls_source"></a>
-      </div>
-   </div>   
+   <tile-image tile="card"></tile-image>   
    <div class="tile-infos">
       <h4 class="title">{{card.name}}<i class="fa fa-angle-right fg-lg"></i></h4>
       <p class="date"><span>{{card.publishedDate}}</span></p>
@@ -46,7 +13,7 @@
             <img ng-src="{{card.moreImg}}">
          </a>
       </div>
-      <div ng-if="loading" class="ball-clip-rotate loading">
+      <!-- <div ng-if="loading" class="ball-clip-rotate loading">
          <div></div>
       </div>      
       <div class="video-list" ng-if="card.videoList">
@@ -74,7 +41,7 @@
                </a>
             </li>
          </ul>
-      </div>
+      </div> -->
       <div class="add-to-net" ng-if="addToNet" infinite-scroll='getTileNets(card)' infinite-scroll-disabled='bTileNetScrollDisabled'>
          <ul>
             <li ng-repeat="net in nets"><span>{{net.name}}</span><button class="btn btn-default">ADD</button></li>

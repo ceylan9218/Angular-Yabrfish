@@ -54,10 +54,10 @@
             'app.account',
             'app.class-list',
             'app.race-list',
-            'app.img-upload',
             'app.equip',
             'app.tile',
-            'app.action-replay'
+            'app.action-replay',
+            'app.tile-image'
         ])
         .constant('APP_APIS', {
           'base':                 'http://data.yabrfish.com/yfapi',
