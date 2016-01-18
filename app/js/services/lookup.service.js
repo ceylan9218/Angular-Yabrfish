@@ -258,6 +258,8 @@
                 }, {"id": "ZM", "text": "Zambia"}, {"id": "ZW", "text": "Zimbabwe"}];
 
 
+                var clubActions = [];
+
                 return{
 
                     getCountries: function() {
@@ -279,6 +281,7 @@
                 },
 
         		getAccountTypes: function(){
+
         			var deferred = $q.defer();
         			$http.get(APP_APIS['lookup']+'/accounttypes')
 				        .success(function(data){
@@ -331,7 +334,13 @@
                 },
 
                 getRelationshipTypes: function() {
+
                     var deferred = $q.defer();
+
+                    if ( clubActions.length > 0 ) {
+                        deferred.resolve(clubActions);
+                    }
+
                     $http.get(APP_APIS['lookup']+'/relationshiptypes')
                         .success(function(data){
                             data.unshift({
@@ -339,6 +348,7 @@
                                 shortCode: "Remove",
                                 fullName: "Remove"
                             })
+                            clubActions = data;
                             deferred.resolve(data);
                         })
                         .error(function(status){

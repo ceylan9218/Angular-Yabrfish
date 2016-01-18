@@ -19,7 +19,6 @@
         $scope.basepath = RouteHelpers.basepath;
         $scope.tiles = TileService.cacheTiles();
 
-
         $scope.loadBanner = function(){
           // Counting Loads Of Banner
           TileService.loadCache($scope.pageToken);
@@ -67,6 +66,15 @@
                 })
             }
         }
+
+        $rootScope.$on('currTile', function(event, data){
+            var currTileId = data.externalId;
+            $scope.tiles.forEach(function(tile){
+                if(tile.externalId != currTileId) {
+                    tile.addToNet = false;
+                }
+            });
+        })
     }
 
 })();

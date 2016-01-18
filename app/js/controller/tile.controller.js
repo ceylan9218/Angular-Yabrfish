@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-		.module('app.tile', ["com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'ngMap'])
+		.module('app.tile', ["com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'ngMap', 'flash'])
 		.directive('sycovideo', function(){
             return {
               restrict: 'E',
@@ -44,9 +44,9 @@
               }
             }
         })
-    	.controller('tileController', tileController);
+		.controller('tileController', tileController);
 
-    function tileController($rootScope, $scope, $http, $sce, RouteHelpers, APP_APIS, TileService, ViewerService) {
+	function tileController($rootScope, $scope, $http, $sce, RouteHelpers, APP_APIS, TileService, ViewerService, Flash) {
 
 		$rootScope.youtubePlay = false;
 
@@ -54,22 +54,131 @@
 		$scope.bOffersScrollDisabled = false;
 		$scope.bTileNetScrollDisabled = false;
 		$scope.nets = [];
+		$scope.currExternalId;;
+
 
 		$scope.getuser = function(element) {
+		}
 
+		$scope.loadNets = function(tile) {
+
+			if ($scope.currExternalId == tile.externalId) {
+				return false;
+			}
+
+			$scope.currExternalId = tile.externalId;
+
+			// Close other Tiles that may be open
+			$rootScope.$emit('currTile', tile);
+
+			getNetTiles(tile);
+
+			return true;
 
 		}
 
-		$scope.getTileNets = function(element) {
+		$scope.getTileNets = function(tile) {
 
 
-			ViewerService.getNets($rootScope.user.externalId).then(function(data){
+			var tileId = tile.externalId;
+ 			// Get List of Nets
+			ViewerService.getNets($rootScope.user.externalId).then(function(data){				
 				$scope.nets = ViewerService.cacheNets();
-				$scope.bTileNetScrollDisabled = false;
-			}, function(error){
 
+				// Get List of nets for a tile
+				ViewerService.getTileNets(tileId, $rootScope.user.externalId).then(function(nets){
+					if(nets.length > 0){
+							// Check if the tile is in any of the Nets
+							$scope.nets.forEach(function(net){
+								for(var i in nets) {
+									if( nets[i].externalId == net.externalId ){
+										net.opt = 'remove';
+										break;
+									}else{
+										net.opt = 'add';
+									}
+								}
+							});
+					}else {
+						for(var i in $scope.nets){
+							$scope.nets[i].opt = 'add';
+						}
+					}
+				})
+			}, function(error){
+				console.log(error);
 			});
 			$scope.bTileNetScrollDisabled = false;
+		}
+
+		$scope.updateTileToNet = function(net, tileId, opt) {
+
+			var netId = net.externalId;
+			
+			if(opt == 'add') {
+				ViewerService.addTileToNet(netId, tileId).then(function(data){
+					if(data.error == "Conflict"){
+						Flash.create('danger', 'The current tile was already added to this Net.');
+						return;
+					}else{
+						net.opt = 'remove';
+						Flash.create('success', 'The current tile was added to this net successfully.');
+					}
+				}, function(error){
+					console.log(error);
+				})
+			} else if(opt == 'remove') {
+				ViewerService.removeTileFromNet(netId, tileId).then(function(data){
+					net.opt = 'add';
+					Flash.create('success', 'The current tile was removed from this net successfully.');
+				}, function(error){
+					console.log(error);
+				})
+			}
+		}
+
+		$scope.getVideoList = function(element){
+
+			var uid = element.externalId;
+			$scope.loading = true;
+			element.videoList = [];
+			element.videoTitles = [];
+			element.videoImages = [];
+			element.videoType = '';
+
+			element.youtube = {
+				config: {}
+			}
+
+			var video_list = angular.element("#tile_"+element.externalId+ " .video-list");
+			if(video_list[0])
+				video_list[0].style.display = 'block';
+
+			$http.get(APP_APIS['tile']+'/tiles/' + uid + '/content')
+				.success(function(data){
+					if(data.contentList && data.contentList.length>0){
+						element.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
+						if(element.videoType == 'youtube'){
+							element.vid = data.contentList[0].externalRefs[0].externalContentId;
+							for( var i in data.contentList ){
+								element.videoTitles[i] = data.contentList[i].title;
+							}
+						}else if (element.videoType == 'syco') {
+							for( var i = 0; i < data.contentList.length; i++ ){
+								var vid = data.contentList[i].externalRefs[0].externalContentId;
+								$http.get('http://api1.syndicatecontent.com/Sc.Content.Api.External/ScContentExt/inventory/'+vid+'?mediaformatid=9&vendortoken=B9C333B9-54F3-40B6-8C34-7A6512955B98')
+									.success(function(data) {
+										if(data.resources[0].medias[0].hostId){
+											element.videoList.push(data.resources[0].medias[0]);
+										}
+									});
+								element.videoTitles.push(data.contentList[i].title);
+								element.videoImages.push(data.contentList[i].creatives[0].url);
+							}
+						}
+					}
+					$scope.loading = false;
+				})
 		}
 
         $scope.videoPlay = function(element, video) {
@@ -204,11 +313,5 @@
 
             }
         }
-
-    	//ViewerService.getNets($rootScope.user.externalId).then(function(data){
-    	//	$scope.nets = data;
-    	//}, function(error){
-		//
-    	//});
     }
 })();

@@ -35,6 +35,13 @@
       "label": "label label-info"
   },
   {
+      "text": "The Hub",
+      "sref": "app.profile-accounts",
+      "icon": "app/img/crew.png",
+      "selicon": "app/img/crew-o.png",
+      "label": "label label-info"
+  },
+  {
       "text": "Settings",
       "sref": "app.video-test",
       "icon": "app/img/setting.png",

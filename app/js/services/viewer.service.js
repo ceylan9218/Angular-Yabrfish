@@ -68,6 +68,18 @@
 
 				},
 
+				removeClubCache: function(externalId) {
+
+					for ( var i in clubsCache.clubs ) {
+						if (clubsCache.clubs[i].account.externalId == externalId) {
+							clubsCache.clubs.splice(i, 1);
+							clubsCache.totalItems++;
+							clubsCache.cacheSize++;
+						}
+					}
+				},
+
+
 				addClubCache: function(club) {
 
 					clubsCache.clubs.push({
@@ -82,8 +94,19 @@
 				setCurrentClub: function  (externalId) {
 
 					for ( var i in clubsCache.clubs ) {
-						if ( clubsCache.clubs[i].externalId == externalId ) {
+						if ( clubsCache.clubs[i].account.externalId == externalId ) {
 							return clubsCache.clubs[i];
+						}
+					}
+
+					return {};
+				},
+
+				UpdateClub: function  (externalId,tagName,newValue) {
+
+					for ( var i in clubsCache.clubs ) {
+						if ( clubsCache.clubs[i].account.externalId == externalId ) {
+							clubCache.clubs[i].account.accountLogoUrl = newValue;
 						}
 					}
 
@@ -97,7 +120,7 @@
 
 					if ( netsCache.page !=0 && netsCache.page  >= netsCache.totalPages ) {
 						// Resolve the deferred $q object before returning the promise
-						deferred.resolve([]);
+						deferred.resolve(netsCache.nets);
 						return deferred.promise;
 					}
 
@@ -122,7 +145,7 @@
 					return deferred.promise;
 				},
 
-        		getTilesByNetId: function(netId){
+        		getNetTiles: function(netId){
         			var deferred = $q.defer();
         			$http.get(APP_APIS['viewer']+'/nets/'+ netId +'/tiles')
 				        .success(function(data) {
@@ -133,6 +156,20 @@
 				        });
 
 				    return deferred.promise;
+        		},
+
+        		getTileNets: function(tileId, viewerId) {
+        			var deferred = $q.defer();
+
+        			$http.get(APP_APIS['tile']+'/tiles/'+tileId+'/nets?viewerExternalId='+viewerId)
+			            .success(function(data){
+			            	deferred.resolve(data.content);
+			            })
+			            .error(function(status){
+			            	deferred.resolve(status);
+			            });
+
+					return deferred.promise;
         		},
 
         		getAccounts: function(viewerId){
@@ -179,6 +216,32 @@
 
 					return deferred.promise;
 
+        		},
+
+        		addTileToNet: function(netId, tileId) {
+        			var deferred = $q.defer();
+        			$http.post(APP_APIS['viewer']+'/nets/'+netId+'/tiles/'+tileId)
+        				.success(function(data){
+        					deferred.resolve(data);
+        				})
+        				.error(function(status){
+        					deferred.resolve(status)
+        				});
+
+        			return deferred.promise;
+        		},
+
+        		removeTileFromNet: function(netId, tileId) {
+        			var deferred = $q.defer();
+        			$http.delete(APP_APIS['viewer']+'/nets/'+netId+'/tiles/'+tileId)
+        				.success(function(data){
+        					deferred.resolve(data);
+        				})
+        				.error(function(status){
+        					deferred.resolve(status)
+        				});
+
+        			return deferred.promise;
         		},
 
         		updateRelation: function(viewerId, accountId, relationId){

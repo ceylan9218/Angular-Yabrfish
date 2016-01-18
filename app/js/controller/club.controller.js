@@ -8,66 +8,13 @@
 
     angular
         .module('app.profile-clubs', ['ngAnimate', 'ui.bootstrap','flash', 'ngFileUpload'])
-        .directive('memberAction', function($rootScope, LookupService, ViewerService){
-          return {
-            restrict: 'E',
-            scope: {
-              actionType: '=',
-              accountId: '='              
-            },
-            templateUrl: 'app/views/partials/member-action.html',
-            link: function(scope, elm, attr){
-              // Get Relationship Types
-              LookupService.getRelationshipTypes().then(function(types){
-                scope.relationshipTypes = types;
-              }, function(error){
-                console.log(error);
-                return;
-              })
-
-              scope.updateRelation = function(relationId){
-                var viewerId = $rootScope.user.externalId;
-                var accountId = scope.accountId;
-
-                if(relationId == 0){
-                  ViewerService.removeMembership(viewerId, accountId).then(function(data){
-                    if(data.error == 'Not Found'){
-                      console.log("Error! ", data.error);
-                      return;
-                    }
-                    console.log(data);
-                  });
-
-                  ViewerService.removeRelation(viewerId, accountId).then(function(data){
-                    if(data.error == 'Not Found'){
-                      console.log("Error! ", data.error);
-                      return;
-                    }
-                    console.log(data);
-                  });
-
-                  scope.$parent.$emit('account', accountId);
-
-                }else{
-                  ViewerService.updateRelation(viewerId, accountId, relationId).then(function(data){
-                    if(data.error == 'Conflict'){
-                      console.log("Error! ", data.error);
-                      return;
-                    }
-
-                    scope.actionType = data.relationshipType;
-                  });
-                }
-              }
-            }
-          }
-        })
         .controller('clubController', clubController);
 
-    function clubController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, ViewerService, AccountService, Upload) {
+    function clubController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, ViewerService, AccountService, LookupService) {
+
         if(!$rootScope.user)
-          return;
-      
+            return;
+
         $scope.basepath = RouteHelpers.basepath;
         $scope.inMotion = false;
         $scope.loading = false;
@@ -78,9 +25,6 @@
         $scope.bClubScrollDisabled = false;
 
 
-        //----------------------------------------------------------------------------
-        // Fill Out the Initial Clubs View for Membership and Relationships
-        //----------------------------------------------------------------------------
         $scope.getClubs = function() {
 
 
@@ -114,17 +58,23 @@
         $scope.onComplete = function (creative) {
 
 
-            var currAccount = ViewerService.setCurrentClub(creative.externalId);
+            var currClub = ViewerService.setCurrentClub(creative.externalId);
 
+            var currAccount = currClub.account;
+            //--------------------------------------------------------
+            // Update the Image
+            //--------------------------------------------------------
             currAccount.accountLogoUrl  = creative.creatives.url;
 
             AccountService.updateAccount(currAccount).then(function (data) {
                 console.log("Successful Update Account");
+                ViewerService.UpdateClub(creative.externalId,'accountLogoUrl',creative.creatives.url);
             }, function (error) {
                 console.log(error);
                 Flash.create('danger', 'Error! Problem Updating Image For The Account');
                 return;
             })
+
 
         }
 
@@ -134,79 +84,81 @@
         //----------------------------------------------------------------------------
         $scope.searchClubs = function() {
 
-          //---------------------------------------------------------//
-          // Load Single Page Search
-          //--------------------------------------------------------//
-          if ( $scope.inMotion || ! AccountService.moreSearch($scope.searchToken) ) {
-            //---------------------------------------------------------------
-            // Check Cache Size of Controller if navigation has left the View
-            //---------------------------------------------------------------
-            if ( $scope.clubs.length < AccountService.searchCacheSize()) {
-              $scope.clubs.length = 0;
-              $scope.clubs = AccountService.cacheSearch();
+            //---------------------------------------------------------//
+            // Load Single Page Search
+            //--------------------------------------------------------//
+            if ( $scope.inMotion || ! AccountService.moreSearch($scope.searchToken) ) {
+                //---------------------------------------------------------------
+                // Check Cache Size of Controller if navigation has left the View
+                //---------------------------------------------------------------
+                if ( $scope.clubs.length < AccountService.searchCacheSize()) {
+                    $scope.clubs.length = 0;
+                    $scope.clubs = AccountService.cacheSearch();
+                }
+                return;
             }
-            return;
-          }
 
-          $scope.inMotion = true;
-          $scope.loading = true;
-
-          if ( ! AccountService.moreSearch($scope.searchToken) ) {
-            $scope.loading = false;
             $scope.inMotion = true;
-          } else {
-            AccountService.searchAccounts($scope.searchToken,1,$scope.search_club, '6').then(function (searchRes) {
-              $scope.clubs = AccountService.cacheSearch();
-              $scope.loading = false;
-              $scope.inMotion = false;
-            }, function (error) {
-              console.log(error);
-              return;
-            })
-          }
+            $scope.loading = true;
+
+            if ( ! AccountService.moreSearch($scope.searchToken) ) {
+                $scope.loading = false;
+                $scope.inMotion = true;
+            } else {
+                AccountService.searchAccounts($scope.searchToken,1,$scope.search_club, '6').then(function (searchRes) {
+                    $scope.clubs = AccountService.cacheSearch();
+                    $scope.loading = false;
+                    $scope.inMotion = false;
+                }, function (error) {
+                    console.log(error);
+                    return;
+                })
+            }
         }
 
         // Search Clubs
         $scope.$watch('search_club', function(newVal){
-          if(newVal != '' && newVal.length > 3) {
-              $scope.searchToken='CLUB'+ new Date().getTime();
-              $scope.search_club=newVal;
-              $scope.searchClubs();
-          }
+            if(newVal != '' && newVal.length > 3) {
+                $scope.searchToken='CLUB'+ new Date().getTime();
+                $scope.search_club=newVal;
+                $scope.searchClubs();
+            }
         });
 
         //----------------------------------------------------------------------------
-        // Set CLub into the View for Optional Creating A Relationship
+        // Set Club into the View for Optional Creating A Relationship
         //----------------------------------------------------------------------------
 
         $scope.selectClub = function(club){
 
-                for(var i in $scope.myClubs){
+            for(var i in $scope.myClubs){
                 if($scope.myClubs[i].account.externalId == club.externalId){
-                  Flash.create('danger', 'Its Already Saved For You');
-                  return;
+                    Flash.create('danger', 'Its Already Saved For You');
+                    return;
                 }
-                }
+            }
 
-                $scope.myClubs.push({account: club});
+            $scope.myClubs.push({account: club});
 
-                ViewerService.addClubCache(club);
+            ViewerService.addClubCache(club);
 
-                  // Clear Search List
-                  $scope.clubs = [];
+            // Clear Search List
+            $scope.clubs = [];
 
         }
 
         //----------------------------------------------------------------------------
-        // Remove a Club From Relationship and View
+        // Remove a Club From Relationship and View receiving event from
+        // Directive seems to intialise the controller
         //----------------------------------------------------------------------------
-          $scope.$on('account', function(e, data){
+        $scope.$on('account', function(e, data){
             for(var i in $scope.myClubs){
-              if(data == $scope.myClubs[i].account.externalId){
-                $scope.myClubs.splice(i, 1);
-              }
+                if(data == $scope.myClubs[i].account.externalId){
+                    ViewerService.removeClubCache($scope.myClubs[i].account.externalId);
+                    $scope.myClubs.splice(i, 1);
+                }
             }
-          })        
+        })
     }
 
 })();
