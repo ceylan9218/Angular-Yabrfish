@@ -42,7 +42,7 @@
             <img ng-src="{{addToLink? ('app/img/check.png'): ('app/img/check-o.png')}}">
             <span ng-style="{'color': addToLink? '#3abeef':'#ccc'}">Like</span>
          </a>
-         <a class="net-btn" ng-click="card.addToNet = !card.addToNet">
+         <a class="net-btn" ng-click="loadNets(card);card.addToNet = !card.addToNet">
             <img ng-src="{{card.addToNet? ('app/img/fish-net.png'): ('app/img/fish-net-o.png')}}">
             <span ng-style="{'color': card.addToNet? '#3abeef':'#ccc'}">My Net</span>
          </a>
