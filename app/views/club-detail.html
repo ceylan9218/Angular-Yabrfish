@@ -1,12 +1,5 @@
 <div id="{{'club_'+card.externalId}}" class="club-content yabrTile-body" ng-controller="clubItemController">
-	<div class="img-video-wrap">
-		<div class="tileImg">
-			<img ng-if="card.account.accountLogoUrl" src="{{card.account.accountLogoUrl}}" alt="tile" class="" />
-			<div class="upload-img" ng-if="!card.account.accountLogoUrl">
-				<img-upload on-complete="onComplete(creative)" external-Id="card.account.externalId"></img-upload>
-			</div>
-		</div>
-	</div>
+	<tile-image image-src="card.account.accountLogoUrl" tile-id="card.account.externalId" on-complete="onComplete(creative)"></tile-image>
 	<div class="tile-infos">
 		<h4 class="title">{{card.account.name}}<i class="fa fa-angle-right fg-lg"></i></h4>
 		<div class="icons">

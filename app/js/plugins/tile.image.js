@@ -1,6 +1,6 @@
 /**=========================================================
  * Module: tileImage Directive.
- * Description: Directive for management of Video and Image of a tile.
+ * Description: Directive for Image function of a tile.
  * Author: Marcin - 2016.1.13
  =========================================================*/
  (function() {
@@ -12,53 +12,55 @@
         	return {
         		restrict: 'E',
                 scope: {
-                    tile: '='
+                    imageSrc: '=',
+                    tileId: '=',
+                    tile: '=',
+                    onComplete: '&'
                 },
                 templateUrl: 'app/views/partials/tile-image.html',
         		link: function(scope, elem, attrs) {
-                    
-                    scope.getVideoList = function(){
-                        var tileId = scope.tile.externalId;
+                    scope.loading = [];
 
-                        scope.loading = true;
-                        scope.videoList = [];
-                        scope.videoTitles = [];
-                        scope.videoImages = [];
-                        scope.videoType = '';
+                    scope.setFile = function(element) {
 
-                        scope.youtube = {
-                            config: {}
-                        }                      
+                        scope.currentFile = element.files[0];
+                        scope.loading[scope.tileId] = true;
+                        var reader = new FileReader();
 
-                        TileService.getTileContent(tileId).then(function(data){
-                            if(data.contentList && data.contentList.length>0){
-                                scope.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
-                                if(scope.videoType == 'youtube'){
-                                    scope.tile.vid = data.contentList[0].externalRefs[0].externalContentId;
-                                    for( var i in data.contentList ){
-                                        scope.videoTitles[i] = data.contentList[i].title;
-                                    }
-                                }else if (scope.videoType == 'syco') {
-                                    for( var i = 0; i < data.contentList.length; i++ ){
-                                        var vid = data.contentList[i].externalRefs[0].externalContentId;
-                                        
-                                        TileService.getSycoVideoList(vid).then(function(data){
-                                            if(data.resources[0].medias[0].hostId){
-                                                scope.videoList.push(data.resources[0].medias[0]);
-                                            }
-                                        }, function(error){
-                                            console.log(error);
-                                        })
+                        reader.onload = function(event) {
+                            scope.source = event.target.result;                           
+                            scope.$apply();
 
-                                        scope.videoTitles.push(data.contentList[i].title);
-                                        scope.videoImages.push(data.contentList[i].creatives[0].url);
-                                    }
+                            Upload.upload({
+                                url: APP_APIS['media'] + '/images',
+                                data: {file: scope.currentFile},
+                                headers: {'Content-Range': 'bytes 42-1233/*'}
+                            }).then(function (resp) {
+
+                                var creative = {
+                                    externalId: scope.externalId,
+                                    creatives: resp.data
                                 }
-                            }
-                            scope.loading = false;
-                        }, function(error){
-                            console.log(error);
-                        })
+
+                                scope.onComplete({creative:creative});
+
+                                scope.loading[scope.tileId] = false;
+
+                                angular.element('.upload-img label'+'#img_'+scope.tileId).css({'height': '100%', 'width': '100%', 'margin-top': '0', 'margin-left': '0', 'padding': '0'});
+                            }, function (evt) {
+                                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                            });
+                        }
+
+                        // when the file is read it triggers the onload event above.
+                        reader.readAsDataURL(element.files[0]);
+
+                        scope.$parent.$emit('file', scope.currentFile);
+                    }
+
+                    scope.showVideoList = function() {
+                        scope.$parent.$broadcast('showVideoList', true);
                     }
                 }
             }

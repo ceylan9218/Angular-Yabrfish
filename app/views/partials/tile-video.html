@@ -1,0 +1,28 @@
+<div class="video-player">
+   <div class="youtubeVideo-wrap" ng-if="youtubePlay">
+      <div class="youtubeVideo">
+         <videogular class="y-video" vg-theme="youtube.config.theme.url">
+            <vg-media class="vg-media" vg-src="youtube.config.sources" vg-youtube="rel=1;showinfo=1">
+            </vg-media>
+            <vg-controls vg-autohide="youtube.config.plugins.controls.autoHide" vg-autohide-time="youtube.config.plugins.controls.autoHideTime">
+               <vg-play-pause-button></vg-play-pause-button>
+               <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+               <vg-scrub-bar>
+                  <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+               </vg-scrub-bar>
+               <vg-volume>
+                  <vg-mute-button></vg-mute-button>
+                  <vg-volume-bar></vg-volume-bar>
+               </vg-volume>
+               <vg-fullscreen-button></vg-fullscreen-button>
+            </vg-controls>
+         </videogular>
+      </div>
+      <!-- <a class="close-btn" ng-click="hideVideo(tile)"><img src="app/img/video-close.png" ng-if="tile.showYoutube"></a> -->
+   </div>
+   <div class="tileVideo">
+      <div id="{{tileId}}" class="player"></div>
+      <!-- <sycovideo hls="tile.hls_source" id="tile.externalId"></sycovideo> -->
+   </div>   
+   <a class="close-btn" ng-click="hideVideo()"><img src="app/img/video-close.png"></a>
+</div>

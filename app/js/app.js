@@ -57,7 +57,10 @@
             'app.equip',
             'app.tile',
             'app.action-replay',
-            'app.tile-image'
+            'app.club-detail',
+            'app.tile-image',
+            'app.tile-video',
+            'app.tile-videoList'
         ])
         .constant('APP_APIS', {
           'base':                 'http://data.yabrfish.com/yfapi',

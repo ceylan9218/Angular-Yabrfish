@@ -9765,19 +9765,22 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   color: #3abeef;
 }
 .tileVideo, .youtubeVideo-wrap{
+  display: none;
   width: 100%;
   position: relative;
+  height: 250px;
 }
 .youtubeVideo{
   width: 100%;
   height: 100%;
 }
-.tileVideo .close-btn, .youtubeVideo-wrap .close-btn{
+.video-player .close-btn{
   position: absolute;
   right: 20px;
   cursor: pointer;
+  display: none;
 }
-.tileVideo .close-btn img, .youtubeVideo-wrap .close-btn img{
+.video-player .close-btn img{
   width: 30px;
 }
 .player{
@@ -11287,6 +11290,9 @@ img.logo{
   position: relative;
   height: 250px;
 }
+.upload-img .drop-box{
+  height: 100%;
+}
 .upload-img label{
   background: #E4E4E4;
   width: 90%;
@@ -11297,7 +11303,7 @@ img.logo{
 .upload-img label.whirl:after{
   border-top: 4px solid #3ABEEF;
 }
-.upload-img #file-input{
+.upload-img .file{
   display: none;
 }
 .upload-img img{

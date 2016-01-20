@@ -1,63 +1,15 @@
 <div class="ribbon" ng-if="tile.segmentations[0].reason != ''"><span>{{tile.segmentations[0].reason}}</span></div>
-<div class="img-video-wrap">
+<div class="image-wrapper">
    <div class="tileImg">
-      <img src="{{tile.creatives[0].url}}" alt="tile" class="" />
-      <div ng-if="tile.tileType == 'content'" class="play-icon" ng-click="getVideoList()">
+      <img ng-if="imageSrc" src="{{imageSrc}}" alt="tile" class="" />
+      <div ng-if="!imageSrc" class="upload-img">
+         <label id="{{'img_'+tileId}}" class="panel-body" for="{{'file_input_'+tileId}}" ng-class="loading[tileId]? 'whirl' : ''" ng-style="loading[tileId]? {'background-color': '#fff', 'opacity': '0.5'} : {'background-color': '#e4e4e4', 'opacity': '1'}">
+            <img src="app/img/upload-photo.png"/ ng-src="{{source}}">
+         </label>
+         <input id="{{'file_input_'+tileId}}" class="file" type="file" uploader="form.uploader" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
+      </div>
+      <div ng-if="tile.tileType == 'content'" class="play-icon" ng-click="showVideoList()">
          <img src="app/img/tv-icon.png" />            
       </div>
-   </div>
-   <div class="youtubeVideo-wrap">
-      <div class="youtubeVideo" ng-if="tile.showYoutube && $root.youtubePlay">
-         <videogular class="y-video" vg-theme="tile.youtube.config.theme.url">
-            <vg-media class="vg-media" vg-src="tile.youtube.config.sources" vg-youtube="rel=1;showinfo=1">
-            </vg-media>
-            <vg-controls vg-autohide="tile.youtube.config.plugins.controls.autoHide" vg-autohide-time="tile.youtube.config.plugins.controls.autoHideTime">
-               <vg-play-pause-button></vg-play-pause-button>
-               <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
-               <vg-scrub-bar>
-                  <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-               </vg-scrub-bar>
-               <vg-volume>
-                  <vg-mute-button></vg-mute-button>
-                  <vg-volume-bar></vg-volume-bar>
-               </vg-volume>
-               <vg-fullscreen-button></vg-fullscreen-button>
-            </vg-controls>
-         </videogular>            
-      </div>
-      <a class="close-btn" ng-click="hideVideo(tile)"><img src="app/img/video-close.png" ng-if="tile.showYoutube"></a>
-   </div>
-   <div class="tileVideo">
-      <sycovideo hls="tile.hls_source" id="tile.externalId"></sycovideo>
-      <a class="close-btn" ng-click="hideVideo(tile)"><img src="app/img/video-close.png" ng-if="tile.hls_source"></a>
-   </div>
-</div>
-<div ng-if="loading" class="ball-clip-rotate loading">
-   <div></div>
-</div>      
-<div class="video-list" ng-if="videoList">
-   <h4>Play List</h4>
-   <ul ng-if="videoType == 'syco'">
-      <li ng-repeat="video in videoList track by $index">            
-         <a class="video" ng-click="videoPlay(video);">
-            <div class="videoImage-wrap">
-               <img class="videoImg" src="{{videoImages[$index]}}">
-               <img class="videoIcon" src="app/img/tv-icon.png">
-            </div>
-            <div class="video-infos">
-               <span>{{videoTitles[$index]}}</span>
-               <span class="videoType">Sail TV</span>                     
-            </div>
-         </a>
-      </li>
-   </ul>
-   <ul ng-if="videoType == 'youtube'">
-      <li ng-repeat="video in videoTitles track by $index">
-         <a class="video" ng-click="youtubeVideoPlay()">
-            <img src="{{videoImages[$index]}}">
-            <span>{{videoTitles[$index]}}</span>
-            <span>YouTube</span>
-         </a>
-      </li>
-   </ul>
+   </div>   
 </div>
