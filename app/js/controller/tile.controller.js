@@ -55,14 +55,17 @@
 		$scope.bTileNetScrollDisabled = false;
 		$scope.nets = [];
 		$rootScope.currExternalId = '';
+		$scope.netsLoading = false;
 
 
 		$scope.getuser = function(element) {
 		}
 
 		$scope.loadNets = function(tile) {
+			$scope.netsLoading = true;
 
 			if ($rootScope.currExternalId == tile.externalId) {
+				$scope.netsLoading = false;
 				return false;
 			}
 
@@ -103,6 +106,8 @@
 							$scope.nets[i].opt = 'add';
 						}
 					}
+
+					$scope.netsLoading = false;
 				})
 			}, function(error){
 				console.log(error);
