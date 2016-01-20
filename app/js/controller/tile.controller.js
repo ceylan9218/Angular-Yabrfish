@@ -54,7 +54,7 @@
 		$scope.bOffersScrollDisabled = false;
 		$scope.bTileNetScrollDisabled = false;
 		$scope.nets = [];
-		$scope.currExternalId;;
+		$rootScope.currExternalId = '';
 
 
 		$scope.getuser = function(element) {
@@ -62,25 +62,24 @@
 
 		$scope.loadNets = function(tile) {
 
-			if ($scope.currExternalId == tile.externalId) {
+			if ($rootScope.currExternalId == tile.externalId) {
 				return false;
 			}
 
-			$scope.currExternalId = tile.externalId;
+			$rootScope.currExternalId = tile.externalId;
 
 			// Close other Tiles that may be open
 			$rootScope.$emit('currTile', tile);
 
-			getNetTiles(tile);
+			getTileNets(tile);
 
 			return true;
 
 		}
 
-		$scope.getTileNets = function(tile) {
-
-
+		var getTileNets = function(tile) {
 			var tileId = tile.externalId;
+
  			// Get List of Nets
 			ViewerService.getNets($rootScope.user.externalId).then(function(data){				
 				$scope.nets = ViewerService.cacheNets();
@@ -109,6 +108,10 @@
 				console.log(error);
 			});
 			$scope.bTileNetScrollDisabled = false;
+		}
+
+		$scope.getTileNets = function(tile) {
+			getTileNets(tile);
 		}
 
 		$scope.updateTileToNet = function(net, tileId, opt) {

@@ -868,7 +868,8 @@
                 url: '/tile-detail',
                 title: 'Tile Detail',
                 templateUrl: helper.basepath('tile-detail.html'),
-                controller: 'radarController'
+                controller: 'tileController',
+                resolve: helper.resolveFor('infinite-scroll')
             })
             .state('app.market', {
                 url: '/market',
