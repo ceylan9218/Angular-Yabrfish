@@ -1,0 +1,15 @@
+<div class="ribbon" ng-if="tile.segmentations[0].reason != ''"><span>{{tile.segmentations[0].reason}}</span></div>
+<div class="image-wrapper">
+   <div class="tileImg">
+      <img ng-if="imageSrc" src="{{imageSrc}}" alt="tile" class="" />
+      <div ng-if="!imageSrc" class="upload-img">
+         <label id="{{'img_'+tileId}}" class="panel-body" for="{{'file_input_'+tileId}}" ng-class="loading[tileId]? 'whirl' : ''" ng-style="loading[tileId]? {'background-color': '#fff', 'opacity': '0.5'} : {'background-color': '#e4e4e4', 'opacity': '1'}">
+            <img src="app/img/upload-photo.png"/ ng-src="{{source}}">
+         </label>
+         <input id="{{'file_input_'+tileId}}" class="file" type="file" uploader="form.uploader" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
+      </div>
+      <div ng-if="tile.tileType == 'content'" class="play-icon" ng-click="showVideoList()">
+         <img src="app/img/tv-icon.png" />            
+      </div>
+   </div>   
+</div>

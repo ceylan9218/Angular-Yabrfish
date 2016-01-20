@@ -1,39 +1,7 @@
 <div ng-controller="myTileController" ng-if="card == 'newTile'" ng-include="'app/views/new-tile.html'"></div>
 <div ng-controller="tileController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer' || card.tileType == 'business' || card.tileType == 'job' || card.tileType == 'swap' || card.tileType == 'article'" class="yabrTile-body">
-   <div class="ribbon" ng-if="card.segmentations[0].reason != ''"><span>{{card.segmentations[0].reason}}</span></div>
-   <div class="img-video-wrap">
-      <div class="tileImg">
-         <img src="{{card.creatives[0].url}}" alt="tile" class="" />
-         <div ng-if="card.tileType == 'content'" class="play-icon" ng-click="getVideoList(card)">
-            <img src="app/img/tv-icon.png" />            
-         </div>
-      </div>
-      <div class="youtubeVideo-wrap">
-         <div class="youtubeVideo" ng-if="card.showYoutube && $root.youtubePlay">
-            <videogular class="y-video" vg-theme="card.youtube.config.theme.url">
-               <vg-media class="vg-media" vg-src="card.youtube.config.sources" vg-youtube="rel=1;showinfo=1">
-               </vg-media>
-               <vg-controls vg-autohide="card.youtube.config.plugins.controls.autoHide" vg-autohide-time="card.youtube.config.plugins.controls.autoHideTime">
-                  <vg-play-pause-button></vg-play-pause-button>
-                  <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
-                  <vg-scrub-bar>
-                     <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-                  </vg-scrub-bar>
-                  <vg-volume>
-                     <vg-mute-button></vg-mute-button>
-                     <vg-volume-bar></vg-volume-bar>
-                  </vg-volume>
-                  <vg-fullscreen-button></vg-fullscreen-button>
-               </vg-controls>
-            </videogular>            
-         </div>
-         <a class="close-btn" ng-click="hideVideo(card)"><img src="app/img/video-close.png" ng-if="card.showYoutube"></a>
-      </div>
-      <div class="tileVideo">
-         <sycovideo hls="card.hls_source" id="card.externalId"></sycovideo>
-         <a class="close-btn" ng-click="hideVideo(card)"><img src="app/img/video-close.png" ng-if="card.hls_source"></a>
-      </div>
-   </div>   
+   <tile-image class="tile-image" image-src="card.creatives[0].url" tile-id="card.externalId" tile="card" on-complete="onComplete(creative)"></tile-image>
+   <tile-video tile-id="card.externalId"></tile-video>
    <div class="tile-infos">
       <h4 class="title">{{card.name}}<i class="fa fa-angle-right fg-lg"></i></h4>
       <p class="date"><span>{{card.publishedDate}}</span></p>
@@ -58,35 +26,7 @@
             <img ng-src="{{card.moreImg}}">
          </a>
       </div>
-      <div ng-if="loading" class="ball-clip-rotate loading">
-         <div></div>
-      </div>      
-      <div class="video-list" ng-if="card.videoList">
-         <h4>Play List</h4>
-         <ul ng-if="card.videoType == 'syco'">
-            <li ng-repeat="video in card.videoList track by $index">            
-               <a class="video" ng-click="videoPlay(card, video);">
-                  <div class="videoImage-wrap">
-                     <img class="videoImg" src="{{card.videoImages[$index]}}">
-                     <img class="videoIcon" src="app/img/tv-icon.png">
-                  </div>
-                  <div class="video-infos">
-                     <span>{{card.videoTitles[$index]}}</span>
-                     <span class="videoType">Sail TV</span>                     
-                  </div>
-               </a>
-            </li>
-         </ul>
-         <ul ng-if="card.videoType == 'youtube'">
-            <li ng-repeat="video in card.videoTitles track by $index">
-               <a class="video" ng-click="youtubeVideoPlay(card)">
-                  <img src="{{card.videoImages[$index]}}">
-                  <span>{{card.videoTitles[$index]}}</span>
-                  <span>YouTube</span>
-               </a>
-            </li>
-         </ul>
-      </div>
+      <tile-video-list tile-id="card.externalId"></tile-video-list>
       <div class="add-to-net" ng-if="card.addToNet">
          <ul infinite-scroll="getTileNets(card)" infinite-scroll-container="'.add-to-net'" infinite-scroll-immediate-check="false">
             <li ng-repeat="net in nets track by $index"><span>{{net.name}}</span><button class="btn btn-default" ng-click="updateTileToNet(net, card.externalId, net.opt)" ng-class="{'add' : net.opt == 'add', 'remove' : net.opt == 'remove'}">{{net.opt | uppercase}}</button></li>

@@ -1,0 +1,31 @@
+<div class="video-list-wrapper" ng-if="showList" ng-init="getVideoList()">
+   <div ng-if="loading" class="ball-clip-rotate loading">
+      <div></div>
+   </div>      
+   <div class="video-list" ng-if="videoList.length != 0">
+      <h4>Play List</h4>
+      <ul ng-if="videoType == 'syco'">
+         <li ng-repeat="video in videoList track by $index">            
+            <a class="video" ng-click="videoPlay(video);">
+               <div class="videoImage-wrap">
+                  <img class="videoImg" src="{{videoImages[$index]}}">
+                  <img class="videoIcon" src="app/img/tv-icon.png">
+               </div>
+               <div class="video-infos">
+                  <span>{{videoTitles[$index]}}</span>
+                  <span class="videoType">Sail TV</span>                     
+               </div>
+            </a>
+         </li>
+      </ul>
+      <ul ng-if="videoType == 'youtube'">
+         <li ng-repeat="video in videoList track by $index">
+            <a class="video" ng-click="youtubeVideoPlay(video)">
+               <img src="{{videoImages[$index]}}">
+               <span>{{videoTitles[$index]}}</span>
+               <span>YouTube</span>
+            </a>
+         </li>
+      </ul>
+   </div>
+</div>
