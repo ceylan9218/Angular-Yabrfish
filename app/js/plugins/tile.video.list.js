@@ -19,6 +19,7 @@
 					scope.showList = false;
 
 					scope.$on('showVideoList', function(event, data){
+
 						if(!data)
 							return;
                         
@@ -65,6 +66,8 @@
                         }, function(error){
                             console.log(error);
                         })
+
+						angular.element('#tile_'+scope.tileId+' .video-list-wrapper').show();
                     })
 
 					scope.videoPlay = function(video){
