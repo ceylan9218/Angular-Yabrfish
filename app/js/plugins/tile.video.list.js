@@ -35,6 +35,9 @@
 						}
 
 						TileService.getTileContent(scope.tileId).then(function(data){
+							
+							var contentList = data.contentList;
+
 							if(data.contentList && data.contentList.length>0){
                                 scope.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
                                 if(scope.videoType == 'youtube'){
@@ -53,6 +56,10 @@
                                             if(data.resources[0].medias[0].hostId){
                                                 scope.videoList.push(data.resources[0].medias[0]);
                                             }
+											
+											if(contentList.length == 1){
+												scope.$parent.$broadcast('video', scope.videoList[0]);
+											}
                                         }, function(error){
                                             console.log(error);
                                         })
@@ -62,6 +69,7 @@
                                     }
                                 }
                             }
+
                             scope.loading = false;
                         }, function(error){
                             console.log(error);
