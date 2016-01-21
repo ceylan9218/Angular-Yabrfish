@@ -9669,6 +9669,9 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 .tileImg{
   position: relative;
 }
+.tileImg.whirl.double-up::after{
+  border-color: #3ABEEF;  
+}
 .play-icon{
   position: absolute;
   bottom: 15px;
