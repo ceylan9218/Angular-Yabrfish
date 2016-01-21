@@ -66,9 +66,6 @@
 						angular.element('.close-btn').hide();
 						angular.element('#tile_'+scope.tileId+' .close-btn').show();
 
-						angular.element('.video-list-wrapper');
-						angular.element('#tile_'+scope.tileId+' .video-list-wrapper').hide();
-
 						angular.element('.youtubeVideo-wrap').hide();
 					})
 					
@@ -101,7 +98,7 @@
 
 						$timeout(function(){
 							angular.element('#tile_'+scope.tileId+' .video-player').show();
-							
+
 							angular.element('.tile-image').show();
 							angular.element('#tile_'+scope.tileId+' .tile-image').hide();
 
@@ -111,7 +108,6 @@
 							angular.element('.close-btn').hide();
 							angular.element('#tile_'+scope.tileId+' .close-btn').show();
 
-							angular.element('.video-list-wrapper').hide();
 							angular.element('.tileVideo').hide();
 						}, 1000)						
 					})
