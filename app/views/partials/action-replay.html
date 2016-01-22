@@ -1,7 +1,7 @@
 <div class="action-replay video-list">
    <ul>
       <li ng-repeat="media in medias track by $index">            
-         <a class="video">
+         <a class="video" ng-click="playMedia(media)">
             <div class="videoImage-wrap">
                <img class="videoImg" ng-if="media.content != null" src="{{media.content.creatives[0].url}}">
                <img class="videoImg" ng-if="media.content == null" src="{{media.creatives.url}}">

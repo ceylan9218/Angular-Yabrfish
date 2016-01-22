@@ -75,6 +75,24 @@
                 }
             });
         })
+
+        $scope.$on('youtubeVideo', function(event, tileId, openType){
+
+            var currTileId = tileId;
+            $rootScope.youtubePlay = [];
+
+            $scope.tiles.forEach(function(tile){
+                if(openType == 'close'){
+                    $rootScope.youtubePlay[tile.externalId] = false;
+                }else{
+                    if(tile.externalId != currTileId) {
+                        $rootScope.youtubePlay[tile.externalId] = false;
+                    }else{
+                        $rootScope.youtubePlay[tile.externalId] = true;                    
+                    }
+                }
+            });
+        })
     }
 
 })();

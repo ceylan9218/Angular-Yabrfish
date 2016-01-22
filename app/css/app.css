@@ -9568,24 +9568,28 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 .add-to-net ul li span{
   float: left;
 }
-.add-to-net ul li button.btn{
+.add-to-net ul li .add-btn{
   float: right;
-  background: #3ABEEF;
-  border-radius: 20px;
-  color: #fff;
-  border: none;
-  padding: 2px 15px;
-  font-size: 12px;
+  cursor: pointer;
 }
-.add-to-net ul li button.btn.remove{
-  background: red;
+.add-to-net ul li .add-btn i{
+  font-size: 22px;
+}
+.add-to-net ul li .add-btn i.fa-plus-square{
+  color: green;  
+}
+.add-to-net ul li .add-btn i.fa-minus-square{
+  color: red;  
 }
 .add-to-net ul li:last-child{
   border-top: none;
   padding-top: 20px;
 }
 .add-to-net ul li:last-child button.btn{
-  margin-top: 5px;
+  margin-top: 0px;
+  border-color: #3ABEEF;
+  color: #3ABEEF;
+  float: right;
 }
 .add-to-net ul li .new-net{
   width: 200px;
@@ -9668,6 +9672,9 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 }
 .tileImg{
   position: relative;
+}
+.tileImg.whirl.double-up::after{
+  border-color: #3ABEEF;  
 }
 .play-icon{
   position: absolute;
@@ -9781,6 +9788,15 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   display: none;
 }
 .video-player .close-btn img{
+  width: 30px;
+}
+.image-wrapper .close-btn{
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+  display: none;
+}
+.image-wrapper .close-btn img{
   width: 30px;
 }
 .player{
@@ -10831,74 +10847,13 @@ img.logo{
   color: #3abeef;
   margin-left: 20px;
 }
-.modal.in .modal-dialog{
-  position:fixed;
-  top: 50%;
-  left: 50%;
-  width:40em;
-  height:20em;
-  margin-top: -10em;
-  margin-left: -20em;
-}
-.modal-backdrop.in{
-  opacity: 0.7;
-}
-.modal-backdrop{
-  background: #fff;
-}
-.modal-header img{
-  display: table;
-  margin: 0 auto;
-}
-.modal-content{
-  box-shadow: none;
-  border-radius: 0;
-  border-color: #ccc;
-}
-.modal-header h4{
-  text-align: center;
-  color: #333;
-  font-size: 24px;
-}
-.modal-header{
-  border-bottom: 1px solid #cbcbcb;
-}
-.modal-body{
-  background: #fafafa;
-  color: #bbbbbb;
+.yabrTile .net-list .tile-infos .icons {
+  padding: 10px 15px;
   display: inline-block;
   width: 100%;
 }
-.modal-body-content{
-  width: 80%;
-  margin: 0 auto;
-}
-.modal-body p{
-  text-align: center;
-  font-size: 16px;
-  margin: 30px 0;
-}
-.modal-body input{
-  margin: 0 auto 30px;
-  border: none;
-  border-radius: 0;
-  border-bottom: 1px solid #3abeef;
-  height: 50px;
-}
-.modal-body button{
-  float: right;
-  border-radius: 50px;
-  padding: 5px 30px;
-}
-.modal-body button.create-btn{
-  background: #3abeef;
-  color: white;
-}
-.modal-body button.cancel-btn{
-  background: transparent;
-  color: #3abeef;
-  border-color: #3abeef;
-  margin-right: 20px;
+.yabrTile .net-list .tile-infos .icons a.more {
+  margin-top: 0px;
 }
 @media only screen and (min-width: 1200px) {
   .net-content{
@@ -11308,6 +11263,23 @@ img.logo{
 }
 .upload-img img{
   height: 100%;
+}
+.yabrTile .club-content .tile-infos .icons{
+  display: inline-block;
+  width: 100%;
+  padding: 10px 15px;
+}
+.yabrTile .club-content .tile-infos .icons a {
+  width: 35px;
+}
+.yabrTile .club-content .tile-infos .icons a.more {
+  width: auto;
+  margin-top: 2px;
+}
+.yabrTile .club-content .tile-infos .icons span {
+  text-align: left;
+  width: auto;
+  display: inline-block;
 }
 @media only screen and (max-width: 767px) {
   .club-search{
@@ -12207,6 +12179,23 @@ p.title{
   padding: 10px;
   outline: medium none;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+}
+.yabrTile .account-content .tile-infos .icons{
+  display: inline-block;
+  width: 100%;
+  padding: 10px 15px;
+}
+.yabrTile .account-content .tile-infos .icons a {
+  width: 35px;
+}
+.yabrTile .account-content .tile-infos .icons a.more {
+  width: auto;
+  margin-top: 2px;
+}
+.yabrTile .account-content .tile-infos .icons span {
+  text-align: left;
+  width: auto;
+  display: inline-block;
 }
 @media only screen and (max-width: 767px) {
   .create .new-account-wrap img{

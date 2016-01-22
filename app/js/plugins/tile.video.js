@@ -18,13 +18,12 @@
 				link: function(scope, elem, attrs) {
 
 					scope.youtube = {};
-					scope.youtubePlay = false;
 
 					var clearBitdash = function() {
 						angular.element('.player').each(function(){
 							var vid = angular.element(this).attr('id');
 							bitdash(vid).destroy();
-						})						
+						})
 					}
 
 					clearBitdash();
@@ -35,7 +34,8 @@
 						if(!data)
 							return;
 
-						scope.youtubePlay = false;
+						// Clear Youtube Video player
+						scope.$parent.$emit('youtubeVideo', scope.tileId, 'close');
 
 						// Bitmovin Video player setting.
 						clearBitdash();
@@ -66,9 +66,6 @@
 						angular.element('.close-btn').hide();
 						angular.element('#tile_'+scope.tileId+' .close-btn').show();
 
-						angular.element('.video-list-wrapper');
-						angular.element('#tile_'+scope.tileId+' .video-list-wrapper').hide();
-
 						angular.element('.youtubeVideo-wrap').hide();
 					})
 					
@@ -76,7 +73,7 @@
 
 						var vid = data.externalRefs[0].externalContentId;
 						
-						scope.youtubePlay = true;
+						scope.$parent.$emit('youtubeVideo', scope.tileId, 'open');
 
 						clearBitdash();
 
@@ -101,7 +98,7 @@
 
 						$timeout(function(){
 							angular.element('#tile_'+scope.tileId+' .video-player').show();
-							
+
 							angular.element('.tile-image').show();
 							angular.element('#tile_'+scope.tileId+' .tile-image').hide();
 
@@ -111,13 +108,14 @@
 							angular.element('.close-btn').hide();
 							angular.element('#tile_'+scope.tileId+' .close-btn').show();
 
-							angular.element('.video-list-wrapper').hide();
 							angular.element('.tileVideo').hide();
 						}, 1000)						
 					})
 
 					scope.hideVideo = function() {
 						bitdash(scope.tileId).destroy();
+						scope.$parent.$emit('youtubeVideo', scope.tileId, 'close');
+
 						angular.element('#tile_'+scope.tileId+' .tile-image').show();
 						angular.element('#tile_'+scope.tileId+' .video-player').hide();
 						angular.element('#tile_'+scope.tileId+' .close-btn').hide();

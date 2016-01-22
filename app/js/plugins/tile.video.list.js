@@ -23,8 +23,11 @@
 						if(!data)
 							return;
                         
-                        scope.showList = true;
-						scope.loading = true;
+						scope.showList = true;
+						
+						// Show loading image.
+						angular.element('#tile_'+scope.tileId+' .tileImg').addClass('whirl double-up');
+
 						scope.videoList = [];
 						scope.videoTitles = [];
 						scope.videoImages = [];
@@ -38,13 +41,24 @@
 							
 							var contentList = data.contentList;
 
+							if(contentList.length == 1){
+								scope.showList = false;
+							}else{
+								scope.showList = true;
+							}
+
 							if(data.contentList && data.contentList.length>0){
-                                scope.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
-                                if(scope.videoType == 'youtube'){
-                                    
+								scope.videoType = data.contentList[0].externalRefs[0].providerCode.toLowerCase();
+								if(scope.videoType == 'youtube'){
+
                                     scope.vid = data.contentList[0].externalRefs[0].externalContentId;
 									scope.videoList = data.contentList;
                                     
+                                    // If video is only one, it will play video directly
+                                    if(contentList.length == 1) {
+                                    	scope.$parent.$broadcast('youtube', scope.videoList[0]);
+                                    }
+
                                     for( var i in data.contentList ){
                                         scope.videoTitles[i] = data.contentList[i].title;
                                     }
@@ -57,6 +71,7 @@
                                                 scope.videoList.push(data.resources[0].medias[0]);
                                             }
 											
+											// If video is only one, it will play video directly
 											if(contentList.length == 1){
 												scope.$parent.$broadcast('video', scope.videoList[0]);
 											}
@@ -70,7 +85,8 @@
                                 }
                             }
 
-                            scope.loading = false;
+                            // Hide loading image.
+                            angular.element('#tile_'+scope.tileId+' .tileImg').removeClass('whirl double-up');
                         }, function(error){
                             console.log(error);
                         })

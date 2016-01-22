@@ -20,6 +20,7 @@
                 templateUrl: 'app/views/partials/tile-image.html',
         		link: function(scope, elem, attrs) {
                     scope.loading = [];
+                    var tempImage = scope.imageSrc;
 
                     scope.setFile = function(element) {
 
@@ -61,6 +62,27 @@
 
                     scope.showVideoList = function() {
                         scope.$parent.$broadcast('showVideoList', true);
+                    }
+
+                    scope.$on('tileImg', function(event, data){
+                        // Close video players
+                        angular.element('.player').each(function(){
+                            var vid = angular.element(this).attr('id');
+                            bitdash(vid).destroy();
+                        })
+                        scope.$parent.$emit('youtubeVideo', scope.tileId, 'bitmovin');
+
+                        scope.imageSrc = data;
+                        angular.element('#tile_'+scope.tileId+' .tile-image').show();
+                        angular.element('#tile_'+scope.tileId+' .image-wrapper .close-btn').show();
+
+                        angular.element('#tile_'+scope.tileId+' .video-player').hide();
+                        angular.element('#tile_'+scope.tileId+' .video-player .close-btn').hide();
+                    })
+
+                    scope.hideImage = function() {
+                        scope.imageSrc = tempImage;
+                        angular.element('#tile_'+scope.tileId+' .image-wrapper .close-btn').hide();
                     }
                 }
             }

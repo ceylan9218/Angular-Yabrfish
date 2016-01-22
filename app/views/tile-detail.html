@@ -32,7 +32,11 @@
             <div></div>
          </div>
          <ul ng-if="!netsLoading" infinite-scroll="getTileNets(card)" infinite-scroll-container="'.add-to-net'" infinite-scroll-immediate-check="false">
-            <li ng-repeat="net in nets track by $index"><span>{{net.name}}</span><button class="btn btn-default" ng-click="updateTileToNet(net, card.externalId, net.opt)" ng-class="{'add' : net.opt == 'add', 'remove' : net.opt == 'remove'}">{{net.opt | uppercase}}</button></li>
+            <li ng-repeat="net in nets track by $index">
+               <span>{{net.name}}</span>
+               <a class="add-btn" ng-click="updateTileToNet(net, card.externalId, net.opt)"><i class="fa" ng-class="{'fa-plus-square' : net.opt == 'add', 'fa-minus-square' : net.opt == 'remove'}"></i></a>
+               <!-- <button class="btn btn-default" ng-click="updateTileToNet(net, card.externalId, net.opt)" ng-class="{'add' : net.opt == 'add', 'remove' : net.opt == 'remove'}">{{net.opt | uppercase}}</button> -->
+            </li>
             <li><input type="text" class="new-net form-control" placeholder="New Net Name"><button class="btn btn-default">NEW</button></li>
          </ul>
       </div>
@@ -73,30 +77,6 @@
                   <class-list class="class-list" tile="card"></class-list>
                   <race-list></race-list>
                </div>
-            </div>
-         </accordion-group>
-         <accordion-group is-open="card.showEnter">
-            <accordion-heading class="enter-header">
-               <img src="app/img/enter.png">Enter<i class="pull-right fa" ng-class="{'fa-angle-up': card.showEnter, 'fa-angle-down': !card.showEnter}"></i>
-            </accordion-heading>
-            <div>
-               Enter
-            </div>
-         </accordion-group>
-         <accordion-group is-open="card.showParticipants">
-            <accordion-heading class="participant-header">
-               <img src="app/img/participants.png">Participants<i class="pull-right fa" ng-class="{'fa-angle-up': card.showParticipants, 'fa-angle-down': !card.showParticipants}"></i>
-            </accordion-heading>
-            <div>
-               Participants
-            </div>
-         </accordion-group>
-         <accordion-group is-open="card.showCrew">
-            <accordion-heading class="crew-header">
-               <img src="app/img/crew.png">Crew<i class="pull-right fa" ng-class="{'fa-angle-up': card.showCrew, 'fa-angle-down': !card.showCrew}"></i>
-            </accordion-heading>
-            <div>
-               Crew
             </div>
          </accordion-group>
          <accordion-group is-open="card.showActionReplay">

@@ -28,6 +28,30 @@
             			scope.eventId = data.event.eventId;
 						getMedia(scope.eventId);
             		})
+
+                    scope.playMedia = function(media){
+                        // If media is image...
+                        if( media.content == null ){
+                            var image = media.creatives.url;
+                            scope.$parent.$parent.$parent.$parent.$broadcast('tileImg', image);
+                        }else {
+                            if(media.content.externalRefs[0].providerName == 'Sail TV'){
+                                var vid = media.content.externalRefs[0].externalContentId;
+                                TileService.getSycoVideoList(vid).then(function(data){
+                                    var video = {};
+                                    if(data.resources[0].medias[0].hostId){
+                                        video = data.resources[0].medias[0];
+                                    }
+                                    
+                                    scope.$parent.$parent.$parent.$parent.$broadcast('video', video);
+                                }, function(error){
+                                    console.log(error);
+                                })
+                            }else{
+                                scope.$parent.$parent.$parent.$parent.$broadcast('youtube', media.content);
+                            }
+                        }
+                    }
         		}
         	}
         })
