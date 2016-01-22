@@ -10,7 +10,7 @@
         .module('app.radar', ["ngSanitize", 'ngAnimate', 'infinite-scroll'])        
         .controller('radarController', radarController);
 
-    function radarController($rootScope, $scope, $http, RouteHelpers, TileService) {
+    function radarController($rootScope, $scope, $http, RouteHelpers, TileService) {        
 
         $scope.bRadarScrollDisabled = false;
         $scope.loading = false;
