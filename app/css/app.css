@@ -9568,24 +9568,28 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 .add-to-net ul li span{
   float: left;
 }
-.add-to-net ul li button.btn{
+.add-to-net ul li .add-btn{
   float: right;
-  background: #3ABEEF;
-  border-radius: 20px;
-  color: #fff;
-  border: none;
-  padding: 2px 15px;
-  font-size: 12px;
+  cursor: pointer;
 }
-.add-to-net ul li button.btn.remove{
-  background: red;
+.add-to-net ul li .add-btn i{
+  font-size: 22px;
+}
+.add-to-net ul li .add-btn i.fa-plus-square{
+  color: green;  
+}
+.add-to-net ul li .add-btn i.fa-minus-square{
+  color: red;  
 }
 .add-to-net ul li:last-child{
   border-top: none;
   padding-top: 20px;
 }
 .add-to-net ul li:last-child button.btn{
-  margin-top: 5px;
+  margin-top: 0px;
+  border-color: #3ABEEF;
+  color: #3ABEEF;
+  float: right;
 }
 .add-to-net ul li .new-net{
   width: 200px;
