@@ -9786,6 +9786,15 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 .video-player .close-btn img{
   width: 30px;
 }
+.image-wrapper .close-btn{
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+  display: none;
+}
+.image-wrapper .close-btn img{
+  width: 30px;
+}
 .player{
   width: 100%;
   height: 100%;

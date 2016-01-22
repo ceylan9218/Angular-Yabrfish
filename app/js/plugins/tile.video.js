@@ -18,13 +18,12 @@
 				link: function(scope, elem, attrs) {
 
 					scope.youtube = {};
-					scope.youtubePlay = false;
 
 					var clearBitdash = function() {
 						angular.element('.player').each(function(){
 							var vid = angular.element(this).attr('id');
 							bitdash(vid).destroy();
-						})						
+						})
 					}
 
 					clearBitdash();
@@ -35,7 +34,8 @@
 						if(!data)
 							return;
 
-						scope.youtubePlay = false;
+						// Clear Youtube Video player
+						scope.$parent.$emit('youtubeVideo', scope.tileId, 'bitmovin');
 
 						// Bitmovin Video player setting.
 						clearBitdash();
@@ -73,7 +73,7 @@
 
 						var vid = data.externalRefs[0].externalContentId;
 						
-						scope.youtubePlay = true;
+						scope.$parent.$emit('youtubeVideo', scope.tileId, 'youtube');
 
 						clearBitdash();
 

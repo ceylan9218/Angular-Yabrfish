@@ -54,6 +54,11 @@
                                     scope.vid = data.contentList[0].externalRefs[0].externalContentId;
 									scope.videoList = data.contentList;
                                     
+                                    // If video is only one, it will play video directly
+                                    if(contentList.length == 1) {
+                                    	scope.$parent.$broadcast('youtube', scope.videoList[0]);
+                                    }
+
                                     for( var i in data.contentList ){
                                         scope.videoTitles[i] = data.contentList[i].title;
                                     }
@@ -66,6 +71,7 @@
                                                 scope.videoList.push(data.resources[0].medias[0]);
                                             }
 											
+											// If video is only one, it will play video directly
 											if(contentList.length == 1){
 												scope.$parent.$broadcast('video', scope.videoList[0]);
 											}
