@@ -76,13 +76,13 @@
             });
         })
 
-        $scope.$on('youtubeVideo', function(event, tileId, videoType){
-console.log(tileId);
+        $scope.$on('youtubeVideo', function(event, tileId, openType){
+
             var currTileId = tileId;
             $rootScope.youtubePlay = [];
 
             $scope.tiles.forEach(function(tile){
-                if(videoType == 'bitmovin'){
+                if(openType == 'close'){
                     $rootScope.youtubePlay[tile.externalId] = false;
                 }else{
                     if(tile.externalId != currTileId) {

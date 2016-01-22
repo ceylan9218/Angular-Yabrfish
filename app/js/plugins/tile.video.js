@@ -35,7 +35,7 @@
 							return;
 
 						// Clear Youtube Video player
-						scope.$parent.$emit('youtubeVideo', scope.tileId, 'bitmovin');
+						scope.$parent.$emit('youtubeVideo', scope.tileId, 'close');
 
 						// Bitmovin Video player setting.
 						clearBitdash();
@@ -73,7 +73,7 @@
 
 						var vid = data.externalRefs[0].externalContentId;
 						
-						scope.$parent.$emit('youtubeVideo', scope.tileId, 'youtube');
+						scope.$parent.$emit('youtubeVideo', scope.tileId, 'open');
 
 						clearBitdash();
 
@@ -114,6 +114,8 @@
 
 					scope.hideVideo = function() {
 						bitdash(scope.tileId).destroy();
+						scope.$parent.$emit('youtubeVideo', scope.tileId, 'close');
+
 						angular.element('#tile_'+scope.tileId+' .tile-image').show();
 						angular.element('#tile_'+scope.tileId+' .video-player').hide();
 						angular.element('#tile_'+scope.tileId+' .close-btn').hide();
