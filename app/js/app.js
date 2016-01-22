@@ -63,13 +63,13 @@
             'app.tile-videoList'
         ])
         .constant('APP_APIS', {
-          'base':                 'http://data.yabrfish.com/yfapi',
-          'commerce':             'http://data.yabrfish.com/yfapi/commerceservice',
-          'tile':                 'http://data.yabrfish.com/yfapi/tileservice',
-          'lookup':               'http://data.yabrfish.com/yfapi/lookupservice',
-          'reco':                 'http://data.yabrfish.com/yfapi/recoservice',
-          'viewer':               'http://data.yabrfish.com/yfapi/viewerservice',
-          'media':                'http://data.yabrfish.com/yfapi/mediaservice'
+          'base':                 'http://demo.data.yabrfish.com/yfapi',
+          'commerce':             'http://demo.data.yabrfish.com/yfapi/commerceservice',
+          'tile':                 'http://demo.data.yabrfish.com/yfapi/tileservice',
+          'lookup':               'http://demo.data.yabrfish.com/yfapi/lookupservice',
+          'reco':                 'http://demo.data.yabrfish.com/yfapi/recoservice',
+          'viewer':               'http://demo.data.yabrfish.com/yfapi/viewerservice',
+          'media':                'http://demo.data.yabrfish.com/yfapi/mediaservice'
           // 'media':                'http://data.yabrfish.com:9097/mediaservice'
         });
 })();
