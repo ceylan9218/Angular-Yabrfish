@@ -10843,74 +10843,13 @@ img.logo{
   color: #3abeef;
   margin-left: 20px;
 }
-.modal.in .modal-dialog{
-  position:fixed;
-  top: 50%;
-  left: 50%;
-  width:40em;
-  height:20em;
-  margin-top: -10em;
-  margin-left: -20em;
-}
-.modal-backdrop.in{
-  opacity: 0.7;
-}
-.modal-backdrop{
-  background: #fff;
-}
-.modal-header img{
-  display: table;
-  margin: 0 auto;
-}
-.modal-content{
-  box-shadow: none;
-  border-radius: 0;
-  border-color: #ccc;
-}
-.modal-header h4{
-  text-align: center;
-  color: #333;
-  font-size: 24px;
-}
-.modal-header{
-  border-bottom: 1px solid #cbcbcb;
-}
-.modal-body{
-  background: #fafafa;
-  color: #bbbbbb;
+.yabrTile .net-list .tile-infos .icons {
+  padding: 10px 15px;
   display: inline-block;
   width: 100%;
 }
-.modal-body-content{
-  width: 80%;
-  margin: 0 auto;
-}
-.modal-body p{
-  text-align: center;
-  font-size: 16px;
-  margin: 30px 0;
-}
-.modal-body input{
-  margin: 0 auto 30px;
-  border: none;
-  border-radius: 0;
-  border-bottom: 1px solid #3abeef;
-  height: 50px;
-}
-.modal-body button{
-  float: right;
-  border-radius: 50px;
-  padding: 5px 30px;
-}
-.modal-body button.create-btn{
-  background: #3abeef;
-  color: white;
-}
-.modal-body button.cancel-btn{
-  background: transparent;
-  color: #3abeef;
-  border-color: #3abeef;
-  margin-right: 20px;
+.yabrTile .net-list .tile-infos .icons a.more {
+  margin-top: 0px;
 }
 @media only screen and (min-width: 1200px) {
   .net-content{
