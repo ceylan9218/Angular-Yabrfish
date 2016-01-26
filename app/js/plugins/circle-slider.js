@@ -19,8 +19,8 @@
         		      var circleBg = angular.element('#circle .circleBg');
         		      
                   slider.css({
-                    left: 40,
-                    top: -12
+                    left: 42.5,
+                    top: -9.5
                   });
 
                   var circle = angular.element('#circle');
@@ -35,20 +35,26 @@
                     x: elP.left,
                     y: elP.top
                   };
+
                   var X = 0, Y = 0;
                   var mdown = false;
 
-
-                  var page = 0;
+                  var round = 0;
                   var count = 4;
                   var prev_atan = 0;
                   var prev_deg = 0;
-                  var testAry = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+
+                  var testAry = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];
                   scope.test = 0;
-                  var clockwise = true;
-		
+                  var clockwise = false;
+		              
+                  round = parseInt(scope.contents.length/count) + 1;
+
+                  var total_deg = 0;
+                  var diff_atan = 0;
+
                   poolContainer.on('mousedown touchstart', function(event) {
-                    mdown = true;            
+                    mdown = true;
                   });
 
                   poolContainer.on('mouseup touchend', function(event) {
@@ -66,15 +72,11 @@
                       top: sliderTop
                     });
 
-                    // scope.$apply(function() {
-                    //   scope.content = scope.contents[deg];
-                    //   scope.test = testAry[deg + page * count];
-                    // });
-
-                    // prev_deg = deg;
+                    prev_deg = deg;
                   });
 
                   poolContainer.on('mousemove touchmove', function(event) {
+
                     event.preventDefault();
                       
                     var clientX = event.clientX,
@@ -88,17 +90,6 @@
                       
                     if (mdown) {
 
-                      var scrollFromTop = $(window).scrollTop();
-                        
-                      var mPos = {
-                        x: clientX - elPos.x,
-                        y: clientY - elPos.y + scrollFromTop
-                      };
-                     
-                      //var atan = Math.atan2(mPos.x - radius, mPos.y - radius * 2);
-                      atan = Math.atan2(mPos.x - radius, mPos.y - radius);
-                      deg = -atan / (Math.PI / 2) + 2; // final (0-360 positive) degrees from mouse position
-
                       X = Math.round(radius * Math.sin(deg * Math.PI / 2));
                       Y = Math.round(radius * -Math.cos(deg * Math.PI / 2));
 
@@ -110,32 +101,53 @@
                         top: sliderTop
                       });
 
-                      scope.$apply(function(){                        
-                        scope.test = Math.round(deg);
+                      var scrollFromTop = $(window).scrollTop();
+                        
+                      var mPos = {
+                        x: clientX - elPos.x,
+                        y: clientY - elPos.y + scrollFromTop
+                      };
+
+                      //var atan = Math.atan2(mPos.x - radius, mPos.y - radius * 2);
+                      atan = Math.atan2(mPos.x - radius, mPos.y - radius);
+                      deg = -atan / (Math.PI / 2) + 2; // final (0-360 positive) degrees from mouse position
+
+                      var diff_atan = atan - prev_atan;
+                      
+                      if( 0 <= diff_atan && diff_atan < Math.PI )
+                        clockwise = false;
+                      else if( Math.PI <= diff_atan && diff_atan < Math.PI * 2 ){
+                        clockwise = true;
+                        diff_atan = diff_atan - Math.PI*2;
+                      }
+                      else if( Math.PI * -1 <= diff_atan && diff_atan < 0 )
+                        clockwise = true;
+                      else if( Math.PI * -2 <= diff_atan && diff_atan < Math.PI * -1 ){
+                        clockwise = false;
+                        diff_atan = diff_atan + Math.PI*2;
+                      }
+                      else
+                        clockwise = false;
+
+                      total_deg = total_deg + diff_atan;
+
+                      var degree = -total_deg / Math.PI * 180 + 180;
+
+                      if (degree >= 360 * round) {
+                        degree -= 360 * round;
+                      }
+                      if (degree < 0) {
+                        degree += 360 * round;
+                      }
+                      degree = parseInt((degree + 45) / 90);
+                      degree = degree %2;
+
+                      scope.$apply(function() {
+                        scope.content = scope.contents[degree];
                       })
 
-                      if(prev_atan - atan >= 0){
-                        clockwise = true;
-                      }else{
-                        clockwise = false;
-                      }
-
-                      
-                      // if(deg == 0){
-                      //   redProgressBar.css({
-                      //     '-webkit-transform': 'rotate(' + (parseInt(deg) + 1) * 90 + 'deg)',
-                      //     'transform': 'rotate(' + (parseInt(deg) + 1)  * 90 + 'deg)',
-                      //     '-ms-transform': 'rotate(' + (parseInt(deg) + 1) * 90 + 'deg)'
-                      //   });
-                      // }else{
-                      //   redProgressBar.css({
-                      //     '-webkit-transform': 'rotate(' + parseInt(deg) * 90 + 'deg)',
-                      //     'transform': 'rotate(' + parseInt(deg)  * 90 + 'deg)',
-                      //     '-ms-transform': 'rotate(' + parseInt(deg) * 90 + 'deg)'
-                      //   });  
-                      // }
-
                       prev_atan = atan;
+
                     } // if (mdown) - end
                   }); // poolContainer.on('mousemove touchmove') - end
                 }
