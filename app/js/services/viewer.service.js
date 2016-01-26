@@ -115,7 +115,6 @@
 
 				getNets: function(viewerId){
 
-
 					var deferred = $q.defer();
 
 					if ( netsCache.page !=0 && netsCache.page  >= netsCache.totalPages ) {

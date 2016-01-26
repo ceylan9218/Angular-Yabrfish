@@ -321,5 +321,23 @@
 
             }
         }
+
+        // For Circular Slider Testing. - Ryan(2016.1.23)
+        $scope.getEvents = function(element) {	        
+			TileService.getFirstEvent(element.externalId).then(function(event){				
+				var eventId = event.externalId;
+
+				TileService.getClasses(eventId).then(function(classes){
+    				element.classes = classes;
+    				for(var i in element.classes) {
+                        var flag = "http://img.yabrfish.com/cdn/flags/"+element.classes[i].classFlag.toLowerCase()+".jpg";
+                        element.classes[i].flag = flag;
+                    }
+    			}, function(error){
+    				console.log(error);
+    				return;
+    			})
+			})
+        }
     }
 })();
