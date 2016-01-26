@@ -104,6 +104,7 @@
                 
                 $http.post(APP_APIS['commerce']+'/auth', params)
                   .success(function(user){
+                    console.log(user);
                     if(user != ''){
                       $rootScope.logged = true;
                       $rootScope.user = user;
