@@ -12485,8 +12485,10 @@ circle-slider {
   text-align: center;
   display: table;
   width: 100%;
-  font-size: 18px;
+  font-size: 16px;
   color: #333;
+  margin-top: 5px;
+  line-height: 1;
 }
 #slider {
     position: relative;
