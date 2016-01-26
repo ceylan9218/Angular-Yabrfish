@@ -80,7 +80,7 @@
                     }else{
                       $location.path('app/login');
                     }
-                    }/*, {scope: 'email, user_birthday, user_friends, user_likes'}*/ );
+                  }/*, {scope: 'email, user_birthday, user_friends, user_likes'}*/ );
                 }                
                 
                 // Just For testing.

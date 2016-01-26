@@ -12377,3 +12377,147 @@ p.title{
   padding: 5px 10px;
   cursor: pointer;
 }
+
+/* ========================================================================
+   title: Circular Slider style
+   author: Ryan
+   date: 2016.1.25
+ ========================================================================== */
+circle-slider {
+    position: relative;
+}
+.poolContainer {
+    animation: 2.6s ease 0s normal none infinite running circlePulsate;
+}
+.poolContainer {
+    margin: 20px auto;
+    width: 105px;
+    height: 105px;
+    position: relative !important;
+    animation: 1.7s ease 0s normal none infinite running circlePulsate;
+}
+.poolRing {
+    position: absolute;
+    z-index: 200;
+    top: -3px;
+    left: -5px;
+}
+.pollAnswerBar {
+    position: relative;
+    font-size: 137px;
+    width: 110px;
+    height: 110px;
+}
+/*#sliceBg {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    clip: rect(auto, auto, auto, auto);
+    opacity: 0.25;
+}
+.pieBg {    
+    border-width: 3px;
+    border-style: solid;
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    border-radius: 0.5em;
+    transform: rotate(180deg) !important;
+}*/
+.pollAnswerBar > #slice.gt50 {
+    clip: rect(auto, auto, auto, auto);
+}
+.pollAnswerBar > #slice {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+/*    clip: rect(0px, 1em, 1em, 0.402em);*/
+}
+.pollAnswerBar > #slice > .pie {
+    border-color: #3ABEEF;
+    border-width: 3px;
+    border-style: solid;
+    position: absolute;
+    width: 110px;
+    height: 110px;
+/*    clip: rect(0em, 0.4em, 0.8em, 0em);*/
+    border-radius: 0.5em;
+}
+/*.pollAnswerBar > #slice > .pieFill {
+    display: none;
+    border-color: #3ABEEF;
+    border-width: 3px;
+    border-style: solid;
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    clip: rect(0em, 0.4em, 1em, 0em);
+    border-radius: 0.5em;
+    z-index: 100;
+    transform: rotate(180deg) !important;
+}*/
+.poolDotContainer {
+    z-index: 300;
+}
+#circle {
+    width: 102.5px;
+    height: 105px;
+    border-radius: 100%;
+    position: relative;
+}
+#circle .circleBg {
+    height: 70px;
+    width: 70px;
+    border-radius: 100%;
+    background: #FFF none repeat scroll 0% 0%;
+    transition-duration: 0.3s;
+    transition-property: all;
+    position: absolute;
+    top: 17px;
+    left: 15px;
+}
+#circle .circleBg img{
+    width: 30px;
+    margin: 10px auto 0;
+    display: table;
+}
+#circle .circleBg span{
+  text-align: center;
+  display: table;
+  width: 100%;
+  font-size: 18px;
+  color: #333;
+}
+#slider {
+    position: relative;
+    left: 102.5px;
+    top: -22.5px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.6) none repeat scroll 0% 0%;
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
+    z-index: 300;
+}
+#slider::before {
+    content: "";
+    display: block;
+    width: 15px;
+    height: 15px;
+    background: #3ABEEF none repeat scroll 0% 0%;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    position: absolute;
+}
+#slider::after {
+    content: "";
+    display: block;
+    height: 5px;
+    width: 5px;
+    background: #FFF none repeat scroll 0% 0%;
+    border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+}

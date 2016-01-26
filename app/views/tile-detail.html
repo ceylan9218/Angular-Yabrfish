@@ -70,8 +70,9 @@
                   <span>/{{card.className}}</span>
                </p>
             </accordion-heading>
-            <div class="section">
+            <div class="section" ng-init="getEvents(card)">
                <event-list tile="card"></event-list>
+               <circle-slider contents="card.classes" ng-if="card.classes && card.classes.length >= 0"></circle-slider>
                <event-edit></event-edit>               
                <div ng-if="true">
                   <class-list class="class-list" tile="card"></class-list>
