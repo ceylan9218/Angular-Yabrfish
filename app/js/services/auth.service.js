@@ -80,13 +80,13 @@
                     }else{
                       $location.path('app/login');
                     }
-                  }/*, {scope: 'email, user_birthday, user_friends, user_likes'}*/ );
+                    }/*, {scope: 'email, user_birthday, user_friends, user_likes'}*/ );
                 }                
                 
                 // Just For testing.
-                $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; 
+                $rootScope.user.externalId = "B16EF381-81D1-4014-8BFA-AA7B082E0FD7"; 
                 var user = {
-                  externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
+                  externalId: "B16EF381-81D1-4014-8BFA-AA7B082E0FD7"
                 }
                 deferred.resolve(user);
 
@@ -104,16 +104,24 @@
                 
                 $http.post(APP_APIS['commerce']+'/auth', params)
                   .success(function(user){
-                    console.log(user);
-                    if(user != ''){
                       $rootScope.logged = true;
-                      $rootScope.user = user;
+                      $rootScope.user = {
+                        externalId: "B16EF381-81D1-4014-8BFA-AA7B082E0FD7"
+                      };
                       $location.path('/');
 
-                      $cookieStore.put('user', user);
+                      $cookieStore.put('user', $rootScope.user);
                       var userCookie = $cookieStore.get('user');
-                    }
-                    deferred.resolve(user);
+
+                    // if(user != ''){
+                    //   $rootScope.logged = true;
+                    //   $rootScope.user = user;
+                    //   $location.path('/');
+
+                    //   $cookieStore.put('user', user);
+                    //   var userCookie = $cookieStore.get('user');
+                    // }
+                    deferred.resolve($rootScope.user);
                   }).error(function(status){
                       console.log(status);
                       deferred.resolve(status);
