@@ -38,9 +38,10 @@
 
                   var X = 0, Y = 0;
                   var mdown = false;
+                  var setZero = false;
 
-                  var round = 0;
-                  var count = 4;
+                  // var round = 0;
+                  var count = scope.contents.length;
                   var prev_atan = 0;
                   var prev_deg = 0;
 
@@ -48,13 +49,33 @@
                   scope.test = 0;
                   var clockwise = false;
 		              
-                  round = parseInt(scope.contents.length/count) + 1;
+                  // round = parseInt(scope.contents.length/count) + 1;
+                  //round = 3;
 
                   var total_deg = 0;
                   var diff_atan = 0;
+                  var degree = 0;
+
+                  // Get Mouse/Touch position.                  
+                  var getMPos = function(event) {
+                    
+                    var scrollFromTop = $(window).scrollTop();
+
+                    var mPos = {
+                      x: event.clientX - elPos.x,
+                      y: event.clientY - elPos.y + scrollFromTop
+                    };
+
+                    return mPos;
+                  }
 
                   poolContainer.on('mousedown touchstart', function(event) {
                     mdown = true;
+                       
+                    var mPos = getMPos(event);
+                    // If user click on left of circle at first, it sets circle to 0.
+                    if(15 < mPos.x && mPos.x <= 60)
+                      setZero = true;
                   });
 
                   poolContainer.on('mouseup touchend', function(event) {
@@ -73,6 +94,12 @@
                     });
 
                     prev_deg = deg;
+
+                    scope.$apply(function(){
+                      var index = degree % count;
+console.log(degree, count);                      
+                      scope.content = scope.contents[index];
+                    })
                   });
 
                   poolContainer.on('mousemove touchmove', function(event) {
@@ -131,21 +158,19 @@
 
                       total_deg = total_deg + diff_atan;
 
-                      var degree = -total_deg / Math.PI * 180 + 180;
+                      if(!setZero)
+                        degree = -total_deg / Math.PI * 180 + 180;
+                      else
+                        degree = -total_deg / Math.PI * 180 - 180;
 
-                      if (degree >= 360 * round) {
-                        degree -= 360 * round;
+                      if (degree >= (90 * count + 45)) {
+                        total_deg = total_deg + (Math.PI / 2) * count;
                       }
                       if (degree < 0) {
-                        degree += 360 * round;
+                        total_deg = total_deg - (Math.PI / 2) * count;
                       }
+
                       degree = parseInt((degree + 45) / 90);
-                      degree = degree %2;
-
-                      scope.$apply(function() {
-                        scope.content = scope.contents[degree];
-                      })
-
                       prev_atan = atan;
 
                     } // if (mdown) - end
