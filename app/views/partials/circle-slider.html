@@ -1,25 +1,24 @@
 <div class="poolContainer">
     <div class="poolRing">
       <div class="pollAnswerBar">
-        <!-- <div id="sliceBg">
-          <div class="pieBg"></div>
-        </div> -->
-        <div class="gt50" id="slice">
+        <div id="slice">
           <div class="pie"></div>
-          <!-- <div class="pieFill"></div> -->
         </div>
       </div>
     </div>
 
     <div class="poolDotContainer">
       <div id="circle">
-        <div class="circleBg">
-<!--           <span>{{test}}</span> -->
+        <div class="circleBg" ng-if="contents.length > 0">
           <img src="{{content.flag}}"/>
           <span>{{content.name}}</span>
+        </div>
+        <div class="circleBg" ng-if="contents.length == 0">
+          <span>No Slider</span>
         </div>
         <div id="slider"></div>
       </div>
     </div>
+    
+    <div class="steps">{{index}} / {{contents.length}}</div>
 </div>
-<div></div>

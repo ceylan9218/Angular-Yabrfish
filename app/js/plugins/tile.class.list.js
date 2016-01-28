@@ -37,6 +37,16 @@
             		TileService.getFirstEvent(scope.tile.externalId).then(function(event){
             			getClasses(event.externalId);
             			scope.eventId = event.externalId;
+                        $timeout(function(){
+                            var firstClass = scope.classes[0];
+                            
+                            var classData = {
+                                classObj: firstClass,
+                                eventId: scope.eventId
+                            };
+                            
+                            scope.$parent.$broadcast('classData', classData);
+                        }, 1000);                        
             		})
 
 					scope.slideClasses = function(dir){
@@ -70,18 +80,28 @@
 						getClasses(data.event.eventId);
             		})
 
-            		scope.selectClass = function(classObj){                        
-                        scope.selectedClass = classObj.externalId;
+      //       		scope.selectClass = function(classObj){                        
+      //                   scope.selectedClass = classObj.externalId;
 
-            			var classData = {
-            				classObj: classObj,
-            				eventId: scope.eventId
-            			};
+      //       			var classData = {
+      //       				classObj: classObj,
+      //       				eventId: scope.eventId
+      //       			};
 
-            			$timeout(function(){
-						   scope.$parent.$parent.$parent.$broadcast('classData', classData);
-						});
-            		}
+      //       			$timeout(function(){
+						//    scope.$parent.$parent.$parent.$broadcast('classData', classData);
+						// });
+      //       		}
+
+                    scope.$on('circleData', function(e, data){
+                        if(data.type == 'class'){
+                            var classData = {
+                                 classObj: data.data,
+                                 eventId: scope.eventId
+                             };
+                            scope.$parent.$broadcast('classData', classData);
+                        }
+                    })
 				}
             }
         }]);

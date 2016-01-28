@@ -72,11 +72,32 @@
             </accordion-heading>
             <div class="section" ng-init="getEvents(card)">
                <event-list tile="card"></event-list>
-               <circle-slider contents="card.classes" ng-if="card.classes && card.classes.length >= 0"></circle-slider>
                <event-edit></event-edit>               
                <div ng-if="true">
                   <class-list class="class-list" tile="card"></class-list>
-                  <race-list></race-list>
+                  <race-list class="race-list" tile="card"></race-list>
+                  <div class="result-wrap" ng-if="results.length > 0">
+                     <ul>
+                        <li ng-repeat="result in results">
+                           <span class="position" ng-class="{'gold': result.position == '1', 'silver': result.position == '2', 'bronze': result.position == '3', 'blue': result.position != '1' && result.position != '2' && result.position != '3'}" ng-if="result.positionDesc != 'DNC'">{{result.position}}</span>
+                           <span class="position red" ng-if="result.positionDesc == 'DNC'">{{result.position}}</span>
+                           <div class="race-info">
+                              <span class="equipmentOwner">{{result.equipmentOwner}}</span>
+                              <span class="equipmentName">{{result.equipmentName}}
+                              &nbsp;{{result.sailNumber}}</span>
+                           </div>
+                           <div class="finish-time">
+                              <div class="time" ng-repeat="time in result.finishCorrected track by $index" ng-if="result.finishCorrected">
+                                 <span class="time-val">
+                                    <span class="timer">{{time}}</span>
+                                 </span>                                       
+                                 <span class="seperator" ng-if="$index !=2"><b>:</b></span>
+                              </div>
+                              <span class="no-time" ng-if="result.positionDesc == 'DNC'">{{result.positionDesc}}</span>
+                           </div>
+                        </li>
+                     </ul>
+                  </div>
                </div>
             </div>
          </accordion-group>

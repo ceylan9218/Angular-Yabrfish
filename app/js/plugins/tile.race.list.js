@@ -12,7 +12,7 @@
             return {
             	restrict: "E",
             	scope: {
-            		
+            		tile: '='
             	},
             	templateUrl: "app/views/partials/race-list.html",
             	link: function(scope, elem, attrs) {
@@ -23,7 +23,7 @@
                         scope.classId = data.classObj.externalId;
 
                         // Get Races for a class
-                        TileService.getRaces(scope.eventId, scope.classId).then(function(data){
+                        TileService.getRaces(scope.eventId, scope.classId).then(function(data){                            
                             scope.races = data;
 
                             if(scope.races.length == 0){
@@ -57,40 +57,75 @@
                                 // scope.races[i].eventId = eventId;
                                 // scope.races[i].classId = classId;
                             }
+
+                            if(scope.races.length > 0)
+                                getResults(scope.eventId, scope.classId, scope.races[0]);
+                            
                         }, function(error){
                             console.log(error);
                             return;
                         })
                     })
+                    
+                    // scope.getResult = function(race){
+                    //     if(race.showResult)
+                    //         race.showResult = false;
+                    //     else{
+                    //         race.showResult = true;
 
-                    scope.getResult = function(race){
-                        if(race.showResult)
-                            race.showResult = false;
-                        else{
-                            race.showResult = true;
+                    //         TileService.getResults(scope.eventId, scope.classId, race.externalId).then(function(data){
+                    //             race.results = data;
 
-                            TileService.getResults(scope.eventId, scope.classId, race.externalId).then(function(data){
-                                race.results = data;
+                    //             if(race.results.length == 0){
+                    //                 var message = 'No Results!';
+                    //                 Flash.create('danger', message);
+                    //             }
 
-                                if(race.results.length == 0){
-                                    var message = 'No Results!';
-                                    Flash.create('danger', message);
-                                }
+                    //             for(var i in race.results){
+                    //                 if(isNaN(race.results[i].positionDesc))
+                    //                     race.results[i].positionDesc = "DNC";
 
-                                for(var i in race.results){
-                                    if(isNaN(race.results[i].positionDesc))
-                                        race.results[i].positionDesc = "DNC";
+                    //                 // Get finishCorrected
+                    //                 if(race.results[i].finishCorrected)
+                    //                     race.results[i].finishCorrected = race.results[i].finishCorrected.split('.')[0].split(':');
+                    //             }
+                    //         }, function(error){
+                    //             console.log(error);
+                    //             return;
+                    //         })
+                    //     }
+                    // }
 
-                                    // Get finishCorrected
-                                    if(race.results[i].finishCorrected)
-                                        race.results[i].finishCorrected = race.results[i].finishCorrected.split('.')[0].split(':');
-                                }
-                            }, function(error){
-                                console.log(error);
-                                return;
-                            })
-                        }
+                    var getResults = function(eventId, classId, race){
+                        TileService.getResults(eventId, classId, race.externalId).then(function(data){
+                            var results = data;
+
+                            if(results.length == 0){
+                                var message = 'No Results!';
+                                Flash.create('danger', message);
+                            }
+
+                            for(var i in results){
+                                if(isNaN(results[i].positionDesc))
+                                    results[i].positionDesc = "DNC";
+
+                                // Get finishCorrected
+                                if(results[i].finishCorrected)
+                                    results[i].finishCorrected = results[i].finishCorrected.split('.')[0].split(':');
+                            }
+
+                            scope.$emit('results', results);
+                        }, function(error){
+                            console.log(error);
+                            return;
+                        })
                     }
+
+                    scope.$on('circleData', function(e, data){
+                        if(data.type == 'race'){
+                            getResults(scope.eventId, scope.classId, data.data);
+                        }
+                    })
                 }
             }
         }]);

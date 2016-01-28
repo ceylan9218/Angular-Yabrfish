@@ -1,5 +1,7 @@
 <div class="races-wrap">
-   <ul class="races">
+   <circle-slider id="{{'race_'+tile.externalId}}" circle-id="'race_'+tile.externalId" circle-type="'race'" contents="races" ng-if="races"></circle-slider>
+   
+   <!-- <ul class="races">
       <li class="race" ng-repeat="race in races">
          <span class="race-name">{{race.name}}</span>
          <button class="race-btn btn" ng-click="getResult(race)">Result</button>
@@ -27,5 +29,5 @@
             </ul>
          </div>
       </li>
-   </ul>
+   </ul> -->
 </div>

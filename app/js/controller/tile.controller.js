@@ -339,5 +339,9 @@
     			})
 			})
         }
+
+        $scope.$on('results', function(e, data){
+			$scope.results = data;
+        })
     }
 })();

@@ -10069,10 +10069,14 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   font-size: 24px;
 }
 .class-list{
-  margin-top: -6px;
   position: relative;
   display: inline-block;
-  width: 100%;
+  width: 50%;
+  float: left;
+}
+.class-content{
+  margin: 0 auto;
+  display: table;
 }
 .class-content .class-heading{
   padding: 10px 0;
@@ -10094,6 +10098,16 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 .event-name:hover{
   cursor: pointer;
   color: #3ABEEF;
+}
+.race-list{
+  position: relative;
+  display: inline-block;
+  width: 50%;
+  float: left;
+}
+.races-wrap{
+  margin: 0 auto;
+  display: table;
 }
 .races-wrap h4{
   font-size: 18px;
@@ -10161,9 +10175,10 @@ ul.races{
 }
 .result-wrap{
   padding: 0 10px;
-  height: 300px;
+  height: 230px;
   overflow: auto;
   width: 100%;
+  margin-bottom: 20px;
 }
 .result-wrap ul{
   padding: 0;
@@ -12390,9 +12405,9 @@ circle-slider {
   animation: 2.6s ease 0s normal none infinite running circlePulsate;
 }
 .poolContainer {
-  margin: 20px auto;
+  margin: 20px 0;
   width: 105px;
-  height: 105px;
+  height: 145px;
   position: relative !important;
   animation: 1.7s ease 0s normal none infinite running circlePulsate;
 }
@@ -12407,25 +12422,6 @@ circle-slider {
   font-size: 137px;
   width: 110px;
   height: 110px;
-}
-/*#sliceBg {
-  position: absolute;
-  width: 110px;
-  height: 110px;
-  clip: rect(auto, auto, auto, auto);
-  opacity: 0.25;
-}
-.pieBg {    
-  border-width: 3px;
-  border-style: solid;
-  position: absolute;
-  width: 110px;
-  height: 110px;
-  border-radius: 0.5em;
-  transform: rotate(180deg) !important;
-}*/
-.pollAnswerBar > #slice.gt50 {
-  clip: rect(auto, auto, auto, auto);
 }
 .pollAnswerBar > #slice {
   position: absolute;
@@ -12443,19 +12439,6 @@ circle-slider {
 /*    clip: rect(0em, 0.4em, 0.8em, 0em);*/
   border-radius: 0.5em;
 }
-/*.pollAnswerBar > #slice > .pieFill {
-    display: none;
-    border-color: #3ABEEF;
-    border-width: 3px;
-    border-style: solid;
-    position: absolute;
-    width: 110px;
-    height: 110px;
-    clip: rect(0em, 0.4em, 1em, 0em);
-    border-radius: 0.5em;
-    z-index: 100;
-    transform: rotate(180deg) !important;
-}*/
 .poolDotContainer {
   z-index: 300;
 }
@@ -12520,4 +12503,11 @@ circle-slider {
   position: absolute;
   top: 5px;
   left: 5px;
+}
+.poolContainer .steps{
+  width: 50px;
+  text-align: center;
+  border: 1px solid rgb(58, 190, 239);
+  display: table;
+  margin: 15px auto;
 }
