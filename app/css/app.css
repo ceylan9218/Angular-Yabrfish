@@ -10280,7 +10280,7 @@ ul.races{
   display: table;
   margin: 0 auto;
 }
-@media only screen and (min-width: 320px)  and (max-width: 479px) {
+/*@media only screen and (min-width: 320px)  and (max-width: 479px) {
   .events img.calendar{
     width: 40px;
   }
@@ -10295,7 +10295,7 @@ ul.races{
   .slide .event-name{
     font-size: 14px;
   }
-}
+}*/
 /*-----------------------Radar Page Responsive-----------------------------------------*/
 @media only screen and (max-width: 767px) {
   .nav-wrapper{
