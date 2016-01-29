@@ -10173,8 +10173,11 @@ ul.races{
   margin-top: 20px;
   color: #333;
 }
+.result-panel{
+  clear: both;
+}
 .result-wrap{
-  padding: 0 10px;
+  padding: 10px 0;
   height: 230px;
   overflow: auto;
   width: 100%;
@@ -10277,7 +10280,7 @@ ul.races{
   display: table;
   margin: 0 auto;
 }
-@media only screen and (min-width: 320px)  and (max-width: 479px) {
+/*@media only screen and (min-width: 320px)  and (max-width: 479px) {
   .events img.calendar{
     width: 40px;
   }
@@ -10292,7 +10295,7 @@ ul.races{
   .slide .event-name{
     font-size: 14px;
   }
-}
+}*/
 /*-----------------------Radar Page Responsive-----------------------------------------*/
 @media only screen and (max-width: 767px) {
   .nav-wrapper{
@@ -10393,6 +10396,9 @@ ul.races{
   }
   .events .rn-carousel-control{
     display: none;
+  }
+  .tile-infos .panel-group .panel.result-panel .panel-body{
+    margin: 0;
   }
   .result-wrap .race-info{
     padding-left: 10px;
@@ -12460,7 +12466,8 @@ circle-slider {
 }
 .poolContainer {
   margin: 20px 0;
-  width: 105px;
+/*  width: 105px;*/
+  width: 90px;
   height: 145px;
   position: relative !important;
   animation: 1.7s ease 0s normal none infinite running circlePulsate;
@@ -12468,28 +12475,34 @@ circle-slider {
 .poolRing {
   position: absolute;
   z-index: 200;
-  top: -3px;
-  left: -5px;
+  /*top: -3px;
+  left: -5px;*/
 }
 .pollAnswerBar {
   position: relative;
   font-size: 137px;
-  width: 110px;
-  height: 110px;
+  /*width: 110px;
+  height: 110px;*/
+  width: 90px;
+  height: 90px;
 }
 .pollAnswerBar > #slice {
   position: absolute;
-  width: 110px;
-  height: 110px;
+  /*width: 110px;
+  height: 110px;*/
+  width: 90px;
+  height: 90px;
 /*    clip: rect(0px, 1em, 1em, 0.402em);*/
 }
 .pollAnswerBar > #slice > .pie {
   border-color: #3ABEEF;
-  border-width: 3px;
+  border-width: 5px;
   border-style: solid;
   position: absolute;
-  width: 110px;
-  height: 110px;
+  /*width: 110px;
+  height: 110px;*/
+  width: 90px;
+  height: 90px;
 /*    clip: rect(0em, 0.4em, 0.8em, 0em);*/
   border-radius: 0.5em;
 }
@@ -12497,52 +12510,60 @@ circle-slider {
   z-index: 300;
 }
 #circle {
-  width: 102.5px;
-  height: 105px;
+  /*width: 102.5px;
+  height: 105px;*/
+  width: 90px;
+  height: 90px;
   border-radius: 100%;
   position: relative;
 }
 #circle .circleBg {
-  height: 70px;
-  width: 70px;
+  height: 60px;
+  width: 60px;
   border-radius: 100%;
   background: #FFF none repeat scroll 0% 0%;
   transition-duration: 0.3s;
   transition-property: all;
   position: absolute;
-  top: 17px;
+  top: 15px;
   left: 15px;
 }
 #circle .circleBg img{
-  width: 30px;
-  margin: 10px auto 0;
+  width: 25px;
+  margin: 5px auto 0;
   display: table;
 }
 #circle .circleBg span{
   text-align: center;
   display: table;
   width: 100%;
-  font-size: 16px;
+  font-size: 14px;
   color: #333;
   margin-top: 5px;
   line-height: 1;
 }
+.races-wrap #circle .circleBg span{
+  display: table-cell;
+  vertical-align: middle;
+  height: 60px;
+  width: 60px;
+}
 #slider {
   position: relative;
-  left: 102.5px;
-  top: -22.5px;
+  left: 35px;
+  top: -10px;
   cursor: pointer;
   background: rgba(255, 255, 255, 0.6) none repeat scroll 0% 0%;
-  height: 15px;
-  width: 15px;
+  height: 20px;
+  width: 20px;
   border-radius: 100%;
   z-index: 300;
 }
 #slider::before {
   content: "";
   display: block;
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   background: #3ABEEF none repeat scroll 0% 0%;
   border-radius: 50%;
   position: absolute;
@@ -12550,8 +12571,8 @@ circle-slider {
 #slider::after {
   content: "";
   display: block;
-  height: 5px;
-  width: 5px;
+  height: 10px;
+  width: 10px;
   background: #FFF none repeat scroll 0% 0%;
   border-radius: 50%;
   position: absolute;

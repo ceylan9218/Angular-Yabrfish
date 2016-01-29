@@ -22,7 +22,8 @@
 
                           var sliderW2 = 10;
                           var sliderH2 = 10;
-                          var radius = 52.5;
+                          // var radius = 52.5;
+                          var radius = 45;
                           var deg = 0, atan = 0;
                           var X = 0, Y = 0;
                           var mdown = false;
@@ -46,11 +47,6 @@
                             scope.index = 1;
                           else
                             scope.index = 0;
-
-                          slider.css({
-                            left: 42.5,
-                            top: -9.5
-                          });
 
                           // Get Mouse/Touch position.                  
                           var getMPos = function(event) {
