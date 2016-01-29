@@ -61,9 +61,7 @@
             'app.tile-image',
             'app.tile-video',
             'app.tile-videoList',
-            'app.circle-slider',
-            'app.my-clubs',
-            'app.club'
+            'app.circle-slider'
         ])
         .constant('APP_APIS', {
           'base':                 'http://demo.data.yabrfish.com/yfapi',

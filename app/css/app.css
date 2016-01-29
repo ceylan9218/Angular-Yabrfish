@@ -11149,6 +11149,9 @@ img.logo{
   width: 100%;
   display: inline-block;
 }
+.club{
+  display: inline-block;
+}
 .club-content img{
   width: 100%;
 }
@@ -11176,10 +11179,31 @@ img.logo{
   .profile-wrap{
     width: 290px;
   }
+  .block.about{
+    width: 100%;
+    float: left;
+  }
+  .block.bio{
+    width: 100%;
+    float: left;
+    margin-left: 0;
+  }
+  .club{
+    padding: 0;
+  }
 }
 @media only screen and (min-width: 768px) and (max-width: 1199px) {
   .profile-wrap{
     width: 708px;
+  }
+  .block.about{
+    width: 40%;
+    float: left;
+  }
+  .block.bio{
+    width: 58%;
+    float: left;
+    margin-left: 2%;
   }
 }
 @media only screen and (min-width: 1200px) {
