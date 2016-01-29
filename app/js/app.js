@@ -61,16 +61,18 @@
             'app.tile-image',
             'app.tile-video',
             'app.tile-videoList',
-            'app.circle-slider'
+            'app.circle-slider',
+            'app.my-clubs',
+            'app.club'
         ])
         .constant('APP_APIS', {
-          'base':                 'http://data.yabrfish.com/yfapi',
-          'commerce':             'http://data.yabrfish.com/yfapi/commerceservice',
-          'tile':                 'http://data.yabrfish.com/yfapi/tileservice',
-          'lookup':               'http://data.yabrfish.com/yfapi/lookupservice',
-          'reco':                 'http://data.yabrfish.com/yfapi/recoservice',
-          'viewer':               'http://data.yabrfish.com/yfapi/viewerservice',
-          'media':                'http://data.yabrfish.com/yfapi/mediaservice'
+          'base':                 'http://demo.data.yabrfish.com/yfapi',
+          'commerce':             'http://demo.data.yabrfish.com/yfapi/commerceservice',
+          'tile':                 'http://demo.data.yabrfish.com/yfapi/tileservice',
+          'lookup':               'http://demo.data.yabrfish.com/yfapi/lookupservice',
+          'reco':                 'http://demo.data.yabrfish.com/yfapi/recoservice',
+          'viewer':               'http://demo.data.yabrfish.com/yfapi/viewerservice',
+          'media':                'http://demo.data.yabrfish.com/yfapi/mediaservice'
           // 'media':                'http://data.yabrfish.com:9097/mediaservice'
         });
 })();
@@ -484,6 +486,8 @@
               {name: 'infinite-scroll',           files: ['vendor/ngInfiniteScroll/build/ng-infinite-scroll.js']},
               {name: 'angular-carousel',          files: ['vendor/angular-carousel/dist/angular-carousel.css',
                                                         'vendor/angular-carousel/dist/angular-carousel.js']},
+              {name: 'htmlSortable',              files: ['vendor/html.sortable/dist/html.sortable.js',
+                                                        'vendor/html.sortable/dist/html.sortable.angular.js']}                                                        
           ]
         })
         ;
@@ -909,7 +913,8 @@
                 url: '/profile',
                 title: 'Profile',
                 controller: 'profileController',
-                templateUrl: helper.basepath('profile.html')
+                templateUrl: helper.basepath('profile.html'),
+                resolve: helper.resolveFor('htmlSortable')                
             })  
             .state('app.profile-clubs', {
                 url: '/profile/clubs',

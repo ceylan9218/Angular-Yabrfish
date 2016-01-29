@@ -195,6 +195,12 @@
                 });
             }
         })
-      }      
+      }
+      
+      $scope.sortableOptions = {
+          placeholder: '<div class="box-placeholder p0 m0"><div></div></div>',
+          forcePlaceholderSize: true
+      };
+    
     }
 })();

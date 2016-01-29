@@ -84,9 +84,9 @@
                 }                
                 
                 // Just For testing.
-                $rootScope.user.externalId = "B16EF381-81D1-4014-8BFA-AA7B082E0FD7"; 
+                $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; 
                 var user = {
-                  externalId: "B16EF381-81D1-4014-8BFA-AA7B082E0FD7"
+                  externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
                 }
                 deferred.resolve(user);
 
@@ -104,23 +104,14 @@
                 
                 $http.post(APP_APIS['commerce']+'/auth', params)
                   .success(function(user){
+                    if(user != ''){
                       $rootScope.logged = true;
-                      $rootScope.user = {
-                        externalId: "B16EF381-81D1-4014-8BFA-AA7B082E0FD7"
-                      };
+                      $rootScope.user = user;
                       $location.path('/');
 
-                      $cookieStore.put('user', $rootScope.user);
+                      $cookieStore.put('user', user);
                       var userCookie = $cookieStore.get('user');
-
-                    // if(user != ''){
-                    //   $rootScope.logged = true;
-                    //   $rootScope.user = user;
-                    //   $location.path('/');
-
-                    //   $cookieStore.put('user', user);
-                    //   var userCookie = $cookieStore.get('user');
-                    // }
+                    }
                     deferred.resolve($rootScope.user);
                   }).error(function(status){
                       console.log(status);
