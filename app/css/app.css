@@ -9910,9 +9910,12 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   border-bottom: 1px solid #E4E4E4;
 }
 .events ul.carousel{
-  width: calc(100% - 55px);
+  /*width: calc(100% - 55px);*/
+  width: 100%;
+  height: 240px;
   float: left;
   cursor: unset;
+  border: 1px solid #3ABEEF;
 }
 .events ul.carousel li{
   padding: 0 20px;
@@ -9972,9 +9975,14 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 .class-name:hover{
   color: #3ABEEF;  
 }
+.slide .event-heading{
+  display: inline-block;
+  width: 95%;
+  float: right;
+}
 .slide .event-name{
   width: calc(100% - 50px);
-  height: 80px;
+  height: 60px;
   float: left;
   display: table;  
 }
@@ -9987,14 +9995,14 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   margin: 0;
   vertical-align: middle;
   display: table-cell;
-  padding: 0 10px;
+  padding: 0 5px;
 }
-.slide .event-name h4:hover{
+/*.slide .event-name h4:hover{
   color: #3ABEEF;
 }
 .slide .event-name.selected h4{
   color: #3ABEEF;
-}
+}*/
 .class-slide .class-name{
   color: #333;
   font-weight: normal;
@@ -10035,10 +10043,10 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   float: left;
 }
 .events img.calendar, .events img.add-event{
-  width: 50px;
+  width: 40px;
   display: table;
   margin: 0 auto;
-  padding: 10px 0;
+  padding: 5px 0;
 }
 .events .calendar-wrap span{
   width: 40px;
@@ -10048,25 +10056,32 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   font-weight: bold;
 }
 .events .calendar-wrap .month{
-  top: 14px;
+  top: 7px;
   color: #fff;
-  font-size: 16px;
+  font-size: 14px;
 }
 .events .calendar-wrap .date{
-  top: 33px;
+  top: 22px;
   color: #0d3d4f;
-  font-size: 22px;
+  font-size: 20px;
 }
 .index{
-  width: 50px;
-  height: 80px;
-  background: #3ABEEF none repeat scroll 0% 0%;
-  margin-right: 5px;
-  float: left;
-  text-align: center;
-  line-height: 80px;
-  color: #fff;
-  font-size: 24px;
+  width: 20px;
+  height: 20px;
+  color: white;
+  position: absolute;
+  line-height: 1;
+  font-size: 20px;
+  top: 3px;
+  left: 9px;
+}
+.events:before {
+  content:'';
+  border-top: 40px solid #3ABEEF;
+  border-right: 40px solid transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .class-list{
   position: relative;
@@ -10078,9 +10093,11 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   margin: 0 auto;
   display: table;
 }
-.class-content .class-heading{
-  padding: 10px 0;
-  border-bottom: 1px solid #E4E4E4;
+.class-content .class-heading, .races-wrap .race-heading{
+  display: table;
+  text-align: center;
+  color: #333;
+  width: 100%;
 }
 .class-content .class-heading img{
   width: 20px;
@@ -12441,10 +12458,10 @@ circle-slider {
   animation: 2.6s ease 0s normal none infinite running circlePulsate;
 }
 .poolContainer {
-  margin: 20px 0;
+  margin: 10px 0;
 /*  width: 105px;*/
   width: 90px;
-  height: 145px;
+  height: 130px;
   position: relative !important;
   animation: 1.7s ease 0s normal none infinite running circlePulsate;
 }
@@ -12560,5 +12577,5 @@ circle-slider {
   text-align: center;
   border: 1px solid rgb(58, 190, 239);
   display: table;
-  margin: 15px auto;
+  margin: 10px auto 0;
 }
