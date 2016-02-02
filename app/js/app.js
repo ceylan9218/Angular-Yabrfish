@@ -45,7 +45,7 @@
             'app.tileSrv',
             'app.product',
             'app.file',
-            'app.equipment',
+//            'app.equipment',
             'app.viewer',
             'app.lookup',
             'app.event-panel',
@@ -962,7 +962,14 @@
                 templateUrl: helper.basepath('new-tile.html'),
                 resolve: helper.resolveFor('angularFileUpload')
             })
-            .state('app.equipment', {
+            // .state('app.equipment', {
+            //     url: '/profile/equipment',
+            //     title: 'My Equipment',
+            //     controller: 'equipmentController',
+            //     templateUrl: helper.basepath('equipment.html'),
+            //     resolve: helper.resolveFor('angularFileUpload', 'akoenig.deckgrid')
+            // })
+            .state('app.profile-equipment', {
                 url: '/profile/equipment',
                 title: 'My Equipment',
                 controller: 'equipmentController',

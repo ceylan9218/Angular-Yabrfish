@@ -40,7 +40,7 @@
         $scope.bEquipmentScrollDisabled = false;
 
         $scope.getEquipment = function () {
-
+console.log(123);
 
             console.log("Get Equipment Called " + $scope.myEquipment.length + "Loading " + $scope.loading + "Scroll " + $scope.bEquipmentScrollDisabled)
 
