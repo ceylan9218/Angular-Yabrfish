@@ -42,7 +42,7 @@
         $scope.getEquipment = function () {
 
 
-            console.log("Get Equipment Called " + $scope.myEquipment.length + "Loading " + $scope.loading + "Scroll " + $scope.bClubScrollDisabled)
+            console.log("Get Equipment Called " + $scope.myEquipment.length + "Loading " + $scope.loading + "Scroll " + $scope.bEquipmentScrollDisabled)
 
             if ($scope.loading) {
                 return;
