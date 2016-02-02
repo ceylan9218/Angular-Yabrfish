@@ -43,12 +43,35 @@
         })
         .controller('clubItemController', clubItemController);
 
-    function clubItemController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, ViewerService, AccountService, LookupService) {
+    function clubItemController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, ViewerService, AccountService, LookupService, $state) {
 
         if(!$rootScope.user)
             return;
 
+        var clubId = $state.params.id;
+        $scope.club = {};
 
+        $scope.getClub = function() {
+            $scope.cacheClubs = ViewerService.cacheClubs();
+
+            if($scope.cacheClubs.length == 0){
+                ViewerService.getClubs($rootScope.user.externalId).then(function (clubs) {
+$scope.club = ViewerService.setCurrentClub(clubId);
+console.log($scope.club);
+                }, function (error) {
+                    console.log(error);
+                    return;
+                })
+            }else{
+$scope.club = ViewerService.setCurrentClub(clubId);
+console.log($scope.club);
+                for (var i in $scope.cacheClubs){
+                    if( $scope.cacheClubs[i].account.externalId == clubId ){
+                        $scope.club = $scope.cacheClubs[i].account;
+                    }
+                }                
+            }
+        }
 
         //----------------------------------------------------------------------------
         // Fill Out the Initial Clubs View for Membership and Relationships

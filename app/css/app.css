@@ -11063,6 +11063,12 @@ img.logo{
    author: Marcin
    date: 2015.11.11
  ========================================================================== */
+ .my-profile{
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+  margin: 20px 0px;
+ }
 .profile-wrap{
   width: 100%;
   margin: 0px auto;
@@ -11070,19 +11076,61 @@ img.logo{
 .block, .block.accounts{
   background: #fff;
   width: 100%;
-  padding: 10px 20px 20px;
+  padding: 10px 30px 20px;
   margin-bottom: 30px;
   border: 1px solid #cccbcb;
   display: inline-block;
 }
+.block .user-profile{
+  margin-top: 20px;
+  padding: 0 20px 15px;
+  display: inline-block;
+  width: 100%;
+  border-bottom: 1px solid #E4E4E4;
+}
+.block .user-profile img{
+  width: 70px;
+  float: left;
+}
+.block .user-profile .info{
+  width: calc(100% - 70px);
+  float: left;
+  margin-top: 10px;
+}
+.block .user-profile .info .username{
+  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 20px;  
+}
+.block .user-profile a.upload-photo {
+  color: #A3A3A3;
+  text-decoration: none;
+  margin-left: 20px;
+  cursor: pointer;
+}
 .block.about{
   width: 30%;
   float: left;
+  height: 360px;
+  padding: 0;
+}
+.block.about .profile-header{
+  width: calc(100% - 40px);
+  margin: 0 auto;
+  display: table;
+}
+.block.about .block-content{
+  width: calc(100% - 40px);
+  margin: 0 auto;
+  display: table;
+  padding: 20px 0 0;
 }
 .block.bio{
   width: 68%;
   float: left;
   margin-left: 2%;
+  height: 360px;
 }
 .profile-header{
   border-bottom: 1px solid #e4e4e4;
@@ -11096,22 +11144,49 @@ img.logo{
   color: #333;
   margin-left: 15px;
   font-weight: normal;
+  position: relative;
+  top: 2px;
 }
 .profile-header h4{
   float: left;
-  width: calc(100% - 100px);
+  width: calc(100% - 170px);
   margin: 10px 0;
 }
 .profile-header .edit_info{
   float: right;
   text-decoration: none;
   color: #A3A3A3;
-  width: 100px;
+  width: 130px;
   margin-top: 10px;
   text-align: right;
+  padding-right: 10px;
+  border-right: 1px solid #E4E4E4;
+}
+.block.about .profile-header .edit_info,
+.block.bio .profile-header .edit_info{
+  padding-right: 0;
+  border-right: none;
+}
+.profile-header .extend{
+  float: right;
+  width: 30px;
+}
+.profile-header .extend i{
+  font-size: 16px;
+  width: 100%;
+  text-align: center;
+  color: #3ABEEF;
+  margin: 12px 0;
 }
 .block-content{
-  margin-top: 20px;
+  margin-top: 10px;
+}
+.block.bio .block-content{
+  height: 180px;
+  overflow: auto;
+}
+.block.bio .block-content a.editable-click{
+  width: 100%;
 }
 .block-content a.editable-click{
   width: calc(100% - 35px);
@@ -11124,6 +11199,9 @@ img.logo{
   width: calc(100% - 35px);
   display: inline-block;
 }
+.block.bio .block-content .editable-wrap{
+  width: 100%;
+}
 .block-content .editable-wrap .editable-controls, .block-content .editable-wrap .editable-error{
   width: 100%;
 }
@@ -11134,13 +11212,17 @@ img.logo{
   top: 0;
 }
 .block-content .editable-wrap .editable-controls > input,
-.block-content .editable-wrap .editable-controls > select,
+.block-content .editable-wrap .editable-controls > select{
+  border-color: #3ABEEF;
+  width: 150px;
+}
 .block-content .editable-wrap .editable-controls > textarea{
-  border-color: #25aae2;
+  width: 620px;
+  min-height: 180px;
 }
 .block-content .editable-buttons .btn-primary{
-  background: #25aae2;
-  border-color: #25aae2;
+  background: #3ABEEF;
+  border-color: #3ABEEF;
 }
 .block-content img{
   width: 20px;
@@ -11154,25 +11236,41 @@ img.logo{
 .my-clubs{
   width: 100%;
   display: inline-block;
+  overflow-x: auto;
 }
 .club{
   display: inline-block;
+  width: 366px;
+  float: left;
+}
+.club-content{
+  width: 100%;
+  padding: 0 15px;
+}
+.club:nth-child(3n+1) .club-content{
+  padding: 0 30px 0 0;
+}
+.club:nth-child(3n) .club-content{
+  padding: 0 0 0 30px;
 }
 .club-content img{
   width: 100%;
 }
-.club-content h4.title{
+.club-content a.title{
   margin: 20px 0px 0px;
   color: #333;
   font-weight: normal;
   font-size: 18px;
+  display: table;
+  text-decoration: none;
+  cursor: pointer;
 }
-.club-content h4 i{
+.club-content a i{
   color: #3ABEEF;
   margin-left: 30px;
 }
 .btn.update-profile{
-  background: #25aae2;
+  background: #3ABEEF;
   color: #fff;
   font-size: 16px;
   border-radius: 20px;
@@ -11180,6 +11278,28 @@ img.logo{
 }
 .btn.update-profile:hover{
   color: #fff;
+}
+.club-profile{
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+  margin: 20px 0;
+}
+.block.club-about{
+  width: 40%;
+  float: left;
+  height: 340px;
+}
+.block.club-image{
+  padding: 0;
+  width: 58%;
+  margin-left: 2%;
+  float: left;
+  height: 340px;
+}
+.block.club-image img{
+  width: 100%;
+  height: 100%;
 }
 @media only screen and (max-width: 767px) {
   .profile-wrap{
@@ -11193,9 +11313,39 @@ img.logo{
     width: 100%;
     float: left;
     margin-left: 0;
+    height: 300px;
+  }
+  .block.bio .block-content{
+    height: 210px;
   }
   .club{
     padding: 0;
+  }
+  .block-content img{
+    margin-right: 10px;
+  }
+  .block-content a.editable-click{
+    width: calc(100% - 30px);
+  }
+  .block-content .editable-wrap {
+    width: calc(100% - 30px);
+  }
+  .block-content .editable-wrap .editable-controls > input, 
+  .block-content .editable-wrap .editable-controls > select{
+    width: 130px;
+    height: 30px;
+    padding: 5px 10px;
+  }
+  .block-content .editable-wrap .editable-controls > textarea{
+    width: 100%;
+    min-height: 170px;
+  }
+  .block-content .editable-buttons .btn-primary, .block-content .editable-buttons .btn-default{
+    padding: 4px 10px;
+  }
+  .block-content span.editable-buttons{
+    clear: both;
+    float: right;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1199px) {
@@ -11210,6 +11360,27 @@ img.logo{
     width: 58%;
     float: left;
     margin-left: 2%;
+  }
+  .block-content img{
+    margin-right: 10px;
+  }
+  .block-content a.editable-click{
+    width: calc(100% - 30px);
+  }
+  .block-content .editable-wrap {
+    width: calc(100% - 30px);
+  }
+  .block-content .editable-wrap .editable-controls > input, 
+  .block-content .editable-wrap .editable-controls > select{
+    width: 130px;
+    height: 30px;
+    padding: 5px 10px;
+  }
+  .block-content .editable-wrap .editable-controls > textarea{
+    width: 280px;
+  }
+  .block-content .editable-buttons .btn-primary, .block-content .editable-buttons .btn-default{
+    padding: 4px 10px;
   }
 }
 @media only screen and (min-width: 1200px) {

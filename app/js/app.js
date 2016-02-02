@@ -913,7 +913,7 @@
                 controller: 'profileController',
                 templateUrl: helper.basepath('profile.html'),
                 resolve: helper.resolveFor('htmlSortable')                
-            })  
+            })            
             .state('app.profile-clubs', {
                 url: '/profile/clubs',
                 title: 'Profile Clubs',
@@ -922,11 +922,18 @@
                 resolve: helper.resolveFor('loaders.css', 'akoenig.deckgrid', 'infinite-scroll')
             })
             .state('app.club-detail', {
-                url: '/club-detail',
+                url: '/club-profile/:id',
                 title: 'Club Hub',
                 controller: 'clubItemController',
-                templateUrl: helper.basepath('club-detail.html')
+                templateUrl: helper.basepath('club-profile.html'),
+                resolve: helper.resolveFor('htmlSortable')                
             })
+            // .state('app.club-detail', {
+            //     url: '/club-detail',
+            //     title: 'Club Hub',
+            //     controller: 'clubItemController',
+            //     templateUrl: helper.basepath('club-detail.html')
+            // })
             .state('app.profile-accounts', {
                 url: '/profile/accounts',
                 title: 'Profile Accounts',

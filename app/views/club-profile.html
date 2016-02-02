@@ -1,0 +1,82 @@
+<h4 class="club-profile">Club Profile</h4>
+<div class="profile-wrap" ng-init="getClub()">
+  <div class="block club-about">
+    <div class="club-info">
+      <h4>{{club.name}}</h4>
+      <member-action account-id="card.account.externalId" action-type="card.relationshipType"></member-action>
+    </div>
+    <div class="profile-header">
+      <h4><img src="app/img/participants.png"><span>About</span></h4>
+      <a class="edit_info">Edit Information</a>
+    </div>
+    <div class="block-content">
+      
+    </div>
+  </div>
+  <div class="block club-image">    
+    <img src="{{club.accountLogoUrl}}">
+  </div>
+  <div html-sortable="sortableOptions">
+    <div class="block my-clubs">
+      <div class="profile-header">
+        <h4><img src="app/img/info.png" style="width: 20px;"><span style="margin-left: 10px;">Bio</span></h4>
+        <a class="edit_info">Edit Information</a>
+      </div>
+      <div class="block-content">
+        <span>Bio</span>
+      </div>
+    </div>
+    <div class="block services">
+      <div class="profile-header">
+        <h4><img src="app/img/service-icon.png" style="width: 20px;"><span style="margin-left: 10px;">Services</span></h4>
+        <a class="edit_info">Add Equipment</a>
+      </div>
+      <div class="block-content">
+        <span>My Equipments</span>
+      </div>
+    </div>
+    <div class="block equipment">
+      <div class="profile-header">
+        <h4><img src="app/img/equipment-icon.png" style="width: 20px;"><span style="margin-left: 10px;">Club Equipment</span></h4>
+        <a class="edit_info">Add Equipment</a>
+      </div>
+      <div class="block-content">
+        <span></span>
+      </div>
+    </div>
+    <div class="block location">
+      <div class="profile-header">
+        <h4><img src="app/img/location.png" style="width: 20px;"><span style="margin-left: 10px;">Location</span></h4>
+        <a class="edit_info">Edit Location</a>
+      </div>
+      <div class="block-content">
+        <span></span>
+      </div>
+    </div>
+    <div class="block link-social">
+      <div class="profile-header">
+        <h4><img src="app/img/location.png" style="width: 20px;"><span style="margin-left: 10px;">Link Social Media Accounts</span></h4>
+      </div>
+      <div class="block-content">
+        <span></span>
+      </div>
+    </div>
+    <div class="block club-members">
+      <div class="profile-header">
+        <h4><img src="app/img/location.png" style="width: 20px;"><span style="margin-left: 10px;">Club Members</span></h4>
+        <a class="edit_info">Add Account Admin</a>
+      </div>
+      <div class="block-content">
+        <span></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- <div class="buttons">
+    <button class="update-profile btn pull-right" ng-click="updateProfile();">Save</button>
+  </div> -->
+</div>
+
+<!-- Alert message-->
+<div flash-message="3000" class="alert-message" ng-show="$root.hasFlash"></div>
+
