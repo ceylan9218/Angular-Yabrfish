@@ -40,6 +40,7 @@
             'app.tiles',
             'app.profile-accounts',
             'app.profile-clubs',
+            'app.profile-equipment',
             'app.facebook-auth',
             'app.tileSrv',
             'app.product',
