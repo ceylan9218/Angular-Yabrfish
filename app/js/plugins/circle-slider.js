@@ -9,20 +9,23 @@
                 scope: {
                   circleId: '=',
                   circleType: '=',
-                  contents: '='
+                  contents: '=',
+                  index: '='
                 },
                 templateUrl: "app/views/partials/circle-slider.html",
                 link: function(scope, element, attrs) {
-                  scope.$watch('contents', function(newVal){
+//                  scope.$watch('contents', function(newVal){
+
                       $timeout(function(){
+                      
                           var slider = angular.element('#'+scope.circleId+' #slider');
                           var circleBg = angular.element('#'+scope.circleId+' #circle .circleBg');
                           var circle = angular.element('#'+scope.circleId+' #circle');
                           var poolContainer = angular.element('#'+scope.circleId+' .poolContainer');
+                          var slide = angular.element('.slide');
 
                           var sliderW2 = 10;
                           var sliderH2 = 10;
-                          // var radius = 52.5;
                           var radius = 45;
                           var deg = 0, atan = 0;
                           var X = 0, Y = 0;
@@ -36,7 +39,7 @@
                           var elP = circle.offset();
 
                           var elPos = {
-                            x: elP.left,
+                            x: elP.left - slide.width() * scope.index,
                             y: elP.top
                           };
 
@@ -44,9 +47,9 @@
                           
                           var count = scope.contents.length;
                           if(count > 0)
-                            scope.index = 1;
+                            scope.step = 1;
                           else
-                            scope.index = 0;
+                            scope.step = 0;
 
                           // Get Mouse/Touch position.                  
                           var getMPos = function(event) {
@@ -64,16 +67,20 @@
                           poolContainer.on('mousedown touchstart', function(event) {
                               
                               mdown = true;
-                                 
+                              deg = 0;
+
                               var mPos = getMPos(event);
                               
                               // If user click on left of circle at first, it sets circle to 0.
                               if(15 < mPos.x && mPos.x <= 60)
                                   setZero = true;
+                              
+                              if(scope.circleType == 'class')
+                                angular.element('.race-list').addClass('whirl line back-and-forth');
                           });
 
                           poolContainer.on('mouseup touchend', function(event) {
-                              
+
                               mdown = false;
                               
                               deg = Math.round(deg);
@@ -90,19 +97,40 @@
                               });
 
                               scope.$apply(function(){
-                                if (scope.contents.length > 0 ) {
-                                  scope.index = degree % count + 1;
-                                  scope.content = scope.contents[scope.index - 1];  
+                                if (scope.contents.length > 0) {
+                                  scope.step = degree % count + 1;
+                                  scope.content = scope.contents[scope.step - 1];  
 
                                   var circleData = {
                                     type: scope.circleType,
                                     data: scope.content
                                   }
-                                  scope.$emit('circleData', circleData);
+
+                                  scope.$parent.$parent.$parent.$broadcast('circleData', circleData);
                                 }else{
-                                  scope.index = 0;
+                                  scope.step = 0;
+                                }
+
+                                if(scope.circleType == 'class'){
+                                  angular.element('.race-list').removeClass('whirl line back-and-forth');
+
+                                  var raceId = 'race_' + scope.circleId.split('_')[1];
+                                  var resetData = {
+                                    raceId: raceId
+                                  };
+
+                                  scope.$emit('resetRace', resetData);
                                 }
                               })
+                          });
+
+                          scope.$on('resetRace', function(e, data){
+                            var raceId = data.raceId;
+
+                            angular.element('#'+raceId+' #slider').css({
+                              left: '35px',
+                              top: '-10px'
+                            })
                           });
 
                           poolContainer.on('mousemove touchmove', function(event) {
@@ -176,10 +204,28 @@
                                   degree = parseInt((degree + 45) / 90);
                                   prev_atan = atan;
 
-                              } // if (mdown) - end
+                                  scope.$apply(function() {
+                                    if (scope.contents.length > 0  && scope.circleType == 'class') {
+                                      scope.step = degree % count + 1;
+                                      scope.content = scope.contents[scope.step - 1];  
+
+                                      if(!scope.content)
+                                        return;
+
+                                      // var circleData = {
+                                      //   type: scope.circleType,
+                                      //   data: scope.content
+                                      // }
+                                      // scope.$emit('circleData', circleData);
+                                    }else{
+                                      scope.step = 0;
+                                    }
+                                  })
+
+                              } // if (mdown) - end                              
                           }); // poolContainer.on('mousemove touchmove') - end
-                      })     
-                  })
+                      }, 1000)     
+//                  })
                 }
             };
         }])

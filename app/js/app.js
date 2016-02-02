@@ -47,7 +47,7 @@
             'app.equipment',
             'app.viewer',
             'app.lookup',
-            'app.event-list',
+            'app.event-panel',
             'app.event-edit',
             'app.location',
             'app.locations',

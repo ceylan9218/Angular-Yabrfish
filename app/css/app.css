@@ -9903,16 +9903,36 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 }
 .section {
 }
-/* Events Slider Style */
-.events {
-  width: 100%;
+
+/*------------------------------------------------------------------------------
+  Event Panel Style
+  ------------------------------------------------------------------------------*/
+.event-wrap{
+  margin: 0;
   display: inline-block;
-  border-bottom: 1px solid #E4E4E4;
+  position: relative;
+  width: 100%;
+  border: 1px solid #3ABEEF;
+  height: 245px;
+}
+.events {
+  width: calc(100% - 80px);
+  height: 100%;
+  float: left;
+  overflow: hidden;
+}
+.event-slider{
+  width: 100%;
+  height: 100%;
+  white-space: nowrap;
+  transition:1s;
+  -webkit-transition:1s;
+  -moz-transition:1s;
 }
 .events ul.carousel{
   /*width: calc(100% - 55px);*/
   width: 100%;
-  height: 240px;
+  height: 245px;
   float: left;
   cursor: unset;
   border: 1px solid #3ABEEF;
@@ -9939,46 +9959,15 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   color: #3ABEEF;
   font-family: fontawesome;
 }
-/*.events, .classes{*/
-.classes{  
-  overflow: hidden;
-  width: 90%;
-  margin: 0 auto;
-}
-.classes{
-  min-height: 40px;
-}
-.event-slider, .class-slider {
-  width: 100%;
-  white-space: nowrap;
-  transition:1s;
-  -webkit-transition:1s;
-  -moz-transition:1s;
-}
 .slide {
   display: inline-block;
   float: left;
-}
-.class-slide{
-  display: inline-block;
-  float: left;
-}
-.class-img{
-  height: 40px;
-  line-height: 35px;
-  display: table;
-  width: 100%;
-}
-.class-slide.selected .class-name{
-  color: #3ABEEF;
-}
-.class-name:hover{
-  color: #3ABEEF;  
 }
 .slide .event-heading{
   display: inline-block;
   width: 95%;
   float: right;
+  margin-top: 10px;
 }
 .slide .event-name{
   width: calc(100% - 50px);
@@ -9996,46 +9985,52 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   vertical-align: middle;
   display: table-cell;
   padding: 0 5px;
+  cursor: initial;
 }
-/*.slide .event-name h4:hover{
-  color: #3ABEEF;
+.event-wrap .left-arrow{
+  width: 40px;
+  height: 100%;
+  display: table;
+  background: rgba(237,237,237,1);
+  background: -moz-linear-gradient(left, rgba(237,237,237,1) 0%, rgba(246,246,246,1) 46%, rgba(255,255,255,1) 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(237,237,237,1)), color-stop(46%, rgba(246,246,246,1)), color-stop(100%, rgba(255,255,255,1)));
+  background: -webkit-linear-gradient(left, rgba(237,237,237,1) 0%, rgba(246,246,246,1) 46%, rgba(255,255,255,1) 100%);
+  background: -o-linear-gradient(left, rgba(237,237,237,1) 0%, rgba(246,246,246,1) 46%, rgba(255,255,255,1) 100%);
+  background: -ms-linear-gradient(left, rgba(237,237,237,1) 0%, rgba(246,246,246,1) 46%, rgba(255,255,255,1) 100%);
+  background: linear-gradient(to right, rgba(237,237,237,1) 0%, rgba(246,246,246,1) 46%, rgba(255,255,255,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#ffffff', GradientType=1 );
+  float: left;
+  cursor: pointer;
 }
-.slide .event-name.selected h4{
-  color: #3ABEEF;
-}*/
-.class-slide .class-name{
-  color: #333;
-  font-weight: normal;
-  font-size: 14px;
-  white-space: normal;
-  margin-left: 7px;
-  display: inline-block;
+.event-wrap .right-arrow{
+  width: 40px;
+  height: 100%;
+  display: table;  
+  background: rgba(255,255,255,1);
+  background: -moz-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 58%, rgba(237,237,237,1) 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,255,255,1)), color-stop(58%, rgba(246,246,246,1)), color-stop(100%, rgba(237,237,237,1)));
+  background: -webkit-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 58%, rgba(237,237,237,1) 100%);
+  background: -o-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 58%, rgba(237,237,237,1) 100%);
+  background: -ms-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 58%, rgba(237,237,237,1) 100%);
+  background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 58%, rgba(237,237,237,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=1 );
+  float: right;
+  cursor: pointer;
+}
+.event-wrap .left-arrow i{
+  display: table-cell;
   vertical-align: middle;
-  line-height: 1;
+  padding-left: 10px;
+  font-size: 24px;
+  color: #3ABEEF;
 }
-.arrow{
-  width: 5%;
-  font-size: 16px;
-  position: absolute;
-  top: calc(50% - 8px);
-}
-.left-arrow{
-  left: 0;
-}
-.right-arrow{
-  right: 0;
-}
-.event-wrap{
-  margin: 0;
-  display: inline-block;
-  position: relative;
-  width: 100%;
-}
-.class-wrap{
-  margin: 10px 0;
-  display: inline-block;
-  position: relative;
-  width: 100%;
+.event-wrap .right-arrow i{
+  display: table-cell;
+  vertical-align: middle;
+  color: #3ABEEF;
+  text-align: right;
+  padding-right: 10px;
+  font-size: 24px;
 }
 .events .calendar-wrap{
   width: 50px;
@@ -10071,14 +10066,14 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   color: white;
   position: absolute;
   line-height: 1;
-  font-size: 20px;
-  top: 3px;
-  left: 9px;
+  font-size: 24px;
+  top: 6px;
+  left: 14px;
 }
-.events:before {
+.event-wrap:before {
   content:'';
-  border-top: 40px solid #3ABEEF;
-  border-right: 40px solid transparent;
+  border-top: 60px solid #3ABEEF;
+  border-right: 60px solid transparent;
   position: absolute;
   top: 0;
   left: 0;
@@ -10099,16 +10094,6 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   color: #333;
   width: 100%;
 }
-.class-content .class-heading img{
-  width: 20px;
-}
-.class-content .class-heading span{
-  margin-left: 10px;
-}
-.class-img img{
-  width: 25px;
-  vertical-align: middle;
-}
 .slide.selected .event-name{
   color: #3ABEEF;
 }
@@ -10126,41 +10111,24 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   margin: 0 auto;
   display: table;
 }
-.races-wrap h4{
-  font-size: 18px;
-  font-weight: normal;
-  color: #333;
-  padding: 10px 0;
-  border-top: 1px solid #e4e4e4;
-  border-bottom: 1px solid #e4e4e4;
-  margin-bottom: 0;
+.race-list.whirl::before{
+  background-color: #e3e3e3;
+  border-radius: 10px;
 }
-ul.races{
-  list-style: none;
-  padding: 0;
+.race-list.whirl.line.back-and-forth::after{
+  -webkit-animation: line-back-and-forth 1.5s infinite linear;
+  animation: line-back-and-forth 1.5s infinite linear;
 }
-.races-wrap ul li{
-  padding: 5px 0;
-  border-top: 1px solid #e4e4e4;
+/*-----------------------Radar Page Responsive-----------------------------------------*/
+@media only screen and (max-width: 767px) {
+  .events{
+    width: calc(100% - 40px);
+  }
+  .event-wrap .left-arrow, .event-wrap .right-arrow{
+    width: 20px;
+  }
 }
-.races-wrap ul li .race-btn{
-  background: #3abeef;
-  float: right;
-  padding: 1px 10px;
-  color: #fff;
-}
-.races-wrap ul li .race-date{
-  float: right;
-  margin-right: 10px;
-  font-size: 14px;
-  color: #333;
-  line-height: 2;
-}
-.races-wrap ul li span.race-name{
-  padding-left: 10px;
-  color: #333;
-  font-size: 16px;
-}
+
 .offer-extend-wrap{
   border-top: 1px solid #e4e4e4;
   padding: 10px;
@@ -10297,22 +10265,6 @@ ul.races{
   display: table;
   margin: 0 auto;
 }
-/*@media only screen and (min-width: 320px)  and (max-width: 479px) {
-  .events img.calendar{
-    width: 40px;
-  }
-  .events .calendar-wrap .month{
-    top: 15px;
-    font-size: 14px;
-  }
-  .events .calendar-wrap .date{
-    top: 36px;
-    font-size: 18px;
-  }
-  .slide .event-name{
-    font-size: 14px;
-  }
-}*/
 /*-----------------------Radar Page Responsive-----------------------------------------*/
 @media only screen and (max-width: 767px) {
   .nav-wrapper{
@@ -10406,11 +10358,11 @@ ul.races{
   .yabrTile .tile-infos .icons a.more img{
     width: 60px;
   }
-  .class-slide .class-name{
+  /*.class-slide .class-name{
     margin-left: 5px;
     font-size: 14px;
     width: calc(100% - 30px);
-  }
+  }*/
   .events .rn-carousel-control{
     display: none;
   }

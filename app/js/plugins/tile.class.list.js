@@ -12,96 +12,43 @@
             return {
             	restrict: "E",
             	scope: {
-            		tile: '='
+            		tile: '=',
+                event: '=',
+                eventIndex: '='
             	},
             	templateUrl: "app/views/partials/class-list.html",
-            	link: function(scope, elem, attrs) {                   
-           		   scope.eventId = '';
+            	link: function(scope, elem, attrs) {
 
-            		var getClasses = function(eventId) {
-            			TileService.getClasses(eventId).then(function(classes){
-            				scope.classes = classes;
-            				for(var i in scope.classes) {
-		                        var flag = "http://img.yabrfish.com/cdn/flags/"+scope.classes[i].classFlag.toLowerCase()+".jpg";
-		                        scope.classes[i].flag = flag;
-		                    }
-            				scope.classWidth = angular.element('.classes').width() / 3;
-	                    	scope.classSliderWidth = scope.classWidth * scope.classes.length;
-            			}, function(error){
-            				console.log(error);
-            				return;
-            			})
-            		}
+              		var getClasses = function(eventId) {
+              			TileService.getClasses(eventId).then(function(classes){
+              				scope.classes = classes;
+              				for(var i in scope.classes) {
+                          var flag = "http://img.yabrfish.com/cdn/flags/"+scope.classes[i].classFlag.toLowerCase()+".jpg";
+                          scope.classes[i].flag = flag;
+	                    }
 
-            		// Get Classes for first Event.
-            		TileService.getFirstEvent(scope.tile.externalId).then(function(event){
-            			getClasses(event.externalId);
-            			scope.eventId = event.externalId;
-                        $timeout(function(){
-                            var firstClass = scope.classes[0];
-                            
-                            var classData = {
-                                classObj: firstClass,
-                                eventId: scope.eventId
-                            };
-                            
-                            scope.$parent.$broadcast('classData', classData);
-                        }, 1000);                        
-            		})
+                      var classData = {
+                          type: 'class',
+                          data: scope.classes[0]
+                      };
+                      scope.$parent.$broadcast('circleData', classData);
+              			}, function(error){
+              				console.log(error);
+              				return;
+              			})
+              		}
 
-					scope.slideClasses = function(dir){
-						var classWidth = angular.element('.classes').width() / 3;
-						var endTranslate = (scope.classes.length - 3) * classWidth * -1;
+                  getClasses(scope.event.eventId);
 
-						if(!scope.translate)
-							scope.translate = 0;
-
-						if (dir === 'left') {
-							scope.translate += classWidth;
-							if(scope.translate <= 0)
-								scope.transform = "translate("+scope.translate+"px, 0px)";
-							else
-								scope.translate = 0;
-						} else {
-							if(scope.classes.length > 3){
-								scope.translate -= classWidth;
-								if(scope.translate >= endTranslate)
-									scope.transform = "translate("+scope.translate+"px, 0px)";
-								else{
-									scope.transform = "translate("+endTranslate+"px, 0px)";
-									scope.translate = endTranslate;
-								}
-							}
-						}
-					}
-
-            		scope.$on('event', function(e, data){
-            			scope.eventId = data.event.eventId;
-						getClasses(data.event.eventId);
-            		})
-
-      //       		scope.selectClass = function(classObj){                        
-      //                   scope.selectedClass = classObj.externalId;
-
-      //       			var classData = {
-      //       				classObj: classObj,
-      //       				eventId: scope.eventId
-      //       			};
-
-      //       			$timeout(function(){
-						//    scope.$parent.$parent.$parent.$broadcast('classData', classData);
-						// });
-      //       		}
-
-                    scope.$on('circleData', function(e, data){
-                        if(data.type == 'class'){
-                            var classData = {
-                                 classObj: data.data,
-                                 eventId: scope.eventId
-                             };
-                            scope.$parent.$broadcast('classData', classData);
-                        }
-                    })
+                  // scope.$on('circleData', function(e, data){
+                  //     if(data.type == 'class'){
+                  //         var classData = {
+                  //              classObj: data.data,
+                  //              eventId: scope.eventId
+                  //         };
+                  //         scope.$parent.$broadcast('classData', classData);
+                  //     }
+                  // })
 				}
             }
         }]);

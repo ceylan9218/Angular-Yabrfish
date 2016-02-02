@@ -1,34 +1,4 @@
 <div class="races-wrap">
    <span class="race-heading">Races</span>
-   <circle-slider id="{{'race_'+tile.externalId}}" circle-id="'race_'+tile.externalId" circle-type="'race'" contents="races" ng-if="races"></circle-slider>
-   
-   <!-- <ul class="races">
-      <li class="race" ng-repeat="race in races">
-         <span class="race-name">{{race.name}}</span>
-         <button class="race-btn btn" ng-click="getResult(race)">Result</button>
-         <span class="race-date">{{race.race_date}}</span>
-         <div class="result-wrap" ng-if="race.results.length > 0 && race.showResult">
-            <ul>
-               <li ng-repeat="result in race.results">
-                  <span class="position" ng-class="{'gold': result.position == '1', 'silver': result.position == '2', 'bronze': result.position == '3', 'blue': result.position != '1' && result.position != '2' && result.position != '3'}" ng-if="result.positionDesc != 'DNC'">{{result.position}}</span>
-                  <span class="position red" ng-if="result.positionDesc == 'DNC'">{{result.position}}</span>
-                  <div class="race-info">
-                     <span class="equipmentOwner">{{result.equipmentOwner}}</span>
-                     <span class="equipmentName">{{result.equipmentName}}
-                     &nbsp;{{result.sailNumber}}</span>
-                  </div>
-                  <div class="finish-time">
-                     <div class="time" ng-repeat="time in result.finishCorrected track by $index" ng-if="result.finishCorrected">
-                        <span class="time-val">
-                           <span class="timer">{{time}}</span>
-                        </span>                                       
-                        <span class="seperator" ng-if="$index !=2"><b>:</b></span>
-                     </div>
-                     <span class="no-time" ng-if="result.positionDesc == 'DNC'">{{result.positionDesc}}</span>
-                  </div>
-               </li>
-            </ul>
-         </div>
-      </li>
-   </ul> -->
+   <circle-slider id="{{'race_'+event.eventId}}" circle-id="'race_'+event.eventId" circle-type="'race'" contents="races" index="eventIndex" ng-if="races"></circle-slider>
 </div>
