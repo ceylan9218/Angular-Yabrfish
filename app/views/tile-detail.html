@@ -71,11 +71,11 @@
                </p>
             </accordion-heading>
             <div class="section" ng-init="getEvents(card)">
-               <event-list tile="card"></event-list>
+               <event-panel tile="card"></event-panel>
                <event-edit></event-edit>               
                <div ng-if="true">
-                  <class-list class="class-list" tile="card"></class-list>
-                  <race-list class="race-list" tile="card"></race-list>
+                  <!-- <class-list class="class-list" tile="card"></class-list>
+                  <race-list class="race-list" tile="card"></race-list> -->
                   <accordion-group class="result-panel" is-open="card.showResult" ng-if="results.length > 0">
                      <accordion-heading class="actionReplay-header">
                         <img src="app/img/results.png">Results<i class="pull-right fa" ng-class="{'fa-angle-up': card.showResult, 'fa-angle-down': !card.showResult}"></i>

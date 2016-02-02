@@ -7,23 +7,21 @@
     'use strict';
 
     angular
-        .module('app.event-list', [])
-        .directive("eventList", ['$location', 'APP_APIS', 'TileService', function($location, APP_APIS, TileService) {
+        .module('app.event-panel', [])
+        .directive("eventPanel", ['$location', 'TileService', '$timeout', function($location, TileService, $timeout) {
             return {
                 restrict: "E",
                 scope: {
                     tile:"="
                 },
-                templateUrl: "app/views/partials/event-list.html",
+                templateUrl: "app/views/partials/event-panel.html",
                 link: function(scope, elem, attrs) {
 
                     var monthNames = TileService.getMonthNames();
 
                     scope.events = [];
-                    scope.classes = [];
-                    scope.eventPerSlide = 1;
                     scope.currEvent = 0;
-                    scope.carouselIndex = 3;                    	
+                    scope.carouselIndex = 0;                    	
 
                     var path = $location.path();
                     // Enable/Disable Edit Event.
@@ -55,26 +53,42 @@
                         if(scope.enableEvent)
                             scope.events.push('addEvent');
 
-                        scope.eventWidth = angular.element('#tile_'+scope.tile.externalId+' .events').width() / scope.eventPerSlide;
-                        scope.eventSliderWidth = scope.eventWidth * scope.events.length;
-
                         //------------------------------------------------/
                         // Set the initial Event
                         scope.currEvent = 0;
 
+                        $timeout(function(){
+                            scope.eventWidth = angular.element('.events').width();
+                            scope.eventSliderWidth = scope.eventWidth * scope.events.length;                            
+                        })
                     })
 
-                    scope.selectEvent = function(event, length) {
-                        scope.selectedEvent = event.eventId;
+                    scope.slideEvents = function(dir){
+                        var endTranslate = (scope.events.length - 1) * scope.eventWidth * -1;
 
-                        var eventData = {
-                            event: event,
-                            length: length,
-                            editable: true,
-                            enableEvent: scope.enableEvent
-                        };
-                        scope.$parent.$parent.$parent.$broadcast('event', eventData);
-                        //scope.$parent.$broadcast('event', eventData);
+                        if(!scope.translate)
+                            scope.translate = 0;
+
+                        if (dir === 'left') {
+                            scope.translate += scope.eventWidth;
+                            if(scope.translate <= 0){
+                                scope.transform = "translate("+scope.translate+"px, 0px)";
+                                scope.carouselIndex--;
+                            }
+                            else{
+                                scope.translate = 0;
+                            }
+                        } else {
+                            scope.translate -= scope.eventWidth;
+                            if(scope.translate >= endTranslate){
+                                scope.transform = "translate("+scope.translate+"px, 0px)";
+                                scope.carouselIndex++;                                
+                            }
+                            else{
+                                scope.transform = "translate("+endTranslate+"px, 0px)";
+                                scope.translate = endTranslate;
+                            }
+                        }
                     }
                 }
             }

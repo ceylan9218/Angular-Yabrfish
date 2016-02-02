@@ -52,7 +52,7 @@
 
         $scope.getClubs = function () {
 
-            console.log("Get Hubs Called " + $scope.myClubs.length + "Loading " + $scope.loading + "Scroll " + $scope.bClubScrollDisabled)
+            console.log("CLUB-CONTROLLER CLUBS Called " + $scope.myClubs.length + "Loading " + $scope.loading + "Scroll " + $scope.bClubScrollDisabled)
 
             if ($scope.loading) {
                 return;

@@ -503,24 +503,24 @@
 					return deferred.promise;
 				},
 
-				getFirstEvent: function(tileId) {
+				// getFirstEvent: function(tileId) {
 
-					if ( eventCache.cacheSize > 0 )
-					{
-						return eventCache.events[0];
+				// 	if ( eventCache.cacheSize > 0 )
+				// 	{
+				// 		return eventCache.events[0];
 
-					}
-					var deferred = $q.defer();
-					$http.get(APP_APIS['tile']+'/tiles/'+ tileId +'/events')
-						.success(function(response){	
-							deferred.resolve(response.eventList[0]);
-						})
-						.error(function(status){
-							deferred.resolve(status);
-						})
+				// 	}
+				// 	var deferred = $q.defer();
+				// 	$http.get(APP_APIS['tile']+'/tiles/'+ tileId +'/events')
+				// 		.success(function(response){	
+				// 			deferred.resolve(response.eventList[0]);
+				// 		})
+				// 		.error(function(status){
+				// 			deferred.resolve(status);
+				// 		})
 
-					return deferred.promise;
-				},
+				// 	return deferred.promise;
+				// },
 
 				getClasses: function(eventId) {
 					var deferred = $q.defer();
