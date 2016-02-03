@@ -14,8 +14,11 @@
                 },
                 templateUrl: "app/views/partials/circle-slider.html",
                 link: function(scope, element, attrs) {
-//                  scope.$watch('contents', function(newVal){
+                  $timeout(function(){
+                  }, 1000);
 
+//                  scope.$watch('contents', function(newVal){
+//console.log(newVal);
                       $timeout(function(){
                       
                           var slider = angular.element('#'+scope.circleId+' #slider');
@@ -217,9 +220,10 @@
                                       //   data: scope.content
                                       // }
                                       // scope.$emit('circleData', circleData);
-                                    }else{
-                                      scope.step = 0;
                                     }
+                                    // else{
+                                    //   scope.step = 0;
+                                    // }
                                   })
 
                               } // if (mdown) - end                              

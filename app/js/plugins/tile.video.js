@@ -42,7 +42,7 @@
 
 						var videoUrl = data.clientPlayBackUrl + data.url;
 						var conf = {
-                          	key:       '9dfc435e221ba94fd0cdbacda4c656cf',
+                          	key:       '0bd009b1-35eb-4407-9115-9bbae70af5c3',
                           	playback: {
                             	autoplay : true
                           	},
@@ -53,6 +53,7 @@
                             	onReady : function(data) { }
                           	}
                       	};
+
                       	bitdash(scope.tileId).setup(conf);
 
                       	angular.element('#tile_'+scope.tileId+' .video-player').show();

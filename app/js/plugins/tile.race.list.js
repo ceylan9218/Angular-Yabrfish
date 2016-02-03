@@ -17,16 +17,16 @@
                     eventIndex: '='
             	},
             	templateUrl: "app/views/partials/race-list.html",
-            	link: function(scope, elem, attrs) {
+            	link: function(scope, elem, attrs, ctrl) {
                     var monthNames = TileService.getMonthNames();
 
                     scope.$on('circleData', function(e, data){
+
                         if(data.type == 'class'){
-
+                            
                             // Get Races for a class
-                            TileService.getRaces(scope.event.eventId, data.data.accountExternalId).then(function(data){
+                            TileService.getRaces(scope.event.eventId, data.data.externalId).then(function(data){
                                 scope.races = data;
-
                                 if(scope.races.length == 0){
                                     scope.isRace = true;
                                     scope.showRaces = false;

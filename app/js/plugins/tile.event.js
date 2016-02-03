@@ -74,6 +74,7 @@
                             if(scope.translate <= 0){
                                 scope.transform = "translate("+scope.translate+"px, 0px)";
                                 scope.carouselIndex--;
+                                reloadClasses();
                             }
                             else{
                                 scope.translate = 0;
@@ -83,12 +84,23 @@
                             if(scope.translate >= endTranslate){
                                 scope.transform = "translate("+scope.translate+"px, 0px)";
                                 scope.carouselIndex++;                                
+                                reloadClasses();
                             }
                             else{
                                 scope.transform = "translate("+endTranslate+"px, 0px)";
                                 scope.translate = endTranslate;
                             }
                         }
+                    }
+
+                    var reloadClasses = function() {
+                        $timeout(function(){                        
+                            angular.element('.class-list').addClass('whirl line back-and-forth');
+                        }, 1000);
+
+                        $timeout(function(){
+                            angular.element('.class-list').removeClass('whirl line back-and-forth');                            
+                        }, 2000);
                     }
                 }
             }
