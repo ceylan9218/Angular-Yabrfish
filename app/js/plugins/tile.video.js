@@ -51,6 +51,9 @@
                           	},
                           	events: {
                             	onReady : function(data) { }
+                          	},
+                          	skin: {
+                          		screenLogoImage : ""                          		
                           	}
                       	};
 
