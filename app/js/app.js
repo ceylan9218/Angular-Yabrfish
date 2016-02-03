@@ -915,13 +915,13 @@
                 templateUrl: helper.basepath('profile.html'),
                 resolve: helper.resolveFor('htmlSortable')                
             })            
-            .state('app.profile-clubs', {
-                url: '/profile/clubs',
-                title: 'Profile Clubs',
-                controller: 'clubController',
-                templateUrl: helper.basepath('profile-clubs.html'),
-                resolve: helper.resolveFor('loaders.css', 'akoenig.deckgrid', 'infinite-scroll')
-            })
+            // .state('app.profile-clubs', {
+            //     url: '/profile/clubs',
+            //     title: 'Profile Clubs',
+            //     controller: 'clubController',
+            //     templateUrl: helper.basepath('profile-clubs.html'),
+            //     resolve: helper.resolveFor('loaders.css', 'akoenig.deckgrid', 'infinite-scroll')
+            // })
             .state('app.club-detail', {
                 url: '/club-profile/:id',
                 title: 'Club Hub',

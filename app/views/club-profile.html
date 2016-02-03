@@ -1,20 +1,38 @@
-<h4 class="club-profile">Club Profile</h4>
-<div class="profile-wrap" ng-init="getClub()">
+<div class="profile-wrap club-profile" ng-init="getClub()">
+  <h4 class="profile-title">Club Profile</h4>
   <div class="block club-about">
     <div class="club-info">
       <h4>{{club.name}}</h4>
-      <member-action account-id="card.account.externalId" action-type="card.relationshipType"></member-action>
+      <div class="member-action">
+        <select class="form-control">
+          <option class="form-control">Remove</option>
+          <option class="form-control">Member</option>
+          <option class="form-control">Join</option>
+          <option class="form-control">Event</option>
+          <option class="form-control">Visit</option>
+        </select>
+        <i class="fa fa-angle-down"></i>
+      </div>
+    </div>
+    <div class="members">
+      <span>Yabrfish Members</span><span class="member-count">2</span>
     </div>
     <div class="profile-header">
       <h4><img src="app/img/participants.png"><span>About</span></h4>
       <a class="edit_info">Edit Information</a>
     </div>
     <div class="block-content">
-      
+      <ul>
+        <li><img src="app/img/site.png"><span>www.nrc.co.uk</span></li>
+        <li><img src="app/img/email.png"><span>info@nrc.co.uk</span></li>
+        <li><img src="app/img/phone.png"><span>01983 123 456</span></li>
+        <li><img src="app/img/location-g.png"><span>Newport, Isle of Wight</span></li>
+      </ul>
     </div>
   </div>
   <div class="block club-image">    
     <img src="{{club.accountLogoUrl}}">
+    <button class="form-control">Upload photo</button>
   </div>
   <div html-sortable="sortableOptions">
     <div class="block my-clubs">
@@ -55,7 +73,7 @@
     </div>
     <div class="block link-social">
       <div class="profile-header">
-        <h4><img src="app/img/location.png" style="width: 20px;"><span style="margin-left: 10px;">Link Social Media Accounts</span></h4>
+        <h4><img src="app/img/share-alt.png" style="width: 20px;"><span style="margin-left: 10px;">Link Social Media Accounts</span></h4>
       </div>
       <div class="block-content">
         <span></span>
@@ -63,7 +81,7 @@
     </div>
     <div class="block club-members">
       <div class="profile-header">
-        <h4><img src="app/img/location.png" style="width: 20px;"><span style="margin-left: 10px;">Club Members</span></h4>
+        <h4><img src="app/img/member.png" style="width: 20px;"><span style="margin-left: 10px;">Club Members</span></h4>
         <a class="edit_info">Add Account Admin</a>
       </div>
       <div class="block-content">
