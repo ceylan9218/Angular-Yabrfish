@@ -40,11 +40,12 @@
             'app.tiles',
             'app.profile-accounts',
             'app.profile-clubs',
+            'app.profile-equipment',
             'app.facebook-auth',
             'app.tileSrv',
             'app.product',
             'app.file',
-            'app.equipment',
+//            'app.equipment',
             'app.viewer',
             'app.lookup',
             'app.event-panel',
@@ -913,20 +914,27 @@
                 controller: 'profileController',
                 templateUrl: helper.basepath('profile.html'),
                 resolve: helper.resolveFor('htmlSortable')                
-            })  
-            .state('app.profile-clubs', {
-                url: '/profile/clubs',
-                title: 'Profile Clubs',
-                controller: 'clubController',
-                templateUrl: helper.basepath('profile-clubs.html'),
-                resolve: helper.resolveFor('loaders.css', 'akoenig.deckgrid', 'infinite-scroll')
-            })
+            })            
+            // .state('app.profile-clubs', {
+            //     url: '/profile/clubs',
+            //     title: 'Profile Clubs',
+            //     controller: 'clubController',
+            //     templateUrl: helper.basepath('profile-clubs.html'),
+            //     resolve: helper.resolveFor('loaders.css', 'akoenig.deckgrid', 'infinite-scroll')
+            // })
             .state('app.club-detail', {
-                url: '/club-detail',
+                url: '/club-profile/:id',
                 title: 'Club Hub',
                 controller: 'clubItemController',
-                templateUrl: helper.basepath('club-detail.html')
+                templateUrl: helper.basepath('club-profile.html'),
+                resolve: helper.resolveFor('htmlSortable')                
             })
+            // .state('app.club-detail', {
+            //     url: '/club-detail',
+            //     title: 'Club Hub',
+            //     controller: 'clubItemController',
+            //     templateUrl: helper.basepath('club-detail.html')
+            // })
             .state('app.profile-accounts', {
                 url: '/profile/accounts',
                 title: 'Profile Accounts',
@@ -954,7 +962,14 @@
                 templateUrl: helper.basepath('new-tile.html'),
                 resolve: helper.resolveFor('angularFileUpload')
             })
-            .state('app.equipment', {
+            // .state('app.equipment', {
+            //     url: '/profile/equipment',
+            //     title: 'My Equipment',
+            //     controller: 'equipmentController',
+            //     templateUrl: helper.basepath('equipment.html'),
+            //     resolve: helper.resolveFor('angularFileUpload', 'akoenig.deckgrid')
+            // })
+            .state('app.profile-equipment', {
                 url: '/profile/equipment',
                 title: 'My Equipment',
                 controller: 'equipmentController',

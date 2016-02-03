@@ -1,5 +1,14 @@
 <div class="profile-wrap">
+  <h4 class="profile-title">My Profile</h4>
   <div class="block about">
+    <div class="user-profile">
+      <img ng-if="!$root.logged || $root.user.avatarUrl==null" src="app/img/user/default.png"></img>
+      <img ng-if="$root.logged && $root.user.avatarUrl" src="{{$root.user.avatarUrl}}"></img>
+      <div class="info">
+        <span ng-if="$root.logged" class="username">{{$root.user.forename}}&nbsp;{{$root.user.surname}}</span>
+        <a class="upload-photo">Upload Photo</a>          
+      </div>
+    </div>
     <div class="profile-header">
       <h4><img src="app/img/participants.png"><span>About</span></h4>
       <a class="edit_info">Edit Information</a>
@@ -14,37 +23,51 @@
   <div class="block bio">
     <div class="profile-header">
       <h4><img src="app/img/info.png" style="width: 20px;"><span style="margin-left: 10px;">Bio</span></h4>
+      <a class="edit_info">Edit Information</a>
     </div>
     <div class="block-content">
       <a editable-textarea="bio">{{bio || 'No Bio'}}</a>
     </div>
   </div>
   <div html-sortable="sortableOptions">
-    <div class="block my-clubs">
+    <div class="block my-club">
       <div class="profile-header">
-        <h4><img src="app/img/info.png" style="width: 20px;"><span style="margin-left: 10px;">My Club</span></h4>
-        <a class="edit_info">Add Club</a>
+        <h4><img src="app/img/club.png" style="width: 20px;"><span style="margin-left: 10px;">My Club Connections</span></h4>
+        <a class="extend" ng-click="hideClub = !hideClub"><i class="fa" ng-class="{'fa-angle-up': !hideClub, 'fa-angle-down': hideClub}"></i></a>
+        <a class="edit_info">Connect</a>
       </div>
-      <div class="block-content">
+      <div class="block-content" ng-hide="hideClub">
         <club-panel class="my-clubs"></club-panel>
       </div>
     </div>
     <div class="block my-equipment">
       <div class="profile-header">
         <h4><img src="app/img/equipment-icon.png" style="width: 20px;"><span style="margin-left: 10px;">My Equipment</span></h4>
+        <a class="extend" ng-click="hideEquip = !hideEquip"><i class="fa" ng-class="{'fa-angle-up': !hideEquip, 'fa-angle-down': hideEquip}"></i></a>
         <a class="edit_info">Add Equipment</a>
       </div>
-      <div class="block-content">
-        <span>My Equipments</span>
+      <div class="block-content" ng-hide="hideEquip">
+        <equipment-panel class="my-equipment"></equipment-panel>
       </div>
     </div>
     <div class="block accounts">
       <div class="profile-header">
-        <h4><img src="app/img/info.png" style="width: 20px;"><span style="margin-left: 10px;">My Accounts</span></h4>
-        <a class="edit_info">Add Accounts</a>
+        <h4><img src="app/img/job2.png" style="width: 20px;"><span style="margin-left: 10px;">My Business Connections</span></h4>
+        <a class="extend" ng-click="hideAccount = !hideAccount"><i class="fa" ng-class="{'fa-angle-up': !hideAccount, 'fa-angle-down': hideAccount}"></i></a>
+        <a class="edit_info">Connect</a>
       </div>
-      <div class="block-content">
+      <div class="block-content" ng-hide="hideAccount">
         <span>My Accounts</span>
+      </div>
+    </div>
+    <div class="block people">
+      <div class="profile-header">
+        <h4><img src="app/img/crew.png" style="width: 20px;"><span style="margin-left: 10px;">People</span></h4>
+        <a class="extend" ng-click="hidePeople = !hidePeople"><i class="fa" ng-class="{'fa-angle-up': !hidePeople, 'fa-angle-down': hidePeople}"></i></a>
+        <a class="edit_info">Connect</a>
+      </div>
+      <div class="block-content" ng-hide="hidePeople">
+        <span>People</span>
       </div>
     </div>
     <div class="block link-social">

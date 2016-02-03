@@ -11,6 +11,7 @@
         .controller('equipmentController', equipmentController);
 
     function equipmentController($scope, $rootScope, $http, RouteHelpers, APP_APIS, LookupService, EquipmentService) {
+
     	if(!$rootScope.user)
     		return;
 
