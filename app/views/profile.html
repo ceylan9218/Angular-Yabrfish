@@ -1,6 +1,6 @@
 <div class="profile-wrap">
   <h4 class="profile-title">My Profile</h4>
-  <div class="block about">
+  <div class="block about" ng-style="{'height': hideAbout? '160px':'360px'}">
     <div class="user-profile">
       <img ng-if="!$root.logged || $root.user.avatarUrl==null" src="app/img/user/default.png"></img>
       <img ng-if="$root.logged && $root.user.avatarUrl" src="{{$root.user.avatarUrl}}"></img>
@@ -12,29 +12,38 @@
     <div class="profile-header">
       <h4><img src="app/img/participants.png"><span>About</span></h4>
       <a class="edit_info">Edit Information</a>
+      <a class="extend mobile" ng-click="hideAbout = !hideAbout"><i class="fa" ng-class="{'fa-angle-up': !hideAbout, 'fa-angle-down': hideAbout}"></i></a>
+      <a class="edit_info mobile"><img src="app/img/office1.png"></a>
     </div>
-    <div class="block-content">
+    <div class="block-content" ng-hide="hideAbout">
       <p><img src="app/img/cake.png"><a editable-text="birthday"><span>{{birthday || 'DD/MM/YYYY'}}</span></a></p>
       <p><img src="app/img/male.png"><a editable-text="sex"><span>{{sex || 'No Gender'}}</span></a></p>
       <p><img src="app/img/job.png"><a editable-text="job"><span>{{job || 'No Job'}}</span></a></p>
       <p><img src="app/img/location-g.png"><a editable-text="location"><span>{{location || 'No Location'}}</span></a></p>
     </div>
   </div>
-  <div class="block bio">
+  <div class="block bio" ng-style="{'height': hideBio? '70px':'360px'}">
     <div class="profile-header">
-      <h4><img src="app/img/info.png" style="width: 20px;"><span style="margin-left: 10px;">Bio</span></h4>
+      <h4><img src="app/img/info.png" style="width: 20px;"><span>Bio</span></h4>
       <a class="edit_info">Edit Information</a>
+      <a class="extend mobile" ng-click="hideBio = !hideBio"><i class="fa" ng-class="{'fa-angle-up': !hideBio, 'fa-angle-down': hideBio}"></i></a>
+      <a class="edit_info mobile"><img src="app/img/office1.png"></a>
     </div>
-    <div class="block-content">
+    <div class="block-content" ng-hide="hideBio">
       <a editable-textarea="bio">{{bio || 'No Bio'}}</a>
     </div>
   </div>
   <div html-sortable="sortableOptions">
     <div class="block my-club">
       <div class="profile-header">
-        <h4><img src="app/img/club.png" style="width: 20px;"><span style="margin-left: 10px;">My Club Connections</span></h4>
+        <h4>
+          <img src="app/img/club.png" style="width: 20px;">
+          <span>My Club Connections</span>
+          <span class="mobile">My Club</span>
+        </h4>
         <a class="extend" ng-click="hideClub = !hideClub"><i class="fa" ng-class="{'fa-angle-up': !hideClub, 'fa-angle-down': hideClub}"></i></a>
         <a class="edit_info">Connect</a>
+        <a class="edit_info mobile"><img src="app/img/office2.png"></a>
       </div>
       <div class="block-content" ng-hide="hideClub">
         <club-panel class="my-clubs"></club-panel>
@@ -42,9 +51,10 @@
     </div>
     <div class="block my-equipment">
       <div class="profile-header">
-        <h4><img src="app/img/equipment-icon.png" style="width: 20px;"><span style="margin-left: 10px;">My Equipment</span></h4>
+        <h4><img src="app/img/equipment-icon.png" style="width: 20px;"><span>My Equipment</span></h4>
         <a class="extend" ng-click="hideEquip = !hideEquip"><i class="fa" ng-class="{'fa-angle-up': !hideEquip, 'fa-angle-down': hideEquip}"></i></a>
         <a class="edit_info">Add Equipment</a>
+        <a class="edit_info mobile"><img src="app/img/office3.png"></a>
       </div>
       <div class="block-content" ng-hide="hideEquip">
         <equipment-panel class="my-equipment"></equipment-panel>
@@ -52,9 +62,14 @@
     </div>
     <div class="block accounts">
       <div class="profile-header">
-        <h4><img src="app/img/job2.png" style="width: 20px;"><span style="margin-left: 10px;">My Business Connections</span></h4>
+        <h4>
+          <img src="app/img/job2.png" style="width: 20px;">
+          <span>My Business Connections</span>
+          <span class="mobile">Business</span>
+        </h4>
         <a class="extend" ng-click="hideAccount = !hideAccount"><i class="fa" ng-class="{'fa-angle-up': !hideAccount, 'fa-angle-down': hideAccount}"></i></a>
         <a class="edit_info">Connect</a>
+        <a class="edit_info mobile"><img src="app/img/office2.png"></a>
       </div>
       <div class="block-content" ng-hide="hideAccount">
         <span>My Accounts</span>
@@ -62,9 +77,10 @@
     </div>
     <div class="block people">
       <div class="profile-header">
-        <h4><img src="app/img/crew.png" style="width: 20px;"><span style="margin-left: 10px;">People</span></h4>
+        <h4><img src="app/img/crew.png" style="width: 20px;"><span>People</span></h4>
         <a class="extend" ng-click="hidePeople = !hidePeople"><i class="fa" ng-class="{'fa-angle-up': !hidePeople, 'fa-angle-down': hidePeople}"></i></a>
         <a class="edit_info">Connect</a>
+        <a class="edit_info mobile"><img src="app/img/office2.png"></a>
       </div>
       <div class="block-content" ng-hide="hidePeople">
         <span>People</span>
@@ -72,9 +88,10 @@
     </div>
     <div class="block link-social">
       <div class="profile-header">
-        <h4><img src="app/img/info.png" style="width: 20px;"><span style="margin-left: 10px;">Link Social Media Accounts</span></h4>
+        <h4><img src="app/img/info.png" style="width: 20px;"><span>Link Social Media Accounts</span></h4>
+        <a class="extend mobile" ng-click="hideSocial = !hideSocial"><i class="fa" ng-class="{'fa-angle-up': !hideSocial, 'fa-angle-down': hideSocial}"></i></a>
       </div>
-      <div class="block-content">
+      <div class="block-content" ng-hide="hideSocial">
         <span>Link Social Media Accounts</span>
       </div>
     </div>  
