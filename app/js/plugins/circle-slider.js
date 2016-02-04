@@ -106,6 +106,7 @@
 
                                   var circleData = {
                                     type: scope.circleType,
+                                    firstEvent: true,
                                     data: scope.content
                                   }
 

@@ -27,10 +27,19 @@
                           scope.classes[i].flag = flag;
 	                    }
 
-                      var classData = {
-                          type: 'class',
-                          data: scope.classes[0]
-                      };
+                      if(scope.eventIndex == 0){
+                        var classData = {
+                            type: 'class',
+                            firstEvent: true,
+                            data: scope.classes[0]
+                        };
+                      }else{
+                        var classData = {
+                            type: 'class',
+                            firstEvent: false,
+                            data: scope.classes[0]
+                        };
+                      }
                       scope.$parent.$broadcast('circleData', classData);
               			}, function(error){
               				console.log(error);
