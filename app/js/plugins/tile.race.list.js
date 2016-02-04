@@ -73,7 +73,7 @@
                                 return;
                             })
                         }else{
-                            getResults(scope.event.eventId, classId, data.data);
+                            //getResults(scope.event.eventId, classId, data.data);
                         }
                     })                   
 
