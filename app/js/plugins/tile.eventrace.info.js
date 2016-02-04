@@ -21,6 +21,7 @@
             	link: function(scope, elem, attrs) {
 
                 // On initialisation Get Classes or do we do that in HTML
+                // NEED To set the classes on Event Change.
                 getClasses(scope.event.eventId);
 
                 // Receive Message from Circular Control
