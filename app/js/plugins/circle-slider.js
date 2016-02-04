@@ -208,7 +208,14 @@
                                   prev_atan = atan;
 
                                   scope.$apply(function() {
-                                    if (scope.contents.length > 0  && scope.circleType == 'class') {
+
+                                    // Remove Dependancy on CLASS We should be simply displaying Data
+                                    // And sending broadcast messages when this data changes
+                                    // Race data should change as well when circle is scrolling
+                                    //if (scope.contents.length > 0  && scope.circleType == 'class') {
+                                  if (scope.contents.length > 0 ) {
+
+                                      console.log("Circle Value " + scope.step);
                                       scope.step = degree % count + 1;
                                       scope.content = scope.contents[scope.step - 1];  
 
