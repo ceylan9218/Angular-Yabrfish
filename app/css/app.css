@@ -10111,13 +10111,13 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   margin: 0 auto;
   display: table;
 }
-.race-list.whirl::before{
+.race-list.whirl::before, .class-list.whirl::before{
   background-color: #e3e3e3;
   border-radius: 10px;
 }
-.race-list.whirl.line.back-and-forth::after{
-  -webkit-animation: line-back-and-forth 1.5s infinite linear;
-  animation: line-back-and-forth 1.5s infinite linear;
+.race-list.whirl.line.back-and-forth::after, .class-list.whirl.line.back-and-forth::after{
+  -webkit-animation: line-back-and-forth 1.0s infinite linear;
+  animation: line-back-and-forth 1.0s infinite linear;
 }
 /*-----------------------Radar Page Responsive-----------------------------------------*/
 @media only screen and (max-width: 767px) {

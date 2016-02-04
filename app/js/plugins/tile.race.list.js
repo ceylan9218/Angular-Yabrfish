@@ -17,16 +17,20 @@
                     eventIndex: '='
             	},
             	templateUrl: "app/views/partials/race-list.html",
-            	link: function(scope, elem, attrs) {
+            	link: function(scope, elem, attrs, ctrl) {
                     var monthNames = TileService.getMonthNames();
 
                     scope.$on('circleData', function(e, data){
+                        var eventId = scope.event.eventId;                        
+                        var classId = data.data.externalId;
+                        var firstEvent = data.firstEvent
+
                         if(data.type == 'class'){
-
+                            
                             // Get Races for a class
-                            TileService.getRaces(scope.event.eventId, data.data.accountExternalId).then(function(data){
+                            TileService.getRaces(eventId, classId).then(function(data){
                                 scope.races = data;
-
+                                
                                 if(scope.races.length == 0){
                                     scope.isRace = true;
                                     scope.showRaces = false;
@@ -57,41 +61,50 @@
                                     
                                 }
 
-                                // if(scope.races.length > 0)
-                                //     getResults(scope.eventId, scope.classId, scope.races[0]);
-                                
+                                if(firstEvent){
+                                    if(scope.races.length > 0){
+                                        getResults(eventId, classId, scope.races[0]);
+                                    }else{
+                                        getResults(eventId, classId, false);
+                                    }    
+                                }                                
                             }, function(error){
                                 console.log(error);
                                 return;
                             })
                         }else{
-                            getResults(scope.eventId, scope.classId, data.data);
+                            //getResults(scope.event.eventId, classId, data.data);
                         }
                     })                   
 
                     var getResults = function(eventId, classId, race){
-                        TileService.getResults(eventId, classId, race.externalId).then(function(data){
-                            var results = data;
+                        if(race){
+                            TileService.getResults(eventId, classId, race.externalId).then(function(data){
+                                var results = data;
 
-                            if(results.length == 0){
-                                var message = 'No Results!';
-                                Flash.create('danger', message);
-                            }
+                                if(results.length == 0){
+                                    var message = 'No Results!';
+                                    //Flash.create('danger', message);
+                                }
 
-                            for(var i in results){
-                                if(isNaN(results[i].positionDesc))
-                                    results[i].positionDesc = "DNC";
+                                for(var i in results){
+                                    if(isNaN(results[i].positionDesc))
+                                        results[i].positionDesc = "DNC";
 
-                                // Get finishCorrected
-                                if(results[i].finishCorrected)
-                                    results[i].finishCorrected = results[i].finishCorrected.split('.')[0].split(':');
-                            }
-
-                            scope.$emit('results', results);
-                        }, function(error){
-                            console.log(error);
-                            return;
-                        })
+                                    // Get finishCorrected
+                                    if(results[i].finishCorrected)
+                                        results[i].finishCorrected = results[i].finishCorrected.split('.')[0].split(':');
+                                }
+console.log(results);
+                                scope.$emit('results', results);
+                            }, function(error){
+                                console.log(error);
+                                return;
+                            })    
+                        }else{
+                            var results = [];
+console.log(results);                            
+                        }
                     }
                 }
             }

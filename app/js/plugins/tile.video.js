@@ -41,8 +41,9 @@
 						clearBitdash();
 
 						var videoUrl = data.clientPlayBackUrl + data.url;
+console.log(videoUrl);						
 						var conf = {
-                          	key:       '9dfc435e221ba94fd0cdbacda4c656cf',
+                          	key:       '0bd009b1-35eb-4407-9115-9bbae70af5c3',
                           	playback: {
                             	autoplay : true
                           	},
@@ -51,8 +52,30 @@
                           	},
                           	events: {
                             	onReady : function(data) { }
-                          	}
+                          	},
+                          	skin: {
+                          		screenLogoImage : ""                          		
+                          	},
+                          	adaptation: {
+					            mobile: {
+					                bitrates: {
+					                    minSelectableAudioBitrate  : '0',
+					                    maxSelectableAudioBitrate  : Infinity,
+					                    minSelectableVideoBitrate  : '300kbps',
+					                    maxSelectableVideoBitrate  : Infinity
+					                }
+					            },
+					            desktop: {
+					                bitrates: {
+					                    minSelectableAudioBitrate  : '0',
+					                    maxSelectableAudioBitrate  : Infinity,
+					                    minSelectableVideoBitrate  : '300kbps',
+					                    maxSelectableVideoBitrate  : Infinity
+					                }
+					            }
+							}
                       	};
+
                       	bitdash(scope.tileId).setup(conf);
 
                       	angular.element('#tile_'+scope.tileId+' .video-player').show();

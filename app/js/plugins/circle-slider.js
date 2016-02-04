@@ -14,8 +14,11 @@
                 },
                 templateUrl: "app/views/partials/circle-slider.html",
                 link: function(scope, element, attrs) {
-//                  scope.$watch('contents', function(newVal){
+                  $timeout(function(){
+                  }, 1000);
 
+//                  scope.$watch('contents', function(newVal){
+//console.log(newVal);
                       $timeout(function(){
                       
                           var slider = angular.element('#'+scope.circleId+' #slider');
@@ -103,6 +106,7 @@
 
                                   var circleData = {
                                     type: scope.circleType,
+                                    firstEvent: true,
                                     data: scope.content
                                   }
 
@@ -205,7 +209,14 @@
                                   prev_atan = atan;
 
                                   scope.$apply(function() {
-                                    if (scope.contents.length > 0  && scope.circleType == 'class') {
+
+                                    // Remove Dependancy on CLASS We should be simply displaying Data
+                                    // And sending broadcast messages when this data changes
+                                    // Race data should change as well when circle is scrolling
+                                    //if (scope.contents.length > 0  && scope.circleType == 'class') {
+                                  if (scope.contents.length > 0 ) {
+
+                                      console.log("Circle Value " + scope.step);
                                       scope.step = degree % count + 1;
                                       scope.content = scope.contents[scope.step - 1];  
 
@@ -217,9 +228,10 @@
                                       //   data: scope.content
                                       // }
                                       // scope.$emit('circleData', circleData);
-                                    }else{
-                                      scope.step = 0;
                                     }
+                                    // else{
+                                    //   scope.step = 0;
+                                    // }
                                   })
 
                               } // if (mdown) - end                              
