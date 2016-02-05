@@ -2,27 +2,7 @@
    <div class="arrow left-arrow" ng-click="slideEvents('left')"><i class="fa fa-angle-left"></i></div>
    <div class="index">{{carouselIndex + 1}}</div>
    <div class="events" ng-if="events.length > 0">
-      <!-- <ul rn-carousel="" rn-carousel-index="carouselIndex" rn-carousel-buffered="" class="list-unstyled carousel">
-         <li id="{{'event_'+event.externalId}}" class="slide animation" ng-repeat="event in events">
-            <div class="event-heading" ng-if="event != 'addEvent'">
-               <div class="calendar-wrap">
-                  <img class="calendar" src="app/img/cal-icon.png" alt="">
-                  <span class="month">{{event.month}}</span>
-                  <span class="date">{{event.date}}</span>
-               </div>
-               <div class="event-name" ng-class="{'selected': selectedEvent == event.eventId}">
-                  <h4>{{event.name}}</h4>
-               </div>
-            </div>
-            <div ng-if="event == 'addEvent'">
-               <img class="add-event" src="app/img/add-rec.png">
-               <h4 class="event-name">Add Event</h4>
-            </div>
-            <class-list class="class-list" tile="tile" event="event"></class-list>
-            <race-list class="race-list" tile="tile" event="event"></race-list>
-         </li>
-      </ul> -->
-      <div class="event-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': eventSliderWidth}">
+       <div class="event-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': eventSliderWidth}">
          <div class="slide" ng-repeat="event in events track by $index" ng-style="{'width': eventWidth}">
             <div class="event-heading" ng-if="event != 'addEvent'">
                <div class="calendar-wrap">
@@ -45,31 +25,3 @@
    </div>
    <div class="arrow right-arrow" ng-click="slideEvents('right')"><i class="fa fa-angle-right"></i></div>
 </div>
-
-<!-- <accordion-group class="result-panel" is-open="showResult">
-   <accordion-heading class="actionReplay-header">
-      <img src="app/img/results.png">Results<i class="pull-right fa" ng-class="{'fa-angle-up': showResult, 'fa-angle-down': !showResult}"></i>
-   </accordion-heading>
-   <div class="result-wrap">
-      <ul>
-         <li ng-repeat="result in results">
-            <span class="position" ng-class="{'gold': result.position == '1', 'silver': result.position == '2', 'bronze': result.position == '3', 'blue': result.position != '1' && result.position != '2' && result.position != '3'}" ng-if="result.positionDesc != 'DNC'">{{result.position}}</span>
-            <span class="position red" ng-if="result.positionDesc == 'DNC'">{{result.position}}</span>
-            <div class="race-info">
-               <span class="equipmentOwner">{{result.equipmentOwner}}</span>
-               <span class="equipmentName">{{result.equipmentName}}
-               &nbsp;{{result.sailNumber}}</span>
-            </div>
-            <div class="finish-time">
-               <div class="time" ng-repeat="time in result.finishCorrected track by $index" ng-if="result.finishCorrected">
-                  <span class="time-val">
-                     <span class="timer">{{time}}</span>
-                  </span>                                       
-                  <span class="seperator" ng-if="$index !=2"><b>:</b></span>
-               </div>
-               <span class="no-time" ng-if="result.positionDesc == 'DNC'">{{result.positionDesc}}</span>
-            </div>
-         </li>
-      </ul>
-   </div>
-</accordion-group> -->

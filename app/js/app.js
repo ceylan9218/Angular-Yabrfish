@@ -55,6 +55,7 @@
             'app.account',
             'app.class-list',
             'app.race-list',
+            'app.race-info',
             'app.equip',
             'app.tile',
             'app.action-replay',
@@ -935,13 +936,13 @@
             //     controller: 'clubItemController',
             //     templateUrl: helper.basepath('club-detail.html')
             // })
-            .state('app.profile-accounts', {
-                url: '/profile/accounts',
-                title: 'Profile Accounts',
-                controller: 'accountController',
-                templateUrl: helper.basepath('profile-accounts.html'),
-                resolve: helper.resolveFor('loaders.css', 'whirl', 'akoenig.deckgrid')
-            })
+            //.state('app.profile-accounts', {
+            //    url: '/profile/accounts',
+            //    title: 'Profile Accounts',
+            //    controller: 'accountController',
+            //    templateUrl: helper.basepath('profile-accounts.html'),
+            //    resolve: helper.resolveFor('loaders.css', 'whirl', 'akoenig.deckgrid')
+            //})
             .state('app.profile-new-account', {
                 url: '/profile/accounts/new',
                 title: 'Profile New Account',

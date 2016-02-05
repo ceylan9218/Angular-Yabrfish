@@ -565,6 +565,8 @@
 
 					var deferred = $q.defer();
 
+					console.log("SYCO Tiles" + APP_APIS['tile']+'/tiles/' + externalId + '/content')
+
 					$http.get(APP_APIS['tile']+'/tiles/' + externalId + '/content')
 						.success(function(data){
 							deferred.resolve(data);

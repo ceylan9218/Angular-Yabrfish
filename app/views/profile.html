@@ -38,7 +38,7 @@
       <div class="profile-header">
         <h4>
           <img src="app/img/club.png" style="width: 20px;">
-          <span>My Club Connections</span>
+          <span>My Clubs</span>
           <span class="mobile">My Club</span>
         </h4>
         <a class="extend" ng-click="hideClub = !hideClub"><i class="fa" ng-class="{'fa-angle-up': !hideClub, 'fa-angle-down': hideClub}"></i></a>
@@ -64,7 +64,7 @@
       <div class="profile-header">
         <h4>
           <img src="app/img/job2.png" style="width: 20px;">
-          <span>My Business Connections</span>
+          <span>My Hub</span>
           <span class="mobile">Business</span>
         </h4>
         <a class="extend" ng-click="hideAccount = !hideAccount"><i class="fa" ng-class="{'fa-angle-up': !hideAccount, 'fa-angle-down': hideAccount}"></i></a>
@@ -72,7 +72,7 @@
         <a class="edit_info mobile"><img src="app/img/office2.png"></a>
       </div>
       <div class="block-content" ng-hide="hideAccount">
-        <span>My Accounts</span>
+        <acc-panel class="my-accounts"></acc-panel>
       </div>
     </div>
     <div class="block people">
