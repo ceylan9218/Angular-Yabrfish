@@ -11513,6 +11513,9 @@ img.logo{
     float: left;
     margin-left: 2%;
   }
+  .block.club-image, .block.club-about{
+    height: 293px;
+  }
   .block-content img{
     margin-right: 10px;
   }
