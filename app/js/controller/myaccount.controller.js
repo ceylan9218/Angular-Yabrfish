@@ -35,9 +35,9 @@
 
     function accController($rootScope, $scope, $sce, RouteHelpers, ViewerService, AccountService, Flash, $timeout) {
 
-        $scope.myAccounts = ViewerService.cacheClubs();;
+        $scope.myAccounts = [];
         $scope.loading = false;
-        $scope.bAccScrollDisabled = false;
+        $scope.bAccountScrollDisabled = false;
         $scope.accountsWidth = 0;
 
 
@@ -69,12 +69,13 @@
 
             ViewerService.getAccounts($rootScope.user.externalId).then(function (data) {
                 $scope.loading = false;
-                $scope.bAccScrollDisabled = true;
+                $scope.bAccountScrollDisabled = true;
                 var cacheCount;
                 for (var i in data) {
                     $scope.myAccounts.push(data[i].account);
                     cacheCount = AccountService.addCache(data[i].account);
                 }
+                // Not sure of this Functionality
                 setAccWidth($scope.myAccounts);
             }, function (error) {
                 console.log(error);
