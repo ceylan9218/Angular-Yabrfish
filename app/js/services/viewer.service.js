@@ -12,6 +12,7 @@
 
 		var netsCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, nets:[]};
 		var clubsCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, clubs:[]};
+		var accCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, accounts:[]};
 
 		var cacheNets = function(response) {
 

@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-        .module('app.profile-accounts', ['ngAnimate', 'ui.bootstrap', 'ngSanitize', 'ui.select', 'flash'])
+        .module('app.single-accounts', ['ngAnimate', 'ui.bootstrap', 'ngSanitize', 'ui.select', 'flash'])
         .filter('propsFilter', function() {
           return function(items, props) {
             var out = [];
