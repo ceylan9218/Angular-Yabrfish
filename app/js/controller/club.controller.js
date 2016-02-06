@@ -79,7 +79,25 @@
         }
 
         $scope.slideClubs = function(dir){
-            var endTranslate = ($scope.myClubs.length - 3) * $scope.clubWidth * -1;
+            var columns = 0;
+            var content_width = angular.element('.content-wrapper').width();
+            
+            if( content_width == 1140 ){
+                columns = 3;
+                var endTranslate = ($scope.myClubs.length - 3) * $scope.clubWidth * -1;
+            }
+            else if( content_width == 708 ){
+                columns = 2;
+                var endTranslate = ($scope.myClubs.length - 2) * $scope.clubWidth * -1;
+            }
+            else if( content_width == 290 ){
+                columns = 1;
+                var endTranslate = ($scope.myClubs.length - 1) * $scope.clubWidth * -1;
+            }
+            else{
+                columns = 3;
+                var endTranslate = ($scope.myClubs.length - 3) * $scope.clubWidth * -1;
+            }
 
             if(!$scope.translate)
                 $scope.translate = 0;
@@ -93,13 +111,15 @@
                     $scope.translate = 0;
                 }
             } else {
-                $scope.translate -= $scope.clubWidth;
-                if($scope.translate >= endTranslate){
-                    $scope.transform = "translate("+$scope.translate+"px, 0px)";
-                }
-                else{
-                    $scope.transform = "translate("+endTranslate+"px, 0px)";
-                    $scope.translate = endTranslate;
+                if($scope.myClubs.length >  columns) {
+                    $scope.translate -= $scope.clubWidth;
+                    if($scope.translate >= endTranslate){
+                        $scope.transform = "translate("+$scope.translate+"px, 0px)";
+                    }
+                    else{
+                        $scope.transform = "translate("+endTranslate+"px, 0px)";
+                        $scope.translate = endTranslate;
+                    }    
                 }
             }
         }

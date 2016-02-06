@@ -30,6 +30,12 @@
          </li>
          <!-- User -->
          <li class="user dropdown" dropdown="">
+            <a class="dropdown-toggle" ng-href="{{'#/app/profile'}}">
+               <img ng-if="!$root.logged || $root.user.avatarUrl==null" src="app/img/user/default.png" class="img-circle" />
+               <img ng-if="$root.logged && $root.user.avatarUrl" src="{{$root.user.avatarUrl}}" class="img-circle" />
+            </a>
+         </li>
+         <!-- <li class="user dropdown" dropdown="">
             <a class="dropdown-toggle" dropdown-toggle="">
                <img ng-if="!$root.logged || $root.user.avatarUrl==null" src="app/img/user/default.png" class="img-circle" />
                <img ng-if="$root.logged && $root.user.avatarUrl" src="{{$root.user.avatarUrl}}" class="img-circle" />
@@ -41,7 +47,7 @@
                <li><a ng-href="{{'#/app/login'}}" ng-if="!$root.logged">Login</a></li>
                <li><a ng-if="$root.logged" ng-click="logout()">Logout</a></li>
             </ul>            
-         </li>
+         </li> -->
       </ul>
       <!-- END Right Navbar-->
    </div>
