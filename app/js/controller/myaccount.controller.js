@@ -76,7 +76,7 @@
                     cacheCount = AccountService.addCache(data[i].account);
                 }
                 // Not sure of this Functionality
-                setAccWidth($scope.myAccounts);
+                //setAccWidth($scope.myAccounts);
             }, function (error) {
                 console.log(error);
                 return;
