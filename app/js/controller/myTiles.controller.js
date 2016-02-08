@@ -35,27 +35,9 @@ angular
 
     function myTileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService, ProductService, Flash, AuthService, LookupService) {
 
-      $scope.inMotion = false;
+      $scope.bTileScrollDisabled = false;
       $scope.loading = false;
       $scope.myTiles = [];
-      $scope.basepath = RouteHelpers.basepath;
-      $scope.tileTypes = [];
-      $scope.tileType = {};
-      $scope.newTile = {
-        title: '',
-        description: '',
-        tileType: '',
-        accountExternalId: '',
-        organizationExternalId: ''
-      };
-      $scope.accounts = [];
-      $scope.account = {};
-      $scope.organizations = [];
-      $scope.organization = {};
-      $scope.diffInstances = 0;
-      $scope.enablement = false;
-      $scope.enableCreate = true;
-      $scope.showNewTile = false;
 
 
       if(!$rootScope.user)
@@ -86,29 +68,20 @@ angular
         //--------------------------------------------------------//
 
 
-        if ( $scope.inMotion || ! TileService.moreMyTiles() ) {
+      if ($scope.loading) {
+          return;
+      }
 
-            //---------------------------------------------------------------
-            // Check Cache Size of Controller if navigation has left the View
-            //---------------------------------------------------------------
-            if ( $scope.tiles.length < TileService.cacheMyTilesSize() ) {
-                $scope.tiles.length = 0;
-                $scope.tiles = TileService.cacheMyTiles();
-            }
-            return;
-        }
-
-        $scope.inMotion = true;
-        $scope.loading = true;
+      $scope.loading = true;
 
         if ( ! TileService.moreMyTiles() ) {
             $scope.loading = false;
-            $scope.inMotion = true;
+            $scope.bTileScrollDisabled = true;
         } else {
             TileService.getMyTiles($rootScope.user.externalId).then(function (tiles) {
                 $scope.myTiles = TileService.cacheMyTiles();
                 $scope.loading = false;
-                $scope.inMotion = false;
+                $scope.bTileScrollDisabled = true;
             }, function (error) {
                 console.log(error);
                 return;

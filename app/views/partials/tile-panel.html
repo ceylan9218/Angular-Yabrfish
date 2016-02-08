@@ -1,5 +1,5 @@
-<div class="tiles" ng-init="getTiles()">
-	<tile-item class="account" ng-repeat="tiles in myTiles track by $index" tile="tile"></tile-item>
+<div class="tiles" infinite-scroll="getTiles()"  infinite-scroll-disabled='bTileScrollDisabled' infinite-scroll-distance="2">
+	<tile-item class="tile" ng-repeat="tiles in myTiles track by $index" tile="tile"></tile-item>
 </div>
 <div ng-if="loading" class="panel-body loader-demo">
 	<div class="ball-pulse">
