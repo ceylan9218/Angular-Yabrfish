@@ -60,11 +60,11 @@
         <equipment-panel class="my-clubs"></equipment-panel>
       </div>
     </div>
-    <div class="block accounts">
+    <div class="block my-accounts">
       <div class="profile-header">
         <h4>
           <img src="app/img/job2.png" style="width: 20px;">
-          <span>My Hub</span>
+          <span>My Accounts</span>
           <span class="mobile">Business</span>
         </h4>
         <a class="extend" ng-click="hideAccount = !hideAccount"><i class="fa" ng-class="{'fa-angle-up': !hideAccount, 'fa-angle-down': hideAccount}"></i></a>
@@ -73,6 +73,21 @@
       </div>
       <div class="block-content" ng-hide="hideAccount">
         <acc-panel class="my-accounts"></acc-panel>
+      </div>
+    </div>
+    <div class="block my-tiles">
+      <div class="profile-header">
+        <h4>
+          <img src="app/img/tiles.png" style="width: 20px;">
+          <span>My Tiles</span>
+          <span class="mobile">Tiles</span>
+        </h4>
+        <a class="extend" ng-click="hideTiles = !hideTiles"><i class="fa" ng-class="{'fa-angle-up': !hideTiles, 'fa-angle-down': hideTiles}"></i></a>
+        <a class="edit_info">Connect</a>
+        <a class="edit_info mobile"><img src="app/img/office2.png"></a>
+      </div>
+      <div class="block-content" ng-hide="hideAccount">
+        <tile-panel class="my-tiles"></tile-panel>
       </div>
     </div>
     <div class="block people">

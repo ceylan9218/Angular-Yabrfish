@@ -1,0 +1,10 @@
+<div class="tiles" ng-init="getTiles()">
+	<tile-item class="account" ng-repeat="tiles in myTiles track by $index" tile="tile"></tile-item>
+</div>
+<div ng-if="loading" class="panel-body loader-demo">
+	<div class="ball-pulse">
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+</div>
