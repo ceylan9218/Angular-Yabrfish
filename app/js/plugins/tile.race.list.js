@@ -95,7 +95,6 @@
                                     if(results[i].finishCorrected)
                                         results[i].finishCorrected = results[i].finishCorrected.split('.')[0].split(':');
                                 }
-console.log(results);
                                 scope.$emit('results', results);
                             }, function(error){
                                 console.log(error);
@@ -103,7 +102,6 @@ console.log(results);
                             })    
                         }else{
                             var results = [];
-console.log(results);                            
                         }
                     }
                 }

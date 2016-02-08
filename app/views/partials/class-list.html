@@ -1,4 +1,5 @@
-<div class="class-content" ng-init="getClasses(event.eventId)">
+<div class="class-content" ng-if="showClasses">
    <span class="class-heading">Classes</span>
-   <circle-slider id="{{'class_'+event.eventId}}" circle-id="event.eventId" circle-type="'class'" index="eventIndex"></circle-slider>
+   <circle-slider id="{{'class_'+event.eventId}}" class="class-circle" circle-id="'class_'+event.eventId" circle-type="'class'" contents="eventClasses" index="eventIndex"></circle-slider>
 </div>
+<race-list class="race-list" event="event" races="races" ng-if="showRaces"></race-list>

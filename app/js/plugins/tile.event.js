@@ -20,8 +20,8 @@
                     var monthNames = TileService.getMonthNames();
 
                     scope.events = [];
-                    scope.currEvent = 0;
-                    scope.carouselIndex = 0;                    	
+                    scope.carouselIndex = 0;
+                    scope.currEvent = {};
 
                     var path = $location.path();
                     // Enable/Disable Edit Event.
@@ -55,52 +55,48 @@
 
                         //------------------------------------------------/
                         // Set the initial Event
-                        scope.currEvent = 0;
-
-                        $timeout(function(){
-                            scope.eventWidth = angular.element('.events').width();
-                            scope.eventSliderWidth = scope.eventWidth * scope.events.length;                            
-                        })
+                        scope.currEvent = scope.events[0];
                     })
 
                     scope.slideEvents = function(dir){
-                        var endTranslate = (scope.events.length - 1) * scope.eventWidth * -1;
-
-                        if(!scope.translate)
-                            scope.translate = 0;
+                        var slideWidth = angular.element('.slide').width();
 
                         if (dir === 'left') {
-                            scope.translate += scope.eventWidth;
-                            if(scope.translate <= 0){
-                                scope.transform = "translate("+scope.translate+"px, 0px)";
-                                scope.carouselIndex--;
-                                reloadClasses();
+                            if(scope.carouselIndex > 0){
+                                scope.carouselIndex--;                            
+                                
+                                angular.element('.slide').hide().css({'left': -slideWidth});
+                                $timeout(function(){
+                                    angular.element('.slide').show().animate({left: 0}, 300, function(){
+                                        angular.element('.slide').css({left: null, position: null});
+                                    });
+                                }, 100);
+                                reloadClassList();
                             }
-                            else{
-                                scope.translate = 0;
+                        } else {                            
+                            if(scope.carouselIndex < scope.events.length - 1){                               
+                                scope.carouselIndex++;
+                                
+                                angular.element('.slide').hide().css({'left': slideWidth});
+                                $timeout(function(){
+                                    angular.element('.slide').show().animate({left: 0}, 300, function(){
+                                        angular.element('.slide').css({left: null, position: null});
+                                    });
+                                }, 100);                                
+                                reloadClassList();
                             }
-                        } else {
-                            scope.translate -= scope.eventWidth;
-                            if(scope.translate >= endTranslate){
-                                scope.transform = "translate("+scope.translate+"px, 0px)";
-                                scope.carouselIndex++;                                
-                                reloadClasses();
-                            }
-                            else{
-                                scope.transform = "translate("+endTranslate+"px, 0px)";
-                                scope.translate = endTranslate;
-                            }
+                            
                         }
+
+                        scope.currEvent = scope.events[scope.carouselIndex];
                     }
 
-                    var reloadClasses = function() {
-                        $timeout(function(){                        
-                            angular.element('.class-list').addClass('whirl line back-and-forth');
-                        }, 1000);
-
+                    var reloadClassList = function() {                        
+                        angular.element('.slide').addClass('whirl line back-and-forth');
+                        
                         $timeout(function(){
-                            angular.element('.class-list').removeClass('whirl line back-and-forth');                            
-                        }, 2000);
+                            angular.element('.slide').removeClass('whirl line back-and-forth');
+                        }, 1500);
                     }
                 }
             }
