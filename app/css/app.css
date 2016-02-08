@@ -11075,11 +11075,11 @@ img.logo{
 .block .user-profile img{
   width: 70px;
   float: left;
+  border-radius: 50%;
 }
 .block .user-profile .info{
   width: calc(100% - 70px);
   float: left;
-  margin-top: 10px;
 }
 .block .user-profile .info .username{
   color: #333;
@@ -11092,6 +11092,7 @@ img.logo{
   text-decoration: none;
   margin-left: 20px;
   cursor: pointer;
+  float: left;
 }
 .block.about{
   width: 30%;
@@ -11232,28 +11233,32 @@ img.logo{
   display: inline-block;
   overflow: hidden;
 }
-.club{
+.panel-item{
   display: inline-block;
   width: 359px;
   float: left;
 }
-.club-content{
+.item-content{
   width: 100%;
   padding: 0 15px;
 }
-.club-content img{
+.item-content img{
   width: 100%;
+  height: 226px;
 }
-.club-content a.title{
+.item-content a.title{
   margin: 20px 0px 0px;
   color: #333;
   font-weight: normal;
   font-size: 18px;
-  display: table;
   text-decoration: none;
   cursor: pointer;
+  width: 100%;
+  display: inline-block;
+  float: left;
+  white-space: normal;
 }
-.club-content a i{
+.item-content a i{
   color: #3ABEEF;
   margin-left: 30px;
 }
@@ -11428,7 +11433,7 @@ img.logo{
   .block.bio .block-content{
     height: 210px;
   }
-  .club{
+  .panel-item{
     padding: 0;
   }
   .block-content img{
@@ -11466,7 +11471,7 @@ img.logo{
   .block.link-social .profile-header h4{
     width: calc(100% - 30px); 
   }
-  .club{
+  .panel-item{
     width: 248px;
   }
   .block.club-about{
@@ -11483,11 +11488,12 @@ img.logo{
   .club-about .block-content ul li span{
     float: left;
   }  
-  .club-content{
+  .item-content{
     padding: 0 5px;
   }
-  .club-content img{
+  .item-content img{
     margin-right: 0;
+    height: 164px;
   }
   .club-info{
     padding: 10px 15px;
@@ -11558,6 +11564,9 @@ img.logo{
   .profile-wrap{
     width: 708px;
   }
+  .block, .block.accounts{
+    padding: 10px 30px 20px;
+  }
   .block.about{
     width: 40%;
     float: left;
@@ -11572,12 +11581,15 @@ img.logo{
   }
   .block.club-image{
     width: 63%;
-  }
+  }  
   .block.club-image, .block.club-about{
     height: 308px;
   }
   .block-content img{
     margin-right: 10px;
+  }
+  .item-content img{
+    height: 201px;
   }
   .block-content a.editable-click{
     width: calc(100% - 30px);
@@ -11603,8 +11615,8 @@ img.logo{
   .block.about .profile-header h4{
     width: calc(100% - 130px);
   }
-  .club{
-    width: 303px;
+  .panel-item{
+    width: 323px;
   }
   .club-info{
     padding: 10px 15px;
@@ -11666,22 +11678,18 @@ img.logo{
    author: Marcin
    date: 2015.11.16
  ========================================================================== */
-.club-panel{
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-}
-.clubs{
+.panel-items{
   display: inline-block;
   margin-top: 10px;
   overflow-x: auto;
   width: 100%;
 }
-.club-slider {
+.panel-slider {
   width: 100%;
   height: 100%;
   white-space: nowrap;
   display: inline-block;
+  margin-bottom: 10px;
 }
 .club-search{
   display: inline-block;
@@ -11796,25 +11804,25 @@ img.logo{
 .upload-img img{
   height: 100%;
 }
-.yabrTile .club-content .tile-infos .icons{
+.yabrTile .item-content .tile-infos .icons{
   display: inline-block;
   width: 100%;
   padding: 10px 15px;
 }
-.yabrTile .club-content .tile-infos .icons a {
+.yabrTile .item-content .tile-infos .icons a {
   width: 35px;
 }
-.yabrTile .club-content .tile-infos .icons a.more {
+.yabrTile .item-content .tile-infos .icons a.more {
   width: auto;
   margin-top: 2px;
 }
-.yabrTile .club-content .tile-infos .icons span {
+.yabrTile .item-content .tile-infos .icons span {
   text-align: left;
   width: auto;
   display: inline-block;
 }
 @media only screen and (max-width: 767px) {
-  .clubs{
+  .panel-items{
     width: 100%;
   }
   .club-search{
@@ -11848,9 +11856,9 @@ img.logo{
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1199px) {
-  .clubs{
+  /*.panel-items{
     width: calc(100% - 40px);
-  }
+  }*/
 }
 
 /* ========================================================================

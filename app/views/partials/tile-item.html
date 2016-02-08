@@ -1,4 +1,4 @@
-<div class="tile-content">
-	<img src="{{tile.creatives[0].url}}">
+<div class="item-content">
+	<img ng-src="{{tile.creatives[0].url && tile.creatives[0].url || ''}}"></img>
 	<a class="title" ng-href="{{'#/app/tile-detail/'+tile.externalId}}">{{tile.name}}<i class="fa fa-angle-right fg-lg"></i></a>
 </div>

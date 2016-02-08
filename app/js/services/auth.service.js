@@ -83,12 +83,19 @@
                     }/*, {scope: 'email, user_birthday, user_friends, user_likes'}*/ );
                 }                
                 
-                // Just For testing.
-                $rootScope.user.externalId = "A10153DA-E739-4978-ADA4-B9765F7DFCEF"; 
-                var user = {
-                  externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
-                }
-                deferred.resolve(user);
+                /* ------------------------------------------------------------------
+                    Just For testing.
+                    Andy's Account ID: A10153DA-E739-4978-ADA4-B9765F7DFCEF
+                    Dan's Account ID: B16EF381-81D1-4014-8BFA-AA7B082E0FD7
+                   ------------------------------------------------------------------*/
+                $rootScope.user = {
+                  avatarUrl:"https://scontent.xx.fbcdn.net/hprofile-xaf1/v/t1.0-1/c12.12.153.153/s50x50/33665_456192072715_4033077_n.jpg?oh=42ff51a9d97a59c831cdd5e0bf138d91&oe=56E185C2",
+                  forename:"Daniel",
+                  nickname:"Daniel Belton",
+                  surname:"Belton",
+                  externalId: "B16EF381-81D1-4014-8BFA-AA7B082E0FD7"
+                };
+                deferred.resolve($rootScope.user);
 
                 return deferred.promise;
               },

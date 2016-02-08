@@ -1,3 +1,5 @@
-<div ng-init="getEquipment()">
-	<equipment-item class="equipment col-md-4" ng-repeat="equipment in myEquipment" equipment="equipment"></equipment-item>
+<div class="panel-items" infinite-scroll="getEquipment()" infinite-scroll-container="'.my-equipment'">
+	<div class="panel-slider" ng-style="{'width': equipsWidth}">
+		<equipment-item class="panel-item" ng-repeat="equipment in myEquipment track by $index" equipment="equipment"></equipment-item>
+	</div>
 </div>

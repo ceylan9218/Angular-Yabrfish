@@ -1,7 +1,5 @@
-<div class="club-panel">
-	<div class="clubs" infinite-scroll="getClubs()" infinite-scroll-container="'.my-clubs'">
-		<div class="club-slider" ng-style="{'width': clubsWidth}">
-			<club-item class="club" ng-repeat="club in myClubs track by $index" club="club"></club-item>
-		</div>
+<div class="panel-items" infinite-scroll="getClubs()" infinite-scroll-container="'.my-clubs'">
+	<div class="panel-slider" ng-style="{'width': clubsWidth}">
+		<club-item class="panel-item" ng-repeat="club in myClubs track by $index" club="club"></club-item>
 	</div>
 </div>

@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-        .module('app.profile-clubs', ['ngAnimate', 'ui.bootstrap','flash'])
+        .module('app.profile-clubs', ['ngAnimate', 'ui.bootstrap'])
         .directive('clubPanel', function() {
             return {
                 restrict: 'E',
@@ -33,24 +33,20 @@
             };
         });
 
-    function clubController($rootScope, $scope, $sce, RouteHelpers, ViewerService, Flash, $timeout) {
+    function clubController($rootScope, $scope, ViewerService, $timeout) {
 
         $scope.myClubs = ViewerService.cacheClubs();
         $scope.loading = false;
         $scope.bClubScrollDisabled = false;
-        $scope.clubWidth = 0;
         $scope.clubsWidth = 0;
 
         var setClubsWidth = function(clubs){
             $timeout(function(){
-                var clubWidth = angular.element('.club').width();
-                $scope.clubWidth = clubWidth;
+                var clubWidth = angular.element('.panel-item').width();
                 $scope.clubsWidth = clubs.length * clubWidth + 'px';
             })
         }
         
-        setClubsWidth($scope.myClubs);
-
         $scope.getClubs = function () {
 
             console.log("CLUB-CONTROLLER CLUBS Called " + $scope.myClubs.length + "Loading " + $scope.loading + "Scroll " + $scope.bClubScrollDisabled)

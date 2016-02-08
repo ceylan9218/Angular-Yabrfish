@@ -2,8 +2,7 @@
   <h4 class="profile-title">My Profile</h4>
   <div class="block about" ng-style="{'height': hideAbout? '160px':'360px'}">
     <div class="user-profile">
-      <img ng-if="!$root.logged || $root.user.avatarUrl==null" src="app/img/user/default.png"></img>
-      <img ng-if="$root.logged && $root.user.avatarUrl" src="{{$root.user.avatarUrl}}"></img>
+      <img ng-src="{{$root.user.avatarUrl && $root.user.avatarUrl || 'app/img/user/default.png'}}"></img>
       <div class="info">
         <span ng-if="$root.logged" class="username">{{$root.user.forename}}&nbsp;{{$root.user.surname}}</span>
         <a class="upload-photo">Upload Photo</a>          
@@ -57,7 +56,7 @@
         <a class="edit_info mobile"><img src="app/img/office3.png"></a>
       </div>
       <div class="block-content" ng-hide="hideEquip">
-        <equipment-panel class="my-clubs"></equipment-panel>
+        <equipment-panel class="my-equipment"></equipment-panel>
       </div>
     </div>
     <div class="block my-accounts">

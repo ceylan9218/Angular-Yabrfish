@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-        .module('app.profile-equipment', ['ngAnimate', 'ui.bootstrap','flash'])
+        .module('app.profile-equipment', ['ngAnimate', 'ui.bootstrap'])
         .directive('equipmentPanel', function() {
             return {
                 restrict: 'E',
@@ -33,14 +33,21 @@
             };
         });
 
-    function equipmentController($rootScope, $scope, $sce, RouteHelpers, ViewerService, EquipmentService,  Flash) {
+    function equipmentController($rootScope, $scope, EquipmentService, $timeout) {
 
         $scope.myEquipment = [];
         $scope.loading = false;
         $scope.bEquipmentScrollDisabled = false;
+        $scope.equipsWidth = 0;
+
+        var setEquipsWidth = function(equips){
+            $timeout(function(){
+                var equipWidth = angular.element('.panel-item').width();
+                $scope.equipsWidth = equips.length * equipWidth + 'px';
+            })
+        }        
 
         $scope.getEquipment = function () {
-console.log(123);
 
             console.log("Get Equipment Called " + $scope.myEquipment.length + "Loading " + $scope.loading + "Scroll " + $scope.bEquipmentScrollDisabled)
 
@@ -56,6 +63,7 @@ console.log(123);
                     $scope.myEquipment.push(data[i]);
                     $scope.loading = false;
                 }
+                setEquipsWidth($scope.myEquipment);
             }, function(error){
                 console.log(error);
                 return;

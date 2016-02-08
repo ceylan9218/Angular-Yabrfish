@@ -1,4 +1,4 @@
-<div class="club-content">
-	<img src="{{account.accountLogoUrl}}">
+<div class="item-content">
+	<img ng-src="{{account.accountLogoUrl && account.accountLogoUrl || ''}}"></img>
 	<a class="title" ng-href="{{'#/app/acc-profile/'+account.externalId}}">{{account.name}}<i class="fa fa-angle-right fg-lg"></i></a>
 </div>

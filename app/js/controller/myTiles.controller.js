@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 angular
-    .module('app.profile-tiles', ['ngAnimate', 'ui.bootstrap','flash'])
+    .module('app.profile-tiles', ['ngAnimate', 'ui.bootstrap'])
     .directive('tilePanel', function() {
         return {
             restrict: 'E',
@@ -24,70 +24,59 @@ angular
             restrict: 'E',
             transclude: true,
             scope: {
-                club: '='
+                tile: '='
             },
-            link: function(scope, element, attrs, clubController) {
-//                    clubController.addItem(scope);
+            link: function(scope, element, attrs, myTileController) {
+
             },
             templateUrl: 'app/views/partials/tile-item.html'
         };
     })
 
-    function myTileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService, ProductService, Flash, AuthService, LookupService) {
+    function myTileController($scope, $rootScope, TileService, $timeout) {
 
-      $scope.bTileScrollDisabled = false;
-      $scope.loading = false;
-      $scope.myTiles = [];
+        $scope.bTileScrollDisabled = false;
+        $scope.loading = false;
+        $scope.myTiles = [];
+        $scope.tilesWidth = 0;
 
-
-      if(!$rootScope.user)
-        return;
-
-        $scope.getUser = function() {
-            AuthService.getUser().then(function(user){
-                $rootScope.user = user;
-                // Get Current User's Roles
-                $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/roles')
-                    .success(function(data){
-                        for(var i in data){
-                            $scope.accounts.push(data[i].account);
-                        }
-                        $scope.accounts.unshift({
-                            name: 'Just For Me'
-                        });
-                    });
+        var setTilesWidth = function(tiles){
+            $timeout(function(){
+                var tileWidth = angular.element('.panel-item').width();
+                $scope.tilesWidth = tiles.length * tileWidth + 'px';
             })
         }
 
+        // Get My Tiles.
+        $scope.getTiles = function() {
 
-      // Get My Tiles.
-      $scope.getTiles = function() {
+            //---------------------------------------------------------//
+            // Load Single Page of my tiles.
+            //--------------------------------------------------------//
 
-        //---------------------------------------------------------//
-        // Load Single Page of my tiles.
-        //--------------------------------------------------------//
+            if ($scope.loading) {
+                return;
+            }
 
+            $scope.loading = true;
 
-      if ($scope.loading) {
-          return;
-      }
-
-      $scope.loading = true;
-
-        if ( ! TileService.moreMyTiles() ) {
-            $scope.loading = false;
-            $scope.bTileScrollDisabled = true;
-        } else {
-            TileService.getMyTiles($rootScope.user.externalId).then(function (tiles) {
-                $scope.myTiles = TileService.cacheMyTiles();
+            if ( ! TileService.moreMyTiles() ) {
                 $scope.loading = false;
                 $scope.bTileScrollDisabled = true;
-            }, function (error) {
-                console.log(error);
-                return;
-            })
+            } else {
+                TileService.getMyTiles($rootScope.user.externalId).then(function (tiles) {
+                    $scope.myTiles = TileService.cacheMyTiles();
+                    $scope.loading = false;
+                    $scope.bTileScrollDisabled = true;
+
+console.log($scope.myTiles);
+                    setTilesWidth($scope.myTiles);
+                }, function (error) {
+                    console.log(error);
+                    return;
+                })
+            }
         }
-      }
 
     }
 })();
