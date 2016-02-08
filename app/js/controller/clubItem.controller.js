@@ -56,20 +56,31 @@
 
             if($scope.cacheClubs.length == 0){
                 ViewerService.getClubs($rootScope.user.externalId).then(function (clubs) {
-$scope.club = ViewerService.setCurrentClub(clubId);
-console.log($scope.club);
+                    $scope.club = ViewerService.setCurrentClub(clubId).account;
+                    setClubAttr($scope.club);
                 }, function (error) {
                     console.log(error);
                     return;
                 })
             }else{
-$scope.club = ViewerService.setCurrentClub(clubId);
-console.log($scope.club);
-                for (var i in $scope.cacheClubs){
-                    if( $scope.cacheClubs[i].account.externalId == clubId ){
-                        $scope.club = $scope.cacheClubs[i].account;
-                    }
-                }                
+                $scope.club = ViewerService.setCurrentClub(clubId).account;
+                setClubAttr($scope.club);
+            }
+        }
+
+        var setClubAttr = function(club){
+            for(var i in club.accountContacts){
+                if(club.accountContacts[i].contactType == 'Web')
+                    $scope.club.contact_web = club.accountContacts[i].attributeValueText;
+                else if(club.accountContacts[i].contactType == 'eMail')
+                    $scope.club.contact_email = club.accountContacts[i].attributeValueText;
+                else if(club.accountContacts[i].contactType == 'Phone')
+                    $scope.club.contact_phone = club.accountContacts[i].attributeValueText;
+            }
+
+            for(var i in club.accountAttributes){
+                if(club.accountAttributes[i].attribute == 'BIO')
+                    $scope.club.attr_bio = club.accountAttributes[i].attributeValueText;
             }
         }
 

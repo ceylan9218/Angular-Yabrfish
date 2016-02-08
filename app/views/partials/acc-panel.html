@@ -1,3 +1,10 @@
-<div class="accounts" infinite-scroll="getAccounts()" infinite-scroll-container="'.my-accounts'" ng-style="{'width': clubsWidth}">
-	<acc-item class="club" ng-repeat="account in myAccounts track by $index" club="account"></acc-item>
+<div class="accounts" ng-init="getAccounts()">
+	<acc-item class="account" ng-repeat="account in myAccounts track by $index" account="account"></acc-item>
+</div>
+<div ng-if="loading" class="panel-body loader-demo">
+	<div class="ball-pulse">
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
 </div>

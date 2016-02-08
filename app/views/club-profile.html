@@ -23,9 +23,9 @@
     </div>
     <div class="block-content">
       <ul>
-        <li><img src="app/img/site.png"><span>www.nrc.co.uk</span></li>
-        <li><img src="app/img/email.png"><span>info@nrc.co.uk</span></li>
-        <li><img src="app/img/phone.png"><span>01983 123 456</span></li>
+        <li><img src="app/img/site.png"><span>{{club.contact_web}}</span></li>
+        <li><img src="app/img/email.png"><span>{{club.contact_email}}</span></li>
+        <li><img src="app/img/phone.png"><span>{{club.contact_phone}}</span></li>
         <li><img src="app/img/location-g.png"><span>Newport, Isle of Wight</span></li>
       </ul>
     </div>
@@ -41,7 +41,7 @@
         <a class="edit_info">Edit Information</a>
       </div>
       <div class="block-content">
-        <span>Bio</span>
+        <span>{{club.attr_bio}}</span>
       </div>
     </div>
     <div class="block services">

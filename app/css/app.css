@@ -11123,13 +11123,17 @@ img.logo{
 }
 .profile-header img{
   width: 15px;
+  float: left;
 }
 .profile-header span{
   color: #333;
   margin-left: 15px;
   font-weight: normal;
   position: relative;
-  top: 2px;
+  float: left;
+}
+.profile-header span.mobile{
+  display: none;
 }
 .profile-header h4{
   float: left;
@@ -11146,6 +11150,9 @@ img.logo{
   padding-right: 10px;
   border-right: 1px solid #E4E4E4;
 }
+.profile-header .edit_info.mobile{
+  display: none;
+}
 .block.about .profile-header .edit_info,
 .block.bio .profile-header .edit_info{
   padding-right: 0;
@@ -11154,6 +11161,9 @@ img.logo{
 .profile-header .extend{
   float: right;
   width: 30px;
+}
+.profile-header .extend.mobile{
+  display: none;
 }
 .profile-header .extend i{
   font-size: 16px;
@@ -11220,22 +11230,16 @@ img.logo{
 .my-clubs{
   width: 100%;
   display: inline-block;
-  overflow-x: auto;
+  overflow: hidden;
 }
 .club{
   display: inline-block;
-  width: 366px;
+  width: 333px;
   float: left;
 }
 .club-content{
   width: 100%;
   padding: 0 15px;
-}
-.club:nth-child(3n+1) .club-content{
-  padding: 0 30px 0 0;
-}
-.club:nth-child(3n) .club-content{
-  padding: 0 0 0 30px;
 }
 .club-content img{
   width: 100%;
@@ -11333,10 +11337,14 @@ img.logo{
 }
 .club-about .block-content ul li img{
   width: 22px;
+  float: left;
 }
 .club-about .block-content ul li span{
   top: 0;
   font-size: 16px;
+  text-overflow: ellipsis;
+  width: calc(100% - 32px);
+  line-height: 1;
 }
 .block.club-image{
   padding: 0;
@@ -11364,9 +11372,81 @@ img.logo{
   padding-right: 0;
   border-right: none;
 }
+.club-panel .left-arrow{
+  width: 40px;
+  height: 100%;
+  display: table;
+  float: left;
+  cursor: pointer;
+}
+.club-panel .right-arrow{
+  width: 39px;
+  height: 100%;
+  display: table;  
+  float: right;
+  cursor: pointer;
+}
+.club-panel .left-arrow i{
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 10px;
+  font-size: 24px;
+  color: #3ABEEF;
+}
+.club-panel .right-arrow i{
+  display: table-cell;
+  vertical-align: middle;
+  color: #3ABEEF;
+  text-align: right;
+  padding-right: 10px;
+  font-size: 24px;
+}
+.club-panel .arrow img.mobile{
+  display: none;
+}
 @media only screen and (max-width: 767px) {
   .profile-wrap{
     width: 290px;
+  }
+  .profile-title{
+    margin: 10px 0;
+  }
+  .block, .block.accounts{
+    padding: 10px 20px;
+  }
+  .block.my-club{
+    position: relative;
+  }  
+  .profile-header .edit_info{
+    display: none;
+  }
+  .profile-header .edit_info.mobile,
+  .block.about .profile-header .edit_info.mobile,
+  .block.bio .profile-header .edit_info.mobile{
+    width: 30px;
+    display: inline-block;
+    float: right;
+    color: #A3A3A3;
+    border-right: 1px solid #E4E4E4;
+  }
+  .profile-header .edit_info.mobile img,
+  .block.about .profile-header .edit_info.mobile img{
+    float: left;
+  }
+  .profile-header .extend.mobile{
+    display: inline-block;
+  }
+  .profile-header span{
+    margin-left: 10px;
+    font-size: 15px;
+  }
+  .block.my-club .profile-header span,
+  .block.accounts .profile-header span{
+    display: none;
+  }
+  .block.my-club .profile-header span.mobile,
+  .block.accounts .profile-header span.mobile{
+    display: inline-block;
   }
   .block.about{
     width: 100%;
@@ -11376,7 +11456,6 @@ img.logo{
     width: 100%;
     float: left;
     margin-left: 0;
-    height: 300px;
   }
   .block.bio .block-content{
     height: 210px;
@@ -11410,6 +11489,123 @@ img.logo{
     clear: both;
     float: right;
   }
+  .block .user-profile img{
+    width: 50px;
+  }
+  .profile-header h4{
+    width: calc(100% - 70px);
+  }
+  .block.link-social .profile-header h4{
+    width: calc(100% - 30px); 
+  }
+  .club{
+    width: 248px;
+  }
+  .block.club-about{
+    width: 100%;
+    height: 320px;
+  }
+  .club-about .profile-header h4{
+    margin: 10px 0;
+  }
+  .block.club-image{
+    width: 100%;
+    height: 200px;
+  }
+  .club-about .block-content ul li span{
+    float: left;
+  }
+  .club-panel .left-arrow{
+    width: 20px;
+    position: absolute;
+    left: -9px;
+    top: 50%;
+    height: auto;
+  }
+  .club-panel .right-arrow{
+    width: 20px;
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    height: auto;
+  }
+  .club-panel .left-arrow i, .club-panel .right-arrow i{
+    display: none;
+  }
+  .club-panel .left-arrow img.mobile, .club-panel .right-arrow img.mobile{
+    display: block;
+    width: 28px;
+  }
+  .club-content{
+    padding: 0 5px;
+  }
+  .club-content img{
+    margin-right: 0;
+  }
+  .club-info{
+    padding: 10px 15px;
+  }
+  .members{
+    padding: 5px 15px;
+  }
+  .members span{
+    font-size: 16px;
+  }
+  .members span.member-count{
+    font-size: 20px;
+  }
+  .member-action select{
+    height: 35px;
+  }
+  .member-action i{
+    top: 6px;
+  }
+  .club-info h4{
+    margin-top: 0;
+    font-size: 18px;
+  }
+  .club-about .profile-header, .club-about .block-content{
+    width: calc(100% - 30px);
+  }
+  .club-about .profile-header h4{
+    margin: 10px 0;
+    width: calc(100% - 130px);
+  }
+  .club-about .profile-header h4 span{
+    top: 2px;
+  }
+  .club-about .profile-header .edit_info{
+    margin-top: 10px;
+  }
+  .club-about .block-content ul{
+    display: inline-block;
+    width: 100%;
+  }
+  .club-about .block-content ul li{
+    padding-top: 5px;
+    height: auto;
+    display: inline-block;
+    width: 100%;
+  }
+  .club-about .block-content ul li img{
+    width: 18px;
+  }
+  .club-about .block-content ul li span{
+    top: -1px;
+    font-size: 16px;
+    width: calc(100% - 28px);
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;    
+  }
+  .block.club-image button{
+    width: 100px;
+    font-size: 14px;
+  }
+  .my-clubs{
+    height: 300px;
+    overflow: auto;
+  }
 }
 @media only screen and (min-width: 768px) and (max-width: 1199px) {
   .profile-wrap{
@@ -11423,6 +11619,15 @@ img.logo{
     width: 58%;
     float: left;
     margin-left: 2%;
+  }
+  .block.club-about{
+    width: 35%;
+  }
+  .block.club-image{
+    width: 63%;
+  }
+  .block.club-image, .block.club-about{
+    height: 308px;
   }
   .block-content img{
     margin-right: 10px;
@@ -11445,10 +11650,92 @@ img.logo{
   .block-content .editable-buttons .btn-primary, .block-content .editable-buttons .btn-default{
     padding: 4px 10px;
   }
+  .block .user-profile img{
+    width: 50px;
+  }
+  .block.about .profile-header h4{
+    width: calc(100% - 130px);
+  }
+  .club{
+    width: 303px;
+  }
+  .club-panel .left-arrow{
+    width: 20px;
+  }
+  .club-panel .right-arrow{
+    width: 20px;
+  }
+  .club-panel .left-arrow i{
+    padding-left: 0px;
+  }
+  .club-panel .right-arrow i{
+    padding-right: 0px;
+  }
+  .club:nth-child(2n+1) .club-content{
+    padding: 0 20px 0 0;
+  }
+  .club:nth-child(2n) .club-content{
+    padding: 0 0 0 20px;
+  }
+  .club-info{
+    padding: 10px 15px;
+  }
+  .members{
+    padding: 5px 15px;
+  }
+  .members span{
+    font-size: 16px;
+  }
+  .members span.member-count{
+    font-size: 20px;
+  }
+  .member-action select{
+    height: 35px;
+  }
+  .member-action i{
+    top: 6px;
+  }
+  .club-info h4{
+    margin-top: 0;
+  }
+  .club-about .profile-header, .club-about .block-content{
+    width: calc(100% - 30px);
+  }
+  .club-about .profile-header h4{
+    margin: 10px 0;
+    width: calc(100% - 130px);
+  }
+  .club-about .profile-header h4 span{
+    top: 2px;
+  }
+  .club-about .profile-header .edit_info{
+    margin-top: 10px;
+  }
+  .club-about .block-content ul li{
+    padding-top: 5px;
+    height: auto;
+  }
+  .club-about .block-content ul li img{
+    width: 18px;
+  }
+  .club-about .block-content ul li span{
+    top: -1px;
+    font-size: 16px;
+    width: calc(100% - 28px);
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;    
+  }
 }
 @media only screen and (min-width: 1200px) {
   .profile-wrap{
     width: 1140px;
+  }
+  .club:nth-child(3n+1) .club-content{
+    padding: 0 30px 0 0;
+  }
+  .club:nth-child(3n) .club-content{
+    padding: 0 0 0 30px;
   }
 }
 /* ========================================================================
@@ -11456,9 +11743,22 @@ img.logo{
    author: Marcin
    date: 2015.11.16
  ========================================================================== */
+.club-panel{
+  display: table;
+  width: 100%;
+  height: 100%;
+}
 .clubs{
   display: inline-block;
   margin-top: 10px;
+  width: calc(100% - 79px);
+  overflow: hidden;
+}
+.club-slider {
+  width: 100%;
+  height: 100%;
+  white-space: nowrap;
+  transition: all 1s ease 0s;
 }
 .club-search{
   display: inline-block;
@@ -11591,6 +11891,9 @@ img.logo{
   display: inline-block;
 }
 @media only screen and (max-width: 767px) {
+  .clubs{
+    width: 100%;
+  }
   .club-search{
     height: 50px;
   }
@@ -11619,6 +11922,11 @@ img.logo{
   }
   .club-list li{
     padding-left: 50px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+  .clubs{
+    width: calc(100% - 40px);
   }
 }
 

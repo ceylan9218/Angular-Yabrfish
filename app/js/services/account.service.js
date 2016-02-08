@@ -53,6 +53,8 @@
 
         	return{
 
+                cacheAccounts: function () { return accCache.Accounts},
+
                 addCache : function (account) {
 
                     accCache.Accounts.push(account);

@@ -8,7 +8,7 @@
 
     angular
         .module('app.class-list', [])
-        .directive("classList", ['$http', '$location', 'APP_APIS', 'TileService', '$timeout', function($http, $location, APP_APIS, TileService, $timeout) {
+        .directive("classListOld", ['$http', '$location', 'APP_APIS', 'TileService', '$timeout', function($http, $location, APP_APIS, TileService, $timeout) {
             return {
             	restrict: "E",
             	scope: {

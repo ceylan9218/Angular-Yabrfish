@@ -8,7 +8,7 @@
 
     angular
         .module('app.race-list', [])
-        .directive("raceList", ['$http', '$location', 'APP_APIS', 'TileService', 'Flash', function($http, $location, APP_APIS, TileService, Flash) {
+        .directive("raceListOld", ['$http', '$location', 'APP_APIS', 'TileService', 'Flash', function($http, $location, APP_APIS, TileService, Flash) {
             return {
             	restrict: "E",
             	scope: {
