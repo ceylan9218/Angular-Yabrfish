@@ -341,6 +341,7 @@
    //      }
 
         $scope.$on('results', function(e, data){
+console.log(data);        	
 			$scope.results = data;
         })
     }

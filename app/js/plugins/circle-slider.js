@@ -10,234 +10,220 @@
                   circleId: '=',
                   circleType: '=',
                   contents: '=',
-                  index: '='
                 },
                 templateUrl: "app/views/partials/circle-slider.html",
                 link: function(scope, element, attrs) {
-                  $timeout(function(){
-                  }, 1000);
+scope.$watch('circleId', function(newVal){
 
-//                  scope.$watch('contents', function(newVal){
-//console.log(newVal);
-                      $timeout(function(){
-                      
-                          var slider = angular.element('#'+scope.circleId+' #slider');
-                          var circleBg = angular.element('#'+scope.circleId+' #circle .circleBg');
-                          var circle = angular.element('#'+scope.circleId+' #circle');
-                          var poolContainer = angular.element('#'+scope.circleId+' .poolContainer');
-                          var slide = angular.element('.slide');
+//                    $timeout(function(){
+//console.log(scope.contents);
 
-                          var sliderW2 = 10;
-                          var sliderH2 = 10;
-                          var radius = 45;
-                          var deg = 0, atan = 0;
-                          var X = 0, Y = 0;
-                          var mdown = false;
-                          var setZero = false;
-                          var prev_atan = 0;
-                          var clockwise = false;
-                          var total_deg = 0;
-                          var diff_atan = 0;
-                          var degree = 0;
-                          var elP = circle.offset();
+                        var slider = angular.element('#'+scope.circleId+' #slider');
+                        var circleBg = angular.element('#'+scope.circleId+' #circle .circleBg');
+                        var circle = angular.element('#'+scope.circleId+' #circle');
+                        var poolContainer = angular.element('#'+scope.circleId+' .poolContainer');
+                        var slide = angular.element('.slide');
 
-                          var elPos = {
-                            x: elP.left - slide.width() * scope.index,
-                            y: elP.top
+                        var sliderW2 = 10;
+                        var sliderH2 = 10;
+                        var radius = 45;
+                        var deg = 0, atan = 0;
+                        var X = 0, Y = 0;
+                        var mdown = false;
+                        var setZero = false;
+                        var prev_atan = 0;
+                        var clockwise = false;
+                        var total_deg = 0;
+                        var diff_atan = 0;
+                        var degree = 0;
+                        var elP = circle.offset();
+
+                        var elPos = {
+                          x: elP.left,
+                          y: elP.top
+                        };
+
+                        slider.css({
+                          left: '35px',
+                          top: '-10px'
+                        });
+
+                        scope.content = scope.contents[0];
+
+                        var count = scope.contents.length;
+                        if(count > 0)
+                          scope.step = 1;
+                        else
+                          scope.step = 0;
+
+                        // Get Mouse/Touch position.                  
+                        var getMPos = function(event) {
+                          
+                          var scrollFromTop = $(window).scrollTop();
+
+                          var mPos = {
+                            x: event.clientX - elPos.x,
+                            y: event.clientY - elPos.y + scrollFromTop
                           };
 
-                          scope.content = scope.contents[0];
-                          
-                          var count = scope.contents.length;
-                          if(count > 0)
-                            scope.step = 1;
-                          else
-                            scope.step = 0;
+                          return mPos;
+                        }
 
-                          // Get Mouse/Touch position.                  
-                          var getMPos = function(event) {
+                        poolContainer.on('mousedown touchstart', function(event) {
                             
-                            var scrollFromTop = $(window).scrollTop();
+                            mdown = true;
+                            deg = 0;
 
-                            var mPos = {
-                              x: event.clientX - elPos.x,
-                              y: event.clientY - elPos.y + scrollFromTop
-                            };
+                            var mPos = getMPos(event);
+                            
+                            // If user click on left of circle at first, it sets circle to 0.
+                            if(15 < mPos.x && mPos.x <= 60)
+                                setZero = true;
+                            
+                            if(scope.circleType == 'class')
+                              angular.element('.race-list').addClass('whirl line back-and-forth');
+                        });
 
-                            return mPos;
-                          }
+                        poolContainer.on('mouseup touchend', function(event) {
 
-                          poolContainer.on('mousedown touchstart', function(event) {
-                              
-                              mdown = true;
-                              deg = 0;
+                            mdown = false;
+                            
+                            deg = Math.round(deg);
 
-                              var mPos = getMPos(event);
-                              
-                              // If user click on left of circle at first, it sets circle to 0.
-                              if(15 < mPos.x && mPos.x <= 60)
-                                  setZero = true;
-                              
-                              if(scope.circleType == 'class')
-                                angular.element('.race-list').addClass('whirl line back-and-forth');
-                          });
+                            X = Math.round(radius * Math.sin(deg * Math.PI / 2));
+                            Y = Math.round(radius * -Math.cos(deg * Math.PI / 2));
 
-                          poolContainer.on('mouseup touchend', function(event) {
+                            var sliderLeft = X + radius - sliderW2;
+                            var sliderTop = Y + radius - sliderH2;
 
-                              mdown = false;
-                              
-                              deg = Math.round(deg);
+                            slider.css({
+                              left: sliderLeft,
+                              top: sliderTop
+                            });
 
-                              X = Math.round(radius * Math.sin(deg * Math.PI / 2));
-                              Y = Math.round(radius * -Math.cos(deg * Math.PI / 2));
+                            scope.$apply(function(){
 
-                              var sliderLeft = X + radius - sliderW2;
-                              var sliderTop = Y + radius - sliderH2;
+                              if (scope.contents.length > 0) {
+                                scope.step = degree % count + 1;
+                                scope.content = scope.contents[scope.step - 1];  
 
-                              slider.css({
-                                left: sliderLeft,
-                                top: sliderTop
-                              });
-
-                              scope.$apply(function(){
-                                if (scope.contents.length > 0) {
-                                  scope.step = degree % count + 1;
-                                  scope.content = scope.contents[scope.step - 1];  
-
-                                  var circleData = {
-                                    type: scope.circleType,
-                                    firstEvent: true,
-                                    data: scope.content
-                                  }
-
-                                  scope.$parent.$parent.$parent.$broadcast('circleData', circleData);
-                                }else{
-                                  scope.step = 0;
+                                var circleData = {
+                                  type: scope.circleType,
+                                  data: scope.content
                                 }
 
-                                if(scope.circleType == 'class'){
-                                  angular.element('.race-list').removeClass('whirl line back-and-forth');
-
-                                  var raceId = 'race_' + scope.circleId.split('_')[1];
-                                  var resetData = {
-                                    raceId: raceId
-                                  };
-
-                                  scope.$emit('resetRace', resetData);
-                                }
-                              })
-                          });
-
-                          scope.$on('resetRace', function(e, data){
-                            var raceId = data.raceId;
-
-                            angular.element('#'+raceId+' #slider').css({
-                              left: '35px',
-                              top: '-10px'
-                            })
-                          });
-
-                          poolContainer.on('mousemove touchmove', function(event) {
-
-                              event.preventDefault();
-                                
-                              var clientX = event.clientX,
-                                  clientY = event.clientY;
-                                
-                              if (event.type === 'touchmove') {
-                                    //console.log(event.originalEvent.changedTouches[0]);
-                                  clientX = event.originalEvent.changedTouches[0].clientX;
-                                  clientY = event.originalEvent.changedTouches[0].clientY;
+                                scope.$emit('circleData', circleData);
+                              }else{
+                                scope.step = 0;
                               }
-                                
-                              if (mdown) {
 
-                                  X = Math.round(radius * Math.sin(deg * Math.PI / 2));
-                                  Y = Math.round(radius * -Math.cos(deg * Math.PI / 2));
+                              if(scope.circleType == 'class'){
+                                angular.element('.race-list').removeClass('whirl line back-and-forth');
 
-                                  var sliderLeft = X + radius - sliderW2;
-                                  var sliderTop = Y + radius - sliderH2;
+                                var raceId = 'race_' + scope.circleId.split('_')[1];
+                                var resetData = {
+                                  raceId: raceId
+                                };
 
-                                  slider.css({
-                                    left: sliderLeft,
-                                    top: sliderTop
-                                  });
+                                scope.$emit('resetRace', resetData);
+                              }
+                            })
+                        });
 
-                                  var scrollFromTop = $(window).scrollTop();
-                                    
-                                  var mPos = {
-                                    x: clientX - elPos.x,
-                                    y: clientY - elPos.y + scrollFromTop
-                                  };
+                        scope.$on('resetRace', function(e, data){
+                          var raceId = data.raceId;
 
-                                  //var atan = Math.atan2(mPos.x - radius, mPos.y - radius * 2);
-                                  atan = Math.atan2(mPos.x - radius, mPos.y - radius);
-                                  deg = -atan / (Math.PI / 2) + 2; // final (0-360 positive) degrees from mouse position
+                          angular.element('#'+raceId+' #slider').css({
+                            left: '35px',
+                            top: '-10px'
+                          })
+                        });
 
-                                  var diff_atan = atan - prev_atan;
+                        poolContainer.on('mousemove touchmove', function(event) {
+
+                            event.preventDefault();
+                              
+                            var clientX = event.clientX,
+                                clientY = event.clientY;
+                              
+                            if (event.type === 'touchmove') {
+                                  //console.log(event.originalEvent.changedTouches[0]);
+                                clientX = event.originalEvent.changedTouches[0].clientX;
+                                clientY = event.originalEvent.changedTouches[0].clientY;
+                            }
+                              
+                            if (mdown) {
+
+                                X = Math.round(radius * Math.sin(deg * Math.PI / 2));
+                                Y = Math.round(radius * -Math.cos(deg * Math.PI / 2));
+
+                                var sliderLeft = X + radius - sliderW2;
+                                var sliderTop = Y + radius - sliderH2;
+
+                                slider.css({
+                                  left: sliderLeft,
+                                  top: sliderTop
+                                });
+
+                                var scrollFromTop = $(window).scrollTop();
                                   
-                                  if( 0 <= diff_atan && diff_atan < Math.PI )
-                                    clockwise = false;
-                                  else if( Math.PI <= diff_atan && diff_atan < Math.PI * 2 ){
-                                    clockwise = true;
-                                    diff_atan = diff_atan - Math.PI*2;
-                                  }
-                                  else if( Math.PI * -1 <= diff_atan && diff_atan < 0 )
-                                    clockwise = true;
-                                  else if( Math.PI * -2 <= diff_atan && diff_atan < Math.PI * -1 ){
-                                    clockwise = false;
-                                    diff_atan = diff_atan + Math.PI*2;
-                                  }
-                                  else
-                                    clockwise = false;
+                                var mPos = {
+                                  x: clientX - elPos.x,
+                                  y: clientY - elPos.y + scrollFromTop
+                                };
 
-                                  total_deg = total_deg + diff_atan;
+                                //var atan = Math.atan2(mPos.x - radius, mPos.y - radius * 2);
+                                atan = Math.atan2(mPos.x - radius, mPos.y - radius);
+                                deg = -atan / (Math.PI / 2) + 2; // final (0-360 positive) degrees from mouse position
 
-                                  if(!setZero)
-                                    degree = -total_deg / Math.PI * 180 + 180;
-                                  else
-                                    degree = -total_deg / Math.PI * 180 - 180;
+                                var diff_atan = atan - prev_atan;
+                                
+                                if( 0 <= diff_atan && diff_atan < Math.PI )
+                                  clockwise = false;
+                                else if( Math.PI <= diff_atan && diff_atan < Math.PI * 2 ){
+                                  clockwise = true;
+                                  diff_atan = diff_atan - Math.PI*2;
+                                }
+                                else if( Math.PI * -1 <= diff_atan && diff_atan < 0 )
+                                  clockwise = true;
+                                else if( Math.PI * -2 <= diff_atan && diff_atan < Math.PI * -1 ){
+                                  clockwise = false;
+                                  diff_atan = diff_atan + Math.PI*2;
+                                }
+                                else
+                                  clockwise = false;
 
-                                  if (degree >= (90 * count + 45)) {
-                                    total_deg = total_deg + (Math.PI / 2) * count;
-                                  }
-                                  if (degree < 0) {
-                                    total_deg = total_deg - (Math.PI / 2) * count;
-                                  }
+                                total_deg = total_deg + diff_atan;
 
-                                  degree = parseInt((degree + 45) / 90);
-                                  prev_atan = atan;
+                                if(!setZero)
+                                  degree = -total_deg / Math.PI * 180 + 180;
+                                else
+                                  degree = -total_deg / Math.PI * 180 - 180;
 
-                                  scope.$apply(function() {
+                                if (degree >= (90 * count + 45)) {
+                                  total_deg = total_deg + (Math.PI / 2) * count;
+                                }
+                                if (degree < 0) {
+                                  total_deg = total_deg - (Math.PI / 2) * count;
+                                }
 
-                                    // Remove Dependancy on CLASS We should be simply displaying Data
-                                    // And sending broadcast messages when this data changes
-                                    // Race data should change as well when circle is scrolling
-                                    //if (scope.contents.length > 0  && scope.circleType == 'class') {
-                                  if (scope.contents.length > 0 ) {
+                                degree = parseInt((degree + 45) / 90);
+                                prev_atan = atan;
 
-                                      console.log("Circle Value " + scope.step);
+                                scope.$apply(function() {
+                                    if (scope.contents.length > 0 ) {
+//                                      console.log("Circle Value " + scope.step);
                                       scope.step = degree % count + 1;
                                       scope.content = scope.contents[scope.step - 1];  
 
                                       if(!scope.content)
-                                        return;
-
-                                      // var circleData = {
-                                      //   type: scope.circleType,
-                                      //   data: scope.content
-                                      // }
-                                      // scope.$emit('circleData', circleData);
-                                    }
-                                    // else{
-                                    //   scope.step = 0;
-                                    // }
-                                  })
-
-                              } // if (mdown) - end                              
-                          }); // poolContainer.on('mousemove touchmove') - end
-                      }, 1000)     
-//                  })
+                                          return;
+                                    }                                
+                                })
+                            } // if (mdown) - end                              
+                        }); // poolContainer.on('mousemove touchmove') - end
+//                    }, 2000);
+})
                 }
             };
         }])

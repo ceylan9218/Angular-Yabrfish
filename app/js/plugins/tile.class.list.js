@@ -47,7 +47,10 @@
               			})
               		}
 
-                  getClasses(scope.event.eventId);
+                  scope.$watch('event', function(newVal){
+                    var eventId = newVal.eventId;
+                    getClasses(eventId);
+                  })
 
                   // scope.$on('circleData', function(e, data){
                   //     if(data.type == 'class'){
