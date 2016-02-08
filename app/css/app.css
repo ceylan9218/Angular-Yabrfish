@@ -11045,7 +11045,7 @@ img.logo{
 .block, .block.accounts{
   background: #fff;
   width: 100%;
-  padding: 10px 30px 20px;
+  padding: 10px 31px 20px 30px;
   margin-bottom: 30px;
   border: 1px solid #cccbcb;
   display: inline-block;
@@ -11219,7 +11219,7 @@ img.logo{
 }
 .club{
   display: inline-block;
-  width: 333px;
+  width: 359px;
   float: left;
 }
 .club-content{
@@ -11357,38 +11357,6 @@ img.logo{
   padding-right: 0;
   border-right: none;
 }
-.club-panel .left-arrow{
-  width: 40px;
-  height: 100%;
-  display: table;
-  float: left;
-  cursor: pointer;
-}
-.club-panel .right-arrow{
-  width: 39px;
-  height: 100%;
-  display: table;  
-  float: right;
-  cursor: pointer;
-}
-.club-panel .left-arrow i{
-  display: table-cell;
-  vertical-align: middle;
-  padding-left: 10px;
-  font-size: 24px;
-  color: #3ABEEF;
-}
-.club-panel .right-arrow i{
-  display: table-cell;
-  vertical-align: middle;
-  color: #3ABEEF;
-  text-align: right;
-  padding-right: 10px;
-  font-size: 24px;
-}
-.club-panel .arrow img.mobile{
-  display: none;
-}
 @media only screen and (max-width: 767px) {
   .profile-wrap{
     width: 290px;
@@ -11499,28 +11467,7 @@ img.logo{
   }
   .club-about .block-content ul li span{
     float: left;
-  }
-  .club-panel .left-arrow{
-    width: 20px;
-    position: absolute;
-    left: -9px;
-    top: 50%;
-    height: auto;
-  }
-  .club-panel .right-arrow{
-    width: 20px;
-    position: absolute;
-    right: -20px;
-    top: 50%;
-    height: auto;
-  }
-  .club-panel .left-arrow i, .club-panel .right-arrow i{
-    display: none;
-  }
-  .club-panel .left-arrow img.mobile, .club-panel .right-arrow img.mobile{
-    display: block;
-    width: 28px;
-  }
+  }  
   .club-content{
     padding: 0 5px;
   }
@@ -11587,7 +11534,7 @@ img.logo{
     width: 100px;
     font-size: 14px;
   }
-  .my-clubs{
+  .club-bio{
     height: 300px;
     overflow: auto;
   }
@@ -11644,24 +11591,6 @@ img.logo{
   .club{
     width: 303px;
   }
-  .club-panel .left-arrow{
-    width: 20px;
-  }
-  .club-panel .right-arrow{
-    width: 20px;
-  }
-  .club-panel .left-arrow i{
-    padding-left: 0px;
-  }
-  .club-panel .right-arrow i{
-    padding-right: 0px;
-  }
-  .club:nth-child(2n+1) .club-content{
-    padding: 0 20px 0 0;
-  }
-  .club:nth-child(2n) .club-content{
-    padding: 0 0 0 20px;
-  }
   .club-info{
     padding: 10px 15px;
   }
@@ -11715,13 +11644,7 @@ img.logo{
 @media only screen and (min-width: 1200px) {
   .profile-wrap{
     width: 1140px;
-  }
-  .club:nth-child(3n+1) .club-content{
-    padding: 0 30px 0 0;
-  }
-  .club:nth-child(3n) .club-content{
-    padding: 0 0 0 30px;
-  }
+  }  
 }
 /* ========================================================================
    title: Profile - Club Page Style
@@ -11729,21 +11652,21 @@ img.logo{
    date: 2015.11.16
  ========================================================================== */
 .club-panel{
-  display: table;
+  display: inline-block;
   width: 100%;
   height: 100%;
 }
 .clubs{
   display: inline-block;
   margin-top: 10px;
-  width: calc(100% - 79px);
-  overflow: hidden;
+  overflow-x: auto;
+  width: 100%;
 }
 .club-slider {
   width: 100%;
   height: 100%;
   white-space: nowrap;
-  transition: all 1s ease 0s;
+  display: inline-block;
 }
 .club-search{
   display: inline-block;

@@ -74,6 +74,11 @@
           'viewer':               'http://demo.data.yabrfish.com/yfapi/viewerservice',
           'media':                'http://demo.data.yabrfish.com/yfapi/mediaservice'
           // 'media':                'http://data.yabrfish.com:9097/mediaservice'
+        })
+        .constant('COLUMN_WIDTH', {
+          'one_column': '290',
+          'two_column': '708',
+          'three_column': '1140' 
         });
 })();
 (function() {

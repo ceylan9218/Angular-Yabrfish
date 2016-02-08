@@ -1,9 +1,7 @@
 <div class="club-panel">
-	<div class="arrow left-arrow" ng-click="slideClubs('left')"><img class="mobile" src="app/img/scroll-arrow-left.png"><i class="fa fa-angle-left"></i></div>
 	<div class="clubs" infinite-scroll="getClubs()" infinite-scroll-container="'.my-clubs'">
-		<div class="club-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': clubsWidth}">
-			<club-item class="club" ng-repeat="club in myClubs track by $index" club="club"></club-item>			
+		<div class="club-slider" ng-style="{'width': clubsWidth}">
+			<club-item class="club" ng-repeat="club in myClubs track by $index" club="club"></club-item>
 		</div>
 	</div>
-	<div class="arrow right-arrow" ng-click="slideClubs('right')"><img class="mobile" src="app/img/scroll-arrow-right.png"><i class="fa fa-angle-right"></i></div>	
 </div>
