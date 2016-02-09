@@ -11245,6 +11245,7 @@ img.logo{
 .item-content img{
   width: 100%;
   height: 226px;
+  float: left;
 }
 .item-content a.title{
   margin: 20px 0px 0px;
