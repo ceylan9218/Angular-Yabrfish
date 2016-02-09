@@ -1,0 +1,97 @@
+<div class="profile-wrap account-profile" ng-init="getAccount()">
+  <h4 class="profile-title">My Account</h4>
+  <div class="block about account-about">
+    <div class="account-info">
+      <img ng-src="{{account.accountLogoUrl && account.accountLogoUrl || ''}}"></img>
+      <div class="info">
+        <h4 class="account-title">{{account.name}}</h4>
+        <span class="account-type">{{account.type}}</span>
+        <a class="upload-photo">Upload Photo</a>          
+      </div>
+    </div>    
+    <div class="profile-header">
+      <h4><img src="app/img/participants.png"><span>About</span></h4>
+      <a class="edit_info">Edit Information</a>
+    </div>
+    <div class="block-content">
+      <ul>
+        <li><img src="app/img/site.png"><span>{{account.contact_web}}</span></li>
+        <li><img src="app/img/email.png"><span>{{account.contact_email}}</span></li>
+        <li><img src="app/img/phone.png"><span>{{account.contact_phone}}</span></li>
+        <li><img src="app/img/location-g.png"><span>Newport, Isle of Wight</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="block bio">    
+    <div class="profile-header">
+      <h4><img src="app/img/info.png" style="width: 20px;"><span>Bio</span></h4>
+      <a class="edit_info">Edit Information</a>
+    </div>
+    <div class="block-content">
+      <a editable-textarea="account.attr_bio">{{account.attr_bio || 'No Bio'}}</a>
+    </div>
+  </div>
+  <div html-sortable="sortableOptions">    
+    <div class="block equipment">
+      <div class="profile-header">
+        <h4><img src="app/img/equipment-icon.png" style="width: 20px;"><span style="margin-left: 10px;">My Equipment</span></h4>
+        <a class="edit_info">Add Equipment</a>
+      </div>
+      <div class="block-content">
+        <span></span>
+      </div>
+    </div>
+    <div class="block services">
+      <div class="profile-header">
+        <h4><img src="app/img/service-icon.png" style="width: 20px;"><span style="margin-left: 10px;">Services</span></h4>
+        <a class="edit_info">Add Equipment</a>
+      </div>
+      <div class="block-content">
+        <span>My Equipments</span>
+      </div>
+    </div>
+    <div class="block location">
+      <div class="profile-header">
+        <h4><img src="app/img/location.png" style="width: 20px;"><span style="margin-left: 10px;">Location</span></h4>
+        <a class="edit_info">Edit Location</a>
+      </div>
+      <div class="block-content">
+        <span></span>
+      </div>
+    </div>
+    <div class="block link-social">
+      <div class="profile-header">
+        <h4><img src="app/img/share-alt.png" style="width: 20px;"><span style="margin-left: 10px;">Link Social Media Accounts</span></h4>
+      </div>
+      <div class="block-content">
+        <span></span>
+      </div>
+    </div>
+    <div class="block club-members">
+      <div class="profile-header">
+        <h4><img src="app/img/member.png" style="width: 20px;"><span style="margin-left: 10px;">Account Admins</span></h4>
+        <a class="edit_info">Add Account Admin</a>
+      </div>
+      <div class="block-content">
+        <span></span>
+      </div>
+    </div>
+    <div class="block follow-tags">
+      <div class="profile-header">
+        <h4><img src="app/img/member.png" style="width: 20px;"><span style="margin-left: 10px;">Follow Tags</span></h4>
+        <a class="edit_info">Add Tags</a>
+      </div>
+      <div class="block-content">
+        <span></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- <div class="buttons">
+    <button class="update-profile btn pull-right" ng-click="updateProfile();">Save</button>
+  </div> -->
+</div>
+
+<!-- Alert message-->
+<div flash-message="3000" class="alert-message" ng-show="$root.hasFlash"></div>
+
