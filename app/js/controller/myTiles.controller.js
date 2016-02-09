@@ -69,7 +69,6 @@ angular
                     $scope.loading = false;
                     $scope.bTileScrollDisabled = true;
 
-console.log($scope.myTiles);
                     setTilesWidth($scope.myTiles);
                 }, function (error) {
                     console.log(error);
