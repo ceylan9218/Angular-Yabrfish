@@ -48,7 +48,7 @@
         if(!$rootScope.user)
             return;
 
-        var clubId = $state.params.id;
+        $scope.clubId = $state.params.id;
         $scope.club = {};
 
         $scope.getClub = function() {
@@ -56,14 +56,14 @@
 
             if($scope.cacheClubs.length == 0){
                 ViewerService.getClubs($rootScope.user.externalId).then(function (clubs) {
-                    $scope.club = ViewerService.setCurrentClub(clubId).account;
+                    $scope.club = ViewerService.setCurrentClub($scope.clubId).account;
                     setClubAttr($scope.club);
                 }, function (error) {
                     console.log(error);
                     return;
                 })
             }else{
-                $scope.club = ViewerService.setCurrentClub(clubId).account;
+                $scope.club = ViewerService.setCurrentClub($scope.clubId).account;
                 setClubAttr($scope.club);
             }
         }
