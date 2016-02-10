@@ -1,0 +1,68 @@
+<div class="tile-detail-modal" ng-init="getTileEvents()">
+   <div class="list col-md-4">
+      <div class="event-list events">
+         <ul>
+            <li class="btn btn-default" ng-repeat="event in events" ng-click="changeEvent(event)">
+               <div class="event-heading" ng-if="event != 'addEvent'">
+                  <div class="calendar-wrap">
+                     <img class="calendar" src="app/img/cal-icon.png" alt="">
+                     <span class="month">{{event.month}}</span>
+                     <span class="date">{{event.date}}</span>
+                  </div>
+                  <div class="event-name">
+                     <h4>{{event.name}}</h4>
+                  </div>
+               </div>
+            </li>
+            <li class="btn btn-default"><a>New Event</a></li>
+         </ul>
+      </div>
+   </div>
+   <div class="panels col-md-8">
+      <div class="results-panel col-md-6">
+         <class-list class="class-list" tile="tile" event="currEvent"></class-list>
+         <accordion>
+            <accordion-group class="result-panel" is-open="tile.showResult" ng-if="results.length > 0">
+               <accordion-heading class="actionReplay-header">
+                  <img src="app/img/results.png">Results<i class="pull-right fa" ng-class="{'fa-angle-up': tile.showResult, 'fa-angle-down': !tile.showResult}"></i>
+               </accordion-heading>
+               <div class="result-wrap">
+                  <ul>
+                     <li ng-repeat="result in results">
+                        <span class="position" ng-class="{'gold': result.position == '1', 'silver': result.position == '2', 'bronze': result.position == '3', 'blue': result.position != '1' && result.position != '2' && result.position != '3'}" ng-if="result.positionDesc != 'DNC'">{{result.position}}</span>
+                        <span class="position red" ng-if="result.positionDesc == 'DNC'">{{result.position}}</span>
+                        <div class="race-info" ng-style="{ 'width' : !result.finishCorrected ? 'calc(100% - 40px)' : 'calc(100% - 135px)' }">
+                           <span class="equipmentOwner">{{result.equipmentOwner}}</span>
+                           <span class="equipmentName">{{result.equipmentName}}
+                           &nbsp;{{result.sailNumber}}</span>
+                        </div>
+                        <div class="finish-time" ng-if="result.finishCorrected">
+                           <div class="time" ng-repeat="time in result.finishCorrected track by $index">
+                              <span class="time-val">
+                                 <span class="timer">{{time}}</span>
+                              </span>                                       
+                              <span class="seperator" ng-if="$index !=2"><b>:</b></span>
+                           </div>
+                           <span class="no-time" ng-if="result.positionDesc == 'DNC'">{{result.positionDesc}}</span>
+                        </div>
+                     </li>
+                  </ul>
+               </div>
+            </accordion-group>
+         </accordion>         
+      </div>
+      <div class="action-replay col-md-6">
+         <tile-image class="tile-image" image-src="tile.creatives[0].url" tile-id="tile.externalId" tile="card" on-complete="onComplete(creative)"></tile-image>
+         <accordion>
+            <accordion-group is-open="tile.showActionReplay">
+               <accordion-heading class="actionReplay-header">
+                  <img src="app/img/action-replay.png">Action Replay<i class="pull-right fa" ng-class="{'fa-angle-up': tile.showActionReplay, 'fa-angle-down': !tile.showActionReplay}"></i>
+               </accordion-heading>
+               <div>
+                  <action-replay></action-replay>               
+               </div>
+            </accordion-group>   
+         </accordion>
+      </div>
+   </div>
+</div>

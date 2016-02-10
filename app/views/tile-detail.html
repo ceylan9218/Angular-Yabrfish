@@ -22,7 +22,7 @@
             <img ng-src="{{addToComment? ('app/img/comment.png'): ('app/img/comment-o.png')}}">
             <span ng-style="{'color': addToComment? '#3abeef':'#ccc'}">Comment</span>
          </a>
-         <a class="more pull-right" ng-click="extendTile(card)">
+         <a class="more pull-right" ng-click="openTileMore(card)">
             <img ng-src="{{card.moreImg}}">
          </a>
       </div>
