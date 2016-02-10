@@ -9418,6 +9418,17 @@ flot .legend .legendColorBox > div > div {
   left: auto;
   top: 10px;
 }
+.parsley-error {
+  border-color: #f05050 !important;
+}
+ul.parsley-errors-list{
+  padding: 0;
+}
+.parsley-errors-list > li {
+    font-size: 12px;
+    list-style: none;
+    color: #f05050;
+}
 .input-sm + .form-control-feedback,
 .input-sm + .parsley-errors-list + .form-control-feedback {
   top: 0;
@@ -10790,10 +10801,12 @@ img.logo{
 .signup-content .buttons .btn.next i{
   margin-left: 10px;
 }
-.signup-wrap input[type="radio"]{
+.signup-wrap input[type="radio"],
+.signup-wrap input[type="checkbox"]{
   display: none;
 }
-.signup-wrap input[type="radio"] + label{
+.signup-wrap input[type="radio"] + label,
+.signup-wrap input[type="checkbox"] + label{
   background: url('../img/radio-uncheck.png') no-repeat left center;
   background-size: 25px;
   padding-left: 35px;
@@ -10802,7 +10815,8 @@ img.logo{
   color: #838383;
   margin-right: 20px;
 }
-.signup-wrap input[type="radio"]:checked + label{
+.signup-wrap input[type="radio"]:checked + label,
+.signup-wrap input[type="Checkbox"]:checked + label{
   background: url('../img/radio-check.png') no-repeat left center;
   background-size: 25px;
 }
@@ -10834,6 +10848,57 @@ img.logo{
 }
 .signup-content .file-upload span{
   margin-left: 10px;
+}
+.signup-content .form-control{
+  border-radius: 0px;
+  margin-bottom: 10px;
+  padding: 12px;
+  height: auto;
+  font-size: 16px;
+  border-bottom: 1px solid #3abeef;
+}
+.pager li.next > a {
+  background: #3ABEEF none repeat scroll 0% 0%;
+  font-size: 16px;
+  padding: 5px 20px;
+  border-radius: 20px;
+  color: #FFF;
+  width: 100px;
+  float: right;
+  margin-top: 3px;
+}
+.pager li.back > a {
+  background: transparent;
+  border: 1px solid #3ABEEF;
+  font-size: 16px;
+  padding: 5px 20px;
+  border-radius: 20px;
+  color: #3ABEEF;
+  width: 100px;
+  float: left;
+  margin-top: 3px; 
+}
+.pager li.skip > a {
+  background: transparent;
+  border: 1px solid #3ABEEF;
+  font-size: 16px;
+  padding: 5px 20px;
+  border-radius: 20px;
+  color: #3ABEEF;
+  width: 100px;
+  margin-top: 3px;  
+}
+.signup-wrap .checkboxes{
+  display: inline-block;
+}
+.signup-wrap .checkboxes ul.parsley-errors-list{
+  display: none;
+}
+.signup-wrap .form-wizard h4{
+  text-align: center;
+  color: #3ABEEF;
+  font-weight: normal;
+  margin-top: 0;
 }
 @media only screen and (max-width: 767px) {
   .signup-wrap{

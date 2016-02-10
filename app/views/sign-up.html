@@ -1,51 +1,83 @@
 <div class="signup-wrap">
   <h4 class="title">Sign up</h4>  
   <div class="signup-content">
-    <form name="registerForm" novalidate="" class="form-validate">
-      <!-- START panel-->
-      <div class="panel panel-default">
-          <div class="panel-body">
-            <div class="form-group">
-              <input type="email" placeholder="mail@example.com" name="email" required="" ng-model="register.email" class="form-control" />
-              <span ng-show="registerForm.email.$dirty &amp;&amp; registerForm.email.$error.required" class="text-danger">This field is required</span>
-              <span ng-show="registerForm.email.$dirty &amp;&amp; registerForm.email.$error.email" class="text-danger">This field must be a valid email address</span>
+    <form name="registerForm" class="form-validate" form-wizard="" validate-steps="true" validate-form="" steps="4">
+        <div class="form-wizard wizard-horizontal">
+          <div id="step1" ng-show="wizard.active(1)">
+              <input type="email" name="email" data-parsley-group="step1" placeholder="Email address" required="required" ng-model="register.email" class="form-control" data-parsley-type="email" />
+              <input id="password1" type="password" name="password1" data-parsley-group="step1" placeholder="Password" required="required" ng-model="register.password1" class="form-control" />
+              <input type="password" name="password2" data-parsley-group="step1" placeholder="Re-type Password" required="required" ng-model="register.password2" class="form-control" data-parsley-equalto="#password1" data-parsley-equalto-message="Password does Not match"/>
+              <ul class="pager">
+                <li class="next"><a href="#" ng-click="wizard.go(2)">Next <span>></span></a></li>
+              </ul>
+          </div>
+          <div id="step2" ng-show="wizard.active(2)">
+              <input type="text" name="firstname" data-parsley-group="step2" placeholder="First Name" required="required" ng-model="register.firstname" class="form-control" />
+              <input type="text" name="surname" data-parsley-group="step2" placeholder="Surname" required="required" ng-model="register.surname" class="form-control" />
+              <input type="text" name="age" data-parsley-group="step2" data-parsley-type="number" placeholder="Age" required="required" ng-model="register.age" class="form-control" />
+              <div class="sex">
+                <input type="radio" id="male" name="sex">
+                <label for="male">Male</label>
+                <input type="radio" id="female" name="sex">
+                <label for="female">Female</label>
+              </div>
+              <ul class="pager">
+                <li class="back"><a href="#" ng-click="wizard.go(1)"><span>< Back</span></a></li>
+                <li class="next"><a href="#" ng-click="wizard.go(3)">Next <span>></span></a></li>
+              </ul>
+          </div>
+          <div id="step3" ng-show="wizard.active(3)">
+              <h4 class="title">What are you interested in?</h4>
+              <div class="checkboxes">
+                <div class="col-md-4">
+                  <input type="checkbox" id="sail" name="sail"><label for="sail">Sail</label>
+                  <input type="checkbox" id="power" name="power"><label for="power">Power</label>
+                  <input type="checkbox" id="boards" name="boards"><label for="boards">Boards</label>
+                  <input type="checkbox" id="canoe" name="canoe"><label for="canoe">Canoe</label>
+                  <input type="checkbox" id="row" name="row"><label for="row">Row</label>
+                  <input type="checkbox" id="fish" name="fish"><label for="fish">Fish</label>
+                  <input type="checkbox" id="dive" name="dive"><label for="dive">Dive</label>
+                  <input type="checkbox" id="swim" name="swim"><label for="swim">Swim</label>
+                </div>
+                <div class="col-md-4">
+                  <input type="checkbox" id="buy" name="buy"><label for="buy">Buy</label>
+                  <input type="checkbox" id="sell" name="sell"><label for="sell">Sell</label>
+                  <input type="checkbox" id="events" name="events"><label for="events">Events</label>
+                  <input type="checkbox" id="swap" name="swap"><label for="swap">Swap</label>
+                  <input type="checkbox" id="media" name="media"><label for="media">Media</label>
+                  <input type="checkbox" id="learn" name="learn"><label for="learn">Learn</label>
+                  <input type="checkbox" id="visit" name="visit"><label for="visit">Visit</label>
+                  <input type="checkbox" id="connect" name="connect"><label for="connect">Connect</label>
+                </div>
+                <div class="col-md-4">
+                  <input type="checkbox" id="work" name="work"><label for="work">Work</label>
+                  <input type="checkbox" id="crew" name="crew"><label for="crew">Crew</label>
+                  <input type="checkbox" id="every" name="every" ng-click="checkAll()"><label for="every">Everything</label>                  
+                </div>
+              </div>
+              <ul class="pager">
+                <li class="back"><a href="#" ng-click="wizard.go(2)"><span>< Back</span></a></li>
+                <li class="skip"><a href="#" ng-click="wizard.go(4)"><span>Skip</span></a></li>
+                <li class="next"><a href="#" ng-click="wizard.go(4)">Next <span>></span></a></li>
+              </ul>
+          </div>
+          <div id="step4" ng-show="wizard.active(4)">
+            <div class="jumbotron">
+              <h1>Done!</h1>              
+              <p>
+                <button type="button" class="btn btn-info btn-lg">You can Proceed Now</button>
+              </p>
             </div>
-            <div class="form-group">
-              <input id="id-password" type="password" name="password1" ng-model="register.password1" class="form-control" placeholder="Password" />
-              <span ng-show="registerForm.password1.$dirty &amp;&amp; registerForm.password1.$error.pattern" class="text-danger">Input should have 6-10 letters</span>
-            </div>
-            <div class="form-group">
-              <input type="password" name="confirm_match" required="" ng-model="register.password2" ui-validate="'$value==register.password1'" ui-validate-watch="'register.password1'" class="form-control" placeholder="Re-type Password"/>
-              <span ng-show="registerForm.confirm_match.$dirty &amp;&amp; registerForm.confirm_match.$error.validator" class="text-danger">Password does Not match</span>
-            </div>
-            <div class="form-group">
-              <input type="text" placeholder="First name" name="firstname" required="" ng-model="register.firstname" class="form-control" />
-              <span ng-show="registerForm.firstname.$dirty &amp;&amp; registerForm.firstname.$error.required" class="text-danger">This field is required</span>
-            </div>
-            <div class="form-group">
-              <input type="text" placeholder="Surname" name="surname" required="" ng-model="register.surname" class="form-control" />
-              <span ng-show="registerForm.surname.$dirty &amp;&amp; registerForm.surname.$error.required" class="text-danger">This field is required</span>
-            </div>                       
-            <div class="required">* Required fields</div>
-         </div>
-         <div class="panel-footer">
-            <div class="clearfix">
-               <div class="pull-left">
-                  <div class="checkbox c-checkbox">
-                     <label>
-                        <input type="checkbox" name="agreements" required="" ng-model="register.agreements" />
-                        <span class="fa fa-check"></span>I agree with the <a href="#">terms</a>
-                     </label>
-                  </div>
-                  <span ng-show="registerForm.agreements.$dirty &amp;&amp; registerForm.agreements.$error.required" class="text-danger">Please read and agree the terms</span>
-               </div>
-               <div class="pull-right">
-                  <button type="submit" class="btn btn-primary" ng-click="createUser()" ng-disabled="registerForm.$invalid">Register</button>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- END panel-->
+            <ul class="pager">
+              <li class="back">
+                <a href="#" ng-click="wizard.go(3)">
+                  <span>< Back</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- END Wizard Step inputs -->
+        </div>
     </form>    
   </div>
 </div>

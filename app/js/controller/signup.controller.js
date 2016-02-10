@@ -17,15 +17,10 @@
         password2: '',
         firstname: '',
         surname: '',
-        agreements: ''
+        age: ''
       }       
 
       $scope.createUser = function(){
-        if(!$scope.register.agreements){
-          Flash.create('danger', 'Error! Please read and agree the terms!');
-          return;
-        }
-
         var params = {
           email: $scope.register.email,
           password: $scope.register.password2,
@@ -43,6 +38,10 @@
             console.log(status);
             Flash.create('danger', 'Failed registration.');
           });      
+      }
+
+      $scope.checkAll = function() {
+        
       }
     }
 })();
