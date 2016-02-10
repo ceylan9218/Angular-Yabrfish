@@ -100,5 +100,43 @@
                     }
                 }
             }
-        }])        
+        }])
+        .controller('eventController', eventController)
+    
+    function eventController($rootScope, $scope, TileService, ViewerService) {
+        $scope.events = [];
+        $scope.currEvent = {};
+        var monthNames = TileService.getMonthNames();
+
+        $scope.getTileEvents = function() {
+
+            TileService.getTileEvents($scope.tile.externalId).then(function(events){
+                for(var i in events) {
+                    var startDate = new Date(events[i].startDate);
+                    var month = monthNames[startDate.getMonth()];
+                    var date = startDate.getDate();
+                    $scope.events.push({
+                        eventId: events[i].externalId,
+                        isRace: events[i].eventType == 'REGATTA',
+                        month: month,
+                        date: date,
+                        name: events[i].name,
+                        startDate: startDate,
+                        endDate: new Date(events[i].endDate)
+                    });
+                }
+
+                $scope.currEvent = $scope.events[0];
+            }, function(error){
+                console.log(error);
+            })    
+        }
+
+        $scope.changeEvent = function(event){
+            $scope.currEvent = event;
+        }
+        $scope.$on('results', function(e, data){
+            $scope.results = data;
+        })
+    }
 })();

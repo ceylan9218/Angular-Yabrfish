@@ -495,7 +495,10 @@
               {name: 'angular-carousel',          files: ['vendor/angular-carousel/dist/angular-carousel.css',
                                                         'vendor/angular-carousel/dist/angular-carousel.js']},
               {name: 'htmlSortable',              files: ['vendor/html.sortable/dist/html.sortable.js',
-                                                        'vendor/html.sortable/dist/html.sortable.angular.js']}                                                        
+                                                        'vendor/html.sortable/dist/html.sortable.angular.js']},
+              {name: 'ngDialog',                  files: ['vendor/ngDialog/js/ngDialog.min.js',
+                                                          'vendor/ngDialog/css/ngDialog.min.css',
+                                                          'vendor/ngDialog/css/ngDialog-theme-default.min.css'] }
           ]
         })
         ;
@@ -882,7 +885,7 @@
                 title: 'Tile Detail',
                 templateUrl: helper.basepath('tile-detail.html'),
                 controller: 'tileController',
-                resolve: helper.resolveFor('infinite-scroll')
+                resolve: helper.resolveFor('infinite-scroll', 'ngDialog')
             })
             .state('app.market', {
                 url: '/market',
