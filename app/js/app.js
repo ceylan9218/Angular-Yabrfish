@@ -54,6 +54,7 @@
             'app.location',
             'app.locations',
             'app.account',
+            'app.account-detail',
             // 'app.class-list',
             // 'app.race-list',
             'app.race-info',
@@ -938,6 +939,13 @@
                 title: 'Club Hub',
                 controller: 'clubItemController',
                 templateUrl: helper.basepath('club-profile.html'),
+                resolve: helper.resolveFor('htmlSortable')                
+            })
+            .state('app.account-detail', {
+                url: '/acc-profile/:id',
+                title: 'Account Hub',
+                controller: 'myAccountSingleController',
+                templateUrl: helper.basepath('acc-profile.html'),
                 resolve: helper.resolveFor('htmlSortable')                
             })
             // .state('app.club-detail', {
