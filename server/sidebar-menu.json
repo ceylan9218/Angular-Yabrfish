@@ -26,21 +26,7 @@
       "icon": "app/img/go-fish.png",
       "selicon": "app/img/go-fish-o.png",
       "label": "label label-info"
-  },
-  {
-      "text": "My Tiles",
-      "sref": "app.tiles",
-      "icon": "app/img/tiles.png",
-      "selicon": "app/img/tiles-o.png",
-      "label": "label label-info"
-  },
-  {
-      "text": "The Hub",
-      "sref": "app.profile-accounts",
-      "icon": "app/img/crew.png",
-      "selicon": "app/img/crew-o.png",
-      "label": "label label-info"
-  },
+  },  
   {
       "text": "Settings",
       "sref": "app.video-test",

@@ -69,6 +69,7 @@
         }
 
         var setClubAttr = function(club){
+            
             for(var i in club.accountContacts){
                 if(club.accountContacts[i].contactType == 'Web')
                     $scope.club.contact_web = club.accountContacts[i].attributeValueText;
