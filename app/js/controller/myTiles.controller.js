@@ -37,7 +37,7 @@ angular
 
         $scope.bTileScrollDisabled = false;
         $scope.loading = false;
-        $scope.myTiles = [];
+        $scope.myTiles = TileService.cacheMyTiles();
         $scope.tilesWidth = 0;
 
         var setTilesWidth = function(tiles){
@@ -46,6 +46,8 @@ angular
                 $scope.tilesWidth = tiles.length * tileWidth + 'px';
             })
         }
+
+        setTilesWidth($scope.myTiles);
 
         // Get My Tiles.
         $scope.getTiles = function() {
@@ -68,7 +70,7 @@ angular
                     $scope.myTiles = TileService.cacheMyTiles();
                     $scope.loading = false;
                     $scope.bTileScrollDisabled = true;
-
+console.log($scope.myTiles);
                     setTilesWidth($scope.myTiles);
                 }, function (error) {
                     console.log(error);
