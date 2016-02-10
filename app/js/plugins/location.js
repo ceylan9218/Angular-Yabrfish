@@ -16,6 +16,7 @@
         		},
         		templateUrl: 'app/views/partials/location.html',
         		link: function(scope, elem, attrs) {
+        			
         			var zoomVal = 17;
 					var defaultMapPos = {lat: 51.50013, lng: -0.126305};
 
