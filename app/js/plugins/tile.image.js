@@ -15,7 +15,8 @@
                     imageSrc: '=',
                     tileId: '=',
                     tile: '=',
-                    onComplete: '&'
+                    onComplete: '&',
+                    viewMode: '='
                 },
                 templateUrl: 'app/views/partials/tile-image.html',
         		link: function(scope, elem, attrs) {
@@ -65,6 +66,7 @@
                     }
 
                     scope.$on('tileImg', function(event, data){
+
                         // Close video players
                         angular.element('.player').each(function(){
                             var vid = angular.element(this).attr('id');
@@ -72,17 +74,19 @@
                         })
                         scope.$parent.$emit('youtubeVideo', scope.tileId, 'bitmovin');
 
-                        scope.imageSrc = data;
-                        angular.element('#tile_'+scope.tileId+' .tile-image').show();
-                        angular.element('#tile_'+scope.tileId+' .image-wrapper .close-btn').show();
+                        angular.element('.tile-detail-modal .tile-image .image').attr('src', data);
+                        //scope.imageSrc = data;
+                        angular.element('.tile-detail-modal .tile-image').show();
+                        angular.element('.tile-detail-modal .image-wrapper .close-btn').show();
 
-                        angular.element('#tile_'+scope.tileId+' .video-player').hide();
-                        angular.element('#tile_'+scope.tileId+' .video-player .close-btn').hide();
+                        angular.element('.tile-detail-modal .video-player').hide();
+                        angular.element('.tile-detail-modal .video-player .close-btn').hide();
                     })
 
                     scope.hideImage = function() {
-                        scope.imageSrc = tempImage;
-                        angular.element('#tile_'+scope.tileId+' .image-wrapper .close-btn').hide();
+                        angular.element('.tile-detail-modal .tile-image .image').attr('src', tempImage);
+                        //scope.imageSrc = tempImage;
+                        angular.element('.tile-detail-modal .image-wrapper .close-btn').hide();
                     }
                 }
             }

@@ -12,7 +12,8 @@
 			return {
 				restrict: 'E',
 				scope: {
-					tileId: '='
+					tileId: '=',
+					viewMode: '='
 				},
 				templateUrl: 'app/views/partials/tile-video.html',
 				link: function(scope, elem, attrs) {
@@ -41,7 +42,7 @@
 						clearBitdash();
 
 						var videoUrl = data.clientPlayBackUrl + data.url;
-console.log(videoUrl);						
+
 						var conf = {
                           	key:       '0bd009b1-35eb-4407-9115-9bbae70af5c3',
                           	playback: {
@@ -76,27 +77,39 @@ console.log(videoUrl);
 							}
                       	};
 
-                      	bitdash(scope.tileId).setup(conf);
+                      	bitdash(data.viewMode+'_'+scope.tileId).setup(conf);
 
-                      	angular.element('#tile_'+scope.tileId+' .video-player').show();
+                      	if( data.viewMode == 'normal' ){
+                      		angular.element('#tile_'+scope.tileId+' .video-player').show();
 
-						angular.element('.tile-image').show();
-						angular.element('#tile_'+scope.tileId+' .tile-image').hide();
+							angular.element('.tile-image').show();
+							angular.element('#tile_'+scope.tileId+' .tile-image').hide();
 
-						angular.element('.tileVideo').hide();
-						angular.element('#tile_'+scope.tileId+' .tileVideo').show();
+							angular.element('.tileVideo').hide();
+							angular.element('#tile_'+scope.tileId+' .tileVideo').show();
 
-						angular.element('.close-btn').hide();
-						angular.element('#tile_'+scope.tileId+' .close-btn').show();
+							angular.element('.close-btn').hide();
+							angular.element('#tile_'+scope.tileId+' .close-btn').show();
 
-						angular.element('.youtubeVideo-wrap').hide();
+							angular.element('.youtubeVideo-wrap').hide();	
+                      	}else if( data.viewMode == 'modal' ){
+                      		angular.element('.tile-detail-modal .video-player').show();
+							angular.element('.tile-detail-modal .tile-image').hide();
+							angular.element('.tile-detail-modal .tileVideo').show();
+							angular.element('.tile-detail-modal .close-btn').show();
+							angular.element('.youtubeVideo-wrap').hide();	
+                      	}
+                      	
 					})
 					
 					scope.$on('youtube', function(event, data){
 
 						var vid = data.externalRefs[0].externalContentId;
-						
-						scope.$parent.$emit('youtubeVideo', scope.tileId, 'open');
+
+						if(data.viewMode == 'normal')
+							scope.$parent.$emit('youtubeVideo', scope.tileId, 'open');
+						else if (data.viewMode == 'modal')
+							scope.youtubePlay = true;
 
 						clearBitdash();
 
@@ -120,29 +133,47 @@ console.log(videoUrl);
 						};
 
 						$timeout(function(){
-							angular.element('#tile_'+scope.tileId+' .video-player').show();
+							if( data.viewMode == 'normal' ){
+								angular.element('#tile_'+scope.tileId+' .video-player').show();
 
-							angular.element('.tile-image').show();
-							angular.element('#tile_'+scope.tileId+' .tile-image').hide();
+								angular.element('.tile-image').show();
+								angular.element('#tile_'+scope.tileId+' .tile-image').hide();
 
-							angular.element('.youtubeVideo-wrap').hide();
-							angular.element('#tile_'+scope.tileId+' .youtubeVideo-wrap').show();
+								angular.element('.youtubeVideo-wrap').hide();
+								angular.element('#tile_'+scope.tileId+' .youtubeVideo-wrap').show();
 
-							angular.element('.close-btn').hide();
-							angular.element('#tile_'+scope.tileId+' .close-btn').show();
+								angular.element('.close-btn').hide();
+								angular.element('#tile_'+scope.tileId+' .close-btn').show();
 
-							angular.element('.tileVideo').hide();
+								angular.element('.tileVideo').hide();
+							}else if( data.viewMode == 'modal' ){
+								angular.element('.tile-detail-modal .video-player').show();
+								angular.element('.tile-detail-modal .tile-image').hide();
+								angular.element('.tile-detail-modal .youtubeVideo-wrap').show();
+								angular.element('.tile-detail-modal .close-btn').show();
+								angular.element('.tileVideo').hide();
+							}							
 						}, 1000)						
 					})
 
-					scope.hideVideo = function() {
-						bitdash(scope.tileId).destroy();
-						scope.$parent.$emit('youtubeVideo', scope.tileId, 'close');
+					scope.hideVideo = function(mode) {
+						clearBitdash();
+						
+						if( mode == 'normal' ){
+							scope.$parent.$emit('youtubeVideo', scope.tileId, 'close');
 
-						angular.element('#tile_'+scope.tileId+' .tile-image').show();
-						angular.element('#tile_'+scope.tileId+' .video-player').hide();
-						angular.element('#tile_'+scope.tileId+' .close-btn').hide();
-						angular.element('#tile_'+scope.tileId+' .video-list-wrapper').hide();
+							angular.element('#tile_'+scope.tileId+' .tile-image').show();
+							angular.element('#tile_'+scope.tileId+' .video-player').hide();
+							angular.element('#tile_'+scope.tileId+' .close-btn').hide();
+							angular.element('#tile_'+scope.tileId+' .video-list-wrapper').hide();							
+						}else if( mode == 'modal' ){
+							scope.$parent.$emit('youtubeVideo', scope.tileId, 'close');
+
+							angular.element('.tile-detail-modal .tile-image').show();
+							angular.element('.tile-detail-modal .video-player').hide();
+							angular.element('.tile-detail-modal .close-btn').hide();
+							angular.element('.tile-detail-modal .video-list-wrapper').hide();
+						}						
 					}
 				}
 			}

@@ -56,7 +56,9 @@
                                     
                                     // If video is only one, it will play video directly
                                     if(contentList.length == 1) {
-                                    	scope.$parent.$broadcast('youtube', scope.videoList[0]);
+                                    	var video = scope.videoList[0];
+                                    	video.viewMode = 'normal';
+                                    	scope.$parent.$broadcast('youtube', video);
                                     }
 
                                     for( var i in data.contentList ){
@@ -73,7 +75,9 @@
 											
 											// If video is only one, it will play video directly
 											if(contentList.length == 1){
-												scope.$parent.$broadcast('video', scope.videoList[0]);
+												var video = scope.videoList[0];
+												video.viewMode = 'normal';
+												scope.$parent.$broadcast('video', video);
 											}
                                         }, function(error){
                                             console.log(error);
@@ -95,10 +99,12 @@
                     })
 
 					scope.videoPlay = function(video){
+						video.viewMode = 'normal';
 						scope.$parent.$broadcast('video', video);
 					}
 
 					scope.youtubeVideoPlay = function(video) {
+						video.viewMode = 'normal';
 						scope.$parent.$broadcast('youtube', video);
 					}
 				}

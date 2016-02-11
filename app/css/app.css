@@ -1295,6 +1295,7 @@ _:-ms-lang(x),
 .sidebar .user-profile img{
   width: 70px;
   float: left;
+  border-radius: 50%;
 }
 .sidebar .user-profile .info{
   float: left;
@@ -9866,7 +9867,7 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   color: #333;
 }
 .video-list ul {
-  padding: 0 10px;
+  /*padding: 0 10px;*/
 }
 .video-list ul li{
   list-style: none;
@@ -9970,6 +9971,11 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   float: none;
 }
 .tileImg img{
+  width: 100%;
+}
+.action-replay-list{
+  margin-top: 30px;
+  display: inline-block;
   width: 100%;
 }
 @media only screen and (min-width: 768px) and (max-width: 1199px) {

@@ -1,7 +1,7 @@
 <div ng-controller="myTileController" ng-if="card == 'newTile'" ng-include="'app/views/new-tile.html'"></div>
 <div ng-controller="tileController" id="{{'tile_'+card.externalId}}" ng-if="card.tileType == 'content' || card.tileType == 'event' || card.tileType == 'sale' || card.tileType == 'offer' || card.tileType == 'business' || card.tileType == 'job' || card.tileType == 'swap' || card.tileType == 'article'" class="yabrTile-body">
-   <tile-image class="tile-image" image-src="card.creatives[0].url" tile-id="card.externalId" tile="card" on-complete="onComplete(creative)"></tile-image>
-   <tile-video tile-id="card.externalId"></tile-video>
+   <tile-image class="tile-image" image-src="card.creatives[0].url" tile-id="card.externalId" tile="card" on-complete="onComplete(creative)" view-mode="'normal'"></tile-image>
+   <tile-video tile-id="card.externalId" view-mode="'normal'"></tile-video>
    <div class="tile-infos">
       <h4 class="title">{{card.name}}<i class="fa fa-angle-right fg-lg"></i></h4>
       <p class="date"><span>{{card.publishedDate}}</span></p>

@@ -25,7 +25,7 @@
         			}
 
         			scope.$on('event', function(e, data){
-            			scope.eventId = data.event.eventId;
+            			scope.eventId = data.eventId;
 						getMedia(scope.eventId);
             		})
 
@@ -42,13 +42,16 @@
                                     if(data.resources[0].medias[0].hostId){
                                         video = data.resources[0].medias[0];
                                     }
-                                    
+
+                                    video.viewMode = 'modal';
                                     scope.$parent.$parent.$parent.$parent.$broadcast('video', video);
                                 }, function(error){
                                     console.log(error);
                                 })
                             }else{
-                                scope.$parent.$parent.$parent.$parent.$broadcast('youtube', media.content);
+                                var video = media.content;
+                                video.viewMode = 'modal';
+                                scope.$parent.$parent.$parent.$parent.$broadcast('youtube', video);
                             }
                         }
                     }

@@ -1,5 +1,5 @@
 <div class="video-player">
-   <div class="youtubeVideo-wrap" ng-if="$root.youtubePlay[tileId]">
+   <div class="youtubeVideo-wrap" ng-if="$root.youtubePlay[tileId] || youtubePlay">
       <div class="youtubeVideo">
          <videogular class="y-video" vg-theme="youtube.config.theme.url">
             <vg-media class="vg-media" vg-src="youtube.config.sources" vg-youtube="rel=1;showinfo=1">
@@ -21,8 +21,8 @@
       <!-- <a class="close-btn" ng-click="hideVideo(tile)"><img src="app/img/video-close.png" ng-if="tile.showYoutube"></a> -->
    </div>
    <div class="tileVideo">
-      <div id="{{tileId}}" class="player"></div>
+      <div id="{{viewMode+'_'+tileId}}" class="player"></div>
       <!-- <sycovideo hls="tile.hls_source" id="tile.externalId"></sycovideo> -->
    </div>   
-   <a class="close-btn" ng-click="hideVideo()"><img src="app/img/video-close.png"></a>
+   <a class="close-btn" ng-click="hideVideo(viewMode)"><img src="app/img/video-close.png"></a>
 </div>

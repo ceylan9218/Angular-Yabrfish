@@ -52,8 +52,9 @@
          </accordion>         
       </div>
       <div class="action-replay col-md-6">
-         <tile-image class="tile-image" image-src="tile.creatives[0].url" tile-id="tile.externalId" tile="card" on-complete="onComplete(creative)"></tile-image>
-         <accordion>
+         <tile-image class="tile-image" image-src="tile.creatives[0].url" tile-id="tile.externalId" tile="card" on-complete="onComplete(creative)" view-mode="'modal'"></tile-image>
+         <tile-video tile-id="tile.externalId" view-mode="'modal'"></tile-video>
+         <accordion class="action-replay-list">
             <accordion-group is-open="tile.showActionReplay">
                <accordion-heading class="actionReplay-header">
                   <img src="app/img/action-replay.png">Action Replay<i class="pull-right fa" ng-class="{'fa-angle-up': tile.showActionReplay, 'fa-angle-down': !tile.showActionReplay}"></i>
