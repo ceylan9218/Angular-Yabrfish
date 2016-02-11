@@ -15,7 +15,7 @@
         if(!$rootScope.user)
             return;
 
-        var accountId = $state.params.id;
+        $scope.accountId = $state.params.id;
         $scope.account = {};
 
         $scope.getAccount = function() {
@@ -29,14 +29,14 @@
                         cacheCount = AccountService.addCache(data[i].account);
                     }
 
-                    $scope.account = AccountService.setCurrentAccount(accountId);
+                    $scope.account = AccountService.setCurrentAccount($scope.accountId);
                     setAccountAttr($scope.account);
                 }, function (error) {
                     console.log(error);
                     return;
                 });
             }else{
-                $scope.account = AccountService.setCurrentAccount(accountId);
+                $scope.account = AccountService.setCurrentAccount($scope.accountId);
                 setAccountAttr($scope.account);
             }
         }

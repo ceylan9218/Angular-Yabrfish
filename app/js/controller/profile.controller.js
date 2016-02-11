@@ -13,7 +13,7 @@
         })
         .controller('profileController', profileController);
 
-    function profileController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS, AuthService, LookupService) {      
+    function profileController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS, AuthService, LookupService, COLUMN_WIDTH) {
       if(!$rootScope.user)
         return;
 
@@ -72,7 +72,7 @@
 
 
       // Update profile infos
-      $scope.updateProfile = function(){
+      $scope.updateProfile = function() {
         AuthService.getUser().then(function(user){
             // Update Birthday.
             var birthday = $scope.birthday;
@@ -200,6 +200,19 @@
       $scope.sortableOptions = {
           placeholder: '<div class="box-placeholder p0 m0"><div></div></div>',
           forcePlaceholderSize: true
-      };      
+      };
+
+      // Hide Profile Panel Contents on Mobile.
+      var width = angular.element('.content-wrapper').width();
+      if( width <= COLUMN_WIDTH['one_column'] ){
+        $scope.hideAbout = true;
+        $scope.hideBio = true;
+        $scope.hideClub = true;
+        $scope.hideEquip = true;
+        $scope.hideAccount = true;
+        $scope.hideTiles = true;
+        $scope.hidePeople = true;
+        $scope.hideSocial = true;
+      }
     }
 })();
