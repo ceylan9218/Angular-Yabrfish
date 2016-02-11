@@ -1073,8 +1073,8 @@
         .module('app.sidebar')
         .controller('SidebarController', SidebarController);
 
-    SidebarController.$inject = ['$rootScope', '$scope', '$state', 'SidebarLoader', 'Utils', '$location'];
-    function SidebarController($rootScope, $scope, $state, SidebarLoader,  Utils, $location) {
+    SidebarController.$inject = ['$rootScope', '$scope', '$state', 'SidebarLoader', 'Utils', '$location', 'AuthService'];
+    function SidebarController($rootScope, $scope, $state, SidebarLoader,  Utils, $location, AuthService) {
         var path = $location.path();
 
         activate();
@@ -1171,6 +1171,10 @@
             }
 
         } // activate
+
+        $scope.logout = function() {
+          AuthService.logout();
+        }
     }
 
 })();

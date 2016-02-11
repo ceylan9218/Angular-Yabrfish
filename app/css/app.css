@@ -1295,6 +1295,7 @@ _:-ms-lang(x),
 .sidebar .user-profile img{
   width: 70px;
   float: left;
+  border-radius: 50%;
 }
 .sidebar .user-profile .info{
   float: left;
@@ -9852,7 +9853,7 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 }
 .video-list{
   border-top: 1px solid #C1C1C1;
-  padding: 0 10px 20px;
+/*  padding: 0 10px 20px;*/
   width: 100%;
   display: inline-block;
 }

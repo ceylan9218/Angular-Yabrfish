@@ -56,7 +56,10 @@
     function raceController($scope, TileService) {        
 
         $scope.$watch('event', function(newVal){
-            getClasses($scope.event.eventId);
+            if(Object.keys(newVal).length === 0)
+                return;
+
+            getClasses(newVal.eventId);
         })
 
         // Shared Race Controller Removing Code from Directives
@@ -117,7 +120,7 @@
                         if(results[i].finishCorrected)
                             results[i].finishCorrected = results[i].finishCorrected.split('.')[0].split(':');
                     }
-console.log(results);                    
+                    
                     $scope.$emit('results', results);
                 }, function(error){
                     console.log(error);

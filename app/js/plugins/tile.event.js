@@ -134,7 +134,9 @@
 
         $scope.changeEvent = function(event){
             $scope.currEvent = event;
+            $scope.$parent.$broadcast('event', event);
         }
+
         $scope.$on('results', function(e, data){
             $scope.results = data;
         })

@@ -30,7 +30,7 @@
 
 					// Listen for event of Bitmovin video.
 					scope.$on('video', function(event, data){
-
+console.log(111);
 						if(!data)
 							return;
 
@@ -41,7 +41,7 @@
 						clearBitdash();
 
 						var videoUrl = data.clientPlayBackUrl + data.url;
-console.log(videoUrl);						
+
 						var conf = {
                           	key:       '0bd009b1-35eb-4407-9115-9bbae70af5c3',
                           	playback: {

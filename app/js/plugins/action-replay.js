@@ -25,7 +25,7 @@
         			}
 
         			scope.$on('event', function(e, data){
-            			scope.eventId = data.event.eventId;
+            			scope.eventId = data.eventId;
 						getMedia(scope.eventId);
             		})
 
@@ -42,8 +42,10 @@
                                     if(data.resources[0].medias[0].hostId){
                                         video = data.resources[0].medias[0];
                                     }
-                                    
+
                                     scope.$parent.$parent.$parent.$parent.$broadcast('video', video);
+                                    //scope.$parent.$parent.$parent.$parent.$broadcast('video', video);
+                                    //scope.$emit('video', video);
                                 }, function(error){
                                     console.log(error);
                                 })
