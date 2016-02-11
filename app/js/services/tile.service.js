@@ -261,7 +261,24 @@
 
 				cacheTiles: function () { return tileCache.tiles},
 
-				cacheMyTiles: function () { return myTilesCache.tiles},
+				cacheMyTiles: function (externalId) {
+					
+					//------------------------------------------------------------------------//
+					// Check we are using the correct Cache and the User has Not Changed the Net
+					//------------------------------------------------------------------------//
+
+					if ( myTilesCache.cacheId != externalId ) {
+						myTilesCache.cacheId = externalId
+						myTilesCache.cacheSize =  0;
+						myTilesCache.page = 0;
+						myTilesCache.pageSize = 6;
+						myTilesCache.totalPages = 0;
+						myTilesCache.totalItems = 0;
+						if ( myTilesCache.tiles != undefined ) { myTilesCache.tiles.length = 0 };
+					}
+
+					return myTilesCache.tiles
+				},
 
                 cacheNetTiles: function () { return netTilesCache.tiles},
 
@@ -369,37 +386,72 @@
                         return deferred.promise;
                 },
 
-                getMyTiles: function(viewerId){
+                getMyTiles: function(ownerType, externalId){
 
                     console.log("SERVICE Page " + myTilesCache.page + " count " + myTilesCache.totalPages + " total " + myTilesCache.cacheSize);
 
 					var deferred = $q.defer();
 					
+					//------------------------------------------------------------------------//
+					// Check we are using the correct Cache and the User has Not Changed the Net
+					//------------------------------------------------------------------------//
+
+					if ( myTilesCache.cacheId != externalId ) {
+						myTilesCache.cacheId = externalId
+						myTilesCache.cacheSize =  0;
+						myTilesCache.page = 0;
+						myTilesCache.pageSize = 6;
+						myTilesCache.totalPages = 0;
+						myTilesCache.totalItems = 0;
+						if ( myTilesCache.tiles != undefined ) { myTilesCache.tiles.length = 0 };
+					}
+
 					if ( myTilesCache.page !=0 && myTilesCache.page  >= myTilesCache.totalPages ) {
 						// Resolve the deferred $q object before returning the promise
 						deferred.resolve([]);
 						return deferred.promise;
 					}
 
-					var promise = $http.get(APP_APIS['tile']+'/tiles/owners?viewerExternalId='+ viewerId +'&page='+myTilesCache.page+'&size='+myTilesCache.pageSize)
-						.then(function(response){
+					if(ownerType == 'person'){
+						var promise = $http.get(APP_APIS['tile']+'/tiles/owners?viewerExternalId='+ externalId +'&page='+myTilesCache.page+'&size='+myTilesCache.pageSize)
+							.then(function(response){
 
-							if ( myTilesCache.page == 0 ) {
-								//---------------------------------------------//
-								//Check Total Number of Pages in the Response //
-								//---------------------------------------------//
-								myTilesCache.totalItems = response.data.totalElements;
-								myTilesCache.totalPages = response.data.totalPages;
-							}
+								if ( myTilesCache.page == 0 ) {
+									//---------------------------------------------//
+									//Check Total Number of Pages in the Response //
+									//---------------------------------------------//
+									myTilesCache.totalItems = response.data.totalElements;
+									myTilesCache.totalPages = response.data.totalPages;
+								}
 
-							var tiles = cacheMyTiles(response);
-							myTilesCache.page++;
+								var tiles = cacheMyTiles(response);
+								myTilesCache.page++;
 
-							console.log("SERVICE THEN count " + myTilesCache.totalItems + " total " + myTilesCache.totalItems);
+								console.log("SERVICE THEN count " + myTilesCache.totalItems + " total " + myTilesCache.totalItems);
 
-							deferred.resolve(tiles);
-						});
+								deferred.resolve(tiles);
+							});
+					}else if(ownerType == 'account'){
+						var promise = $http.get(APP_APIS['tile']+'/tiles/owners?accountExternalId='+ externalId +'&page='+myTilesCache.page+'&size='+myTilesCache.pageSize)
+							.then(function(response){
 
+								if ( myTilesCache.page == 0 ) {
+									//---------------------------------------------//
+									//Check Total Number of Pages in the Response //
+									//---------------------------------------------//
+									myTilesCache.totalItems = response.data.totalElements;
+									myTilesCache.totalPages = response.data.totalPages;
+								}
+
+								var tiles = cacheMyTiles(response);
+								myTilesCache.page++;
+
+								console.log("SERVICE THEN count " + myTilesCache.totalItems + " total " + myTilesCache.totalItems);
+
+								deferred.resolve(tiles);
+							});
+					}
+					
 					return deferred.promise;
                 },
 

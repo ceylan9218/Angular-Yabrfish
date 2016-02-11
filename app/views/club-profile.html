@@ -44,6 +44,21 @@
         <span>{{club.attr_bio}}</span>
       </div>
     </div>
+    <div class="block my-tiles">
+      <div class="profile-header">
+        <h4>
+          <img src="app/img/tiles.png" style="width: 20px;">
+          <span>My Tiles</span>
+          <span class="mobile">Tiles</span>
+        </h4>
+        <a class="extend" ng-click="hideTiles = !hideTiles"><i class="fa" ng-class="{'fa-angle-up': !hideTiles, 'fa-angle-down': hideTiles}"></i></a>
+        <a class="edit_info">Connect</a>
+        <a class="edit_info mobile"><img src="app/img/office2.png"></a>
+      </div>
+      <div class="block-content" ng-hide="hideTiles">
+        <tile-panel class="my-tiles" owner-type="'account'" owner-id="clubId"></tile-panel>
+      </div>
+    </div>
     <div class="block services">
       <div class="profile-header">
         <h4><img src="app/img/service-icon.png" style="width: 20px;"><span style="margin-left: 10px;">Services</span></h4>

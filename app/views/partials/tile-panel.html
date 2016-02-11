@@ -1,4 +1,4 @@
-<div class="panel-items" infinite-scroll="getTiles()" infinite-scroll-container="'.my-tiles'" infinite-scroll-disabled='bTileScrollDisabled' infinite-scroll-distance="2">
+<div class="panel-items" ng-init="getTiles()">
 	<div class="panel-slider" ng-style="{'width': tilesWidth}">
 		<tile-item class="panel-item" ng-repeat="tile in myTiles track by $index" tile="tile"></tile-item>
 	</div>
