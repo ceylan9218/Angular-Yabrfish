@@ -43,14 +43,15 @@
                                         video = data.resources[0].medias[0];
                                     }
 
+                                    video.viewMode = 'modal';
                                     scope.$parent.$parent.$parent.$parent.$broadcast('video', video);
-                                    //scope.$parent.$parent.$parent.$parent.$broadcast('video', video);
-                                    //scope.$emit('video', video);
                                 }, function(error){
                                     console.log(error);
                                 })
                             }else{
-                                scope.$parent.$parent.$parent.$parent.$broadcast('youtube', media.content);
+                                var video = media.content;
+                                video.viewMode = 'modal';
+                                scope.$parent.$parent.$parent.$parent.$broadcast('youtube', video);
                             }
                         }
                     }

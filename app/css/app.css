@@ -9853,7 +9853,7 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 }
 .video-list{
   border-top: 1px solid #C1C1C1;
-/*  padding: 0 10px 20px;*/
+  padding: 0 10px 20px;
   width: 100%;
   display: inline-block;
 }
@@ -9867,7 +9867,7 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   color: #333;
 }
 .video-list ul {
-  padding: 0 10px;
+  /*padding: 0 10px;*/
 }
 .video-list ul li{
   list-style: none;
@@ -9971,6 +9971,11 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   float: none;
 }
 .tileImg img{
+  width: 100%;
+}
+.action-replay-list{
+  margin-top: 30px;
+  display: inline-block;
   width: 100%;
 }
 @media only screen and (min-width: 768px) and (max-width: 1199px) {
