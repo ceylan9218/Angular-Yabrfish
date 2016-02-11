@@ -12,9 +12,15 @@ angular
         return {
             restrict: 'E',
             transclude: true,
-            scope: {},
+            scope: {
+                ownerType: '=',
+                ownerId: '='
+            },
             controller: 'myTileController',
-            templateUrl: 'app/views/partials/tile-panel.html'
+            templateUrl: 'app/views/partials/tile-panel.html',
+            link: function(scope,element, attrs) {                
+                
+            }
         };
     })
     .controller('myTileController', myTileController)
@@ -37,7 +43,7 @@ angular
 
         $scope.bTileScrollDisabled = false;
         $scope.loading = false;
-        $scope.myTiles = TileService.cacheMyTiles();
+        $scope.myTiles = TileService.cacheMyTiles($scope.ownerId);
         $scope.tilesWidth = 0;
 
         var setTilesWidth = function(tiles){
@@ -50,8 +56,7 @@ angular
         setTilesWidth($scope.myTiles);
 
         // Get My Tiles.
-        $scope.getTiles = function() {
-
+        var getTiles = function() {
             //---------------------------------------------------------//
             // Load Single Page of my tiles.
             //--------------------------------------------------------//
@@ -66,8 +71,8 @@ angular
                 $scope.loading = false;
                 $scope.bTileScrollDisabled = true;
             } else {
-                TileService.getMyTiles($rootScope.user.externalId).then(function (tiles) {
-                    $scope.myTiles = TileService.cacheMyTiles();
+                TileService.getMyTiles($scope.ownerType, $scope.ownerId).then(function (tiles) {
+                    $scope.myTiles = TileService.cacheMyTiles($scope.ownerId);
                     $scope.loading = false;
                     $scope.bTileScrollDisabled = true;
 
@@ -79,5 +84,14 @@ angular
             }
         }
 
+        $scope.getTiles = function() {
+            getTiles();
+        }
+
+        angular.element('.panel-items').bind('scroll', function(evt) {
+            if(evt.target.scrollLeft == evt.target.scrollLeftMax){
+                getTiles();               
+            }
+        })
     }
 })();
