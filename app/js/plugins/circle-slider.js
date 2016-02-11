@@ -43,10 +43,10 @@ scope.$watch('circleId', function(newVal){
                           y: elP.top
                         };
 
-                        slider.css({
-                          left: '35px',
-                          top: '-10px'
-                        });
+                        // slider.css({
+                        //   left: '35px',
+                        //   top: '-10px'
+                        // });
 
                         scope.content = scope.contents[0];
 
@@ -70,9 +70,9 @@ scope.$watch('circleId', function(newVal){
                         }
 
                         poolContainer.on('mousedown touchstart', function(event) {
-                            
+
                             mdown = true;
-                            deg = 0;
+//                            deg = 0;
 
                             var mPos = getMPos(event);
                             
@@ -214,6 +214,7 @@ scope.$watch('circleId', function(newVal){
                                     if (scope.contents.length > 0 ) {
 //                                      console.log("Circle Value " + scope.step);
                                       scope.step = degree % count + 1;
+console.log(setZero);                                      
                                       scope.content = scope.contents[scope.step - 1];  
 
                                       if(!scope.content)
