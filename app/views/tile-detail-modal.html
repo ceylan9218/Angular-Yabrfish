@@ -1,5 +1,5 @@
 <div class="tile-detail-modal" ng-init="getTileEvents()">
-   <div class="list col-md-4">
+   <div class="list col-sm-4">
       <div class="event-list events">
          <ul>
             <li class="btn btn-default" ng-repeat="event in events" ng-click="changeEvent(event)">
@@ -14,15 +14,15 @@
                   </div>
                </div>
             </li>
-            <li class="btn btn-default"><a>New Event</a></li>
+            <li class="btn btn-default new-event"><a>New Event</a></li>
          </ul>
       </div>
    </div>
-   <div class="panels col-md-8">
-      <div class="results-panel col-md-6">
+   <div class="panels col-sm-8">
+      <div class="results-panel col-sm-6">
          <class-list class="class-list" tile="tile" event="currEvent"></class-list>
          <accordion>
-            <accordion-group class="result-panel" is-open="tile.showResult" ng-if="results.length > 0">
+            <accordion-group class="result-panel" is-open="tile.showResult">
                <accordion-heading class="actionReplay-header">
                   <img src="app/img/results.png">Results<i class="pull-right fa" ng-class="{'fa-angle-up': tile.showResult, 'fa-angle-down': !tile.showResult}"></i>
                </accordion-heading>
@@ -51,7 +51,7 @@
             </accordion-group>
          </accordion>         
       </div>
-      <div class="action-replay col-md-6">
+      <div class="action-replay col-sm-6">
          <tile-image class="tile-image" image-src="tile.creatives[0].url" tile-id="tile.externalId" tile="card" on-complete="onComplete(creative)" view-mode="'modal'"></tile-image>
          <tile-video tile-id="tile.externalId" view-mode="'modal'"></tile-video>
          <accordion class="action-replay-list">
