@@ -197,8 +197,11 @@
 
       	$scope.openTileMore = function (tile) {
       		$scope.tile = tile;
-      		
+
       		if(tile.tileType == 'event'){
+      			$scope.tile.showResult = true;
+      			$scope.tile.showActionReplay = true;
+      			
 				ngDialog.open({ 
 					template: 'app/views/tile-detail-modal.html',
 					className: 'ngdialog-theme-tile-detail',
