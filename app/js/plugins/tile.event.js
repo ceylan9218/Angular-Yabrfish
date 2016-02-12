@@ -103,7 +103,7 @@
         }])
         .controller('eventController', eventController)
     
-    function eventController($rootScope, $scope, TileService, ViewerService) {
+    function eventController($rootScope, $scope, TileService, ViewerService, $timeout) {
         $scope.events = [];
         $scope.currEvent = {};
         var monthNames = TileService.getMonthNames();
@@ -127,6 +127,9 @@
                 }
 
                 $scope.currEvent = $scope.events[0];
+
+                angular.element('.results-panel').addClass('whirl line back-and-forth');
+                
             }, function(error){
                 console.log(error);
             })    
@@ -135,6 +138,8 @@
         $scope.changeEvent = function(event){
             $scope.currEvent = event;
             $scope.$parent.$broadcast('event', event);
+            
+            angular.element('.results-panel').addClass('whirl line back-and-forth');
         }
 
         $scope.$on('results', function(e, data){
