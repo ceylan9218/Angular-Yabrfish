@@ -38,7 +38,7 @@
                 templateUrl: "app/views/partials/race-list.html",
                 link: function(scope, elem, attrs, raceController) {
                     scope.$watch('races', function(newVal){
-                        console.log(scope.races);
+                        //console.log(scope.races);
                     })
 
                     // Receive Message from Circular Control
@@ -91,6 +91,8 @@
 
                 if($scope.races.length > 0)
                     getResults(eventId, classId, $scope.races[0].externalId);
+                else
+                    getResults(eventId, classId, false);
 
                 angular.element('.results-panel').removeClass('whirl line back-and-forth');
 
@@ -126,6 +128,7 @@
                 })    
             }else{
                 var results = [];
+                $scope.$emit('results', results);
             }
         }
 

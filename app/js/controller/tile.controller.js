@@ -205,6 +205,15 @@
 					controller: 'eventController',
 					scope: $scope
 				});
+      		}else{
+      			if(tile.extendWrap){
+	        		tile.extendWrap = false;
+	        		tile.moreImg = 'app/img/more.png';
+	        	}
+				else{
+					tile.extendWrap = true;
+					tile.moreImg = 'app/img/less.png';
+				}
       		}
 		}
     }
