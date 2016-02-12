@@ -13,7 +13,7 @@
                 },
                 templateUrl: "app/views/partials/circle-slider.html",
                 link: function(scope, element, attrs) {
-scope.$watch('circleId', function(newVal){
+scope.$watch('contents', function(newVal){
 
 //                    $timeout(function(){
 //console.log(scope.contents);
@@ -43,11 +43,14 @@ scope.$watch('circleId', function(newVal){
                           y: elP.top
                         };
 
-                        // slider.css({
-                        //   left: '35px',
-                        //   top: '-10px'
-                        // });
-
+                        slider.css({
+                          left: '35px',
+                          top: '-10px'
+                        });
+                        
+                        if(!scope.contents)
+                          return;
+                        
                         scope.content = scope.contents[0];
 
                         var count = scope.contents.length;
@@ -75,10 +78,11 @@ scope.$watch('circleId', function(newVal){
 //                            deg = 0;
 
                             var mPos = getMPos(event);
-                            
+
                             // If user click on left of circle at first, it sets circle to 0.
-                            if(15 < mPos.x && mPos.x <= 60)
-                                setZero = true;
+                            if(30 < mPos.x && mPos.x <= 50 && -10 < mPos.y && mPos.y <= 15 && !setZero){
+                                setZero = true;                                
+                            }
                             
                             if(scope.circleType == 'class')
                               angular.element('.race-list').addClass('whirl line back-and-forth');
@@ -195,11 +199,14 @@ scope.$watch('circleId', function(newVal){
 
                                 total_deg = total_deg + diff_atan;
 
-                                if(!setZero)
-                                  degree = -total_deg / Math.PI * 180 + 180;
-                                else
-                                  degree = -total_deg / Math.PI * 180 - 180;
+                                degree = -total_deg / Math.PI * 180 + 180;
 
+                                // if(setZero){
+                                //   console.log('second');
+                                // }else{
+                                //   console.log('first');
+                                // }
+                                
                                 if (degree >= (90 * count + 45)) {
                                   total_deg = total_deg + (Math.PI / 2) * count;
                                 }
@@ -214,7 +221,7 @@ scope.$watch('circleId', function(newVal){
                                     if (scope.contents.length > 0 ) {
 //                                      console.log("Circle Value " + scope.step);
                                       scope.step = degree % count + 1;
-console.log(setZero);                                      
+//console.log(scope.step);                                      
                                       scope.content = scope.contents[scope.step - 1];  
 
                                       if(!scope.content)

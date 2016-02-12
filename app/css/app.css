@@ -9867,7 +9867,7 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   color: #333;
 }
 .video-list ul {
-  /*padding: 0 10px;*/
+  padding: 0;
 }
 .video-list ul li{
   list-style: none;
@@ -10197,12 +10197,12 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   margin: 0 auto;
   display: table;
 }
-.slide.whirl::before{
+.results-panel.whirl::before{
   background-color: rgba(237,237,237,1);
   /*background-color: rgba(246,246,246,1);*/
   border-radius: 10px;
 }
-.slide.whirl.line.back-and-forth::after{
+.results-panel.whirl.line.back-and-forth::after{
   -webkit-animation: line-back-and-forth 1.5s infinite linear;
   animation: line-back-and-forth 1.5s infinite linear;
   box-shadow: inset -10px 0px 0px rgba(58, 190, 239, 1);

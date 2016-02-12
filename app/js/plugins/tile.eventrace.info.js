@@ -38,7 +38,7 @@
                 templateUrl: "app/views/partials/race-list.html",
                 link: function(scope, elem, attrs, raceController) {
                     scope.$watch('races', function(newVal){
-//                        console.log(newVal);
+                        console.log(scope.races);
                     })
 
                     // Receive Message from Circular Control
@@ -66,7 +66,6 @@
         $scope.eventClasses = [];
 
         var getClasses = function(eventId) {
-            $scope.showClasses = false;
 
             TileService.getClasses(eventId).then(function(classes) {
                 $scope.eventClasses = classes;
@@ -76,7 +75,6 @@
                 }
                 getRaces(eventId, $scope.eventClasses[0].externalId);
 
-                $scope.showClasses = true;
             }, function(error){
                 console.log(error);
                 return;
@@ -84,7 +82,6 @@
         }
 
         var getRaces = function(eventId, classId) {
-            $scope.showRaces = false;
 
             TileService.getRaces(eventId, classId).then(function(data){                
                 $scope.races = data;
@@ -92,10 +89,11 @@
                     $scope.races[i].classId = classId;
                 }
 
-                $scope.showRaces = true;
-
                 if($scope.races.length > 0)
                     getResults(eventId, classId, $scope.races[0].externalId);
+
+                angular.element('.results-panel').removeClass('whirl line back-and-forth');
+
             }, function(error){
                 console.log(error);
                 return;
@@ -133,9 +131,12 @@
 
         // Receive Message from Circular Control
         $scope.$on('circleData', function(e, data){
+            if(!data.data)
+                return;
+
             if(data.type == 'class') {
                 getRaces($scope.event.eventId, data.data.externalId);
-            }else if(data.type == 'race'){
+            }else if(data.type == 'race'){                
                 var classId = data.data.classId;
                 var raceId = data.data.externalId;
                 getResults($scope.event.eventId, classId, raceId);
