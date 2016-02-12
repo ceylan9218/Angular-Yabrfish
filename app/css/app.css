@@ -9917,75 +9917,6 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
 }
 
 /*------------------------------------------------------------------------------
-  Tile Detail Dialog Style
-  ------------------------------------------------------------------------------*/
-.ngdialog.ngdialog-theme-tile-detail {
-    padding-top: 125px;
-    padding-bottom: 125px;
-}
-.ngdialog.ngdialog-theme-tile-detail .ngdialog-content {
-    background: rgba(255,255,255,1);
-    padding: 1.8em 2em;
-    width: 1140px;
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    position: relative;
-    margin: 0 auto;
-    display: table;
-}
-.ngdialog.ngdialog-theme-tile-detail .ngdialog-close {
-    border-radius: 5px;
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-.ngdialog.ngdialog-theme-tile-detail .ngdialog-close::before{
-    background: transparent;
-    border-radius: 3px;
-    color: #bbb;
-    content: '\00D7';
-    font-size: 26px;
-    font-weight: 400;
-    height: 30px;
-    line-height: 26px;
-    position: absolute;
-    right: 3px;
-    text-align: center;
-    width: 30px;
-}
-.event-list.events{
-  width: 100%;
-}
-.event-list ul{
-  list-style: none;
-  display: inline-block;
-  padding-left: 0;
-}
-.event-list ul li{
-  display: inline-block;
-  width: 100%;
-}
-.tile-detail-modal .event-heading{
-  margin: 0;
-  float: none;
-}
-.tileImg img{
-  width: 100%;
-}
-.action-replay-list{
-  margin-top: 30px;
-  display: inline-block;
-  width: 100%;
-}
-@media only screen and (min-width: 768px) and (max-width: 1199px) {
-  .ngdialog.ngdialog-theme-tile-detail .ngdialog-content{
-    width: 708px;
-  }
-}
-
-
-/*------------------------------------------------------------------------------
   Event Panel Style
   ------------------------------------------------------------------------------*/
 .event-wrap{
@@ -10215,6 +10146,136 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   -webkit-animation: line-back-and-forth 1.0s infinite linear;
   animation: line-back-and-forth 1.0s infinite linear;
 }
+
+/*------------------------------------------------------------------------------
+  Tile Detail Dialog Style
+  ------------------------------------------------------------------------------*/
+.ngdialog.ngdialog-theme-tile-detail {
+    padding-top: 125px;
+    padding-bottom: 125px;
+}
+.ngdialog.ngdialog-theme-tile-detail .ngdialog-content {
+    background: rgba(255,255,255,1);
+    padding: 1.8em 2em;
+    width: 1140px;
+    height: 500px;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    overflow: auto;
+}
+.ngdialog.ngdialog-theme-tile-detail .ngdialog-close {
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.ngdialog.ngdialog-theme-tile-detail .ngdialog-close::before{
+    background: transparent;
+    border-radius: 3px;
+    color: #bbb;
+    content: '\00D7';
+    font-size: 26px;
+    font-weight: 400;
+    height: 30px;
+    line-height: 26px;
+    position: absolute;
+    right: 3px;
+    text-align: center;
+    width: 30px;
+}
+.event-list.events{
+  width: 100%;
+}
+.event-list ul{
+  list-style: none;
+  display: inline-block;
+  padding-left: 0;
+}
+.event-list ul li{
+  display: inline-block;
+  width: 100%;
+  height: 60px;
+  margin-bottom: 10px;
+  padding: 0 15px;
+}
+.event-list ul li.new-event{
+  background: #3ABEEF;
+}
+.event-list ul li.new-event a{
+  color: #fff;
+  line-height: 60px;
+  font-size: 16px;
+  font-weight: bold;
+}
+.tile-detail-modal .event-heading{
+  margin: 0;
+  float: none;
+  width: 100%;
+  height: 60px;
+  display: inline-block;
+}
+.tileImg img{
+  width: 100%;
+}
+.action-replay-list{
+  margin-top: 30px;
+  display: inline-block;
+  width: 100%;
+}
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+  .ngdialog.ngdialog-theme-tile-detail .ngdialog-content{
+    width: 708px;
+    padding: 30px 0;
+    height: 420px;
+    overflow: auto;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+  }
+  .event-list ul li{
+    padding: 0;
+  }
+  .tile-detail-modal .panels{
+    padding-left: 0;
+  }
+  .events .calendar-wrap{
+    width: 70px;
+    height: 60px;
+  }
+  .event-name{
+    width: calc(100% - 70px);
+  }
+  .event-name h4{
+    text-align: left;
+  }
+  .result-panel{
+    padding: 0 5px;
+  }
+  .panel .panel-heading{
+    padding: 7px 10px;
+  }
+  .panel .panel-heading a.accordion-toggle img{
+    margin-right: 10px;
+  }
+  .panel-body{
+    padding: 0 5px;
+  }
+  .action-replay{
+    padding: 0 5px;
+  }
+  .tileVideo, .youtubeVideo-wrap{
+    height: 140px;
+  }
+  .video-player .close-btn img, .image-wrapper .close-btn img{
+    width: 20px;
+  }
+}
+
+
 /*-----------------------Radar Page Responsive-----------------------------------------*/
 @media only screen and (max-width: 767px) {
   .events{
