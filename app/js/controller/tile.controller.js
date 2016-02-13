@@ -197,14 +197,26 @@
 
       	$scope.openTileMore = function (tile) {
       		$scope.tile = tile;
-      		
+
       		if(tile.tileType == 'event'){
+      			$scope.tile.showResult = true;
+      			$scope.tile.showActionReplay = true;
+      			
 				ngDialog.open({ 
 					template: 'app/views/tile-detail-modal.html',
 					className: 'ngdialog-theme-tile-detail',
 					controller: 'eventController',
 					scope: $scope
 				});
+      		}else{
+      			if(tile.extendWrap){
+	        		tile.extendWrap = false;
+	        		tile.moreImg = 'app/img/more.png';
+	        	}
+				else{
+					tile.extendWrap = true;
+					tile.moreImg = 'app/img/less.png';
+				}
       		}
 		}
     }

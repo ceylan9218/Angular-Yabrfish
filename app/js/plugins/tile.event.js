@@ -129,10 +129,10 @@
                 $scope.currEvent = $scope.events[0];
 
                 angular.element('.results-panel').addClass('whirl line back-and-forth');
-                
+
             }, function(error){
                 console.log(error);
-            })    
+            })
         }
 
         $scope.changeEvent = function(event){
