@@ -587,6 +587,19 @@
 			        return deferred.promise;
 				},
 
+				getClubClasses: function(externalId) {
+					var deferred = $q.defer();
+					$http.get(APP_APIS['tile']+'/accounts/'+ externalId +'/classes')
+			            .success(function(data) {
+							deferred.resolve(data);
+			            })
+			            .error(function(status){
+							deferred.resolve(status);
+						});
+
+			        return deferred.promise;
+				},
+
 				getRaces: function(eventId, classId){
 					var deferred = $q.defer();
 					$http.get(APP_APIS['tile']+'/events/'+ eventId +'/classes/'+classId+'/races')

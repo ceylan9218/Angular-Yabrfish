@@ -42,6 +42,7 @@
             'app.profile-clubs',
             'app.profile-equipment',
             'app.profile-tiles',
+            'app.profile-classes',
             'app.facebook-auth',
             'app.tileSrv',
             'app.product',

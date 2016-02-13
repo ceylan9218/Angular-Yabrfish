@@ -1,0 +1,5 @@
+<div class="panel-items" ng-init="getClasses()">
+	<div class="panel-slider" ng-style="{'width': panelWidth}">
+		<classes-item class="panel-item" ng-repeat="clubClass in clubClasses track by $index" club-class="clubClass"></classes-item>
+	</div>
+</div>
