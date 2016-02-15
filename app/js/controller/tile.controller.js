@@ -7,46 +7,10 @@
     'use strict';
 
     angular
-		.module('app.tile', ["com.2fdevs.videogular", "com.2fdevs.videogular.plugins.controls", "info.vietnamcode.nampnq.videogular.plugins.youtube", 'ngMap', 'flash', 'ngDialog'])
-		// .directive('sycovideo', function(){
-  //           return {
-  //             restrict: 'E',
-  //             template: '<div id="{{id}}" class="player"></div>',
-  //             scope: {
-  //               hls_source: "=hls",
-  //               id: "=id"
-  //             },
-  //             link: function(scope, elm, attr) {
-  //               scope.$on('linkChanged', function(event, val, id) {
-  //                 if(scope.id == id) {
-  //                   angular.element('.player').each(function(){
-  //                     var vid = angular.element(this).attr('id');
-  //                     bitdash(vid).destroy();                      
-  //                   });
-  //                   if(val) {
-  //                     var conf = {
-  //                         key:       '9dfc435e221ba94fd0cdbacda4c656cf',
-  //                         playback: {
-  //                           autoplay : true
-  //                         },
-  //                         source: {
-  //                           hls: val,
-  //                         },
-  //                         events: {
-  //                           onReady : function(data) {
-  //                           }                          
-  //                         }
-  //                     };
-  //                     bitdash(scope.id).setup(conf);
-  //                   }
-  //                 }
-  //               });
-  //             }
-  //           }
-  //       })
+		.module('app.tile', ['flash', 'ngDialog'])
 		.controller('tileController', tileController);
 
-	function tileController($rootScope, $scope, $http, $sce, RouteHelpers, APP_APIS, TileService, ViewerService, Flash, ngDialog, $document, $modal) {
+	function tileController($rootScope, $scope, TileService, ViewerService, Flash, ngDialog) {
 
 		$rootScope.youtubePlay = false;
 
@@ -56,10 +20,7 @@
 		$scope.nets = [];
 		$rootScope.currExternalId = '';
 		$scope.netsLoading = false;
-
-
-		$scope.getuser = function(element) {
-		}
+        $scope.scrollPos = 0;
 
 		$scope.loadNets = function(tile) {
 			$scope.netsLoading = true;
@@ -145,10 +106,6 @@
 			}
 		}
 
-		$scope.getTileEvents = function(element) {
-			console.log("Events Logging")
-		}
-
 		$scope.getOffers = function(element) {
 
 			if ( $scope.bOffersScrollDisabled ) {
@@ -175,26 +132,9 @@
 
 		}
 
-        $scope.extendTile = function(element){
-        	if(element.extendWrap){
-        		element.extendWrap = false;
-        		element.moreImg = 'app/img/more.png';
-        	}
-			else{
-				element.extendWrap = true;
-				element.moreImg = 'app/img/less.png';
-			}
-
-			if(element.tileType == 'offer'){
-
-            }
-        }
-
         $scope.$on('results', function(e, data){
 			$scope.results = data;
         })
-
-        $scope.scrollPos = 0;
 
       	$scope.openTileMore = function (tile) {
       		$scope.tile = tile;

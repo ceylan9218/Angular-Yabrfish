@@ -147,7 +147,6 @@
             $scope.results = data;
         })
 
-
         // Listen Dialog close event and set scroll position to origin value.
         $rootScope.$on('ngDialog.closed', function (e, $dialog) {
             console.log($scope.scrollPos);

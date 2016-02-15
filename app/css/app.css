@@ -9942,7 +9942,6 @@ label + .form-control + .parsley-errors-list + .form-control-feedback {
   -moz-transition:1s;
 }
 .events ul.carousel{
-  /*width: calc(100% - 55px);*/
   width: 100%;
   height: 245px;
   float: left;
