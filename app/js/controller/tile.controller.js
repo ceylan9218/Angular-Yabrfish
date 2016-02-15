@@ -46,7 +46,7 @@
   //       })
 		.controller('tileController', tileController);
 
-	function tileController($rootScope, $scope, $http, $sce, RouteHelpers, APP_APIS, TileService, ViewerService, Flash, ngDialog) {
+	function tileController($rootScope, $scope, $http, $sce, RouteHelpers, APP_APIS, TileService, ViewerService, Flash, ngDialog, $document, $modal) {
 
 		$rootScope.youtubePlay = false;
 
@@ -194,6 +194,7 @@
 			$scope.results = data;
         })
 
+        $scope.scrollPos = 0;
 
       	$scope.openTileMore = function (tile) {
       		$scope.tile = tile;
@@ -201,13 +202,18 @@
       		if(tile.tileType == 'event'){
       			$scope.tile.showResult = true;
       			$scope.tile.showActionReplay = true;
-      			
-				ngDialog.open({ 
+
+      			$scope.scrollPos = $(window).scrollTop();
+
+				var dialog = ngDialog.open({ 
 					template: 'app/views/tile-detail-modal.html',
 					className: 'ngdialog-theme-tile-detail',
 					controller: 'eventController',
 					scope: $scope
 				});
+
+				// Set body element top style to current scroll position.
+				angular.element('body').css('top', '-'+$scope.scrollPos+'px');
       		}else{
       			if(tile.extendWrap){
 	        		tile.extendWrap = false;
@@ -218,6 +224,6 @@
 					tile.moreImg = 'app/img/less.png';
 				}
       		}
-		}
+		}		
     }
 })();

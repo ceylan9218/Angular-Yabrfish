@@ -84,8 +84,9 @@ scope.$watch('contents', function(newVal){
                                 setZero = true;                                
                             }
                             
-                            if(scope.circleType == 'class')
+                            if(scope.circleType == 'class'){
                               angular.element('.race-list').addClass('whirl line back-and-forth');
+                            }
                         });
 
                         poolContainer.on('mouseup touchend', function(event) {

@@ -59,62 +59,7 @@
                Action Replay
             </div>
          </accordion-group>
-      </accordion>
-      <accordion class="extend-wrap" ng-if="card.extendWrap && card.tileType == 'event'" close-others="false">
-         <accordion-group is-open="card.showEvents">
-            <accordion-heading class="event-header">
-               <img src="app/img/event.png">Events
-               <i class="pull-right fa" ng-class="{'fa-angle-up': card.showEvents, 'fa-angle-down': !card.showEvents}"></i>
-               <p ng-if="card.eventName && card.className && card.showEvents">
-                  <span>{{card.eventName}}</span>
-                  <span>/{{card.className}}</span>
-               </p>
-            </accordion-heading>
-            <div class="section" ng-init="getEvents(card)">
-               <event-panel tile="card"></event-panel>
-               <event-edit></event-edit>               
-               <div ng-if="true">
-                  <!-- <class-list class="class-list" tile="card"></class-list>
-                  <race-list class="race-list" tile="card"></race-list> -->
-                  <accordion-group class="result-panel" is-open="card.showResult" ng-if="results.length > 0">
-                     <accordion-heading class="actionReplay-header">
-                        <img src="app/img/results.png">Results<i class="pull-right fa" ng-class="{'fa-angle-up': card.showResult, 'fa-angle-down': !card.showResult}"></i>
-                     </accordion-heading>
-                     <div class="result-wrap">
-                        <ul>
-                           <li ng-repeat="result in results">
-                              <span class="position" ng-class="{'gold': result.position == '1', 'silver': result.position == '2', 'bronze': result.position == '3', 'blue': result.position != '1' && result.position != '2' && result.position != '3'}" ng-if="result.positionDesc != 'DNC'">{{result.position}}</span>
-                              <span class="position red" ng-if="result.positionDesc == 'DNC'">{{result.position}}</span>
-                              <div class="race-info" ng-style="{ 'width' : !result.finishCorrected ? 'calc(100% - 40px)' : 'calc(100% - 135px)' }">
-                                 <span class="equipmentOwner">{{result.equipmentOwner}}</span>
-                                 <span class="equipmentName">{{result.equipmentName}}
-                                 &nbsp;{{result.sailNumber}}</span>
-                              </div>
-                              <div class="finish-time" ng-if="result.finishCorrected">
-                                 <div class="time" ng-repeat="time in result.finishCorrected track by $index">
-                                    <span class="time-val">
-                                       <span class="timer">{{time}}</span>
-                                    </span>                                       
-                                    <span class="seperator" ng-if="$index !=2"><b>:</b></span>
-                                 </div>
-                                 <span class="no-time" ng-if="result.positionDesc == 'DNC'">{{result.positionDesc}}</span>
-                              </div>
-                           </li>
-                        </ul>
-                     </div>
-                  </accordion-group>                  
-               </div>
-            </div>
-         </accordion-group>
-         <accordion-group is-open="card.showActionReplay">
-            <accordion-heading class="actionReplay-header">
-               <img src="app/img/action-replay.png">Action Replay<i class="pull-right fa" ng-class="{'fa-angle-up': card.showActionReplay, 'fa-angle-down': !card.showActionReplay}"></i>
-            </accordion-heading>
-            <div>
-               <action-replay></action-replay>               
-            </div>
-         </accordion-group>
-      </accordion>
+      </accordion>      
       <div class="offer-extend-wrap" ng-if="card.extendWrap && card.tileType == 'offer'" infinite-scroll='getOffers(card)' infinite-scroll-disabled='bOffersScrollDisabled'>
          <h4 class="offer-title">Offers</h4>
          <ul class="offers">

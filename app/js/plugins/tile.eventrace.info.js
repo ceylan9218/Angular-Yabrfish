@@ -103,6 +103,8 @@
         }
 
         var getResults = function(eventId, classId, raceId){
+            angular.element('.result-panel').addClass('whirl line back-and-forth');
+            
             if(raceId){
                 TileService.getResults(eventId, classId, raceId).then(function(data){
                     var results = data;
@@ -122,6 +124,7 @@
                     }
                     
                     $scope.$emit('results', results);
+                    angular.element('.result-panel').removeClass('whirl line back-and-forth');
                 }, function(error){
                     console.log(error);
                     return;
@@ -129,6 +132,7 @@
             }else{
                 var results = [];
                 $scope.$emit('results', results);
+                angular.element('.result-panel').removeClass('whirl line back-and-forth');
             }
         }
 
