@@ -104,6 +104,7 @@
         .controller('eventController', eventController)
     
     function eventController($rootScope, $scope, TileService, ViewerService, $timeout) {
+
         $scope.events = [];
         $scope.currEvent = {};
         var monthNames = TileService.getMonthNames();
@@ -145,5 +146,12 @@
         $scope.$on('results', function(e, data){
             $scope.results = data;
         })
+
+        // Listen Dialog close event and set scroll position to origin value.
+        $rootScope.$on('ngDialog.closed', function (e, $dialog) {
+            console.log($scope.scrollPos);
+            window.scrollTo(0, $scope.scrollPos);
+            angular.element('body').css('top', '');
+        });
     }
 })();

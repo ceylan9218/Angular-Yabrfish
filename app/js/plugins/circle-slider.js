@@ -13,11 +13,8 @@
                 },
                 templateUrl: "app/views/partials/circle-slider.html",
                 link: function(scope, element, attrs) {
-scope.$watch('contents', function(newVal){
 
-//                    $timeout(function(){
-//console.log(scope.contents);
-
+                    scope.$watch('contents', function(newVal){                      
                         var slider = angular.element('#'+scope.circleId+' #slider');
                         var circleBg = angular.element('#'+scope.circleId+' #circle .circleBg');
                         var circle = angular.element('#'+scope.circleId+' #circle');
@@ -75,8 +72,6 @@ scope.$watch('contents', function(newVal){
                         poolContainer.on('mousedown touchstart', function(event) {
 
                             mdown = true;
-//                            deg = 0;
-
                             var mPos = getMPos(event);
 
                             // If user click on left of circle at first, it sets circle to 0.
@@ -84,8 +79,9 @@ scope.$watch('contents', function(newVal){
                                 setZero = true;                                
                             }
                             
-                            if(scope.circleType == 'class')
+                            if(scope.circleType == 'class'){
                               angular.element('.race-list').addClass('whirl line back-and-forth');
+                            }
                         });
 
                         poolContainer.on('mouseup touchend', function(event) {
@@ -176,7 +172,6 @@ scope.$watch('contents', function(newVal){
                                   y: clientY - elPos.y + scrollFromTop
                                 };
 
-                                //var atan = Math.atan2(mPos.x - radius, mPos.y - radius * 2);
                                 atan = Math.atan2(mPos.x - radius, mPos.y - radius);
                                 deg = -atan / (Math.PI / 2) + 2; // final (0-360 positive) degrees from mouse position
 
@@ -219,9 +214,8 @@ scope.$watch('contents', function(newVal){
 
                                 scope.$apply(function() {
                                     if (scope.contents.length > 0 ) {
-//                                      console.log("Circle Value " + scope.step);
+
                                       scope.step = degree % count + 1;
-//console.log(scope.step);                                      
                                       scope.content = scope.contents[scope.step - 1];  
 
                                       if(!scope.content)
@@ -230,8 +224,7 @@ scope.$watch('contents', function(newVal){
                                 })
                             } // if (mdown) - end                              
                         }); // poolContainer.on('mousemove touchmove') - end
-//                    }, 2000);
-})
+                    })
                 }
             };
         }])

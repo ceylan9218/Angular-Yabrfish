@@ -8,7 +8,7 @@
 
     angular
         .module('app.location', [])
-        .directive("location", ['$http', 'APP_APIS', 'AccountService', 'LocationService', 'Flash', function($http, APP_APIS, AccountService, LocationService, Flash) {
+        .directive("location", ['$http', 'AccountService', 'LocationService', 'Flash', function($http, AccountService, LocationService, Flash) {
         	return {
         		restrict: 'E',
         		scope: {
