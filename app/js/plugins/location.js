@@ -32,7 +32,7 @@
 								zoom: zoomVal,
 								mapTypeId: google.maps.MapTypeId.ROADMAP
 							});
-
+ 
 							var marker = new google.maps.Marker({
 								position: {lat: locations[0].lat, lng: locations[0].lon},
 								map: map,
