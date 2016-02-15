@@ -1,7 +1,7 @@
 /**=========================================================
- * Module: myTileController
- * Description: Controller for My Tiles
- * Author: Ryan - 2015.11.20
+ * Module: classesController
+ * Description: Controller for Classes Panel in Club profile.
+ * Author: Marcin - 2016.2.12
  =========================================================*/
 
 (function() {
@@ -12,9 +12,11 @@ angular
         return {
             restrict: 'E',
             transclude: true,
-            scope: {},
+            scope: {
+                ownerId: '='
+            },
             controller: 'classesController',
-            templateUrl: 'app/views/partials/tile-panel.html'
+            templateUrl: 'app/views/partials/classes-panel.html'
         };
     })
     .controller('classesController', classesController)
@@ -24,21 +26,20 @@ angular
             restrict: 'E',
             transclude: true,
             scope: {
-                tile: '='
+                clubClass: '='
             },
             link: function(scope, element, attrs, classesController) {
 
             },
-            templateUrl: 'app/views/partials/tile-item.html'
+            templateUrl: 'app/views/partials/classes-item.html'
         };
     })
 
     function classesController($scope, $rootScope, TileService, $timeout) {
-
-        $scope.bTileScrollDisabled = false;
-        $scope.loading = false;
-        $scope.myTiles = [];
-        $scope.tilesWidth = 0;
+        // $scope.bClassesScrollDisabled = false;
+        // $scope.loading = false;
+        $scope.clubClasses = [];
+        $scope.panelWidth = 0;
 
         var setClassesWidth = function(classes){
             $timeout(function(){
@@ -47,34 +48,22 @@ angular
             })
         }
 
-        // Get My Tiles.
+        // Get classes for a club.
         $scope.getClasses = function() {
 
-            //---------------------------------------------------------//
-            // Load Single Page of my tiles.
-            //--------------------------------------------------------//
-
-            if ($scope.loading) {
+            TileService.getClubClasses($scope.ownerId).then(function(classes){
+                $scope.clubClasses = classes;
+                
+                for(var i in $scope.clubClasses) {
+                    var flag = "http://img.yabrfish.com/cdn/flags/"+$scope.clubClasses[i].classFlag.toLowerCase()+".jpg";
+                    $scope.clubClasses[i].flag = flag;
+                }
+console.log($scope.clubClasses);
+                setClassesWidth($scope.clubClasses);
+            }, function(error){
+                console.log(error);
                 return;
-            }
-
-            $scope.loading = true;
-
-            if ( ! TileService.moreMyTiles() ) {
-                $scope.loading = false;
-                $scope.bTileScrollDisabled = true;
-            } else {
-                TileService.getMyTiles($rootScope.user.externalId).then(function (tiles) {
-                    $scope.myTiles = TileService.cacheMyTiles();
-                    $scope.loading = false;
-                    $scope.bTileScrollDisabled = true;
-
-                    setTilesWidth($scope.myTiles);
-                }, function (error) {
-                    console.log(error);
-                    return;
-                })
-            }
+            });            
         }
 
     }

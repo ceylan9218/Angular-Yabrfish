@@ -44,6 +44,21 @@
         <span>{{club.attr_bio}}</span>
       </div>
     </div>
+    <div class="block my-classes">
+      <div class="profile-header">
+        <h4>
+          <img src="app/img/tiles.png" style="width: 20px;">
+          <span>My Classes</span>
+          <span class="mobile">Classes</span>
+        </h4>
+        <a class="extend" ng-click="hideClasses = !hideClasses"><i class="fa" ng-class="{'fa-angle-up': !hideClasses, 'fa-angle-down': hideClasses}"></i></a>
+        <a class="edit_info">Connect</a>
+        <a class="edit_info mobile"><img src="app/img/office2.png"></a>
+      </div>
+      <div class="block-content" ng-hide="hideClasses">
+        <classes-panel class="club-classes" owner-id="clubId"></classes-panel>
+      </div>
+    </div>
     <div class="block my-tiles">
       <div class="profile-header">
         <h4>
