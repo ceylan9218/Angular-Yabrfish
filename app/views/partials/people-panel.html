@@ -1,0 +1,12 @@
+<div class="panel-items" ng-init="getClubMembers()">
+	<div class="panel-slider">
+		<people-item class="panel-item" ng-repeat="member in people track by $index" member="member"></people-item>
+	</div>
+</div>
+<div ng-if="loading" class="panel-body loader-demo">
+	<div class="ball-pulse">
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+</div>

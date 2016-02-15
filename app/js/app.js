@@ -43,6 +43,7 @@
             'app.profile-equipment',
             'app.profile-tiles',
             'app.profile-classes',
+            'app.profile-people',
             'app.facebook-auth',
             'app.tileSrv',
             'app.product',

@@ -58,7 +58,7 @@ angular
                     var flag = "http://img.yabrfish.com/cdn/flags/"+$scope.clubClasses[i].classFlag.toLowerCase()+".jpg";
                     $scope.clubClasses[i].flag = flag;
                 }
-console.log($scope.clubClasses);
+
                 setClassesWidth($scope.clubClasses);
             }, function(error){
                 console.log(error);
