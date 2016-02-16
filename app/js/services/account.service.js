@@ -14,6 +14,7 @@
 
             var accCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, Accounts:[]};
             var searchAccCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, Accounts:[]};
+            var clubMembersCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, members:[]};
 
             var currAccount = {
                 accountTypeId: null,
@@ -51,9 +52,29 @@
                 }
             };
 
+            //--------------------------------------------------------------------------------------------
+            // Process Response and cache club members from Account Service
+            //--------------------------------------------------------------------------------------------
+            var cacheClubMembers = function(response) {
+
+                var members = [];
+                members = response.data;
+
+                for (var i in members) {
+                    if(!members[i].avatarUrl || members[i].avatarUrl == '')
+                        members[i].avatarUrl = 'app/img/user/default.png';
+                    clubMembersCache.members[clubMembersCache.cacheSize++] = members[i];
+                }
+
+                return members;
+            };
+
         	return{
 
+                cacheClubMembersSize : function () { return clubMembersCache.cacheSize },
+
                 cacheAccounts: function () { return accCache.Accounts},
+                cacheClubMembers: function () { return clubMembersCache.members},
 
                 addCache : function (account) {
 
@@ -249,7 +270,49 @@
                         })
 
                     return deferred.promise;
-                }
+                },
+
+                getClubMembers: function(accountId){
+
+                    console.log("SERVICE Page " + clubMembersCache.page + " count " + clubMembersCache.totalPages + " total " + clubMembersCache.cacheSize);
+
+                    var deferred = $q.defer();
+                    
+                    if ( clubMembersCache.page !=0 && clubMembersCache.page  >= clubMembersCache.totalPages ) {
+                        // Resolve the deferred $q object before returning the promise
+                        deferred.resolve([]);
+                        return deferred.promise;
+                    }
+                    
+                    //var promise = $http.get(APP_APIS['commerce']+'/accounts/'+ accountId +'/memberships&page='+clubMembersCache.page+'&size='+clubMembersCache.pageSize)                    
+                    var promise = $http.get(APP_APIS['commerce']+'/accounts/'+ accountId +'/memberships')
+                        .then(function(response){
+
+                            if ( clubMembersCache.page == 0 ) {
+                                //---------------------------------------------//
+                                //Check Total Number of Pages in the Response //
+                                //---------------------------------------------//
+                                clubMembersCache.totalItems = response.data.totalElements;
+                                clubMembersCache.totalPages = response.data.totalPages;
+                            }
+
+                            var members = cacheClubMembers(response);
+                            clubMembersCache.page++;
+
+                            console.log("SERVICE THEN count " + clubMembersCache.totalItems + " total " + clubMembersCache.totalItems);
+
+                            deferred.resolve(members);
+                        });
+                    
+                    
+                    return deferred.promise;
+                },
+
+                moreClubMembers: function() {
+
+                    return  ( ( clubMembersCache.cacheSize < clubMembersCache.totalItems ) || clubMembersCache.page == 0 )
+
+                },
 
             }
         }

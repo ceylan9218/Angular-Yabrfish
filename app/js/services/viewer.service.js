@@ -281,6 +281,36 @@
 			            });
 
 					return deferred.promise;
+        		},
+
+        		getProfileInfo: function(viewerId) {
+        			var deferred = $q.defer();
+        			$http.get(APP_APIS['commerce']+'/viewers/'+viewerId+'/attributes')
+        				.success(function(data) {
+        					deferred.resolve(data);
+        				})
+        				.error(function(status){
+        					deferred.resolve(status);
+        				});
+
+        			return deferred.promise;
+        		},
+
+        		updateProfile: function(viewerId, attributeId, attributeValue) {        			
+        			var deferred = $q.defer();
+					
+					$http({
+						method: 'PUT',
+						url: APP_APIS['commerce']+'/viewers/'+viewerId+'/attributes/'+attributeId,
+						data: JSON.stringify(attributeValue),
+						headers: {'Content-type': 'application/json'}
+					}).success(function (data, status, headers, config) {
+						deferred.resolve(data);
+					}).error(function (data, status, headers, config) {
+						deferred.resolve(status);
+					});
+
+        			return deferred.promise;	
         		}
         	}
         }

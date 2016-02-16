@@ -7,7 +7,7 @@
     'use strict';
 
     angular
-		.module('app.tile', ['flash', 'ngDialog'])
+		.module('app.tile', ['ngMap', 'flash', 'ngDialog'])
 		.controller('tileController', tileController);
 
 	function tileController($rootScope, $scope, TileService, ViewerService, Flash, ngDialog) {

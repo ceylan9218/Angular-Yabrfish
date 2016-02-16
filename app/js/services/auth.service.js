@@ -93,7 +93,7 @@
                   forename:"Daniel",
                   nickname:"Daniel Belton",
                   surname:"Belton",
-                  externalId: "B16EF381-81D1-4014-8BFA-AA7B082E0FD7"
+                  externalId: "A10153DA-E739-4978-ADA4-B9765F7DFCEF"
                 };
                 deferred.resolve($rootScope.user);
 
