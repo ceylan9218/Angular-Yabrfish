@@ -13,7 +13,7 @@
         })
         .controller('profileController', profileController);
 
-    function profileController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS, AuthService, LookupService, COLUMN_WIDTH) {
+    function profileController($scope, $rootScope, $http, $modal, $log, Flash, APP_APIS, AuthService, LookupService, COLUMN_WIDTH, ngDialog) {
       if(!$rootScope.user)
         return;
 
@@ -213,6 +213,16 @@
         $scope.hideTiles = true;
         $scope.hidePeople = true;
         $scope.hideSocial = true;
+      }
+
+      
+      $scope.addTile = function() {
+          var dialog = ngDialog.open({ 
+              template: 'app/views/new-tile.html',
+              className: 'ngdialog-theme-add-tile',
+              controller: '',
+              scope: $scope
+          });
       }
     }
 })();

@@ -11400,6 +11400,10 @@ img.logo{
   text-align: right;
   padding-right: 10px;
   border-right: 1px solid #E4E4E4;
+  cursor: pointer;
+}
+.profile-header .edit_info:hover{
+  color: #3ABEEF;
 }
 .profile-header .edit_info.mobile{
   display: none;
