@@ -2,7 +2,7 @@
   <h4 class="profile-title">My Profile</h4>
   <div class="block about" ng-style="{'height': hideAbout? '160px':'360px'}">
     <div class="user-profile">
-      <img ng-src="{{$root.user.avatarUrl && $root.user.avatarUrl || 'app/img/user/default.png'}}"></img>
+      <img ng-src="{{$root.user.avatarUrl && $root.user.avatarUrl || 'app/img/user/default.png'}}">
       <div class="info">
         <span ng-if="$root.logged" class="username">{{$root.user.forename}}&nbsp;{{$root.user.surname}}</span>
         <a class="upload-photo">Upload Photo</a>          
@@ -15,10 +15,10 @@
       <a class="edit_info mobile"><img src="app/img/office1.png"></a>
     </div>
     <div class="block-content" ng-hide="hideAbout">
-      <p><img src="app/img/cake.png"><a editable-text="birthday"><span>{{birthday || 'DD/MM/YYYY'}}</span></a></p>
-      <p><img src="app/img/male.png"><a editable-text="sex"><span>{{sex || 'No Gender'}}</span></a></p>
-      <p><img src="app/img/job.png"><a editable-text="job"><span>{{job || 'No Job'}}</span></a></p>
-      <p><img src="app/img/location-g.png"><a editable-text="location"><span>{{location || 'No Location'}}</span></a></p>
+      <p><img src="app/img/cake.png"><a editable-text="birthday" onbeforesave="updateUser($data, 1)"><span>{{birthday || 'DD/MM/YYYY'}}</span></a></p>
+      <p><img src="app/img/male.png"><a editable-text="sex" onbeforesave="updateUser($data, 3)"><span>{{sex || 'No Gender'}}</span></a></p>
+      <p><img src="app/img/job.png"><a editable-text="job" onbeforesave="updateUser($data, 2)"><span>{{job || 'No Job'}}</span></a></p>
+      <p><img src="app/img/location-g.png"><a editable-text="location" onbeforesave="updateUser($data, 4)"><span>{{location || 'No Location'}}</span></a></p>
     </div>
   </div>
   <div class="block bio" ng-style="{'height': hideBio? '70px':'360px'}">
@@ -29,7 +29,7 @@
       <a class="edit_info mobile"><img src="app/img/office1.png"></a>
     </div>
     <div class="block-content" ng-hide="hideBio">
-      <a editable-textarea="bio">{{bio || 'No Bio'}}</a>
+      <a editable-textarea="bio" onbeforesave="updateUser($data, 5)">{{bio || 'No Bio'}}</a>
     </div>
   </div>
   <div html-sortable="sortableOptions">
@@ -109,11 +109,7 @@
         <span>Link Social Media Accounts</span>
       </div>
     </div>  
-  </div>
-  
-  <!-- <div class="buttons">
-    <button class="update-profile btn pull-right" ng-click="updateProfile();">Save</button>
-  </div> -->
+  </div>  
 </div>
 
 <!-- Alert message-->
