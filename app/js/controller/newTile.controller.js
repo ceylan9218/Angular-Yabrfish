@@ -1,13 +1,13 @@
 /**=========================================================
- * Module: myTileController
- * Description: Controller for My Tiles
- * Author: Ryan - 2015.11.20
+ * Module: newTileController
+ * Description: Controller for creating New Tile
+ * Author: Ryan - 2016.2.15
  =========================================================*/
 (function() {
     'use strict';
 
     angular
-        .module('app.tiles', ['ngAnimate', 'ui.bootstrap', 'ui.select', 'ngFileUpload', 'stripe.checkout', 'flash', 'ui.bootstrap.datetimepicker'])
+        .module('app.new-tile', ['ngAnimate', 'ui.bootstrap', 'ui.select', 'ngFileUpload', 'stripe.checkout', 'flash', 'ui.bootstrap.datetimepicker'])
         .directive("checkboxGroup", function() {
             return {
                 restrict: "A",
@@ -36,9 +36,10 @@
                 }
             }
         })        
-        .controller('myTileController', myTileController);
+        .controller('newTileController', newTileController);
 
-    function myTileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService, ProductService, Flash, AuthService, LookupService) {
+    function newTileController($scope, $http, $rootScope, RouteHelpers, APP_APIS, Upload, TileService, ProductService, Flash, AuthService, LookupService) {
+
       $scope.inMotion = false;
       $scope.loading = false;
       $scope.tiles = [];
@@ -65,29 +66,24 @@
       if(!$rootScope.user)
         return;
 
-        $scope.getUser = function() {
-            AuthService.getUser().then(function(user){
-                $rootScope.user = user;
-                // Get Current User's Roles
-                $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/roles')
-                    .success(function(data){
-                        for(var i in data){
-                            $scope.accounts.push(data[i].account);
-                        }
-                        $scope.accounts.unshift({
-                            name: 'Just For Me'
-                        });
-                    });
-            })
-        }
+        //--------------------------------------------------------------------------------------------
+        // New Tile functions
+        //--------------------------------------------------------------------------------------------
 
-
-          //--------------------------------------------------------------------------------------------
-          // New Tile functions
-          //--------------------------------------------------------------------------------------------
+        // Get Current User's Roles
+        $http.get(APP_APIS['commerce']+'/viewers/'+$rootScope.user.externalId+'/roles')
+            .success(function(data){
+                for(var i in data){
+                    $scope.accounts.push(data[i].account);
+                }
+                $scope.accounts.unshift({
+                    name: 'Just For Me'
+                });
+            });
         // Get Tile Types
         LookupService.getTileTypes().then(function(tiletypes){
           $scope.tileTypes = tiletypes;
+console.log($scope.tileTypes);
         }, function(error){
           console.log(error);
           return;
