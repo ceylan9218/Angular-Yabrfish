@@ -15,6 +15,7 @@
             var accCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, Accounts:[]};
             var searchAccCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, Accounts:[]};
             var clubMembersCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, members:[]};
+            var productCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, products:[]};
 
             var currAccount = {
                 accountTypeId: null,
@@ -69,12 +70,29 @@
                 return members;
             };
 
+            //--------------------------------------------------------------------------------------------
+            // Process Response and cache products from Account Service
+            //--------------------------------------------------------------------------------------------
+            var cacheProducts = function(response) {
+
+                var products = [];
+                products = response.data;
+
+                for (var i in products) {                    
+                    productCache.products[productCache.cacheSize++] = products[i];
+                }
+
+                return products;
+            };
+
         	return{
 
                 cacheClubMembersSize : function () { return clubMembersCache.cacheSize },
+                cacheProductsSize : function () { return productCache.cacheSize },
 
                 cacheAccounts: function () { return accCache.Accounts},
                 cacheClubMembers: function () { return clubMembersCache.members},
+                cacheProducts: function () { return productCache.products},
 
                 addCache : function (account) {
 
@@ -311,6 +329,48 @@
                 moreClubMembers: function() {
 
                     return  ( ( clubMembersCache.cacheSize < clubMembersCache.totalItems ) || clubMembersCache.page == 0 )
+
+                },
+
+                getProducts: function(accountId){
+
+                    console.log("SERVICE Page " + productCache.page + " count " + productCache.totalPages + " total " + productCache.cacheSize);
+
+                    var deferred = $q.defer();
+                    
+                    if ( productCache.page !=0 && productCache.page  >= productCache.totalPages ) {
+                        // Resolve the deferred $q object before returning the promise
+                        deferred.resolve([]);
+                        return deferred.promise;
+                    }
+                    
+                    //var promise = $http.get(APP_APIS['commerce']+'/accounts/'+ accountId +'/products&page='+productCache.page+'&size='+productCache.pageSize)
+                    var promise = $http.get(APP_APIS['commerce']+'/accounts/'+ accountId +'/products')
+                        .then(function(response){
+
+                            if ( productCache.page == 0 ) {
+                                //---------------------------------------------//
+                                //Check Total Number of Pages in the Response //
+                                //---------------------------------------------//
+                                productCache.totalItems = response.data.totalElements;
+                                productCache.totalPages = response.data.totalPages;
+                            }
+
+                            var products = cacheProducts(response);
+                            productCache.page++;
+
+                            console.log("SERVICE THEN count " + productCache.totalItems + " total " + productCache.totalItems);
+
+                            deferred.resolve(products);
+                        });
+                    
+                    
+                    return deferred.promise;
+                },
+
+                moreProducts: function() {
+
+                    return  ( ( productCache.cacheSize < productCache.totalItems ) || productCache.page == 0 )
 
                 },
 
