@@ -74,6 +74,21 @@
         <tile-panel class="my-tiles" owner-type="'account'" owner-id="clubId"></tile-panel>
       </div>
     </div>
+    <div class="block my-products">
+      <div class="profile-header">
+        <h4>
+          <img src="app/img/tiles.png" style="width: 20px;">
+          <span>My Products</span>
+          <span class="mobile">Products</span>
+        </h4>
+        <a class="extend" ng-click="hideProducts = !hideProducts"><i class="fa" ng-class="{'fa-angle-up': !hideProducts, 'fa-angle-down': hideProducts}"></i></a>
+        <a class="edit_info">Connect</a>
+        <a class="edit_info mobile"><img src="app/img/office2.png"></a>
+      </div>
+      <div class="block-content" ng-hide="hideProducts">
+        <product-panel class="my-products" owner-id="clubId"></product-panel>
+      </div>
+    </div>
     <div class="block services">
       <div class="profile-header">
         <h4><img src="app/img/service-icon.png" style="width: 20px;"><span style="margin-left: 10px;">Services</span></h4>

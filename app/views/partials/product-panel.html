@@ -1,0 +1,5 @@
+<div class="panel-items" ng-init="getProducts()">
+	<div class="panel-slider" ng-style="{'width': productsWidth}">
+		<product-item class="panel-item" ng-repeat="product in myProducts track by $index" product="product"></product-item>
+	</div>
+</div>

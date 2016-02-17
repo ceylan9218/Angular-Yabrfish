@@ -11635,6 +11635,17 @@ img.logo{
   padding-right: 0;
   border-right: none;
 }
+.block.my-accounts .item-content img{
+  width: 100px;
+  height: 100px;
+  float: left;
+  margin-right: 15px;
+}
+.block.my-accounts .item-content a.title{
+  width: calc(100% - 115px);
+  float: left;
+  margin-top: 0;
+}
 @media only screen and (max-width: 767px) {
   .profile-wrap{
     width: 290px;
@@ -11816,6 +11827,9 @@ img.logo{
   .club-bio{
     height: 300px;
     overflow: auto;
+  }
+  .block.my-accounts .item-content img{
+    margin-right: 15px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 1199px) {
