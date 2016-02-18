@@ -7,7 +7,7 @@
 (function() {
     'use strict';
 angular
-    .module('app.profile-tiles', ['ngAnimate', 'ui.bootstrap'])
+    .module('app.profile-tiles', ['ngAnimate', 'ui.bootstrap', 'ui.select', 'ngFileUpload', 'stripe.checkout', 'ui.bootstrap.datetimepicker'])
     .directive('tilePanel', function() {
         return {
             restrict: 'E',
@@ -37,14 +37,16 @@ angular
             },
             templateUrl: 'app/views/partials/tile-item.html'
         };
-    })
+    })    
 
-    function myTileController($scope, $rootScope, TileService, $timeout) {
+    function myTileController($scope, $rootScope, TileService, LookupService, $timeout) {
 
         $scope.bTileScrollDisabled = false;
         $scope.loading = false;
         $scope.myTiles = TileService.cacheMyTiles($scope.ownerId);
         $scope.tilesWidth = 0;
+
+        $scope.tileTypes = [];
 
         var setTilesWidth = function(tiles){
             $timeout(function(){
@@ -92,6 +94,6 @@ angular
             if(evt.target.scrollLeft == evt.target.scrollLeftMax){
                 getTiles();               
             }
-        })
+        })      
     }
 })();

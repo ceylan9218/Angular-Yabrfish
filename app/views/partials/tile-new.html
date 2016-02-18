@@ -1,20 +1,20 @@
-<div class="create-area" ng-init=getUser()>   
+<div class="create-area">   
    <div class="create tile">
       <h4><img class="add-icon" src="app/img/create-tile.png">Create New tile</h4>
-      <div class="close" ng-click="hideNewTile()"><i class="fa fa-times"></i></div>
+      <!-- <div class="close" ng-click="hideNewTile()"><i class="fa fa-times"></i></div> -->
       <div class="new-tile-wrap">
-         <div class="create-tile-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': sliderWidth}">
-            <div id="step1" class="steps" ng-style="{'width': stepWidth}">            
+         <div class="create-tile-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform}">
+            <div id="step1" class="steps">
                <label for="file-input">
                   <img src="app/img/upload-photo.png" ng-src="{{image_source}}">
                </label>
                <input id="file-input" class="file" type="file" uploader="form.uploader" onchange="angular.element(this).scope().setFile(this)" accept="image/*"/>
-               <ui-select ng-model="tileType.selected" theme="select2">
+               <ui-select ng-model="tileType.selected" theme="select2" ng-if="tileTypes.length > 0">
                   <ui-select-match placeholder="Select Type...">{{$select.selected.description}}</ui-select-match>
-                  <ui-select-choices repeat="tileType in tileTypes | propsFilter: {description: $select.search}">
+                  <ui-select-choices repeat="tileType in tileTypes | filter: {description: $select.search}">
                      <div ng-bind-html="tileType.description | highlight: $select.search"></div>               
                   </ui-select-choices>
-               </ui-select>               
+               </ui-select>
                <input type="text" class="form-control" ng-model="newTile.title" placeholder="The title...">
                <textarea class="form-control" ng-model="newTile.description" placeholder="Description..."></textarea>
                <div class="button-wrap">
@@ -24,18 +24,18 @@
                   </div>
                </div>
             </div>
-            <div id="step2" class="steps" ng-style="{'width': stepWidth}">
+            <div id="step2" class="steps">
                <label for="accounts">Choose Account:</label>
                <ui-select ng-model="account.selected" theme="select2" on-select="changeAccount($item, $model)">
                   <ui-select-match placeholder="Select Account...">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="account in accounts | propsFilter: {name: $select.search}">
+                  <ui-select-choices repeat="account in accounts | filter: {name: $select.search}">
                      <div ng-bind-html="account.name | highlight: $select.search"></div>
                   </ui-select-choices>
-               </ui-select>               
+               </ui-select>
                <label for="accounts">Organizations:</label>
                <ui-select ng-model="organization.selected" theme="select2">
                   <ui-select-match placeholder="Select Organization...">{{$select.selected.name}}</ui-select-match>
-                  <ui-select-choices repeat="organization in organizations | propsFilter: {name: $select.search}">
+                  <ui-select-choices repeat="organization in organizations | filter: {name: $select.search}">
                      <div ng-bind-html="organization.name | highlight: $select.search"></div>               
                   </ui-select-choices>
                </ui-select>
@@ -48,7 +48,7 @@
                </div>
                <span class="tileCount">{{diffInstances}} Tiles</span>               
             </div>
-            <div id="step3" class="steps" ng-style="{'width': stepWidth}">
+            <div id="step3" class="steps">
                <div class="purchase-wrap" ng-show="showNewTile">
                   <div class="products-wrap">
                      <div class="products" ng-repeat="product in products track by $index">
@@ -94,10 +94,10 @@
                                  <div class="event-type option">
                                     <ui-select ng-model="eventtype.selected" theme="select2">
                                        <ui-select-match placeholder="Event Type">{{$select.selected.description}}</ui-select-match>
-                                       <ui-select-choices repeat="eventtype in eventtypes | propsFilter: {description: $select.search}">
+                                       <ui-select-choices repeat="eventtype in eventtypes | filter: {description: $select.search}">
                                           <div ng-bind-html="eventtype.description | highlight: $select.search"></div>               
                                        </ui-select-choices>
-                                    </ui-select>   
+                                    </ui-select>
                                  </div>
                                  <div class="name option">
                                     <input type="text" class="form-control input-name" placeholder="Name" ng-model="events.name">

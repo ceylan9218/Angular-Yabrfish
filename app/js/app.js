@@ -37,7 +37,7 @@
             'app.profile',
             'app.signup',
             'app.login',
-            'app.tiles',
+//            'app.tiles',
             'app.profile-accounts',
             'app.profile-clubs',
             'app.profile-equipment',
@@ -70,7 +70,8 @@
             'app.tile-image',
             'app.tile-video',
             'app.tile-videoList',
-            'app.circle-slider'
+            'app.circle-slider',
+            'app.new-tile'
         ])
         .constant('APP_APIS', {
           'base':                 'http://demo.data.yabrfish.com/yfapi',
@@ -973,13 +974,13 @@
                 controller: 'accountController',
                 templateUrl: helper.basepath('profile-new-account.html')
             })
-            .state('app.tiles', {
-                url: '/tiles',
-                title: 'My Tiles',
-                controller: 'myTileController',
-                templateUrl: helper.basepath('tiles.html'),
-                resolve: helper.resolveFor('spinkit','loaders.css', 'akoenig.deckgrid', 'infinite-scroll', 'angular-carousel')
-            })
+            // .state('app.tiles', {
+            //     url: '/tiles',
+            //     title: 'My Tiles',
+            //     controller: 'myTileController',
+            //     templateUrl: helper.basepath('tiles.html'),
+            //     resolve: helper.resolveFor('spinkit','loaders.css', 'akoenig.deckgrid', 'infinite-scroll', 'angular-carousel')
+            // })
             .state('app.new-tile', {
                 url: '/tiles/new',
                 title: 'New Tile',

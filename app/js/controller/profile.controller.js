@@ -13,10 +13,12 @@
         })
         .controller('profileController', profileController);
 
-    function profileController($scope, $rootScope, ViewerService, Flash, COLUMN_WIDTH) {
+    function profileController($scope, $rootScope, ViewerService, Flash, COLUMN_WIDTH, ngDialog) {
 
         if(!$rootScope.user)
             return;
+
+        $scope.scrollPos = 0;
 
         $scope.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -143,5 +145,26 @@
             $scope.hidePeople = true;
             $scope.hideSocial = true;
         }
+
+
+        $scope.addTile = function() {
+            $scope.scrollPos = $(window).scrollTop();
+            // Set body element top style to current scroll position.
+            angular.element('body').css('top', '-'+$scope.scrollPos+'px');
+
+            var dialog = ngDialog.open({ 
+                template: 'app/views/partials/tile-new.html',
+                className: 'ngdialog-theme-add-tile',
+                controller: 'newTileController',
+                showClose: true,
+                scope: $scope
+            });
+        }
+
+        // Listen Dialog close event and set scroll position to origin value.
+        $rootScope.$on('ngDialog.closed', function (e, $dialog) {
+            window.scrollTo(0, $scope.scrollPos);
+            angular.element('body').css('top', '');
+        });
     }
 })();

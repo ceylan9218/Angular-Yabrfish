@@ -82,8 +82,8 @@
           <span class="mobile">Tiles</span>
         </h4>
         <a class="extend" ng-click="hideTiles = !hideTiles"><i class="fa" ng-class="{'fa-angle-up': !hideTiles, 'fa-angle-down': hideTiles}"></i></a>
-        <a class="edit_info">Connect</a>
-        <a class="edit_info mobile"><img src="app/img/office2.png"></a>
+        <a class="edit_info add-tile" ng-click="addTile()">Connect</a>
+        <a class="edit_info mobile add-tile" ng-click="addTile()"><img src="app/img/office2.png"></a>
       </div>
       <div class="block-content" ng-hide="hideTiles">
         <tile-panel class="my-tiles" owner-type="'person'" owner-id="$root.user.externalId"></tile-panel>
