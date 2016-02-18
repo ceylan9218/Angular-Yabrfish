@@ -11682,9 +11682,13 @@ img.logo{
   .profile-header .extend.mobile{
     display: inline-block;
   }
-  .profile-header span{
+  .profile-header span.mobile{
     margin-left: 10px;
     font-size: 15px;
+    display: inline-block;
+  }
+  .profile-header span{
+    display: none;
   }
   .block.my-club .profile-header span,
   .block.accounts .profile-header span{
