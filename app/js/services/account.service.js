@@ -16,6 +16,7 @@
             var searchAccCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, Accounts:[]};
             var clubMembersCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, members:[]};
             var productCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, products:[]};
+            var serviceCache = {"cacheId": null, "cacheSize" : 0, "page" : 0, "pageSize" : 5, "totalPages" : 0, "totalItems" : 0, services:[]};
 
             var currAccount = {
                 accountTypeId: null,
@@ -85,14 +86,31 @@
                 return products;
             };
 
+            //--------------------------------------------------------------------------------------------
+            // Process Response and cache services from Account Service
+            //--------------------------------------------------------------------------------------------
+            var cacheServices = function(response) {
+
+                var services = [];
+                services = response.data.content;
+
+                for (var i in services) {
+                    serviceCache.services[serviceCache.cacheSize++] = services[i];
+                }
+
+                return services;
+            };
+
         	return{
 
                 cacheClubMembersSize : function () { return clubMembersCache.cacheSize },
                 cacheProductsSize : function () { return productCache.cacheSize },
+                cacheServicesSize : function () { return serviceCache.cacheSize },
 
                 cacheAccounts: function () { return accCache.Accounts},
                 cacheClubMembers: function () { return clubMembersCache.members},
                 cacheProducts: function () { return productCache.products},
+                cacheServices: function () { return serviceCache.services},
 
                 addCache : function (account) {
 
@@ -371,6 +389,48 @@
                 moreProducts: function() {
 
                     return  ( ( productCache.cacheSize < productCache.totalItems ) || productCache.page == 0 )
+
+                },
+
+                getServices: function(accountId){
+
+                    console.log("SERVICE Page " + serviceCache.page + " count " + serviceCache.totalPages + " total " + serviceCache.cacheSize);
+
+                    var deferred = $q.defer();
+                    
+                    if ( serviceCache.page !=0 && serviceCache.page  >= serviceCache.totalPages ) {
+                        // Resolve the deferred $q object before returning the promise
+                        deferred.resolve([]);
+                        return deferred.promise;
+                    }
+                    
+                    var promise = $http.get(APP_APIS['commerce']+'/accounts/'+ accountId +'/services?page='+serviceCache.page+'&size='+serviceCache.pageSize)
+                    
+                        .then(function(response){
+
+                            if ( serviceCache.page == 0 ) {
+                                //---------------------------------------------//
+                                //Check Total Number of Pages in the Response //
+                                //---------------------------------------------//
+                                serviceCache.totalItems = response.data.totalElements;
+                                serviceCache.totalPages = response.data.totalPages;
+                            }
+
+                            var services = cacheServices(response);
+                            serviceCache.page++;
+
+                            console.log("SERVICE THEN count " + services.length + " total " + serviceCache.services.length);
+
+                            deferred.resolve(services);
+                        });
+                    
+                    
+                    return deferred.promise;
+                },
+
+                moreServices: function() {
+
+                    return  ( ( serviceCache.cacheSize < serviceCache.totalItems ) || serviceCache.page == 0 )
 
                 },
 

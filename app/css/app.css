@@ -12268,6 +12268,44 @@ img.logo{
 .block.about.account-about .block-content{
   padding-top: 0;
 }
+.block.services{
+  padding: 0;
+}
+.block.services .profile-header{
+  margin: 10px 30px 0;
+  width: calc(100% - 60px);
+}
+.service-panel{
+  display: inline-block;
+  width: 100%;
+  overflow: auto;
+  height: 340px;
+}
+.service-panel .service{
+  height: 70px;
+  padding: 10px 0 10px 30px;
+}
+.service-panel .service:nth-child(odd){
+
+}
+.service-panel .service:nth-child(even){
+  background: #F2F2F2;
+}
+.service-panel ul{
+  padding-left: 20px;
+  color: #3ABEEF;
+  margin: 0;
+}
+.service-panel span{
+  top: 0;
+}
+.service-panel span.service-type{
+  padding-left: 20px;
+}
+.service-panel ul li span.service-title{
+  color: #333;
+  font-size: 16px;
+}
 @media only screen and (max-width: 767px) {
   .block.account-about{
     width: 100%;

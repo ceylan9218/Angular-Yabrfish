@@ -19,6 +19,7 @@
         			
         			var zoomVal = 17;
 					var defaultMapPos = {lat: 51.50013, lng: -0.126305};
+					var map;
 
         			// Set Location area.
         			AccountService.getLocation(scope.accountId).then(function(locations){
@@ -27,10 +28,11 @@
 							scope.locations = locations;
 
 							// Show Google map.
-							var map = new google.maps.Map(document.getElementById('map_'+scope.accountId), {
+							map = new google.maps.Map(document.getElementById('map_'+scope.accountId), {
 								center: {lat: locations[0].lat, lng: locations[0].lon},
 								zoom: zoomVal,
-								mapTypeId: google.maps.MapTypeId.ROADMAP
+								mapTypeId: google.maps.MapTypeId.ROADMAP,
+								scrollwheel: false
 							});
  
 							var marker = new google.maps.Marker({
@@ -42,10 +44,11 @@
 							scope.hasLocations = false;
 							scope.locations = [];
 
-							var map = new google.maps.Map(document.getElementById('map_'+scope.accountId), {
+							map = new google.maps.Map(document.getElementById('map_'+scope.accountId), {
 								center: defaultMapPos,
 								zoom: zoomVal,
-								mapTypeId: google.maps.MapTypeId.ROADMAP
+								mapTypeId: google.maps.MapTypeId.ROADMAP,
+								scrollwheel: false
 							});
 						}
 
@@ -58,6 +61,10 @@
 						// Bias the SearchBox results towards current map's viewport.
 						map.addListener('bounds_changed', function() {
 							searchBox.setBounds(map.getBounds());
+						});
+
+						map.addListener('mousedown', function() {
+							enableScrollingWithMouseWheel();
 						});
 
 						var markers = [];
@@ -118,6 +125,34 @@
         				console.log(error);
         				return;
         			})
+
+        			function enableScrollingWithMouseWheel() {
+						if(!map)
+							return;
+
+					    map.setOptions({ scrollwheel: true });
+					}
+
+					function disableScrollingWithMouseWheel() {
+						if(!map)
+							return;
+
+					    map.setOptions({ scrollwheel: false });
+					}
+
+					$('body').on('mousedown', function(event) {
+					    var clickedInsideMap = $(event.target).parents('.map-content').length > 0;
+
+					    if(!clickedInsideMap) {
+					        disableScrollingWithMouseWheel();
+					    }
+					});
+
+					$(window).scroll(function() {
+					    disableScrollingWithMouseWheel();
+					});
+
+
 
 					scope.addLocation = function() {
 						var place = scope.places[0];

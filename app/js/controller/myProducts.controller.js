@@ -53,7 +53,7 @@
 
             AccountService.getProducts($scope.ownerId).then(function (data) {
                 $scope.myProducts = data;
-console.log($scope.myProducts);                
+
                 setProdsWidth($scope.myProducts);
             }, function (error) {
                 console.log(error);

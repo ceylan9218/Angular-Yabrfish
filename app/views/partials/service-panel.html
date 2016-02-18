@@ -1,0 +1,13 @@
+<div class="panel-content" infinite-scroll="getServices()" infinite-scroll-container="'.service-panel'">
+	<div class="service" ng-repeat="service in services">
+		<ul><li><span class="service-title">{{service.name}}</span></li></ul>
+		<span class="service-type">{{service.serviceType}}</span>
+	</div>
+</div>
+<div ng-if="loading" class="panel-body loader-demo">
+	<div class="ball-pulse">
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+</div>

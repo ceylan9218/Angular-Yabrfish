@@ -45,6 +45,7 @@
             'app.profile-classes',
             'app.profile-people',
             'app.profile-products',
+            'app.profile-services',
             'app.facebook-auth',
             'app.tileSrv',
             'app.product',
