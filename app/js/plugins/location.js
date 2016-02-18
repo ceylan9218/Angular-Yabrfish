@@ -140,7 +140,7 @@
 					    map.setOptions({ scrollwheel: false });
 					}
 
-					$('body').on('mousedown', function(event) {
+					$('body').on('mousedown touchstart', function(event) {
 					    var clickedInsideMap = $(event.target).parents('.map-content').length > 0;
 
 					    if(!clickedInsideMap) {
