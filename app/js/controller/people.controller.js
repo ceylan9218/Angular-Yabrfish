@@ -56,7 +56,6 @@
             } else {
                 AccountService.getClubMembers($scope.ownerId).then(function (members) {
                     $scope.people = members;
-console.log($scope.people);
                     $scope.loading = false;
                     $scope.bClubMembersScrollDisabled = true;
                     

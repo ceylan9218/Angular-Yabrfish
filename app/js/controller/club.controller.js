@@ -67,7 +67,7 @@
                     $scope.myClubs = clubs; 
                     $scope.loading = false;
                     $scope.bClubScrollDisabled = true;
-console.log($scope.myClubs);
+
                     setClubsWidth($scope.myClubs);
                 }, function (error) {
                     console.log(error);
