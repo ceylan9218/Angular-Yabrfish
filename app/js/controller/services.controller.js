@@ -23,7 +23,7 @@
 
     function serviceController($rootScope, $scope, AccountService) {
 
-        $scope.services = [];
+        $scope.services = AccountService.cacheServices();
         $scope.bServiceScrollDisabled = false;
         $scope.loading = false;
 
