@@ -172,6 +172,9 @@
 					return deferred.promise;
         		},
 
+				//------------------------------------------
+				// Gets Connected Accounts Via The HUB.
+				//------------------------------------------
         		getAccounts: function(viewerId){
         			var deferred = $q.defer();
 
