@@ -174,7 +174,8 @@
 
         		getAccounts: function(viewerId){
         			var deferred = $q.defer();
-        			$http.get(APP_APIS['commerce']+'/viewers/'+viewerId+'/roles')
+
+        			$http.get(APP_APIS['commerce']+'/viewers/'+viewerId+'/hubs?accountType=TRADE&accountType=MANUFACTURER')
 			            .success(function(data){
 			            	deferred.resolve(data);
 			            })
@@ -195,7 +196,7 @@
 						return deferred.promise;
 					}
 
-					var promise = $http.get(APP_APIS['commerce']+'/viewers/'+viewerId+'/clubs?page='+clubsCache.page+'&size='+clubsCache.pageSize)
+					var promise = $http.get(APP_APIS['commerce']+'/viewers/'+viewerId+'/hubs?accountType=CLUB&?page='+clubsCache.page+'&size='+clubsCache.pageSize)
 						.then(function(response){
 
 							if ( clubsCache.page == 0 ) {
