@@ -1,5 +1,22 @@
 <div class="class-content">
-   <span class="class-heading">Classes</span>
-   <circle-slider id="{{'class_'+event.eventId}}" class="class-circle" circle-id="'class_'+event.eventId" circle-type="'class'" contents="eventClasses" index="eventIndex"></circle-slider>
+	<span class="class-heading">Class</span>   
+	<div class="class-wrap">
+		<div class="left-arrow arrow">
+			<a href ng-click="slideClasses('left')"><i class="pull-left fa fa-angle-left"></i></a>
+		</div>
+		<div class="classes">
+			<div class="class-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': classSliderWidth}">
+				<div class="class-slide animation" ng-repeat="class in classes" ng-style="{'width': classWidth}" ng-click="selectClass(class)" ng-class="{'selected': currClass.externalId == class.externalId}">
+					<div class="class-img">
+						<img src="{{class.flag}}" alt="">						
+						<span class="class-name">{{currClass.externalId == class.externalId ? class.name : ''}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="right-arrow arrow">
+			<a href ng-click="slideClasses('right')"><i class="pull-right fa fa-angle-right"></i></a>
+		</div>
+	</div>
 </div>
-<race-list class="race-list" event="event" races="races"></race-list>
+<race-list class="race-list" races="races"></race-list>

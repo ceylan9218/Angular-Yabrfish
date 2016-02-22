@@ -128,8 +128,6 @@
 				$scope.bOffersScrollDisabled = true;
 				console.log("Offer Cache Done")
 			}
-
-
 		}
 
         $scope.$on('results', function(e, data){
@@ -146,8 +144,8 @@
       			$scope.scrollPos = $(window).scrollTop();
 
 				var dialog = ngDialog.open({ 
-					template: 'app/views/tile-detail-modal.html',
-					className: 'ngdialog-theme-tile-detail',
+					template: 'app/views/partials/tile-event-modal.html',
+					className: 'ngdialog-theme-tile-event',
 					controller: 'eventController',
 					scope: $scope
 				});

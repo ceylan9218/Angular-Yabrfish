@@ -1,24 +1,63 @@
-<div class="tile-detail-modal" ng-init="getTileEvents()">
-   <div class="list col-sm-4">
-      <div class="event-list events">
+<div class="tile-event-modal" ng-init="getTileEvents()">
+   <div class="modal-header">
+      <img src="app/img/event.png"><span>Events</span>
+   </div>
+   <div class="event-list events">
+      <ul>
+         <li ng-repeat="event in events" ng-click="changeEvent(event)" ng-class="(event.eventId == currEvent.eventId) ? 'active' : ''">
+            <div class="calendar-wrap">
+               <img class="calendar" src="app/img/cal-icon.png" alt="">
+               <span class="month">{{event.month}}</span>
+               <span class="date">{{event.date}}</span>
+            </div>
+            <div class="event-name">
+               <h4>{{event.name}}</h4>
+            </div>
+         </li>
+      </ul>
+      <button class="btn btn-default new-event">Create New Event</button>
+   </div>
+   <div class="result-view">
+      <class-list class="class-list" event="currEvent"></class-list>
+      <div class="result-wrap">
          <ul>
-            <li class="btn btn-default" ng-repeat="event in events" ng-click="changeEvent(event)">
-               <div class="event-heading" ng-if="event != 'addEvent'">
-                  <div class="calendar-wrap">
-                     <img class="calendar" src="app/img/cal-icon.png" alt="">
-                     <span class="month">{{event.month}}</span>
-                     <span class="date">{{event.date}}</span>
+            <li ng-repeat="result in results">
+               <span class="position" ng-class="{'gold': result.position == '1', 'silver': result.position == '2', 'bronze': result.position == '3', 'blue': result.position != '1' && result.position != '2' && result.position != '3'}" ng-if="result.positionDesc != 'DNC'">{{result.position}}</span>
+               <span class="position red" ng-if="result.positionDesc == 'DNC'">{{result.position}}</span>
+               <div class="race-info" ng-style="{ 'width' : !result.finishCorrected ? 'calc(100% - 40px)' : 'calc(100% - 135px)' }">
+                  <span class="equipmentOwner">{{result.equipmentOwner}}</span>
+                  <span class="equipmentName">{{result.equipmentName}}
+                  &nbsp;{{result.sailNumber}}</span>
+               </div>
+               <div class="finish-time" ng-if="result.finishCorrected">
+                  <div class="time" ng-repeat="time in result.finishCorrected track by $index">
+                     <span class="time-val">
+                        <span class="timer">{{time}}</span>
+                     </span>                                       
+                     <span class="seperator" ng-if="$index !=2"><b>:</b></span>
                   </div>
-                  <div class="event-name">
-                     <h4>{{event.name}}</h4>
-                  </div>
+                  <span class="no-time" ng-if="result.positionDesc == 'DNC'">{{result.positionDesc}}</span>
                </div>
             </li>
-            <li class="btn btn-default new-event"><a>New Event</a></li>
          </ul>
       </div>
+      <div class="buttons mobile">
+         <button class="prev-btn btn btn-default" ng-click="slidePanel('prev')">Prev</button>
+         <button class="next-btn btn btn-default" ng-click="slidePanel('next')">Next</button>
+      </div>
    </div>
-   <div class="panels col-sm-8">
+   <div class="action-replay-view">
+      <div class="action-replay-header">
+         <img class="action-replay-icon" src="app/img/action-replay.png"><span class="action-replay-title">Action Replay</span>
+         <tile-image class="tile-image" image-src="" tile-id="tile.externalId" tile="card" on-complete="onComplete(creative)" view-mode="'modal'"></tile-image>
+         <tile-video class="tile-video" tile-id="tile.externalId" view-mode="'modal'"></tile-video>   
+      </div>   
+      <action-replay></action-replay>
+      <div class="buttons mobile">
+         <button class="prev-btn btn btn-default" ng-click="slidePanel('prev')">Prev</button>
+      </div>
+   </div>
+   <!-- <div class="panels col-sm-8">
       <div class="results-panel col-sm-6">
          <class-list class="class-list" tile="tile" event="currEvent"></class-list>
          <accordion>
@@ -65,5 +104,5 @@
             </accordion-group>   
          </accordion>
       </div>
-   </div>
+   </div> -->
 </div>

@@ -1,25 +1,53 @@
 /**=========================================================
- * Module: Class Directive.
- * Description: Directive for Class of Event in a Tile.
- * Author: Andy Modified Version
+ * Module: Classes, Races & Results Directives.
+ * Description: Directive for classes, races and results panel of Event modal.
+ * Author: Ryan Modified Version - 2016.2.17
  =========================================================*/
 
 (function() {
     'use strict';
 
     angular
-        .module('app.race-info', [])
+        .module('app.event-raceInfo', [])
         .directive("classList",function() {
             return {
             	restrict: "E",
                 transclude: true,
             	scope: {
-            		tile: '=',
                     event: '='
             	},
                 controller: 'raceController',
             	templateUrl: "app/views/partials/class-list.html",
             	link: function(scope, elem, attrs) {
+
+                    scope.$watch('classes', function(newVal){
+                        // -------------------------------------------------------------
+                        // Set Classes Slider width = classWidth * classes.length
+                        // -------------------------------------------------------------
+                        scope.transform = 0;
+                        scope.translate = 0;
+                        scope.classIndex = 0;
+                        scope.classWidth = angular.element('.classes').width() / 3;
+                        scope.classSliderWidth = scope.classWidth * scope.classes.length;
+                        angular.element('.class-slider').css('margin-left', scope.classWidth+'px');
+                    })
+
+                    scope.slideClasses = function(dir){
+                        if(!scope.translate)
+                            scope.translate = 0;
+
+                        if (dir === 'left' && scope.classIndex > 0) {
+                            scope.translate += scope.classWidth;
+                            scope.transform = "translate("+scope.translate+"px, 0px)";
+                            scope.classIndex--
+                            scope.currClass = scope.classes[scope.classIndex];                            
+                        } else if(dir === 'right' && scope.classIndex < scope.classes.length - 1) {
+                            scope.translate -= scope.classWidth;
+                            scope.transform = "translate("+scope.translate+"px, 0px)";
+                            scope.classIndex++;
+                            scope.currClass = scope.classes[scope.classIndex];
+                        }
+                    }
 
 				}
             }
@@ -30,31 +58,60 @@
                 restrict: "E",
                 require: '^classList',
                 scope: {
-                    // Use the Class List Controller For Race Data As Well therefore do not require additonal
-                    // Reference to the Class List.
-                    event: '=',
                     races: '='
                 },
                 templateUrl: "app/views/partials/race-list.html",
                 link: function(scope, elem, attrs, raceController) {
+                    scope.currRace = {};
+
                     scope.$watch('races', function(newVal){
-                        //console.log(scope.races);
+                        if(!newVal)
+                            return;
+
+                        scope.currRace = newVal[0];
+
+                        // -------------------------------------------------------------
+                        // Set Races Slider width = raceWidth * races.length
+                        // -------------------------------------------------------------
+                        scope.transform = 0;
+                        scope.translate = 0;
+                        scope.raceIndex = 0;
+                        scope.raceWidth = angular.element('.races').width() / 5;
+                        scope.raceSliderWidth = scope.raceWidth * scope.races.length;
+                        angular.element('.race-slider').css('margin-left', scope.raceWidth*2+'px');
                     })
 
-                    // Receive Message from Circular Control
-                    scope.$on('circleData', function(e, data){
-                        if(data.type == 'race') {
+                    scope.slideRaces = function(dir){
+                        if(!scope.translate)
+                            scope.translate = 0;
+
+                        if (dir === 'left' && scope.raceIndex > 0) {
+                            scope.translate += scope.raceWidth;
+                            scope.transform = "translate("+scope.translate+"px, 0px)";
+                            scope.raceIndex--
+                            scope.currRace = scope.races[scope.raceIndex];
+                            raceController.setCurrRace(scope.currRace);
+                        } else if(dir === 'right' && scope.raceIndex < scope.races.length - 1) {
+                            scope.translate -= scope.raceWidth;
+                            scope.transform = "translate("+scope.translate+"px, 0px)";
+                            scope.raceIndex++;
+                            scope.currRace = scope.races[scope.raceIndex];
+                            raceController.setCurrRace(scope.currRace);
                         }
-                    })
+                    }
                 }
             };
         });
 
 
     // Add all Access to Services in a Single Controller for Both Directives
-
     function raceController($scope, TileService) {        
+        // Shared Race Controller Removing Code from Directives
+        $scope.classes = [];
+        $scope.currClass = {};
+        $scope.currRace = {};
 
+        // Get Classes list whenever click an event.
         $scope.$watch('event', function(newVal){
             if(Object.keys(newVal).length === 0)
                 return;
@@ -62,19 +119,28 @@
             getClasses(newVal.eventId);
         })
 
-        // Shared Race Controller Removing Code from Directives
-        $scope.eventClasses = [];
+        // Get Races list whenever change a class.
+        $scope.$watch('currClass', function(newVal){
+            var classId = newVal.externalId;
+            getRaces($scope.event.eventId, classId);
+        })
+
+        // Get Result List whenever change a race.
+        this.setCurrRace = function(race){
+            getResults($scope.event.eventId, $scope.currClass.externalId, race.externalId);
+        }
 
         var getClasses = function(eventId) {
 
             TileService.getClasses(eventId).then(function(classes) {
-                $scope.eventClasses = classes;
-                for (var i in $scope.eventClasses) {
-                    var flag = "http://img.yabrfish.com/cdn/flags/" + $scope.eventClasses[i].classFlag.toLowerCase() + ".jpg";
-                    $scope.eventClasses[i].flag = flag;
-                }
-                getRaces(eventId, $scope.eventClasses[0].externalId);
+                $scope.classes = classes;
 
+                for (var i in $scope.classes) {
+                    var flag = "http://img.yabrfish.com/cdn/flags/" + $scope.classes[i].classFlag.toLowerCase() + ".jpg";
+                    $scope.classes[i].flag = flag;
+                }
+
+                $scope.currClass = $scope.classes[0];
             }, function(error){
                 console.log(error);
                 return;
@@ -82,12 +148,12 @@
         }
 
         var getRaces = function(eventId, classId) {
+            
+            if(!classId)
+                return;
 
             TileService.getRaces(eventId, classId).then(function(data){                
                 $scope.races = data;
-                for(var i in $scope.races){
-                    $scope.races[i].classId = classId;
-                }
 
                 if($scope.races.length > 0)
                     getResults(eventId, classId, $scope.races[0].externalId);
@@ -135,21 +201,6 @@
                 angular.element('.result-panel').removeClass('whirl line back-and-forth');
             }
         }
-
-        // Receive Message from Circular Control
-        $scope.$on('circleData', function(e, data){
-            if(!data.data)
-                return;
-
-            if(data.type == 'class') {
-                getRaces($scope.event.eventId, data.data.externalId);
-            }else if(data.type == 'race'){                
-                var classId = data.data.classId;
-                var raceId = data.data.externalId;
-                getResults($scope.event.eventId, classId, raceId);
-            }
-        })
-
     }
 
 })();
