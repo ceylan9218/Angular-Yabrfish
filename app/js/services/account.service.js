@@ -110,7 +110,24 @@
                 cacheAccounts: function () { return accCache.Accounts},
                 cacheClubMembers: function () { return clubMembersCache.members},
                 cacheProducts: function () { return productCache.products},
-                cacheServices: function () { return serviceCache.services},
+                cacheServices: function (externalId) { 
+
+                    //------------------------------------------------------------------------//
+                    // Check we are using the correct Cache
+                    //------------------------------------------------------------------------//
+
+                    if ( serviceCache.cacheId != externalId ) {
+                        serviceCache.cacheId = externalId
+                        serviceCache.cacheSize =  0;
+                        serviceCache.page = 0;
+                        serviceCache.pageSize = 5;
+                        serviceCache.totalPages = 0;
+                        serviceCache.totalItems = 0;
+                        if ( serviceCache.services != undefined ) { serviceCache.services.length = 0 };
+                    }
+
+                    return serviceCache.services
+                },
 
                 addCache : function (account) {
 
@@ -398,6 +415,20 @@
 
                     var deferred = $q.defer();
                     
+                    //------------------------------------------------------------------------//
+                    // Check we are using the correct Cache and the User has Not Changed the Net
+                    //------------------------------------------------------------------------//
+
+                    if ( serviceCache.cacheId != accountId ) {
+                        serviceCache.cacheId = accountId
+                        serviceCache.cacheSize =  0;
+                        serviceCache.page = 0;
+                        serviceCache.pageSize = 5;
+                        serviceCache.totalPages = 0;
+                        serviceCache.totalItems = 0;
+                        if ( serviceCache.services != undefined ) { serviceCache.services.length = 0 };
+                    }
+
                     if ( serviceCache.page !=0 && serviceCache.page  >= serviceCache.totalPages ) {
                         // Resolve the deferred $q object before returning the promise
                         deferred.resolve([]);

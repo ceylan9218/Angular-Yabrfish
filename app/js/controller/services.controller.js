@@ -23,7 +23,7 @@
 
     function serviceController($rootScope, $scope, AccountService) {
 
-        $scope.services = [];
+        $scope.services = AccountService.cacheServices($scope.ownerId);
         $scope.bServiceScrollDisabled = false;
         $scope.loading = false;
 
@@ -41,7 +41,7 @@
             } else {
 
                 AccountService.getServices($scope.ownerId).then(function (data) {
-                    $scope.services = AccountService.cacheServices();
+                    $scope.services = AccountService.cacheServices($scope.ownerId);
                     $scope.loading = false;
                     $scope.bServiceScrollDisabled = true;
                 }, function (error) {
