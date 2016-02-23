@@ -36,7 +36,7 @@
 
     function peopleController($rootScope, $scope, AccountService, $timeout) {
 
-        $scope.people = AccountService.cacheClubMembers();
+        $scope.people = AccountService.cacheClubMembers($scope.ownerId);
         $scope.loading = false;
         $scope.bClubMembersScrollDisabled = false;
 
@@ -55,7 +55,7 @@
                 $scope.bClubMembersScrollDisabled = true;
             } else {
                 AccountService.getClubMembers($scope.ownerId).then(function (members) {
-                    $scope.people = members;
+                    $scope.people = AccountService.cacheClubMembers($scope.ownerId);
                     $scope.loading = false;
                     $scope.bClubMembersScrollDisabled = true;
                     

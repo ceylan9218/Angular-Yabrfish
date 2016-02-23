@@ -11,13 +11,13 @@
         .directive("raceListOld", ['$http', '$location', 'APP_APIS', 'TileService', 'Flash', function($http, $location, APP_APIS, TileService, Flash) {
             return {
             	restrict: "E",
-            	scope: {
+            	scope: {                    
             		tile: '=',
                     event: '=',
                     eventIndex: '='
             	},
             	templateUrl: "app/views/partials/race-list.html",
-            	link: function(scope, elem, attrs, ctrl) {
+            	link: function(scope, elem, attrs, ctrl) {                    
                     var monthNames = TileService.getMonthNames();
 
                     scope.$on('circleData', function(e, data){

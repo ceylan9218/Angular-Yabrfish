@@ -108,7 +108,23 @@
                 cacheServicesSize : function () { return serviceCache.cacheSize },
 
                 cacheAccounts: function () { return accCache.Accounts},
-                cacheClubMembers: function () { return clubMembersCache.members},
+                cacheClubMembers: function (externalId) {
+                    //------------------------------------------------------------------------//
+                    // Check we are using the correct Cache
+                    //------------------------------------------------------------------------//
+
+                    if ( clubMembersCache.cacheId != externalId ) {
+                        clubMembersCache.cacheId = externalId
+                        clubMembersCache.cacheSize =  0;
+                        clubMembersCache.page = 0;
+                        clubMembersCache.pageSize = 6;
+                        clubMembersCache.totalPages = 0;
+                        clubMembersCache.totalItems = 0;
+                        if ( clubMembersCache.members != undefined ) { clubMembersCache.members.length = 0 };
+                    }
+
+                    return clubMembersCache.members
+                },
                 cacheProducts: function () { return productCache.products},
                 cacheServices: function (externalId) { 
 
@@ -331,6 +347,20 @@
 
                     var deferred = $q.defer();
                     
+                    //------------------------------------------------------------------------//
+                    // Check we are using the correct Cache and the User has Not Changed the Net
+                    //------------------------------------------------------------------------//
+
+                    if ( clubMembersCache.cacheId != accountId ) {
+                        clubMembersCache.cacheId = accountId
+                        clubMembersCache.cacheSize =  0;
+                        clubMembersCache.page = 0;
+                        clubMembersCache.pageSize = 6;
+                        clubMembersCache.totalPages = 0;
+                        clubMembersCache.totalItems = 0;
+                        if ( clubMembersCache.members != undefined ) { clubMembersCache.members.length = 0 };
+                    }
+
                     if ( clubMembersCache.page !=0 && clubMembersCache.page  >= clubMembersCache.totalPages ) {
                         // Resolve the deferred $q object before returning the promise
                         deferred.resolve([]);
