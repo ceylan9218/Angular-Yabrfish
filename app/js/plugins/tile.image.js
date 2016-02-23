@@ -74,20 +74,30 @@
                         })
                         scope.$parent.$emit('youtubeVideo', scope.tileId, 'bitmovin');
 
-                        angular.element('.tile-detail-modal .tile-image .image').attr('src', data);
+                        angular.element('.tile-event-modal .tile-image .image').attr('src', data);
                         //scope.imageSrc = data;
-                        angular.element('.tile-detail-modal .tile-image').show();
-                        angular.element('.tile-detail-modal .image-wrapper .close-btn').show();
+                        angular.element('.tile-event-modal .tile-image').css('display', 'inline-block');
+                        angular.element('.tile-event-modal .image-wrapper .close-btn').show();
 
-                        angular.element('.tile-detail-modal .video-player').hide();
-                        angular.element('.tile-detail-modal .video-player .close-btn').hide();
+                        angular.element('.tile-event-modal .video-player').hide();
+                        angular.element('.tile-event-modal .video-player .close-btn').hide();
                     })
 
-                    scope.hideImage = function() {
-                        angular.element('.tile-detail-modal .tile-image .image').attr('src', tempImage);
+                    var clearImgPlayer = function() {
+                        angular.element('.tile-event-modal .tile-image').hide();
+                        angular.element('.tile-event-modal .tile-image .image').attr('src', tempImage);
                         //scope.imageSrc = tempImage;
-                        angular.element('.tile-detail-modal .image-wrapper .close-btn').hide();
+                        angular.element('.tile-event-modal .image-wrapper .close-btn').hide();                        
                     }
+
+                    scope.hideImage = function() {
+                        clearImgPlayer();
+                    }
+
+                    // Clear Image Player when change an event on Event Modal Dialog.
+                    scope.$on('event', function(e, data){
+                        clearImgPlayer();
+                    })
                 }
             }
         })

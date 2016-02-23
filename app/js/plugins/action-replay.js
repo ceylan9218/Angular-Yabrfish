@@ -18,6 +18,13 @@
         			var getMedia = function(eventId) {
         				TileService.getMedia(eventId).then(function(data){
         					scope.medias = data;
+                            
+                            // Set Media list height if media.length > 0
+                            if(scope.medias.length > 0)
+                                angular.element('.video-list ul').addClass('lists');
+                            else
+                                angular.element('.video-list ul').removeClass('lists');
+
         				}, function(error){
         					console.log(error);
         					return;

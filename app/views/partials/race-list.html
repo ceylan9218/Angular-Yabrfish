@@ -1,4 +1,18 @@
 <div class="races-wrap">
-   <span class="race-heading">Races</span>
-   <circle-slider id="{{'race_'+event.eventId}}" class="race-circle" circle-id="'race_'+event.eventId" circle-type="'race'" contents="races"></circle-slider>
+  	<span class="race-heading">Races</span>
+	<div class="race-wrap">
+		<div class="left-arrow arrow">
+			<a href ng-click="slideRaces('left')"><i class="pull-left fa fa-angle-left"></i></a>
+		</div>
+		<div class="races">
+			<div class="race-slider" ng-style="{'transform': transform, '-webkit-transform': transform, '-ms-transform': transform, '-moz-transform': transform, '-o-transform': transform, 'width': raceSliderWidth}">
+				<div class="race-slide animation" ng-repeat="race in races track by $index" ng-style="{'width': raceWidth}" ng-click="selectRace(race)" ng-class="{'selected': currRace.externalId == race.externalId}">
+					<span>{{$index + 1}}</span>
+				</div>
+			</div>
+		</div>
+		<div class="right-arrow arrow">
+			<a href ng-click="slideRaces('right')"><i class="pull-right fa fa-angle-right"></i></a>
+		</div>
+	</div>
 </div>

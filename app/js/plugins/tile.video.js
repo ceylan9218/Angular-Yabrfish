@@ -93,10 +93,11 @@
 
 							angular.element('.youtubeVideo-wrap').hide();	
                       	}else if( data.viewMode == 'modal' ){
-                      		angular.element('.tile-detail-modal .video-player').show();
-							angular.element('.tile-detail-modal .tile-image').hide();
-							angular.element('.tile-detail-modal .tileVideo').show();
-							angular.element('.tile-detail-modal .close-btn').show();
+                      		angular.element('.tile-event-modal .tile-video').css('display', 'inline-block');
+                      		angular.element('.tile-event-modal .video-player').show();
+							angular.element('.tile-event-modal .tile-image').hide();
+							angular.element('.tile-event-modal .tileVideo').show();
+							angular.element('.tile-event-modal .close-btn').show();
 							angular.element('.youtubeVideo-wrap').hide();	
                       	}
                       	
@@ -147,16 +148,18 @@
 
 								angular.element('.tileVideo').hide();
 							}else if( data.viewMode == 'modal' ){
-								angular.element('.tile-detail-modal .video-player').show();
-								angular.element('.tile-detail-modal .tile-image').hide();
-								angular.element('.tile-detail-modal .youtubeVideo-wrap').show();
-								angular.element('.tile-detail-modal .close-btn').show();
+								angular.element('.tile-event-modal .tile-video').css('display', 'inline-block');
+								angular.element('.tile-event-modal .video-player').show();
+								angular.element('.tile-event-modal .tile-image').hide();
+								angular.element('.tile-event-modal .youtubeVideo-wrap').show();
+								angular.element('.tile-event-modal .close-btn').show();
 								angular.element('.tileVideo').hide();
 							}							
 						}, 1000)						
 					})
 
-					scope.hideVideo = function(mode) {
+					var clearVideoPlayer = function(mode) {
+						
 						clearBitdash();
 						
 						if( mode == 'normal' ){
@@ -169,12 +172,22 @@
 						}else if( mode == 'modal' ){
 							scope.$parent.$emit('youtubeVideo', scope.tileId, 'close');
 
-							angular.element('.tile-detail-modal .tile-image').show();
-							angular.element('.tile-detail-modal .video-player').hide();
-							angular.element('.tile-detail-modal .close-btn').hide();
-							angular.element('.tile-detail-modal .video-list-wrapper').hide();
-						}						
+							// angular.element('.tile-event-modal .tile-image').show();
+							angular.element('.tile-event-modal .tile-video').hide();
+							angular.element('.tile-event-modal .video-player').hide();
+							angular.element('.tile-event-modal .close-btn').hide();
+							angular.element('.tile-event-modal .video-list-wrapper').hide();
+						}
 					}
+
+					scope.hideVideo = function(mode) {
+						clearVideoPlayer(mode);				
+					}
+
+					// Clear Video Player when change an event on Event Modal Dialog.
+					scope.$on('event', function(e, data){
+            			clearVideoPlayer('modal');
+            		})
 				}
 			}
 		})
