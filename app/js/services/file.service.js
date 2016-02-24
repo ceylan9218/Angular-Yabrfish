@@ -7,7 +7,7 @@
     'use strict';
     
     angular
-        .module('app.file', [])
+        .module('app.fileSrv', [])
         .service('FileService', FileService)
 
         function FileService($http, APP_APIS, $q){

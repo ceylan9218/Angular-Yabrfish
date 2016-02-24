@@ -7,7 +7,7 @@
     'use strict';
     
     angular
-        .module('app.viewer', [])        
+        .module('app.viewerSrv', [])        
         .service('ViewerService', ViewerService);
 
 		var netsCache = {"cacheSize" : 0, "page" : 0, "pageSize" : 6, "totalPages" : 0, "totalItems" : 0, nets:[]};

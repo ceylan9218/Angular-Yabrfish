@@ -7,7 +7,7 @@
     'use strict';
     
     angular
-        .module('app.locations', [])        
+        .module('app.locationSrv', [])        
         .service('LocationService', LocationService);
 
         function LocationService($http, $q, APP_APIS){

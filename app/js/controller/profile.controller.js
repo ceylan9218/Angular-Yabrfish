@@ -155,7 +155,7 @@
             var dialog = ngDialog.open({ 
                 template: 'app/views/partials/tile-new.html',
                 className: 'ngdialog-theme-add-tile',
-                controller: 'newTileController',
+                controller: 'newTileDlgController',
                 showClose: true,
                 scope: $scope
             });

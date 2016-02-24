@@ -10974,6 +10974,7 @@ body.modal-open{
   }
   .result-wrap{
     height: 170px;
+    margin-bottom: 10px;
   }
   .tile-event-modal .buttons.mobile{
     display: inline-block;

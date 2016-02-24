@@ -7,7 +7,7 @@
     'use strict';
     
     angular
-        .module('app.lookup', [])        
+        .module('app.lookupSrv', [])        
         .service('LookupService', LookupService);
 
         function LookupService($http, $q, APP_APIS){

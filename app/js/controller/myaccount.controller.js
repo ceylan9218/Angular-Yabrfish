@@ -1,6 +1,6 @@
 /**=========================================================
- * Module: clubController
- * Description: Controller for Club item in Profile menu.
+ * Module: myAccountsController
+ * Description: Controller for account panel in Profile page.
  * Author: Marcin - 2015-11-19
  =========================================================*/
 (function() {
@@ -79,7 +79,6 @@
                 console.log(error);
                 return;
             });
-
 
         }
     }

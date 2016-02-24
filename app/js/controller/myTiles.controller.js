@@ -1,6 +1,6 @@
 /**=========================================================
  * Module: myTileController
- * Description: Controller for My Tiles
+ * Description: Controller for My Tiles Panel in Profile page.
  * Author: Ryan - 2015.11.20
  =========================================================*/
 

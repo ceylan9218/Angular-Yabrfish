@@ -31,13 +31,17 @@
             'app.elements',
             'app.topnavbar',
             'app.radar',
+            'app.signup',
+            'app.login',
             'app.nets',
             'app.net-tiles',
             'app.market',
+
+            'app.tile',
+            'app.newTileDlg',
+            'app.eventDlg',
+
             'app.profile',
-            'app.signup',
-            'app.login',
-//            'app.tiles',
             'app.profile-accounts',
             'app.profile-clubs',
             'app.profile-equipment',
@@ -46,29 +50,27 @@
             'app.profile-people',
             'app.profile-products',
             'app.profile-services',
-            'app.facebook-auth',
+            'app.account-detail',
+            'app.club-detail',
+
+            'app.authSrv',
             'app.tileSrv',
-            'app.product',
-            'app.file',
-//            'app.equipment',
-            'app.viewer',
-            'app.lookup',
-            'app.event-panel',
+            'app.prodSrv',
+            'app.fileSrv',
+            'app.viewerSrv',
+            'app.lookupSrv',
+            'app.accountSrv',
+            'app.equipSrv',
+            'app.locationSrv',
+            
             'app.event-edit',
             'app.location',
-            'app.locations',
-            'app.account',
-            'app.account-detail',
             'app.event-raceInfo',
-            'app.equip',
-            'app.tile',
             'app.action-replay',
-            'app.club-detail',
             'app.tile-image',
             'app.tile-video',
             'app.tile-videoList',
-            'app.circle-slider',
-            'app.new-tile'
+            'app.circle-slider'
         ])
         .constant('APP_APIS', {
           'base':                 'http://demo.data.yabrfish.com/yfapi',
@@ -78,7 +80,6 @@
           'reco':                 'http://demo.data.yabrfish.com/yfapi/recoservice',
           'viewer':               'http://demo.data.yabrfish.com/yfapi/viewerservice',
           'media':                'http://demo.data.yabrfish.com/yfapi/mediaservice'
-          // 'media':                'http://data.yabrfish.com:9097/mediaservice'
         })
         .constant('COLUMN_WIDTH', {
           'one_column': '290',
@@ -90,7 +91,7 @@
     'use strict';
 
     angular
-        .module('app.facebook-auth', []);
+        .module('app.authSrv', []);
 })();
 (function() {
     'use strict';
@@ -102,13 +103,13 @@
     'use strict';
 
     angular
-        .module('app.product', []);
+        .module('app.prodSrv', []);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.file', []);
+        .module('app.fileSrv', []);
 })();
 (function() {
     'use strict';
@@ -882,14 +883,7 @@
                 templateUrl: helper.basepath('radar.html'),
                 controller: 'radarController',
                 resolve: helper.resolveFor('spinkit','loaders.css', 'akoenig.deckgrid', 'infinite-scroll', 'angular-carousel')
-            })
-            .state('app.tile-detail', {
-                url: '/tile-detail',
-                title: 'Tile Detail',
-                templateUrl: helper.basepath('tile-detail.html'),
-                controller: 'tileController',
-                resolve: helper.resolveFor('infinite-scroll', 'ngDialog')
-            })
+            })            
             .state('app.market', {
                 url: '/market',
                 title: 'Market Place',
@@ -931,76 +925,21 @@
                 templateUrl: helper.basepath('profile.html'),
                 resolve: helper.resolveFor('htmlSortable')                
             })            
-            // .state('app.profile-clubs', {
-            //     url: '/profile/clubs',
-            //     title: 'Profile Clubs',
-            //     controller: 'clubController',
-            //     templateUrl: helper.basepath('profile-clubs.html'),
-            //     resolve: helper.resolveFor('loaders.css', 'akoenig.deckgrid', 'infinite-scroll')
-            // })
             .state('app.club-detail', {
                 url: '/club-profile/:id',
                 title: 'Club Hub',
-                controller: 'clubItemController',
+                controller: 'clubProfileController',
                 templateUrl: helper.basepath('club-profile.html'),
                 resolve: helper.resolveFor('htmlSortable')                
             })
             .state('app.account-detail', {
                 url: '/acc-profile/:id',
                 title: 'Account Hub',
-                controller: 'myAccountSingleController',
+                controller: 'accountProfileController',
                 templateUrl: helper.basepath('acc-profile.html'),
                 resolve: helper.resolveFor('htmlSortable')                
-            })
-            // .state('app.club-detail', {
-            //     url: '/club-detail',
-            //     title: 'Club Hub',
-            //     controller: 'clubItemController',
-            //     templateUrl: helper.basepath('club-detail.html')
-            // })
-            //.state('app.profile-accounts', {
-            //    url: '/profile/accounts',
-            //    title: 'Profile Accounts',
-            //    controller: 'accountController',
-            //    templateUrl: helper.basepath('profile-accounts.html'),
-            //    resolve: helper.resolveFor('loaders.css', 'whirl', 'akoenig.deckgrid')
-            //})
-            .state('app.profile-new-account', {
-                url: '/profile/accounts/new',
-                title: 'Profile New Account',
-                controller: 'accountController',
-                templateUrl: helper.basepath('profile-new-account.html')
-            })
-            // .state('app.tiles', {
-            //     url: '/tiles',
-            //     title: 'My Tiles',
-            //     controller: 'myTileController',
-            //     templateUrl: helper.basepath('tiles.html'),
-            //     resolve: helper.resolveFor('spinkit','loaders.css', 'akoenig.deckgrid', 'infinite-scroll', 'angular-carousel')
-            // })
-            .state('app.new-tile', {
-                url: '/tiles/new',
-                title: 'New Tile',
-                controller: 'myTileController',
-                templateUrl: helper.basepath('new-tile.html'),
-                resolve: helper.resolveFor('angularFileUpload')
-            })
-            // .state('app.equipment', {
-            //     url: '/profile/equipment',
-            //     title: 'My Equipment',
-            //     controller: 'equipmentController',
-            //     templateUrl: helper.basepath('equipment.html'),
-            //     resolve: helper.resolveFor('angularFileUpload', 'akoenig.deckgrid')
-            // })
-            .state('app.profile-equipment', {
-                url: '/profile/equipment',
-                title: 'My Equipment',
-                controller: 'equipmentController',
-                templateUrl: helper.basepath('equipment.html'),
-                resolve: helper.resolveFor('angularFileUpload', 'akoenig.deckgrid')
-            })
+            })            
           ;
-
     } // routesConfig
 
 })();

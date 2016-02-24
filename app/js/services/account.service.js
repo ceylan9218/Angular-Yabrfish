@@ -7,7 +7,7 @@
     'use strict';
     
     angular
-        .module('app.account', [])        
+        .module('app.accountSrv', [])        
         .service('AccountService', AccountService);
 
         function AccountService($http, $q, APP_APIS){

@@ -146,7 +146,7 @@
 				var dialog = ngDialog.open({ 
 					template: 'app/views/partials/tile-event-modal.html',
 					className: 'ngdialog-theme-tile-event',
-					controller: 'eventController',
+					controller: 'eventDlgController',
 					scope: $scope
 				});
 

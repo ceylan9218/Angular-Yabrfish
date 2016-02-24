@@ -1,6 +1,6 @@
 /**=========================================================
  * Module: servicesController
- * Description: Controller for Services in Account profile page.
+ * Description: Controller for Service Panel in Account & Club profile page.
  * Author: Marcin - 2016-2-17
  =========================================================*/
 (function() {

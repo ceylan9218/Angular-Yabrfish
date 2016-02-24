@@ -7,7 +7,7 @@
     'use strict';
     
     angular
-        .module('app.facebook-auth', ['facebook'])
+        .module('app.authSrv', ['facebook'])
         .config(['FacebookProvider',
           function(FacebookProvider) {
             var myAppId = '502380783269481';

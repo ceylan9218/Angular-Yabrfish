@@ -1,6 +1,6 @@
 /**=========================================================
- * Module: clubItemController
- * Description: Controller for Club item in Profile menu.
+ * Module: clubProfileController
+ * Description: Controller for club profile page.
  * Author: Marcin - 2015-11-19
  =========================================================*/
 (function() {
@@ -41,9 +41,9 @@
                 }
             }
         })
-        .controller('clubItemController', clubItemController);
+        .controller('clubProfileController', clubProfileController);
 
-    function clubItemController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, ViewerService, AccountService, LookupService, $state) {
+    function clubProfileController($scope, $rootScope, $http, RouteHelpers, Flash, APP_APIS, ViewerService, AccountService, LookupService, $state) {
 
         if(!$rootScope.user)
             return;
@@ -123,10 +123,7 @@
                 Flash.create('danger', 'Error! Problem Updating Image For The Account');
                 return;
             })
-
-
         }
-
 
         //----------------------------------------------------------------------------
         // Set Club into the View for Optional Creating A Relationship

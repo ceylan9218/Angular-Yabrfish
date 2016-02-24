@@ -1,6 +1,6 @@
 /**=========================================================
- * Module: clubController
- * Description: Controller for Club item in Profile menu.
+ * Module: equipmentController
+ * Description: Controller for equipment panel in Profile page.
  * Author: Marcin - 2015-11-19
  =========================================================*/
 (function() {
@@ -27,7 +27,6 @@
                     equipment: '='
                 },
                 link: function(scope, element, attrs, equipmentController) {
-//                    clubController.addItem(scope);
                 },
                 templateUrl: 'app/views/partials/equipment-item.html'
             };

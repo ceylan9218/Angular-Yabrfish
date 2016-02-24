@@ -1,6 +1,6 @@
 /**=========================================================
- * Module: myAccountSingleController
- * Description: Controller for single Account in My Account Panel of Profile page.
+ * Module: accountProfileController
+ * Description: Controller for account profile page.
  * Author: Marcin - 2016-02-09
  =========================================================*/
 (function() {
@@ -8,9 +8,9 @@
 
     angular
         .module('app.account-detail', ['ngAnimate', 'ui.bootstrap', 'ngFileUpload'])
-        .controller('myAccountSingleController', myAccountSingleController);
+        .controller('accountProfileController', accountProfileController);
 
-    function myAccountSingleController($scope, $rootScope, APP_APIS, ViewerService, AccountService, LookupService, $state) {
+    function accountProfileController($scope, $rootScope, APP_APIS, ViewerService, AccountService, LookupService, $state) {
 
         if(!$rootScope.user)
             return;
@@ -25,7 +25,6 @@
                 ViewerService.getAccounts($rootScope.user.externalId).then(function (data) {
                     var cacheCount;
                     for (var i in data) {
-//                        $scope.accounts.push(data[i].account);
                         cacheCount = AccountService.addCache(data[i].account);
                     }
 

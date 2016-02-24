@@ -7,7 +7,7 @@
     'use strict';
     
     angular
-        .module('app.equip', [])        
+        .module('app.equipSrv', [])        
         .service('EquipmentService', EquipmentService);
 
         function EquipmentService($http, $q, APP_APIS){

@@ -1,16 +1,16 @@
 /**=========================================================
- * Module: eventList Directive.
- * Description: Directive for Event List of a Tile.
+ * Module: eventDlgController
+ * Description: Functions for modal dialog of Event Tile.
  * Author: Ryan - 2015.12.23
  =========================================================*/
 (function() {
     'use strict';
 
     angular
-        .module('app.event-panel', [])
-        .controller('eventController', eventController)
+        .module('app.eventDlg', [])
+        .controller('eventDlgController', eventDlgController)
     
-    function eventController($rootScope, $scope, TileService, ViewerService, $timeout, COLUMN_WIDTH) {
+    function eventDlgController($rootScope, $scope, TileService, ViewerService, $timeout, COLUMN_WIDTH) {
 
         $scope.events = [];
         $scope.currEvent = {};
@@ -20,7 +20,7 @@
         $scope.translate = 0;
 
         var eventPanelWidth = angular.element('.main-content').width();
-console.log(eventPanelWidth);
+
         $scope.getTileEvents = function() {
 
             TileService.getTileEvents($scope.tile.externalId).then(function(events){

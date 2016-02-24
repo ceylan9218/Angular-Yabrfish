@@ -7,7 +7,7 @@
     'use strict';
     
     angular
-        .module('app.product', [])
+        .module('app.prodSrv', [])
         .service('ProductService', ProductService)
 
         function ProductService($http, APP_APIS, $q) {

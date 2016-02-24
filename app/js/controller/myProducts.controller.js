@@ -1,6 +1,6 @@
 /**=========================================================
  * Module: productController
- * Description: Controller for My Products in Profile page.
+ * Description: Controller for product panel in Profile page.
  * Author: Marcin - 2016-2-16
  =========================================================*/
 (function() {

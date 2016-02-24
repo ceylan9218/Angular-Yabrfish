@@ -1,6 +1,6 @@
 /**=========================================================
  * Module: clubController
- * Description: Controller for Club item in Profile menu.
+ * Description: Controller for club panel in Profile page.
  * Author: Marcin - 2015-11-19
  =========================================================*/
 (function() {
@@ -27,7 +27,6 @@
                     club: '='
                 },
                 link: function(scope, element, attrs, clubController) {
-//                    clubController.addItem(scope);
                 },
                 templateUrl: 'app/views/partials/club-item.html'
             };
