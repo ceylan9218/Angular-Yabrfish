@@ -56,25 +56,26 @@
                           	},
                           	skin: {
                           		screenLogoImage : ""                          		
-                          	},
-                          	adaptation: {
-					            mobile: {
-					                bitrates: {
-					                    minSelectableAudioBitrate  : '0',
-					                    maxSelectableAudioBitrate  : Infinity,
-					                    minSelectableVideoBitrate  : '300kbps',
-					                    maxSelectableVideoBitrate  : Infinity
-					                }
-					            },
-					            desktop: {
-					                bitrates: {
-					                    minSelectableAudioBitrate  : '0',
-					                    maxSelectableAudioBitrate  : Infinity,
-					                    minSelectableVideoBitrate  : '300kbps',
-					                    maxSelectableVideoBitrate  : Infinity
-					                }
-					            }
-							}
+                          	}
+       //                    	,
+       //                    	adaptation: {
+					  //           mobile: {
+					  //               bitrates: {
+					  //                   minSelectableAudioBitrate  : '0',
+					  //                   maxSelectableAudioBitrate  : Infinity,
+					  //                   minSelectableVideoBitrate  : '300kbps',
+					  //                   maxSelectableVideoBitrate  : Infinity
+					  //               }
+					  //           },
+					  //           desktop: {
+					  //               bitrates: {
+					  //                   minSelectableAudioBitrate  : '0',
+					  //                   maxSelectableAudioBitrate  : Infinity,
+					  //                   minSelectableVideoBitrate  : '300kbps',
+					  //                   maxSelectableVideoBitrate  : Infinity
+					  //               }
+					  //           }
+							// }
                       	};
 
                       	bitdash(data.viewMode+'_'+scope.tileId).setup(conf);
