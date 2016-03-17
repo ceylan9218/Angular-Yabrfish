@@ -13882,3 +13882,61 @@ circle-slider {
   display: table;
   margin: 10px auto 0;
 }
+
+/* ========================================================================
+   title: Demo page style.
+   author: Ryan
+   date: 2016.3.17
+ ========================================================================== */
+.demo-wrapper{
+  width: 100%;
+  display: inline-block;
+}
+.demo-wrapper h4{
+  color: #333;
+}
+.demo-content{
+  width: 70%;
+  display: inline-block;
+  float: left;
+  padding-right: 40px;
+}
+.demo-sidebar{
+  width: 30%;
+  display: inline-block;
+  float: left;
+}
+.sidebar-content{
+  background: #fff;
+  min-height: 500px;
+  padding: 20px;
+  border: 1px solid #cccbcb;  
+}
+.people-list{
+  width: 100%;
+  margin: 20px 0;
+  display: inline-block;
+}
+.people-list .people{
+  width: 33.33%;
+  float: left;
+}
+.people-list .people img{
+  display: block;
+  margin: 0 auto;
+  width: 100px;
+  border-radius: 50%;
+}
+.people-list .people img:hover{
+  cursor: pointer;
+  box-shadow: 5px 5px 5px #888888;
+}
+.demo-wrapper .block{
+  padding: 10px 30px 20px;
+}
+.demo-wrapper .block .panel-item{
+  width: 232px;
+}
+.demo-wrapper .block .panel-item .item-content img{
+  height: 130.5px;
+}

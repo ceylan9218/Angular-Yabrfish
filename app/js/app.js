@@ -36,6 +36,7 @@
             'app.nets',
             'app.net-tiles',
             'app.market',
+            'app.demo',
 
             'app.tile',
             'app.newTileDlg',
@@ -937,6 +938,13 @@
                 title: 'Account Hub',
                 controller: 'accountProfileController',
                 templateUrl: helper.basepath('acc-profile.html'),
+                resolve: helper.resolveFor('htmlSortable')                
+            })
+            .state('app.demo', {
+                url: '/demo',
+                title: 'Demo Page',
+                controller: 'demoController',
+                templateUrl: helper.basepath('demo.html'),
                 resolve: helper.resolveFor('htmlSortable')                
             })            
           ;

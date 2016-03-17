@@ -1,0 +1,40 @@
+<div class="demo-wrapper">
+	<div class="demo-content">
+		<h4>Boat Demo Page</h4>
+		<div class="people-list">
+			<a class="people"><img src="app/img/user/14.png"></a>
+			<a class="people"><img src="app/img/user/guy-6.jpg"></a>
+			<a class="people"><img src="app/img/user/guy-8.jpg"></a>
+		</div>
+		<div html-sortable="sortableOptions">
+			<div class="block my-equipment">
+				<div class="profile-header">
+					<h4><img src="app/img/equipment-icon.png" style="width: 20px;"><span>My Equipment</span><span class="mobile">Equipment</span></h4>
+					<a class="extend" ng-click="hideEquip = !hideEquip"><i class="fa" ng-class="{'fa-angle-up': !hideEquip, 'fa-angle-down': hideEquip}"></i></a>
+					<a class="edit_info">Add Equipment</a>
+					<a class="edit_info mobile"><img src="app/img/office3.png"></a>
+				</div>
+				<div class="block-content" ng-hide="hideEquip">
+					<equipment-panel class="my-equipment"></equipment-panel>
+				</div>
+			</div>
+			<div class="block my-market-place">
+				<div class="profile-header">
+					<h4><img src="app/img/equipment-icon.png" style="width: 20px;"><span>My Market Place</span><span class="mobile">Market Place</span></h4>
+					<a class="extend" ng-click="hideMarket = !hideMarket"><i class="fa" ng-class="{'fa-angle-up': !hideMarket, 'fa-angle-down': hideMarket}"></i></a>
+					<a class="edit_info">Add Market Place</a>
+					<a class="edit_info mobile"><img src="app/img/office3.png"></a>
+				</div>
+				<div class="block-content" ng-hide="hideMarket">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="demo-sidebar">
+		<h4>Interactions</h4>
+		<div class="sidebar-content">
+			
+		</div>
+	</div>
+</div>
