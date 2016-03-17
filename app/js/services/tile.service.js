@@ -42,6 +42,7 @@
 					//------------------------------------------------------------//
 					searchCache.tiles[searchCache.cacheSize++] = searches[i];
 				}
+
 				return searches;
 			};
 
@@ -293,8 +294,9 @@
 						searchCache.pageSize = 6;
 						searchCache.totalPages = 0;
 						searchCache.totalItems = 0;
-						if ( searchCache.Accounts != undefined ) searchCache.Accounts.length = 0;
-						return 0;
+						
+						if ( searchCache.tiles != undefined ) searchCache.tiles.length = 0;
+							return 0;
 					}
 
 					//--------------------------------------------------------------------
@@ -310,16 +312,20 @@
 						for (var t in searchCache.tiles[currTile].tags) {
 							// Check Each Tile Tag with the tags selected in the UI
 							for (var tg in tileTags) {
-								console.log(currTile + " " + searchCache.tiles[currTile].tags[t].externalId + " " + tileTags[tg].externalId )
+								console.log(currTile + " " + searchCache.tiles[currTile].tags[t].externalId + " " + tileTags[tg].externalId );
 								if (searchCache.tiles[currTile].tags[t].externalId == tileTags[tg].externalId) {
-									matchCount++
+									matchCount++;
 								}
 							}
 						}
+
 						// If No Matches Remove The Tile From The Cache
-						if (matchCount == 0) {
-							searchCache.tiles.splice(currTile, 1);
-							searchCache.cacheSize--;
+						if (tileTags.length != 0 && matchCount == 0) {
+							searchCache.tiles[currTile].hide = true;
+							// searchCache.tiles.splice(currTile, 1);
+							// searchCache.cacheSize--;
+						}else{
+							searchCache.tiles[currTile].hide = false;
 						}
 						matchCount = 0;
 					}
@@ -328,7 +334,24 @@
 
 				},
 
-                cacheSearchTiles: function () { return searchCache.tiles},
+                cacheSearchTiles: function (externalId) { 
+
+                	//------------------------------------------------------------------------//
+					// Check we are using the correct Cache
+					//------------------------------------------------------------------------//
+
+					if ( searchCache.cacheId != externalId ) {
+						searchCache.cacheId = externalId
+						searchCache.cacheSize =  0;
+						searchCache.page = 0;
+						searchCache.pageSize = 6;
+						searchCache.totalPages = 0;
+						searchCache.totalItems = 0;
+						if ( searchCache.tiles != undefined ) { searchCache.tiles.length = 0 };
+					}
+
+                	return searchCache.tiles
+                },
 
                 currTile: function(externalId) {
 

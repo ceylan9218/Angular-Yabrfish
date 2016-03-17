@@ -16,7 +16,6 @@
         $scope.InMotionPage = 0;
         $scope.basepath = RouteHelpers.basepath;
 
-
         $scope.tiles = [];
 
         $scope.tagTypes = [];
@@ -26,106 +25,116 @@
         $scope.cacheFilterTags = [];
 
         // We are only using Market Place Tile Options
-        $scope.tileTypes = ['OFFER','SALE', 'SWAP']
+        $scope.tileTypes = ['OFFER','SALE', 'SWAP'];
 
         $scope.bMarketScrollDisabled = false;
 
-            $scope.getTiles = function(tags){
+        $scope.getTiles = function(tags){
 
-                //--------------------------------------------------------------
-                // Infinite Scroll Function
-                //-------------------------------------------------------------
+            //--------------------------------------------------------------
+            // Infinite Scroll Function
+            //-------------------------------------------------------------
 
-                getMarketTiles($scope.searchToken, tags, $scope.tileTypes);
+            getMarketTiles($scope.searchToken, tags, $scope.tileTypes);
 
-            }
+        }
 
-
-            var getMarketTiles = function(cacheId, tileTags, tileTypes){
-
-                if ( TileService.trimSearch($scope.searchToken,tileTags) == 0 ) {
-                    $scope.searchToken = 'MARKET' + new Date().getTime();
-                    $scope.bMarketScrollDisabled = false;
-                } else {
-                    $scope.tiles = TileService.cacheSearchTiles();
-                    $scope.bMarketScrollDisabled = true;
-                    return;
-                }
-
-                if ( $scope.inMotion || ! TileService.moreSearch() ) {
-                    //---------------------------------------------------------------
-                    // Check Cache Size of Controller if navigation has left the View
-                    //---------------------------------------------------------------
-                    if ( $scope.tiles.length <= TileService.cacheSearchSize()) {
-                        $scope.tiles.length = 0;
-                        $scope.tiles = TileService.cacheSearchTiles();
-                        // Disable Infinite Scroll as we are at end of Cache.
-                        $scope.bMarketScrollDisabled = true;
+        var getMarketTiles = function(cacheId, tileTags, tileTypes){
+            if ( TileService.trimSearch($scope.searchToken,tileTags) == 0 ) {
+                $scope.searchToken = 'MARKET' + new Date().getTime();
+                $scope.bMarketScrollDisabled = false;
+            } else {
+                $scope.tiles = TileService.cacheSearchTiles($scope.searchToken);
+                for(var i in $scope.tiles) {
+                    if($scope.tiles[i].hide){
+                        //$scope.tiles.splice($scope.tiles[i], 1);
                     }
-                    return;
                 }
 
-                $scope.inMotion = true;
-                $scope.loading = true;
-
-                if ( ! TileService.moreSearch() ) {
-                    $scope.loading = false;
-                    $scope.inMotion = true;
-                } else {
-                    TileService.getSearchTiles($scope.searchToken,tileTags,"",tileTypes).then(function (data) {
-                        console.log(data);
-                        $scope.tiles = data;
-                        //$scope.tiles = TileService.cacheSearchTiles();
-                        $scope.loading = false;
-                        $scope.inMotion = false;
-                    }, function (error) {
-                        console.log(error);
-                        return;
-                    })
-                }
+                $scope.bMarketScrollDisabled = true;
+                return;
             }
 
+            if ( $scope.inMotion || ! TileService.moreSearch() ) {
+                //---------------------------------------------------------------
+                // Check Cache Size of Controller if navigation has left the View
+                //---------------------------------------------------------------
+                if ( $scope.tiles.length <= TileService.cacheSearchSize()) {
+                    $scope.tiles.length = 0;
+                    $scope.tiles = TileService.cacheSearchTiles($scope.searchToken);
+                    // Disable Infinite Scroll as we are at end of Cache.
+                    $scope.bMarketScrollDisabled = true;
+                }
+                return;
+            }
 
-            $scope.loadBanner = function(){
-              // Get Banner Image.
-              $http.get('http://ab167293.adbutler-boson.com/adserve/;ID=167293;size=1838x227;setID=196632;type=json')
-                .success(function(data){
-                  $scope.bannerId = data.placements.placement_1.banner_id;
-                  $scope.bannerImg = data.placements.placement_1.image_url;
-                  $scope.bannerUrl = data.placements.placement_1.redirect_url;
-                  $scope.alt = data.placements.placement_1.alt_text;
-                  $scope.target = data.placements.placement_1.target;
+            $scope.inMotion = true;
+            $scope.loading = true;
+
+            if ( ! TileService.moreSearch() ) {
+                $scope.loading = false;
+                $scope.inMotion = true;
+            } else {
+                TileService.getSearchTiles($scope.searchToken,tileTags,"",tileTypes).then(function (data) {
+                    //$scope.tiles = data;
+                    $scope.tiles = TileService.cacheSearchTiles($scope.searchToken);
+
+                    // for(var i in $scope.tiles) {
+                    //     if($scope.tiles[i].hide){
+                    //         $scope.tiles.splice($scope.tiles[i], 1);
+                    //     }
+                    // }
+
+                    $scope.loading = false;
+                    $scope.inMotion = false;
+                }, function (error) {
+                    console.log(error);
+                    return;
                 })
             }
+        }
 
-            // Get Tag types.
-            LookupService.getTagTypes().then(function(data){
-              $scope.tagTypes = data;
-              for(var i in $scope.tagTypes){
-                $scope.tagTypes[i].shortCode = $scope.tagTypes[i].shortCode.toLowerCase();
-              }
-            }, function(error){
-              console.log(error);
-              return;
+
+        $scope.loadBanner = function(){
+          // Get Banner Image.
+          $http.get('http://ab167293.adbutler-boson.com/adserve/;ID=167293;size=1838x227;setID=196632;type=json')
+            .success(function(data){
+              $scope.bannerId = data.placements.placement_1.banner_id;
+              $scope.bannerImg = data.placements.placement_1.image_url;
+              $scope.bannerUrl = data.placements.placement_1.redirect_url;
+              $scope.alt = data.placements.placement_1.alt_text;
+              $scope.target = data.placements.placement_1.target;
             })
+        }
 
-            // Get tags by type.
-            $scope.getTags = function(type){
-              LookupService.getTags(type).then(function(data){
-                $scope.tags[type] = data;
-              }, function(error){
-                console.log(error);
-                return;
-              })
-            }
+        // Get Tag types.
+        LookupService.getTagTypes().then(function(data){
+          $scope.tagTypes = data;
+          for(var i in $scope.tagTypes){
+            $scope.tagTypes[i].shortCode = $scope.tagTypes[i].shortCode.toLowerCase();
+          }
+        }, function(error){
+          console.log(error);
+          return;
+        })
 
-            // Add filter tag.
-            var chkTag = function(tag) {
-                if($scope.filterTags.indexOf(tag) < 0){
-                    $scope.filterTags.push(tag);
-                    getMarketTiles($scope.searchToken, $scope.filterTags, $scope.tileTypes);
-                }
+        // Get tags by type.
+        $scope.getTags = function(type){
+          LookupService.getTags(type).then(function(data){
+            $scope.tags[type] = data;
+          }, function(error){
+            console.log(error);
+            return;
+          })
+        }
+
+        // Add filter tag.
+        var chkTag = function(tag) {
+            if($scope.filterTags.indexOf(tag) < 0){
+                $scope.filterTags.push(tag);
+                getMarketTiles($scope.searchToken, $scope.filterTags, $scope.tileTypes);
             }
+        }
 
         // Remove filter tag.
         var unChkTag = function(tag) {
