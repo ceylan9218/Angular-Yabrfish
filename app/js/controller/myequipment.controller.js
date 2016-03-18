@@ -12,7 +12,9 @@
             return {
                 restrict: 'E',
                 transclude: true,
-                scope: {},
+                scope: {
+                    viewerId: '='
+                },
                 controller: 'equipmentController',
                 templateUrl: 'app/views/partials/equipment-panel.html'
             };
@@ -56,18 +58,26 @@
 
             $scope.loading = true;
 
-            // Get Equipments via ViewerID
-            EquipmentService.getEquipments($rootScope.user.externalId).then(function(data){
-                for(var i in data){
-                    $scope.myEquipment.push(data[i]);
-                    $scope.loading = false;
-                }
-                setEquipsWidth($scope.myEquipment);
-            }, function(error){
-                console.log(error);
-                return;
-            })
+            if(!$scope.viewerId)
+                $scope.viewerId = $rootScope.user.externalId;
 
+            $scope.$watch("viewerId", function(newVal){
+
+                // Get Equipments via ViewerID
+                EquipmentService.getEquipments($scope.viewerId).then(function(data){
+                    $scope.myEquipment = data;
+                    $scope.loading = false;
+                    
+                    // for(var i in data){
+                    //     $scope.myEquipment.push(data[i]);
+                    //     $scope.loading = false;
+                    // }
+                    setEquipsWidth($scope.myEquipment);
+                }, function(error){
+                    console.log(error);
+                    return;
+                })
+            })
         }
     }
 

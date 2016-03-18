@@ -13927,9 +13927,10 @@ circle-slider {
   width: 100px;
   border-radius: 50%;
 }
-.people-list .people img:hover{
+.people-list .people img:hover, .people-list .people img.active{
   cursor: pointer;
-  box-shadow: 5px 5px 5px #888888;
+  box-shadow: 3px 3px 5px #888888;
+  border: 3px solid #3ABEEF;
 }
 .demo-wrapper .block{
   padding: 10px 30px 20px;

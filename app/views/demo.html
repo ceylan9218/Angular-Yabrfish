@@ -2,9 +2,7 @@
 	<div class="demo-content">
 		<h4>Boat Demo Page</h4>
 		<div class="people-list">
-			<a class="people"><img src="app/img/user/14.png"></a>
-			<a class="people"><img src="app/img/user/guy-6.jpg"></a>
-			<a class="people"><img src="app/img/user/guy-8.jpg"></a>
+			<a class="people" ng-repeat="person in people"><img src="{{person.avatarUrl}}" ng-click="selPerson(person)" ng-class="currPerson == person? 'active' : ''"></a>			
 		</div>
 		<div html-sortable="sortableOptions">
 			<div class="block my-equipment">
@@ -15,7 +13,7 @@
 					<a class="edit_info mobile"><img src="app/img/office3.png"></a>
 				</div>
 				<div class="block-content" ng-hide="hideEquip">
-					<equipment-panel class="my-equipment"></equipment-panel>
+					<equipment-panel class="my-equipment" viewer-id="currPerson.viewerId"></equipment-panel>
 				</div>
 			</div>
 			<div class="block my-market-place">
@@ -26,7 +24,7 @@
 					<a class="edit_info mobile"><img src="app/img/office3.png"></a>
 				</div>
 				<div class="block-content" ng-hide="hideMarket">
-					
+					<market-panel class="my-market" viewer-id="currPerson.viewerId"></market-panel>
 				</div>
 			</div>
 		</div>

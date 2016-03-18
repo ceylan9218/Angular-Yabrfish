@@ -53,6 +53,7 @@
             'app.profile-services',
             'app.account-detail',
             'app.club-detail',
+            'app.profile-market',
 
             'app.authSrv',
             'app.tileSrv',
