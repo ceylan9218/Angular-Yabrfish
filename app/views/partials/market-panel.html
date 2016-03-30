@@ -1,5 +1,5 @@
 <div class="panel-items" infinite-scroll="getMarketPlaces()" infinite-scroll-container="'.my-market'">
-	<div class="panel-slider" ng-style="{'width': marketWidth}">
-		<market-item class="panel-item" ng-repeat="market in myMarket track by $index" market="market"></market-item>
+	<div class="market-slider">
+		<market-item class="market-item" ng-repeat="market in myMarket track by $index" market="market"></market-item>
 	</div>
 </div>

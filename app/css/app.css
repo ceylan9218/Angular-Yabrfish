@@ -13941,3 +13941,40 @@ circle-slider {
 .demo-wrapper .block .panel-item .item-content img{
   height: 130.5px;
 }
+.market-item{
+  width: 100%;
+  height: 150px;
+  display: inline-block;
+  white-space: normal;
+  float: left;
+  margin-bottom: 20px;
+}
+.market-item img{
+  height: 100%;
+  width: 200px;
+  float: left;
+}
+.market-slider{
+  width: 100%;
+  height: 150px;
+  white-space: nowrap;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.market-item a.title{
+  float: left;
+  width: calc(100% - 215px);
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.market-item a.title i {
+  color: #3ABEEF;
+  margin-left: 30px;
+}
+.market-item p{
+  float: left;
+  width: calc(100% - 215px);
+  height: calc(100% - 35px);
+  overflow: hidden;
+}

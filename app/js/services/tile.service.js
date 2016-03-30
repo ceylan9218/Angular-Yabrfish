@@ -829,6 +829,21 @@
                 moreEvents: function() {
 
                     return ( ( eventCache.cacheSize < eventCache.totalItems ) ||  eventCache.page == 0  )
+                },
+
+                getRecommendation: function(viewerId){
+                	var deferred = $q.defer();
+
+                	$http.get('http://demo.data.yabrfish.com/yfapi/neo4j/equipments/viewers/'+viewerId+'/recommend')
+                		.success(function(data){
+							deferred.resolve(data);
+						})
+						.error(function(error){
+							console.log(error);
+							deferred.resolve(error);
+						});
+
+					return deferred.promise;
                 }
         	}
         }

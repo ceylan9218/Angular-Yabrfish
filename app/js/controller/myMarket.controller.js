@@ -38,14 +38,6 @@
         $scope.myMarket = [];
         $scope.loading = false;
         $scope.bMarketScrollDisabled = false;
-        $scope.marketsWidth = 0;
-
-        var setMarketsWidth = function(markets){
-            $timeout(function(){
-                var marketWidth = angular.element('.panel-item').width();
-                $scope.marketsWidth = markets.length * marketWidth + 'px';
-            })
-        }        
 
         $scope.getMarketPlaces = function () {
 
@@ -61,8 +53,14 @@
                 $scope.viewerId = $rootScope.user.externalId;
 
             $scope.$watch("viewerId", function(newVal){
-
-                
+                TileService.getRecommendation(newVal).then(function(result){
+                    if(result.length>0)
+                        $scope.myMarket = result;
+                    else
+                        $scope.myMarket = [];
+                }, function(error){
+                    console.log(error);
+                })
             })
         }
     }
