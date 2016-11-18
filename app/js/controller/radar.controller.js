@@ -49,8 +49,11 @@
     function recommendationController($rootScope, $scope, $http, $sce, $location, RouteHelpers, $timeout, $q,
                                             Flash, APP_APIS, TileService, LookupService) {
 
+        $scope.inMotion = false;
+        $scope.InMotionPage = 0;
         $scope.basepath = RouteHelpers.basepath;
         $scope.tiles = [];
+        $scope.CurrTile = [];
         $scope.totalTiles = [];
         $scope.showVideo = false;
         $scope.hideImg = false;
@@ -59,7 +62,7 @@
         };
         $scope.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         $rootScope.youtubePlay = false;
-        var tileCountPerPage = 6;        
+
 
         $scope.loadBanner = function(){
           // Get Banner Image.
@@ -73,41 +76,63 @@
             })          
         }
 
-        //----------------------------------------
-        // Get Radar Tiles from Recommendation
-        //----------------------------------------
-        $scope.getRadar = function() {
-            TileService.getRadar($rootScope.user.externalId).then(function(radar){
-                $scope.tiles = radar.recommendations;
-            }, function(error){
-                console.log(error);
-                return;
-            })
+
+        //-------------------------------------------------------------------------------
+        // Test harness
+        //-------------------------------------------------------------------------------
+        $scope.test = function(){
+            $scope.currTile = TileService.currTile('28650A0A-071A-44C2-BE43-7C5A517B9B39');
+
+            console.log ("Events More " + TileService.moreEvents())
+            if ( TileService.moreEvents() ) {
+                TileService.getTileEvents('28650A0A-071A-44C2-BE43-7C5A517B9B39').then(function (events) {
+                    $scope.currTile = TileService.currTile('28650A0A-071A-44C2-BE43-7C5A517B9B39');
+                }, function (error) {
+                    console.log(error);
+                    return;
+                })
+            }
+
         }
 
         //-----------------------------------------------------------
         // Need to utilise the Paging from the Recommendation API
         //-----------------------------------------------------------
 
-        $scope.loadMore = function() {
-          var currentCount = $scope.tiles.length;
-          
-          if(currentCount > 0)
+        $scope.getRadar = function() {
+
+            //---------------------------------------------------------//
+            // Load Single Page of Tiles
+            //--------------------------------------------------------//
+
+            if ( $scope.inMotion || ! TileService.moreRadar() ) {
+                //---------------------------------------------------------------
+                // Check Cache Size of Controller if navigation has left the View
+                //---------------------------------------------------------------
+                if ( $scope.tiles.length < TileService.cacheSize() ) {
+                    $scope.tiles = TileService.cacheTiles();
+                }
+                return;
+            }
+
+            $scope.inMotion = true;
             $scope.loading = true;
 
-          if( currentCount > 0 && currentCount < $scope.totalTiles.length ){
-            $timeout(function(){
-              $scope.loading = false;
-              for(var i = 0; i < tileCountPerPage; i++){
-                if($scope.totalTiles[currentCount + i])
-                  $scope.tiles[currentCount + i] = $scope.totalTiles[currentCount + i];                
-              }
-            }, 2000);
-          }else{
-            $scope.loading = false;
-          }
+            if ( ! TileService.moreRadar() ) {
+                $scope.loading = false;
+                $scope.inMotion = true;
+            } else {
+                TileService.getRadar($rootScope.user.externalId).then(function (radar) {
+                    $scope.tiles = TileService.cacheTiles();
+                    $scope.loading = false;
+                    $scope.inMotion = false;
+                }, function (error) {
+                    console.log(error);
+                    return;
+                })
+            }
         }
 
-
     }
+
 })();
